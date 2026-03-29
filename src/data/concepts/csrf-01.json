@@ -1,0 +1,44 @@
+{
+  "id": "csrf-01",
+  "slug": "csrf",
+  "title": "CSRF (Cross-Site Request Forgery)",
+  "domain": "Backend",
+  "category": "Security",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An attack that tricks a logged-in user into submitting a malicious request to a web application where they are authenticated.",
+    "analogy": "Forging a signature on a check: if a bank (web app) trusts a signature (session cookie) regardless of who actually handed the check to the teller, an attacker can trick you into 'signing' a transfer by hiding the check inside a 'Free Kittens!' flyer you clicked on.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Securing state-changing operations (Delete Account, Transfer Money, Change Password)",
+      "Protecting applications that use Cookie-based session authentication",
+      "Understanding the 'SameSite' cookie attribute"
+    ],
+    "gotchas": [
+      "CSRF only works if the user is ALREADY logged in to the target site",
+      "APIs that use Bearer tokens (JWT) in the Authorization header are generally immune to CSRF because browsers don't send that header automatically (unlike cookies)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "csrf-malicious-form",
+      "show_cookie_auto_send": true,
+      "show_csrf_token_fix": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the standard defense against CSRF that involves adding a unique, secret value to ogni non-GET request.",
+    "starter_code": "def validate_request(request):\n    # Check for the secret token in the body\n    sent_token = request.form.get(\"______-token\")\n    if sent_token == request.session[\"token\"]:\n        return \"Success\"\n    return \"Forbidden (Insecure Request)\"",
+    "solution": "csrf",
+    "hints": [
+      "It matches the acronym of the attack"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"csrf\"\nassert check(\"csrf\")\nprint(\"PASS\")"
+  },
+  "related": ["xss-cross-site-scripting-01", "session-authentication-01", "owasp-top-10-01"],
+  "tags": ["security", "csrf", "tokens", "vulnerability", "authentication", "backend"]
+}

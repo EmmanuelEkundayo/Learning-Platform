@@ -1,0 +1,44 @@
+{
+  "id": "proxy-pattern-01",
+  "slug": "proxy-pattern",
+  "title": "Proxy Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A structural pattern that provides a surrogate or placeholder for another object to control access to it (e.g., for security, lazy loading, or logging).",
+    "analogy": "A personal assistant: instead of talking to a celebrity (The Real Subject) directly, you talk to their assistant (The Proxy). The assistant can check your identification (Security), tell you the celebrity is busy (Lazy Loading), or record who you are (Logging) without ever bothering the celebrity.",
+    "time_complexity": "O(1) overhead",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Lazy-loading giant images or database records only when they are actually needed",
+      "Adding 'Access Control' to a sensitive service (e.g., checking if a user is an admin)",
+      "Caching remote service call results to avoid redundant network traffic"
+    ],
+    "gotchas": [
+      "The Proxy must implement the EXACT same interface as the real object so that the client doesn't even know it's talking to a proxy.",
+      "Don't confuse it with 'Decorator'. Decorator ADDS behavior; Proxy CONTROLS access."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "proxy-interception-cycle",
+      "show_lazy_instantiation_trigger": true,
+      "show_access_denied_flow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the type of proxy used to delay the creation of a 'heavy' object until it is first used.",
+    "starter_code": "type = \"____ Proxy\"",
+    "solution": "Lazy",
+    "hints": [
+      "Opposite of 'eager'"
+    ],
+    "test_code": "def check(ans): return \"lazy\" in ans.lower()\nassert check(\"Lazy\")\nprint(\"PASS\")"
+  },
+  "related": ["decorator-pattern-01", "adapter-pattern-01", "facade-pattern-01"],
+  "tags": ["design-patterns", "structural", "proxy", "lazy-loading", "security", "software-engineering"]
+}

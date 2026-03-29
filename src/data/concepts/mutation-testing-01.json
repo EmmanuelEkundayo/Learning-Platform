@@ -1,0 +1,44 @@
+{
+  "id": "mutation-testing-01",
+  "slug": "mutation-testing",
+  "title": "Mutation Testing",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Testing the quality of your tests by injecting tiny bugs (Mutants) into your source code and checking if your test suite catches them. If a test doesn't fail, the mutant 'Survived', and your tests are weak.",
+    "analogy": "Testing a smoke alarm: you don't just check if the battery is in. You light a small match underneath it. If the alarm doesn't go off (The mutant survives), the alarm is broken, even if it has full batteries (High code coverage).",
+    "time_complexity": "O(M * T) where M is mutants, T is tests (very slow!)",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Evaluating whether '100% Code Coverage' is actually meaningful",
+      "Finding 'Useless' tests that pass even if the code logic is inverted",
+      "Highly critical systems (Aerospace, Medical) where missing an edge case is fatal"
+    ],
+    "gotchas": [
+      "Performance: it re-runs your entire test suite for EVERY mutant. For large apps, this can take hours.",
+      "Equivalent Mutants: some code changes don't actually change the behavior (e.g., changing `i++` to `i = i + 1`), which can lead to 'False Alarms'."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "mutant-kill-vs-survival",
+      "show_operator_inversion_logic": true,
+      "show_test_score_calculation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "If a mutant is injected but no test in your suite fails, the mutant is said to have _________.",
+    "starter_code": "status = \"_________\"",
+    "solution": "Survived",
+    "hints": [
+      "Stayed alive"
+    ],
+    "test_code": "def check(ans): return \"surviv\" in ans.lower()\nassert check(\"Survived\")\nprint(\"PASS\")"
+  },
+  "related": ["property-based-testing-01", "code-coverage-01", "static-analysis-01"],
+  "tags": ["testing", "quality", "mutation", "coverage", "software-engineering"]
+}

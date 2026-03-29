@@ -1,0 +1,44 @@
+{
+  "id": "browser-caching-01",
+  "slug": "browser-caching",
+  "title": "Browser Caching",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Storing copies of web resources (like images, scripts, and CSS) locally in the browser so they don't have to be downloaded again on repeat visits.",
+    "analogy": "Keeping a local copy of a map: the first time you visit a city, you buy a map (download). Next time you go back, you just pull the map out of your backpack (cache) instead of finding a store and buying it again.",
+    "time_complexity": "O(1) access from disk/memory",
+    "space_complexity": "O(N) stored files",
+    "when_to_use": [
+      "Improving load times for repeat visitors",
+      "Reducing bandwidth costs for the server",
+      "Handling offline scenarios (when combined with Service Workers)"
+    ],
+    "gotchas": [
+      "Stale Cache: if you update your CSS file on the server but the user has a cached version, they won't see your changes until the cache expires or you change the filename (Cache Busting)",
+      "HTTP/1.1 'Cache-Control' headers are more powerful than the old 'Expires' headers"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "cache-control-headers",
+      "show_max_age_expiry": true,
+      "show_etag_validation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the HTTP header used to mark a specific version of a file to check if it has changed (304 Not Modified).",
+    "starter_code": "def check_file_version():\n    # The server sends an ________ (Entity Tag) to the browser\n    header = \"ETag\"\n    return header",
+    "solution": "ETag",
+    "hints": [
+      "It stands for 'Entity Tag'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"etag\"\nassert check(\"ETag\")\nprint(\"PASS\")"
+  },
+  "related": ["service-workers-01", "critical-rendering-path-01", "cdn-basics-01"],
+  "tags": ["caching", "http", "performance", "optimization", "browser", "frontend"]
+}

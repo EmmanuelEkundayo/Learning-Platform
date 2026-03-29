@@ -1,0 +1,45 @@
+{
+  "id": "server-sent-events-01",
+  "slug": "server-sent-events",
+  "title": "Server-Sent Events (SSE)",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A standard way for servers to push data to the browser over a single, long-lived HTTP connection — one-way only.",
+    "analogy": "A radio station: the DJ (server) broadcasts music to your radio (browser) continuously, but you can't talk back through the radio.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Progress bars for long-running server tasks",
+      "Social media feeds / notifications where the user doesn't need to respond instantly",
+      "Simpler alternative to WebSockets when you only need server-to-client updates"
+    ],
+    "gotchas": [
+      "SSE is unidirectional (Server -> Client only)",
+      "Browsers have a limit on the number of open SSE connections per domain (usually 6)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "sse-stream",
+      "show_one_way_flow": true,
+      "show_event_stream_header": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Fill in the required HTTP header and data format for SSE.",
+    "starter_code": "# Server response headers\nheaders = {\n    \"Content-Type\": \"text/________-stream\",\n    \"Cache-Control\": \"no-cache\",\n    \"Connection\": \"keep-alive\"\n}\n\n# Message format\nmessage = \"____: My notification alert\\n\\n\"",
+    "solution": "event\ndata",
+    "hints": [
+      "The content type for SSE is 'text/event-stream'",
+      "Each message must start with 'data:' followed by the content"
+    ],
+    "test_code": "def check_sse(ctype, msg):\n    return \"event-stream\" in ctype and msg.startswith(\"data:\")\n\nassert check_sse(\"text/event-stream\", \"data: hello\")\nprint(\"PASS\")"
+  },
+  "related": ["websockets-01", "http-versions-01", "rest-principles-01"],
+  "tags": ["sse", "real-time", "push-notifications", "http", "backend"]
+}

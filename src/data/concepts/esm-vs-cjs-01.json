@@ -1,0 +1,44 @@
+{
+  "id": "esm-vs-cjs-01",
+  "slug": "esm-vs-cjs",
+  "title": "ESM vs CommonJS",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Two different systems for dividing JavaScript into modules: CommonJS (Node.js style) is synchronous and used for the server; ESM (Modern browser style) is asynchronous and standard.",
+    "analogy": "Ordering a kit: CommonJS is like walking into a shop and waiting at the counter while they grab every part (Synchronous). ESM is like ordering parts online; you can keep doing other things while they arrive separately, and you only assemble when everything is there (Asynchronous).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Deciding between `require()` (CJS) and `import` (ESM)",
+      "Configuring build tools like Vite or Webpack",
+      "Publishing a library that needs to work in both Node and Browsers (Dual-mode packages)"
+    ],
+    "gotchas": [
+      "ESM is statically analyzable, which is what allows 'Tree Shaking' (removing unused code) to work",
+      "In ESM, `this` at the top level is `undefined`, whereas in CJS it's `module.exports`"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "module-system-comparison",
+      "show_sync_vs_async_loading": true,
+      "show_tree_shaking_compatibility": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which system uses 'require' and which uses 'import'.",
+    "starter_code": "def identify_systems():\n    return {\n        'require(\"module\")': \"________\",\n        'import x from \"module\"': \"___\"\n    }",
+    "solution": "CommonJS\nESM",
+    "hints": [
+      "The standard 'Browser' way is ES-Modules (ESM)"
+    ],
+    "test_code": "res = identify_systems()\nassert \"common\" in res['require(\"module\")'].lower()\nassert \"esm\" in res['import x from \"module\"'].lower()\nprint(\"PASS\")"
+  },
+  "related": ["tree-shaking-01", "bundlers-internals-01", "javascript-core-01"],
+  "tags": ["modules", "esm", "cjs", "bundling", "javascript", "frontend"]
+}

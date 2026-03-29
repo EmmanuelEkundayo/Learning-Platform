@@ -1,0 +1,44 @@
+{
+  "id": "tree-shaking-01",
+  "slug": "tree-shaking",
+  "title": "Tree Shaking",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A build-time optimization that removes 'dead' (unused) code from your final JavaScript bundle to reduce its file size.",
+    "analogy": "Shaking a tree in autumn: the dead, brown leaves (unused functions) fall off and disappear, leaving only the healthy, green leaves (code you actually call) attached to the branches.",
+    "time_complexity": "O(N) at build time",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Reducing the size of your production JS bundles",
+      "Using large utility libraries (like lodash) efficiently",
+      "Improving load time on mobile devices with slow connections"
+    ],
+    "gotchas": [
+      "Tree shaking ONLY works with ES Modules (import/export); it doesn't work with CommonJS (require) because the browser needs to see the static structure of the code beforehand",
+      "Side Effects: if a function does something when the script loads (like adding a global variable), the bundler might be afraid to shake it even if you don't call it"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "dead-code-elimination-flow",
+      "show_import_usage_tracking": true,
+      "show_side_effect_preservation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the mandatory module system for Tree Shaking to work.",
+    "starter_code": "def check_shaking_support(module_system):\n    # Tree shaking requires static analysis provided by _____ modules.\n    if module_system == \"______\": \n        return \"Supported\"\n    return \"Unsupported\"",
+    "solution": "ESM",
+    "hints": [
+      "It stands for 'ECMAScript Modules'"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"ESM\"\nassert check(\"ESM\")\nprint(\"PASS\")"
+  },
+  "related": ["esm-vs-cjs-01", "bundlers-internals-01", "memory-management-gc-01"],
+  "tags": ["optimization", "bundling", "performance", "esm", "dead-code", "frontend"]
+}

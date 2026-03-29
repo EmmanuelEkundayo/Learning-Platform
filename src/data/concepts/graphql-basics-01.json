@@ -1,0 +1,46 @@
+{
+  "id": "graphql-basics-01",
+  "slug": "graphql-basics",
+  "title": "GraphQL Basics",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A query language for your API that allows clients to request exactly the data they need and nothing more.",
+    "analogy": "Ordering from a bespoke sandwich shop: you tell the chef exactly what toppings you want, instead of picking from a pre-set list of sandwiches where you might have to pick off the onions.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Solving under-fetching (multiple REST calls for one view) and over-fetching (getting too many fields)",
+      "When the frontend needs highly flexible, nested data structures",
+      "Consolidating multiple microservices into a single graph endpoint"
+    ],
+    "gotchas": [
+      "N+1 problem: poorly written resolvers can trigger many database queries for one GraphQL query",
+      "Caching is harder than REST because every request is a POST to the same URL"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "graphql-query",
+      "show_exact_fields": true,
+      "show_single_endpoint": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Define a GraphQL schema for a User and its posts.",
+    "starter_code": "typedefs = \"\"\"\n  type User {\n    id: ID!\n    name: ______!\n    posts: [____]!\n  }\n\n  type ____ {\n    id: ID!\n    title: String!\n    author: User!\n  }\n\"\"\"",
+    "solution": "String\nPost\nPost",
+    "hints": [
+      "A user's name is usually a String",
+      "The User has an array of Posts",
+      "The second type name is Post"
+    ],
+    "test_code": "assert \"type User\" in typedefs\nassert \"posts: [Post]\" in typedefs\nassert \"type Post\" in typedefs\nprint(\"PASS\")"
+  },
+  "related": ["rest-principles-01", "grpc-01", "query-optimization-01"],
+  "tags": ["graphql", "api", "query-language", "data-fetching", "backend"]
+}

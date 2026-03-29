@@ -1,0 +1,44 @@
+{
+  "id": "profiling-benchmarking-01",
+  "slug": "profiling-benchmarking",
+  "title": "Profiling & Benchmarking",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Measuring the performance of your code to identify bottlenecks (Profiling) and comparing different implementations to find the fastest one (Benchmarking).",
+    "analogy": "Profiling is like looking at a heart rate monitor while you run to see exactly when you get tired. Benchmarking is like running a 100m sprint against a friend to see who is faster.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Finding exactly which function is making your API slow",
+      "Choosing between two different libraries for JSON parsing",
+      "Measuring the impact of a new database index on query speed"
+    ],
+    "gotchas": [
+      "Don't optimize without profiling first — you might waste time fixing a function that only takes 1% of the total execution time",
+      "Micro-benchmarks (measuring a single line of code) can be misleading because compilers and CPUs perform various optimizations that don't happen in 'real' code"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "flame-graph-view",
+      "show_cpu_hotspots": true,
+      "show_call_stack_depth": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the type of chart often used in profiling to visualize the call stack and time spent in functions.",
+    "starter_code": "def identify_chart(description):\n    if \"Visualization of stack traces over time, colored by CPU usage\":\n        return \"_____ Graph\"\n    return \"Unknown\"",
+    "solution": "Flame",
+    "hints": [
+      "It looks like a fire because the most 'active' functions are at the top"
+    ],
+    "test_code": "assert identify_chart(\"Visualization of stack traces over time\") == \"Flame Graph\"\nprint(\"PASS\")"
+  },
+  "related": ["memory-leaks-backend-01", "query-optimization-01", "load-balancing-01"],
+  "tags": ["performance", "profiling", "benchmarking", "optimization", "metrics", "backend"]
+}

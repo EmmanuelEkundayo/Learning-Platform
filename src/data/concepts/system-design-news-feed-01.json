@@ -1,0 +1,44 @@
+{
+  "id": "system-design-news-feed-01",
+  "slug": "system-design-news-feed",
+  "title": "System Design: News Feed",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A system that aggregates and displays updates from friends or followed accounts in chronological order, involving complex fan-out strategies.",
+    "analogy": "A newspaper subscription: in a 'Push' model (Fan-out on Write), the journalist delivers the paper to every subscriber's door. In a 'Pull' model (Fan-out on Read), the subscriber walks to the newsstand to check for updates themselves.",
+    "time_complexity": "O(1) to read (with fan-out on write)",
+    "space_complexity": "O(N) pre-computed feeds",
+    "when_to_use": [
+      "Building Facebook, X (Twitter), or LinkedIn feeds",
+      "Activity streams in enterprise software",
+      "Recommendation feeds based on user follows"
+    ],
+    "gotchas": [
+      "The 'Celebrity' problem: if a user with 50 million followers posts, pushing that update to 50 million caches (Fan-out on Write) can crash the system. Hybrid models are needed.",
+      "Consistency vs Availability: feeds usually prioritize availability. It's okay if you see a post 1 second later than your friend."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "fanout-write-vs-read",
+      "show_async_feed_generation": true,
+      "show_ranking_service": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Which strategy is more efficient for users with MILLIONS of followers: Fan-out on Write (Push) or Fan-out on Read (Pull)?",
+    "starter_code": "choice = \"Fan-out on ____\"",
+    "solution": "Read",
+    "hints": [
+      "You don't want to 'Push' to 50M people at once"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"read\"\nassert check(\"Read\")\nprint(\"PASS\")"
+  },
+  "related": ["system-design-chat-01", "system-design-distributed-cache-01", "cap-theorem-01"],
+  "tags": ["system-design", "news-feed", "fan-out", "caching", "scaling", "software-engineering"]
+}

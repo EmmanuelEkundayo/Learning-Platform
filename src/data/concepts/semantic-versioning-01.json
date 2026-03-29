@@ -1,0 +1,44 @@
+{
+  "id": "semantic-versioning-01",
+  "slug": "semantic-versioning",
+  "title": "Semantic Versioning (SemVer)",
+  "domain": "Software Engineering",
+  "category": "Git & Collaboration",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A standardized naming system (MAJOR.MINOR.PATCH) that communicates exactly what kind of changes are in a new release of a library or service.",
+    "analogy": "A menu update: **Patch** is fixing a typo in the price. **Minor** is adding a new soup to the list (New feature, old orders still work). **Major** is changing from a Sushi bar to a Taco stand (Breaking change, old orders no longer work).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Publishing NPM/Pip/Maven packages",
+      "Communicating API changes to external clients",
+      "Managing internal shared library updates between teams"
+    ],
+    "gotchas": [
+      "0.y.z: versions before 1.0.0 are considered 'Experimental'. You can break anything at any time without changing the Major version.",
+      "Don't release breaking changes in a Minor update! You'll break thousands of projects that use the `^` or `~` symbols in their dependencies."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "version-increment-scenarios",
+      "show_breaking_change_bump": true,
+      "show_backwards_compatibility_rules": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "If you add a new feature that DOES NOT break existing code, which part of the version (X.Y.Z) do you increment?",
+    "starter_code": "ans = \"Increment the ___ part (the Y)\"",
+    "solution": "Minor",
+    "hints": [
+      "Not Major (breaking) and not Patch (fix)"
+    ],
+    "test_code": "def check(ans): return \"minor\" in ans.lower()\nassert check(\"Minor\")\nprint(\"PASS\")"
+  },
+  "related": ["git-internals-dag-01", "cicd-pipelines-01", "monorepo-vs-polyrepo-01"],
+  "tags": ["versioning", "semver", "api", "collaboration", "devops", "software-engineering"]
+}

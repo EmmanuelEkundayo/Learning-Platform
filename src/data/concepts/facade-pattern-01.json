@@ -1,0 +1,44 @@
+{
+  "id": "facade-pattern-01",
+  "slug": "facade-pattern",
+  "title": "Facade Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A structural pattern that provides a simplified, higher-level interface to a larger body of code or a complex subsystem.",
+    "analogy": "A car dashboard: you just turn a key (the Facade method). Under the hood, a thousand complex things happen (fuel injection, spark ignition, battery check, etc.). You don't need to be an engineer to drive; you just use the 'Face' (Facade) provided to you.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Hiding a messy third-party library behind a clean, simple API",
+      "Reducing dependencies between a client and a complex subsystem",
+      "Combining 5 API calls into 1 'Easy' call for the frontend team"
+    ],
+    "gotchas": [
+      "A Facade is not a sandbox: it doesn't prevent clients from using the complex subsystem directly if they really need to. It's just a 'Shortcut'.",
+      "Don't let the Facade become a 'God Object' that knows too much about everything."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "facade-subsystem-shielding",
+      "show_complex_steps_hidden": true,
+      "show_unified_entry_point": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "What is the main difference between a Facade and an Adapter?",
+    "starter_code": "ans = \"Facade provides a _________ interface, while Adapter converts an interface.\"",
+    "solution": "simplified",
+    "hints": [
+      "Makes it 'simple'"
+    ],
+    "test_code": "def check(ans): return \"simpl\" in ans.lower()\nassert check(\"simplified\")\nprint(\"PASS\")"
+  },
+  "related": ["adapter-pattern-01", "proxy-pattern-01", "singleton-pattern-01"],
+  "tags": ["design-patterns", "structural", "facade", "simplicity", "encapsulation", "software-engineering"]
+}

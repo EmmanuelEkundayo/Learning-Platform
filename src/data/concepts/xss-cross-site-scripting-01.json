@@ -1,0 +1,44 @@
+{
+  "id": "xss-cross-site-scripting-01",
+  "slug": "xss-cross-site-scripting",
+  "title": "XSS (Cross-Site Scripting)",
+  "domain": "Backend",
+  "category": "Security",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A vulnerability where an attacker injects malicious client-side scripts (usually JavaScript) into a web page viewed by other users.",
+    "analogy": "A malicious sticky note: an attacker leaves a note on a public bulletin board that says 'Hey, look at this!'. When you look at it, the note secretly sprays invisible ink (script) on your glasses that lets the attacker see everything you see.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Preventing attackers from stealing user session cookies",
+      "Securing user-generated content (comments, profiles, forum posts)",
+      "Implementing Content Security Policy (CSP) headers"
+    ],
+    "gotchas": [
+      "Stored XSS is the most dangerous because the script is saved in your database and served to every user who visits that page",
+      "Escaping HTML (converting < to &lt;) is the primary defense, but you must choose the right escaping for the right context (HTML, JS, or CSS)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "xss-script-injection",
+      "show_stored_vs_reflected": true,
+      "show_session_cookie_theft": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the HTTP header that can prevent XSS by telling the browser which sources of scripts are allowed.",
+    "starter_code": "def get_security_headers():\n    return {\n        # Content-Security-Policy\n        \"______-Security-______\": \"default-src 'self'\"\n    }",
+    "solution": "Content\nPolicy",
+    "hints": [
+      "It manages the 'Content' and the 'Policy' of the site"
+    ],
+    "test_code": "assert \"Content\" in list(get_security_headers().keys())[0]\nassert \"Policy\" in list(get_security_headers().keys())[0]\nprint(\"PASS\")"
+  },
+  "related": ["csrf-01", "cors-attacks-01", "owasp-top-10-01"],
+  "tags": ["security", "xss", "javascript", "injection", "vulnerability", "backend"]
+}

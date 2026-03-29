@@ -1,0 +1,45 @@
+{
+  "id": "api-pagination-01",
+  "slug": "api-pagination",
+  "title": "API Pagination",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Breaking down a large dataset into smaller, manageable 'pages' to avoid overwhelming the client or the server.",
+    "analogy": "A physical list of 1,000 items: instead of handing someone a 50-foot long scroll, you put 50 items per page and tell them to 'flip to the next page' to see more.",
+    "time_complexity": "O(1) for Cursor pagination; O(N) for Offset pagination (N = offset size)",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Any endpoint that could return more than a few hundred items (e.g., search results, social feeds)",
+      "Optimizing database performance (queries with OFFSET become very slow as the offset increases)",
+      "Improving frontend load times and responsiveness"
+    ],
+    "gotchas": [
+      "Offset pagination (LIMIT 50 OFFSET 1000) causes the DB to read and discard 1000 rows before giving you 50 — use Cursor pagination (after_id=XYZ) for large datasets",
+      "If new items are added while a user is scrolling, Offset pagination can cause items to be 'skipped' or 'duplicated' across page boundaries"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "offset-vs-cursor",
+      "show_db_pointer": true,
+      "show_page_overlap": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the pagination type being used in these two URLs.",
+    "starter_code": "def identify_pagination(url):\n    if \"offset=\" in url:\n        return \"______ Pagination\"\n    if \"after=\" in url or \"cursor=\" in url:\n        return \"______ Pagination\"\n    return \"No Pagination\"",
+    "solution": "Offset\nCursor",
+    "hints": [
+      "The one that skips a number of rows is Offset",
+      "The one that points to a specific record as a bookmark is Cursor"
+    ],
+    "test_code": "assert identify_pagination(\"api/items?offset=100\") == \"Offset Pagination\"\nassert identify_pagination(\"api/items?after=node_abcd\") == \"Cursor Pagination\"\nprint(\"PASS\")"
+  },
+  "related": ["rest-api-design-01", "database-indexing-01", "query-optimization-01"],
+  "tags": ["pagination", "api", "rest", "performance", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "static-analysis-01",
+  "slug": "static-analysis",
+  "title": "Static Analysis (Linting)",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The process of analyzing source code without actually running it, to find bugs, security vulnerabilities, or code style violations.",
+    "analogy": "A grammar checker for code: it finds 'sentences' that are technically valid but likely wrong (like an unused variable) or dangerous (like an unprotected SQL query), all before you even 'publish' the app.",
+    "time_complexity": "O(N) source lines",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Catching simple typos and syntax errors instantly in your editor",
+      "Enforcing a consistent 'Style Guide' across a large team automatically",
+      "Scanning for security flaws like 'hardcoded secrets' in CI"
+    ],
+    "gotchas": [
+      "False Positives: sometimes the analyzer thinks code is 'Risky' when it is actually fine, leading to developers ignoring the warnings.",
+      "Static analysis cannot find logic bugs (e.g., a function that calculates tax incorrectly but is written in 'Perfect' style)."
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "risk-severity-matrix",
+      "show_common_linter_rules": true,
+      "show_ast_node_traversal": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the most popular static analysis tool (linter) for the JavaScript/TypeScript ecosystem.",
+    "starter_code": "tool = \"______\"",
+    "solution": "ESLint",
+    "hints": [
+      "E-S-____"
+    ],
+    "test_code": "def check(ans): return \"eslint\" in ans.lower()\nassert check(\"ESLint\")\nprint(\"PASS\")"
+  },
+  "related": ["code-coverage-01", "technical-debt-01", "code-review-best-practices-01"],
+  "tags": ["analysis", "linting", "quality", "security", "ast", "software-engineering"]
+}

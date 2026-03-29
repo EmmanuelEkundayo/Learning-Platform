@@ -1,0 +1,45 @@
+{
+  "id": "worker-threads-01",
+  "slug": "worker-threads",
+  "title": "Worker Threads",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Executing CPU-intensive JavaScript code in parallel to the main thread, preventing the Event Loop from becoming blocked.",
+    "analogy": "A busy restaurant kitchen: the head chef (Main Thread) handles the orders and customer communication (Event Loop), but they hire 'Prep Cooks' (Worker Threads) to chop 50kg of onions in a separate room so the kitchen doesn't slow down.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) memory per worker",
+    "when_to_use": [
+      "Image processing or video encoding in Node.js",
+      "Heavy mathematical computations (Prime numbers, encryption/decryption)",
+      "Parsing giant JSON or CSV files that would freeze the UI/API"
+    ],
+    "gotchas": [
+      "Passing giant amounts of data to a worker can be slow because it's usually CLONED, not SHARED (unless using SharedArrayBuffer)",
+      "Each Worker starts its own V8 instance, which has significant memory overhead (startup cost)"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "main-vs-worker-parallelism",
+      "show_message_passing": true,
+      "show_cpu_utilization": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Node.js pseudocode for sending data to and from a worker thread.",
+    "starter_code": "if (isMainThread):\n    const worker = new Worker(__filename);\n    # Send data to worker\n    worker.__________({ task: \"heavy_calc\" });\nelse:\n    # Receive data in worker\n    parentPort.on(\"________\", (data) => {\n        const result = doWork(data);\n        # Send result back\n        parentPort.__________(result);\n    });",
+    "solution": "postMessage\nmessage\npostMessage",
+    "hints": [
+      "You 'postMessage' to communicate",
+      "You listen for the 'message' event"
+    ],
+    "test_code": "def check(pm, m): return pm == \"postMessage\" and m == \"message\"\nassert check(\"postMessage\", \"message\")\nprint(\"PASS\")"
+  },
+  "related": ["threads-vs-processes-01", "event-loop-nodejs-01", "async-await-internals-01"],
+  "tags": ["node.js", "worker-threads", "parallelism", "cpu-intensive", "concurrency", "backend"]
+}

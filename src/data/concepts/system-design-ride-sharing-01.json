@@ -1,0 +1,44 @@
+{
+  "id": "system-design-ride-sharing-01",
+  "slug": "system-design-ride-sharing",
+  "title": "System Design: Uber/Ride-Sharing",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A complex geospatial system that matches drivers and riders in real-time based on location, traffic, and supply/demand.",
+    "analogy": "A giant game of 'Connect the Dots' on a map: every driver is a dot moving in real-time. When a rider appears, the system finds the 'nearest' moving dot that isn't busy. It's like a high-speed game of tag across a whole city.",
+    "time_complexity": "O(log N) for geospatial search (Quadtree/S2)",
+    "space_complexity": "O(N) for active driver locations",
+    "when_to_use": [
+      "Building Uber, Lyft, or Bolt clones",
+      "Food delivery services (DoorDash, UberEats)",
+      "Logistics and fleet management systems"
+    ],
+    "gotchas": [
+      "Geospatial Sharding: the earth doesn't scale linearly. Some areas (Manhattan) have millions of events, while others (Deserts) have zero. Using 'S2 Geometry' or 'Geohashes' is essential for balancing load.",
+      "Write-heavy: drivers send location updates every few seconds. This requires a high-throughput ingestion layer (like Kafka)."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "geospatial-matching-topology",
+      "show_quadtree_partitioning": true,
+      "show_driver_location_stream": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the index type commonly used to recursively divide geographic space into 4 quadrants for efficient proximity searching.",
+    "starter_code": "index_type = \"________\"",
+    "solution": "Quadtree",
+    "hints": [
+      "A tree with 4 children"
+    ],
+    "test_code": "def check(ans): return \"quad\" in ans.lower()\nassert check(\"Quadtree\")\nprint(\"PASS\")"
+  },
+  "related": ["consistent-hashing-system-01", "kafka-architecture-01", "system-design-distributed-cache-01"],
+  "tags": ["system-design", "geospatial", "uber", "real-time", "quadtree", "software-engineering"]
+}

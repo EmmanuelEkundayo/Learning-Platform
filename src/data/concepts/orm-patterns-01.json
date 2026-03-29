@@ -1,0 +1,44 @@
+{
+  "id": "orm-patterns-01",
+  "slug": "orm-patterns",
+  "title": "ORM Patterns (Active Record vs Data Mapper)",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The two primary ways of mapping code objects to database tables — either the object 'knows' how to save itself, or a separate service handles the saving.",
+    "analogy": "Ordering pizza: Active Record is like a smart pizza that can drive itself to your house and put itself in the oven. Data Mapper is like you calling a delivery service to fetch and handle the pizza for you.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Active Record: Quick prototyping, simple CRUD apps, or small teams (e.g., Django, Rails)",
+      "Data Mapper: Complex domain logic, large-scale systems where DB schema and Code models must evolve separately (e.g., SQLAlchemy, TypeORM, Hibernate)"
+    ],
+    "gotchas": [
+      "Active Record couples your business logic to the database structure, making it harder to test without a real DB",
+      "Data Mapper is more verbose and has a steeper learning curve"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "orm-pattern-comparison",
+      "show_active_record_save": true,
+      "show_data_mapper_repository": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the ORM pattern based on the code style.",
+    "starter_code": "def identify_pattern(code_snippet):\n    if \"user.save()\" in code_snippet:\n        return \"______ Record\"\n    elif \"repo.save(user)\" in code_snippet:\n        return \"Data ______\"\n    return \"Unknown\"",
+    "solution": "Active\nMapper",
+    "hints": [
+      "user.save() means the record is 'Active'",
+      "repo.save(user) uses a 'Mapper' service"
+    ],
+    "test_code": "assert identify_pattern(\"user.save()\") == \"Active Record\"\nassert identify_pattern(\"repo.save(user)\") == \"Data Mapper\"\nprint(\"PASS\")"
+  },
+  "related": ["repository-pattern-01", "database-migrations-01", "sql-joins-01"],
+  "tags": ["orm", "active-record", "data-mapper", "database", "backend"]
+}

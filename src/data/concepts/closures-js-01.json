@@ -1,0 +1,44 @@
+{
+  "id": "closures-js-01",
+  "slug": "closures-js",
+  "title": "Closures",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A function that 'remembers' and has access to variables from its outer scope, even after that outer scope has finished executing.",
+    "analogy": "A physical photo of your childhood home: even though you have moved out and the house might have been sold (outer function finished), you still have a 'reference' (photo) that lets you recall exactly what was in each room.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) for captured variables",
+    "when_to_use": [
+      "Creating 'private' variables in JavaScript",
+      "Partial application and currying functions",
+      "Handling state in functional programming (like React's useState)"
+    ],
+    "gotchas": [
+      "Closures can lead to memory leaks if you capture large objects unnecessarily because the garbage collector cannot free them while the closure exists",
+      "Looping with `var` vs `let`: `var` doesn't have block scope, often causing 'shared variable' bugs in closures inside loops"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "scope-capture-flow",
+      "show_execution_context": true,
+      "show_environment_records": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the closure that creates a private counter.",
+    "starter_code": "def create_counter():\n    count = 0\n    def increment():\n        # Accessing outer 'count'\n        ______ count += 1 # in Python, this is 'nonlocal'\n        return count\n    return increment\n\nc = create_counter()\nprint(c()) # 1",
+    "solution": "nonlocal",
+    "hints": [
+      "In Python, to modify an outer scope variable in a closure, you use the 'nonlocal' keyword"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"nonlocal\"\nassert check(\"nonlocal\")\nprint(\"PASS\")"
+  },
+  "related": ["event-loop-browser-01", "memory-management-gc-01", "this-binding-01"],
+  "tags": ["javascript", "closures", "scope", "state", "functional-programming", "frontend"]
+}

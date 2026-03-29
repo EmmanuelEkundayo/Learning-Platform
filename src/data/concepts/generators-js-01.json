@@ -1,0 +1,44 @@
+{
+  "id": "generators-js-01",
+  "slug": "generators-js",
+  "title": "Generators",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Special functions that can be paused and resumed, allowing them to produce a sequence of values over time instead of all at once.",
+    "analogy": "A vending machine: you press a button (call `.next()`), and one snack (value) pops out. Then the machine waits patiently until the next person comes by to press the button again. It doesn't drop all 100 snacks at once.",
+    "time_complexity": "O(1) per yield",
+    "space_complexity": "O(1) state preservation",
+    "when_to_use": [
+      "Handling infinitely large data streams (e.g., Fibonacci numbers)",
+      "Managing complex state machines",
+      "Implementing custom async flow control (used extensively by the Redux-Saga library)"
+    ],
+    "gotchas": [
+      "Generators cannot be 'restarted'; once the `done` property is true, calling `.next()` will just keep returning `undefined`",
+      "You can send values BACK into the generator by passing an argument to `.next(val)`"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "yield-resume-cycle",
+      "show_iterator_state": true,
+      "show_value_passing": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the generator function in Python (same logic as JS).",
+    "starter_code": "def count_to_three():\n    ______ 1\n    ______ 2\n    ______ 3\n\ngen = count_to_three()\nprint(next(gen)) # 1",
+    "solution": "yield\nyield\nyield",
+    "hints": [
+      "You 'give up' or 'produce' a value with this keyword"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"yield\"\nassert check(\"yield\")\nprint(\"PASS\")"
+  },
+  "related": ["async-await-js-01", "esm-vs-cjs-01", "promises-internals-01"],
+  "tags": ["generators", "javascript", "iterator", "asynchronous", "state-machine", "frontend"]
+}

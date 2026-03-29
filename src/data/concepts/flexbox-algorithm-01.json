@@ -1,0 +1,44 @@
+{
+  "id": "flexbox-algorithm-01",
+  "slug": "flexbox-algorithm",
+  "title": "Flexbox Algorithm",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A one-dimensional layout model that distributes space among items in a container, allowing them to shrink or grow to fill available space along a main axis.",
+    "analogy": "A line of people at a bus stop: the bus stop (Flex Container) can tell people to stand in a row (row) or a column (column). If there is extra room, people can spread out (justify-content), and if it's too crowded, they can squeeze together (flex-shrink).",
+    "time_complexity": "O(N) for layout calculation",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Aligning items in a navigation bar",
+      "Centering content vertically and horizontally",
+      "Creating simple, responsive one-dimensional rows or columns"
+    ],
+    "gotchas": [
+      "The 'Main Axis' changes depending on `flex-direction`. If direction is `column`, `justify-content` controls vertical alignment, not horizontal",
+      "Flex items by default have `min-width: auto`, which can sometimes prevent them from shrinking as much as you expect"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "flex-axis-alignment",
+      "show_main_vs_cross_axis": true,
+      "show_flex_grow_shrink_logic": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the CSS property used to align flex items along the CROSS axis (perpendicular to the main axis).",
+    "starter_code": ".container {\n    display: flex;\n    flex-direction: row;\n    # Align items vertically (cross axis)\n    ______-items: center;\n}",
+    "solution": "align",
+    "hints": [
+      "It starts with 'a' and rhymes with 'assign'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"align\"\nassert check(\"align\")\nprint(\"PASS\")"
+  },
+  "related": ["css-grid-01", "responsive-design-01", "stacking-context-01"],
+  "tags": ["css", "layout", "flexbox", "alignment", "responsive", "frontend"]
+}

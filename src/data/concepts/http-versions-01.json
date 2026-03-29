@@ -1,0 +1,46 @@
+{
+  "id": "http-versions-01",
+  "slug": "http-versions",
+  "title": "HTTP Versions (1.1 vs 2 vs 3)",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The evolution of how web browsers and servers talk — from simple text exchanges to multiplexed binary streams over UDP.",
+    "analogy": "Upgrading a single-lane road to a multi-lane highway, and then to a dedicated high-speed rail system that doesn't stop for traffic jams.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Optimizing website load times by reducing head-of-line blocking",
+      "Deciding whether to use domain sharding (needed for HTTP/1.1 but harmful for HTTP/2)",
+      "Improving performance over high-latency or unstable mobile networks (HTTP/3)"
+    ],
+    "gotchas": [
+      "HTTP/2 multiplexing solves application-level HOL blocking but still suffers from TCP-level HOL blocking",
+      "HTTP/3 requires UDP support, which some corporate firewalls might block"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "http-evolution",
+      "show_multiplexing": true,
+      "show_handshake": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the HTTP version based on its key characteristic.",
+    "starter_code": "def identify_http_version(characteristic):\n    if characteristic == \"Single TCP connection, binary framing, multiplexing\":\n        return \"HTTP/____\"\n    elif characteristic == \"Uses QUIC over UDP for faster handshakes and no HOL blocking\":\n        return \"HTTP/____\"\n    elif characteristic == \"Text-based, one request per connection (unless Keep-Alive)\":\n        return \"HTTP/____\"",
+    "solution": "2\n3\n1.1",
+    "hints": [
+      "HTTP/2 introduced binary framing and multiplexing on a single connection",
+      "HTTP/3 is the newest version and uses QUIC over UDP",
+      "HTTP/1.1 is the classic text-based protocol"
+    ],
+    "test_code": "assert identify_http_version(\"Single TCP connection, binary framing, multiplexing\") == \"HTTP/2\"\nassert identify_http_version(\"Uses QUIC over UDP for faster handshakes and no HOL blocking\") == \"HTTP/3\"\nassert identify_http_version(\"Text-based, one request per connection (unless Keep-Alive)\") == \"HTTP/1.1\"\nprint(\"PASS\")"
+  },
+  "related": ["tcp-vs-udp-01", "tls-ssl-handshake-01", "websockets-01"],
+  "tags": ["http", "protocol", "performance", "networking", "backend"]
+}

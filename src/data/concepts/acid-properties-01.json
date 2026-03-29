@@ -1,0 +1,46 @@
+{
+  "id": "acid-properties-01",
+  "slug": "acid-properties",
+  "title": "ACID Properties",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A set of four properties (Atomicity, Consistency, Isolation, Durability) that guarantee database transactions are processed reliably.",
+    "analogy": "An ATM withdrawal: either the machine gives you cash AND deducts it from your balance, or neither happens. It's impossible for it to give you cash but forget to update the balance.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Any financial or sensitive system where data integrity is more important than raw speed",
+      "When multiple users are writing to the same pieces of data simultaneously",
+      "Evaluating a new database technology (SQL vs NoSQL trade-offs)"
+    ],
+    "gotchas": [
+      "Achieving full ACID compliance often requires locking data, which can slow down high-traffic systems",
+      "Durability doesn't mean the server can't fail; it means once a transaction is committed, it won't be lost even if the power cuts out immediately after"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "acid-lifecycle",
+      "show_commit_rollback": true,
+      "show_isolation_levels": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Match the ACID property to its definition.",
+    "starter_code": "def identify_property(definition):\n    if definition == \"All or nothing\":\n        return \"__________\"\n    elif definition == \"Committed data is permanent even after crash\":\n        return \"__________\"\n    elif definition == \"Concurrent transactions don't interfere\":\n        return \"__________\"\n    return \"Unknown\"",
+    "solution": "Atomicity\nDurability\nIsolation",
+    "hints": [
+      "A is for 'All or nothing'",
+      "D is for 'Durability'",
+      "I is for 'Isolation'"
+    ],
+    "test_code": "assert identify_property(\"All or nothing\") == \"Atomicity\"\nassert identify_property(\"Committed data is permanent even after crash\") == \"Durability\"\nassert identify_property(\"Concurrent transactions don't interfere\") == \"Isolation\"\nprint(\"PASS\")"
+  },
+  "related": ["database-transactions-01", "cap-theorem-01", "eventual-consistency-01"],
+  "tags": ["database", "acid", "transactions", "reliability", "backend"]
+}

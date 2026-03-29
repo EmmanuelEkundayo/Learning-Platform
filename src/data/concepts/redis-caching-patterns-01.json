@@ -1,0 +1,45 @@
+{
+  "id": "redis-caching-patterns-01",
+  "slug": "redis-caching-patterns",
+  "title": "Redis Caching Patterns",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Standardized strategies for how your application interacts with the cache and the primary database to ensure high performance and data consistency.",
+    "analogy": "Your personal 'study habits': Cache-Aside is like looking in your notebook first and then going to the library if the info isn't there. Write-Through is like writing in your notebook AND the library copy at the same time.",
+    "time_complexity": "O(1) for cache access",
+    "space_complexity": "O(N) for stored cache items",
+    "when_to_use": [
+      "Cache-Aside: Most common pattern for general web applications",
+      "Write-Through: When you need high consistency between cache and DB",
+      "Write-Behind (Write-Back): When write performance is the #1 priority (e.g., logging or metrics analytics)"
+    ],
+    "gotchas": [
+      "Cache-Aside can lead to 'Thundering Herd' (Cache Stampede) if a popular key expires and many requests hit the DB at once",
+      "Write-Behind risks data loss if the cache server crashes before flushing to the primary database"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "cache-aside-vs-write-through",
+      "show_db_interaction": true,
+      "show_cache_hit_miss": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the pseudocode for the 'Cache-Aside' (Lazy Loading) pattern.",
+    "starter_code": "def get_data(key):\n    # 1. Check cache\n    data = cache.get(key)\n    if data:\n        return data   # Cache ____\n    \n    # 2. Miss: Get from DB\n    data = db.query(key)\n    \n    # 3. Update cache for next time\n    cache.____(key, data, ttl=3600)\n    return data",
+    "solution": "Hit\nset",
+    "hints": [
+      "When data is found in the cache, it's called a 'Hit'",
+      "If it's not found, you 'set' the data in the cache after fetching it from the DB"
+    ],
+    "test_code": "def check(h, s): return h.lower() == \"hit\" and s.lower() == \"set\"\nassert check(\"Hit\", \"set\")\nprint(\"PASS\")"
+  },
+  "related": ["redis-data-structures-01", "database-indexing-01", "cdn-basics-01"],
+  "tags": ["redis", "caching", "patterns", "performance", "scalability", "backend"]
+}

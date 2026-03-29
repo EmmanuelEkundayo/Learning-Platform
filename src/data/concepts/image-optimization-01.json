@@ -1,0 +1,44 @@
+{
+  "id": "image-optimization-01",
+  "slug": "image-optimization",
+  "title": "Image Optimization",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The process of reducing image file sizes as much as possible without sacrificing quality, using modern formats and responsive techniques.",
+    "analogy": "Packing for a trip: you want to bring all your clothes (high quality), but you compress them into a tiny suitcase (optimized file) so you don't have to carry a heavy trunk (original raw image) through the airport.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) file size reduction",
+    "when_to_use": [
+      "Reducing the 'Initial Load' time of a webpage",
+      "Improving LCP (Largest Contentful Paint) scores",
+      "Saving bandwidth for users on mobile data"
+    ],
+    "gotchas": [
+      "Always use modern formats like **WebP** or **AVIF** instead of old JPEGs or PNGs; they can be 50-80% smaller",
+      "Use 'Responsive Images' (`srcset`) to ensure a mobile phone doesn't download a 4000px wide image meant for a desktop"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "image-format-comparison",
+      "show_compression_artifacts": true,
+      "show_resolution_switching": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the modern image format that provides better compression than JPEG while maintaining high quality.",
+    "starter_code": "def get_best_format():\n    # It's an open-source format developed by Google\n    format_name = \"____\"\n    return format_name",
+    "solution": "WebP",
+    "hints": [
+      "It starts with 'Web' and ends with 'P'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"webp\"\nassert check(\"WebP\")\nprint(\"PASS\")"
+  },
+  "related": ["lazy-loading-frontend-01", "core-web-vitals-01", "browser-caching-01"],
+  "tags": ["performance", "images", "webp", "optimization", "lcp", "frontend"]
+}

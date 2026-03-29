@@ -1,0 +1,44 @@
+{
+  "id": "lighthouse-scoring-01",
+  "slug": "lighthouse-scoring",
+  "title": "Lighthouse Scoring",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "An automated tool for improving the quality of web pages, providing scores across Performance, Accessibility, Best Practices, and SEO.",
+    "analogy": "A school report card for your website: it gives you an overall GPA (the 0-100 score) and then breaks it down by subject (Performance, SEO, etc.), telling you exactly where you need to study more.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Auditing a website's performance during development",
+      "Identifying accessibility failures (missing alt tags, low contrast)",
+      "Ensuring the site follows modern web best practices"
+    ],
+    "gotchas": [
+      "A 100/100 score in Lighthouse doesn't guarantee a perfect user experience; it's a 'lab' measurement, not 'field' data from real users",
+      "Performance score is a weighted average; LCP (Largest Contentful Paint) usually has the highest weight"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "lighthouse-weight-distribution",
+      "show_performance_metrics": true,
+      "show_weighted_impact": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the four main categories of a Lighthouse report.",
+    "starter_code": "categories = [\n    \"1. ___________ (Speed and optimization)\",\n    \"2. _____________ (Usability for impaired users)\",\n    \"3. Best _________ (Modern standards)\",\n    \"4. ___ (Search Visibility)\"\n]",
+    "solution": "Performance\nAccessibility\nPractices\nSEO",
+    "hints": [
+      "P__________, A____________, P________, S__"
+    ],
+    "test_code": "assert \"Performance\" in categories[0]\nassert \"Accessibility\" in categories[1]\nprint(\"PASS\")"
+  },
+  "related": ["core-web-vitals-01", "bundle-analysis-01", "image-optimization-01"],
+  "tags": ["performance", "lighthouse", "audit", "metrics", "seo", "frontend"]
+}

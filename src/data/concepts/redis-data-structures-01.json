@@ -1,0 +1,46 @@
+{
+  "id": "redis-data-structures-01",
+  "slug": "redis-data-structures",
+  "title": "Redis Data Structures",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An in-memory data structure store used as a database, cache, and message broker, offering specialized types beyond simple key-value pairs.",
+    "analogy": "A giant, shared whiteboard where everyone can instantly write and read notes in specific formats like lists, sorted leaderboards, or set checklists.",
+    "time_complexity": "O(1) for most operations (get/set); O(log N) for Sorted Sets",
+    "space_complexity": "O(N) for elements stored in memory",
+    "when_to_use": [
+      "Caching expensive database queries or API responses",
+      "Managing user sessions with fast access speeds",
+      "Implementing real-time leaderboards (Sorted Sets) or unique visitor counts (HyperLogLog)"
+    ],
+    "gotchas": [
+      "Redis is in-memory — if the server runs out of RAM, it will start evicting keys based on your policy (e.g., LRU), so it's not a place for 'permanent' storage unless configured with persistence",
+      "A long-running command (like 'KEYS *' on a large DB) will block all other requests since Redis is mostly single-threaded"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "redis-types-table",
+      "show_strings_lists_sets": true,
+      "show_ttl_countdown": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Pick the correct Redis command for the specific use case.",
+    "starter_code": "redis_actions = {\n    \"Set a simple string value\": \"____ key value\",\n    \"Push to the end of a list\": \"____ key value\",\n    \"Add to a sorted set with a score\": \"____ key score member\",\n    \"Increment a counter\": \"____ key\"\n}",
+    "solution": "SET\nRPUSH\nZADD\nINCR",
+    "hints": [
+      "The 'R' in RPUSH stands for Right",
+      "Z is for Sorted Sets",
+      "INCR is short for Increment"
+    ],
+    "test_code": "assert \"SET\" in redis_actions[\"Set a simple string value\"]\nassert \"RPUSH\" in redis_actions[\"Push to the end of a list\"] or \"LPUSH\" in redis_actions.values()\nassert \"ZADD\" in redis_actions[\"Add to a sorted set with a score\"]\nassert \"INCR\" in redis_actions[\"Increment a counter\"]\nprint(\"PASS\")"
+  },
+  "related": ["rate-limiting-01", "lru-cache-01", "database-indexing-01"],
+  "tags": ["redis", "nosql", "caching", "data-structures", "in-memory", "backend"]
+}

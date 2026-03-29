@@ -1,0 +1,45 @@
+{
+  "id": "oauth2-01",
+  "slug": "oauth2",
+  "title": "OAuth 2.0",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "An industry-standard framework for authorization that allows applications to access user data on other sites without getting the user's password.",
+    "analogy": "A valet key for your car: it lets the valet park and retrieve the car, but it doesn't let them open the glovebox or trunk, and you never gave them your actual house key.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Implementing 'Log in with Google/GitHub'",
+      "Giving a third-party app access to your Spotify playlists",
+      "Internal service-to-service authorization (Client Credentials flow)"
+    ],
+    "gotchas": [
+      "OAuth is for AUTHORIZATION (what can I do?), not necessarily AUTHENTICATION (who am I?) — OpenID Connect (OIDC) was added to solve the 'who' part",
+      "The 'Implicit' flow is now deprecated for security reasons; always use Authorization Code with PKCE for modern apps"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "oauth2-auth-code-flow",
+      "show_redirects": true,
+      "show_access_token_exchange": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the four main roles in an OAuth 2.0 flow.",
+    "starter_code": "roles = [\n    \"Resource Owner (The User)\",\n    \"______ (The App wanting access)\",\n    \"______ Server (Handles login/consent)\",\n    \"Resource Server (The API with data)\"\n]",
+    "solution": "Client\nAuthorization",
+    "hints": [
+      "The app that wants the token is the 'Client'",
+      "The server that gives the token is the 'Authorization Server'"
+    ],
+    "test_code": "assert \"Client\" in roles\nassert \"Authorization\" in roles\nprint(\"PASS\")"
+  },
+  "related": ["jwt-authentication-01", "session-authentication-01", "api-gateway-01"],
+  "tags": ["oauth2", "authorization", "security", "sso", "api", "backend"]
+}

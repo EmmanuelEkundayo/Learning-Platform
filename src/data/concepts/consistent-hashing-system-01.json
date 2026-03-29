@@ -1,0 +1,44 @@
+{
+  "id": "consistent-hashing-system-01",
+  "slug": "consistent-hashing-system",
+  "title": "Consistent Hashing",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A hashing strategy that minimizes the number of keys that need to be remapped when the number of servers in a cluster changes.",
+    "analogy": "A ring of students: instead of assigning every essay to a student by 'index % 5', you place students around a circular table (The Ring). When a new student joins or one leaves, only the essays immediately 'next' to them on the circle have to move.",
+    "time_complexity": "O(log S) where S is number of servers",
+    "space_complexity": "O(S) for hash ring metadata",
+    "when_to_use": [
+      "Building distributed caches like DynamoDB or Cassandra",
+      "Designing load balancers that need 'Sticky' behavior without a central state",
+      "Implementing data sharding for multi-node databases"
+    ],
+    "gotchas": [
+      "Hotspot problem: if one server is responsible for too much of the 'ring', it gets overloaded. This is solved by using 'Virtual Nodes' (replicating each server multiple times on the ring).",
+      "Standard Hashing (`key % N`) is terrible for resizing; if you add 1 server, ALMOST EVERY key has to move to a new location."
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "hash-ring-simulation",
+      "show_virtual_nodes": true,
+      "show_rebinding_on_failure": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the technique where each physical server is mapped to multiple points on the hash ring to ensure even data distribution.",
+    "starter_code": "technique = \"_______ Nodes\"",
+    "solution": "Virtual",
+    "hints": [
+      "Not 'Physical', but _______"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"virtual\"\nassert check(\"Virtual\")\nprint(\"PASS\")"
+  },
+  "related": ["system-design-distributed-cache-01", "load-balancer-internals-01", "database-sharding-01"],
+  "tags": ["system-design", "hashing", "consistent-hashing", "distributed-systems", "algorithms", "software-engineering"]
+}

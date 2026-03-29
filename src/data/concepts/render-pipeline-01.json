@@ -1,0 +1,45 @@
+{
+  "id": "render-pipeline-01",
+  "slug": "render-pipeline",
+  "title": "The Render Pipeline",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The step-by-step process the browser takes to convert raw HTML, CSS, and JS into actual pixels on your screen.",
+    "analogy": "An artist's workflow: first they sketch the outline (DOM), then they decide the colors (CSSOM), then they draw the grid (Layout), and finally they fill in the paint (Painting).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Optimizing animations for 60FPS (avoiding 'Jank')",
+      "Understanding the impact of JavaScript on loading performance",
+      "Improving Core Web Vitals (LCP, CLS)"
+    ],
+    "gotchas": [
+      "JavaScript can block the pipeline at the 'DOM' stage if it's placed in the <head> without defer/async",
+      "Changing layout-affecting properties (like width/height) forces the browser to go back several steps in the pipeline, which is expensive"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "render-steps-flow",
+      "show_dom_cssom_merge": true,
+      "show_layout_paint_composite": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the five main steps of the render pipeline in order.",
+    "starter_code": "pipeline = [\n    \"1. JavaScript/Parsing\",\n    \"2. Style (CSSOM)\",\n    \"3. ______ (Geometry)\",\n    \"4. ______ (Pixels)\",\n    \"5. Composite (Layers)\"\n]",
+    "solution": "Layout\nPaint",
+    "hints": [
+      "Step 3 calculates 'where' things go",
+      "Step 4 colors the pixels"
+    ],
+    "test_code": "assert \"Layout\" in pipeline[2]\nassert \"Paint\" in pipeline[3]\nprint(\"PASS\")"
+  },
+  "related": ["dom-internals-01", "cssom-01", "reflow-vs-repaint-01"],
+  "tags": ["rendering", "browser", "performance", "pipeline", "frontend"]
+}

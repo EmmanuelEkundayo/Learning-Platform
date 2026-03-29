@@ -1,0 +1,45 @@
+{
+  "id": "session-authentication-01",
+  "slug": "session-authentication",
+  "title": "Session Authentication",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A stateful authentication method where the server stores a session ID and sends it to the client as a cookie, which is then sent back with every request.",
+    "analogy": "A coat check at a club: you give your coat (login), get a numbered ticket (session ID), and later show that ticket to get your coat back. The club keeps the coat in the back (server state).",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) users on the server",
+    "when_to_use": [
+      "Traditional web apps where the frontend and backend are on the same domain",
+      "When you need the ability to instantly revoke a user's access at any time",
+      "Apps with low-to-medium user numbers where server memory/DB isn't a bottleneck"
+    ],
+    "gotchas": [
+      "Sessions are stateful, making it harder to horizontally scale (you need a shared session store like Redis)",
+      "Vulnerable to CSRF (Cross-Site Request Forgery) attacks since browsers send cookies automatically"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "session-lifecycle",
+      "show_login_validation": true,
+      "show_session_storage": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the logic for validating a session ID cookie.",
+    "starter_code": "def check_auth(request):\n    session_id = request.cookies.get(\"____id\")\n    if not session_id:\n        return \"Unauthorized\"\n    \n    user_data = session_store.____(session_id)\n    if user_data:\n        return f\"Hello {user_data['name']}\"\n    return \"Invalid Session\"",
+    "solution": "session\nget",
+    "hints": [
+      "The cookie is usually named something like 'sessionid'",
+      "You 'get' the data from the session store using the ID"
+    ],
+    "test_code": "class MockStore:\n    def get(self, k): return {\"name\": \"Alice\"} if k == \"123\" else None\nsession_store = MockStore()\nclass MockReq:\n    def __init__(self, c): self.cookies = c\nassert \"Alice\" in check_auth(MockReq({\"sessionid\": \"123\"}))\nprint(\"PASS\")"
+  },
+  "related": ["jwt-authentication-01", "oauth2-01", "redis-data-structures-01"],
+  "tags": ["authentication", "sessions", "cookies", "stateful", "backend"]
+}

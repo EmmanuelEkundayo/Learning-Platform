@@ -4,6 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useConceptStore }  from '../store/conceptStore.js'
 import { useProgressStore } from '../store/progressStore.js'
 
+// ─── domain chip styles (shared across search dropdown + concept rows) ───────
+const DOMAIN_CHIP = {
+  DSA:                  'bg-dsa-600/20 text-dsa-400',
+  ML:                   'bg-ml-500/20 text-ml-400',
+  Frontend:             'bg-frontend-500/20 text-frontend-400',
+  Backend:              'bg-backend-500/20 text-backend-400',
+  'Software Engineering': 'bg-se-500/20 text-se-400',
+}
+
 // ─── Home ───────────────────────────────────────────────────────────────────
 
 export default function Home() {
@@ -21,11 +30,25 @@ export default function Home() {
     [concepts, progress]
   )
 
-  // "Start Here" — beginner, not yet viewed (up to 4)
-  const startHereConcepts = useMemo(
-    () => concepts.filter(c => c.difficulty === 'beginner' && !progress[c.slug]?.viewed).slice(0, 4),
-    [concepts, progress]
-  )
+  // "Start Here" — one beginner per domain (priority order), fill to 4
+  const startHereConcepts = useMemo(() => {
+    const DOMAINS = ['DSA', 'ML', 'Frontend', 'Backend', 'Software Engineering']
+    const picked  = new Set()
+    const result  = []
+    // Prefer one representative per domain
+    for (const d of DOMAINS) {
+      const c = concepts.find(c => c.domain === d && c.difficulty === 'beginner' && !progress[c.slug]?.viewed)
+      if (c && !picked.has(c.slug)) { picked.add(c.slug); result.push(c) }
+    }
+    // Fill remainder up to 4 from any remaining beginner concepts
+    for (const c of concepts) {
+      if (result.length >= 4) break
+      if (c.difficulty === 'beginner' && !progress[c.slug]?.viewed && !picked.has(c.slug)) {
+        result.push(c)
+      }
+    }
+    return result.slice(0, 4)
+  }, [concepts, progress])
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 space-y-14">
@@ -62,7 +85,7 @@ export default function Home() {
       {startHereConcepts.length > 0 && (
         <ConceptSection
           title="Start Here"
-          subtitle="Beginner concepts you haven't opened yet"
+          subtitle="One beginner pick per domain — concepts you haven't opened yet"
           concepts={startHereConcepts}
           progress={progress}
         />
@@ -72,9 +95,9 @@ export default function Home() {
       {completed === total && total > 0 && (
         <div className="text-center py-8 text-gray-500 text-sm">
           All {total} concepts completed. Check out the{' '}
-          <Link to="/browse" className="text-dsa-400 hover:underline">full catalog</Link>{' '}
+          <Link to="/browse" className="text-gray-300 hover:underline">full catalog</Link>{' '}
           or{' '}
-          <Link to="/review" className="text-dsa-400 hover:underline">review weak spots</Link>.
+          <Link to="/review" className="text-gray-300 hover:underline">review weak spots</Link>.
         </div>
       )}
 
@@ -192,10 +215,8 @@ function ConceptSearch() {
                 className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors
                   ${i === selected ? 'bg-surface-700' : 'hover:bg-surface-700'}`}
               >
-                <span className={`shrink-0 text-xs px-1.5 py-0.5 rounded font-semibold ${
-                  c.domain === 'DSA' ? 'bg-dsa-600/25 text-dsa-400' : 'bg-ml-500/25 text-ml-400'
-                }`}>
-                  {c.domain}
+                <span className={`shrink-0 text-xs px-1.5 py-0.5 rounded font-semibold ${DOMAIN_CHIP[c.domain] ?? 'bg-gray-500/25 text-gray-400'}`}>
+                  {c.domain === 'Software Engineering' ? 'SE' : c.domain}
                 </span>
                 <span className="text-gray-100 flex-1 truncate">{c.title}</span>
                 <span className="text-gray-500 text-xs shrink-0">{c.category}</span>
@@ -236,7 +257,7 @@ function ProgressSection({ total, completed, viewed }) {
         </p>
         <div className="space-y-1">
           <LegendRow color="bg-green-500" label={`${completed} passed`} />
-          <LegendRow color="bg-dsa-500"   label={`${viewed} in progress`} />
+          <LegendRow color="bg-blue-500"  label={`${viewed} in progress`} />
           <LegendRow color="bg-surface-500" label={`${total - completed - viewed} untouched`} />
         </div>
       </div>
@@ -313,10 +334,8 @@ function ConceptSection({ title, subtitle, concepts, progress }) {
               className="flex items-center gap-3 px-4 py-3 rounded-lg border border-surface-600 bg-surface-800
                          hover:border-surface-400 hover:bg-surface-700 transition-all duration-100 group"
             >
-              <span className={`text-xs font-semibold px-1.5 py-0.5 rounded shrink-0 ${
-                c.domain === 'DSA' ? 'bg-dsa-600/20 text-dsa-400' : 'bg-ml-500/20 text-ml-400'
-              }`}>
-                {c.domain}
+              <span className={`text-xs font-semibold px-1.5 py-0.5 rounded shrink-0 ${DOMAIN_CHIP[c.domain] ?? 'bg-gray-500/20 text-gray-400'}`}>
+                {c.domain === 'Software Engineering' ? 'SE' : c.domain}
               </span>
               <span className="flex-1 text-sm text-gray-200 truncate group-hover:text-white transition-colors">
                 {c.title}

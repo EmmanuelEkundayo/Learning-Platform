@@ -1,0 +1,44 @@
+{
+  "id": "system-design-rate-limiter-01",
+  "slug": "system-design-rate-limiter",
+  "title": "System Design: Rate Limiter",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A control mechanism that limits the number of requests a user or client can make to a service within a specific time window to prevent abuse and ensure stability.",
+    "analogy": "A nightclub bouncer: they only let 10 people in every 5 minutes. If a group of 50 arrives at once, most have to wait outside until the next time window opens.",
+    "time_complexity": "O(1) check",
+    "space_complexity": "O(N) users being tracked",
+    "when_to_use": [
+      "Preventing DoS/DDoS attacks",
+      "Enforcing API tier limits (e.g., Free vs Pro)",
+      "Protecting downstream databases from sudden spikes in traffic"
+    ],
+    "gotchas": [
+      "Distributed Rate Limiting: in a cluster, separate servers need a shared state (like Redis) to count requests accurately, or they might allow too many total requests.",
+      "Algorithm choice: Token Bucket allows bursts, while Fixed Window can suffer from 'border' spikes."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "token-bucket-simulation",
+      "show_bucket_refill": true,
+      "show_request_dropping": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary advantage of the 'Token Bucket' algorithm over the 'Fixed Window Counter' algorithm.",
+    "starter_code": "logic = \"Token Bucket allows for short ________ of traffic, whereas Fixed Window is strictly rigid.\"",
+    "solution": "bursts",
+    "hints": [
+      "A sudden, fast increase in size or speed"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"bursts\"\nassert check(\"bursts\")\nprint(\"PASS\")"
+  },
+  "related": ["system-design-api-gateway-01", "redis-data-structures-01", "load-balancer-internals-01"],
+  "tags": ["system-design", "rate-limiting", "security", "distributed-systems", "algorithms", "software-engineering"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "property-based-testing-01",
+  "slug": "property-based-testing",
+  "title": "Property-Based Testing",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Instead of testing specific inputs (e.g., 2+2=4), you define universal properties that must always be true (e.g., a + b == b + a) and let a tool generate hundreds of random inputs to try and break them.",
+    "analogy": "Testing a bulletproof vest: a standard test is shooting one specific bullet at the center. Property-based testing is hiring a robot to shoot 1,000 random bullets at every possible angle to find the one weak seam you didn't think of.",
+    "time_complexity": "O(N) generated cases",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing complex algorithms (Compressors, Encoders, Sorting) where edge cases are hard to find",
+      "Ensuring that a function never crashes regardless of the input",
+      "Verifying mathematical 'Invariants' in financial software"
+    ],
+    "gotchas": [
+      "Heuristic: just because 10,000 random inputs passed doesn't mean the 10,001st won't fail. It's not a formal proof, just a very thorough check.",
+      "Performance: generating and running thousands of tests can be slow. Run these in CI, not on every save."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "random-input-fuzzing-flow",
+      "show_counterexample_shrinking": true,
+      "show_invariant_verification_loop": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the process where a property-based testing tool finds a failure and then tries to find the SMALLEST possible input that still causes the failure.",
+    "starter_code": "process = \"_________\"",
+    "solution": "Shrinking",
+    "hints": [
+      "Making it smaller"
+    ],
+    "test_code": "def check(ans): return \"shrink\" in ans.lower()\nassert check(\"Shrinking\")\nprint(\"PASS\")"
+  },
+  "related": ["mutation-testing-01", "tdd-cycle-01", "technical-debt-01"],
+  "tags": ["testing", "quality", "fuzzing", "algorithms", "software-engineering"]
+}

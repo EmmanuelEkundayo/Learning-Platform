@@ -1,0 +1,44 @@
+{
+  "id": "domain-driven-design-01",
+  "slug": "domain-driven-design",
+  "title": "Domain Driven Design (DDD)",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A focus on modeling software to match a specific business domain, using a 'Ubiquitous Language' shared by both developers and business experts.",
+    "analogy": "A medical textbook written for non-doctors: if the experts call it 'Cardiac Arrest', and the developers call it 'HeartStopErr', the software will fail. In DDD, both the experts and the code use the exact same term: 'CardiacArrest'.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Managing extremely complex business logic where the 'rules' are more important than the 'database'",
+      "Large teams where communication between 'Business' and 'Engineering' is a bottleneck",
+      "Breaking down a Monolith into Microservices using 'Bounded Contexts'"
+    ],
+    "gotchas": [
+      "Strategic vs Tactical: DDD is most useful at a 'Strategic' level (designing boundaries). The 'Tactical' patterns (Entities, Value Objects, Aggregates) can be complex and overkill for simple projects.",
+      "The 'Ubiquitous Language' must be enforced in the code, or it's not DDD."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "bounded-context-map",
+      "show_ubiquitous_language_sync": true,
+      "show_aggregate_boundaries": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the term for a shared language between developers and domain experts in DDD.",
+    "starter_code": "term = \"__________ Language\"",
+    "solution": "Ubiquitous",
+    "hints": [
+      "Starting with 'U', meaning everywhere"
+    ],
+    "test_code": "def check(ans): return \"ubiquit\" in ans.lower()\nassert check(\"Ubiquitous\")\nprint(\"PASS\")"
+  },
+  "related": ["clean-architecture-01", "hexagonal-architecture-01", "microservices-basics-01"],
+  "tags": ["architecture", "ddd", "domain-driven-design", "modeling", "software-engineering"]
+}

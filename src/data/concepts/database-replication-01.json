@@ -1,0 +1,45 @@
+{
+  "id": "database-replication-01",
+  "slug": "database-replication",
+  "title": "Database Replication",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Copying data from one database server (the leader) to one or more others (followers) to improve reliability and read performance.",
+    "analogy": "A CEO sending a memo to 10 department heads. The CEO makes the 'write' (creates the memo), and then 10 people can 'read' it simultaneously in their own offices.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Improving read throughput (Leader handles writes, Followers handle reads)",
+      "High Availability (if the Leader dies, a Follower can be promoted to Leader)",
+      "Backups and reporting (running heavy reports on a follower so it doesn't slow down the main app)"
+    ],
+    "gotchas": [
+      "Replication Lag: if a user writes a post and instantly refreshes, they might hit a follower that hasn't received the update yet",
+      "Synchronous replication is slower (Leader waits for Followers) but has zero lag; Asynchronous is faster but risks data loss during a crash"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "leader-follower-flow",
+      "show_replication_lag": true,
+      "show_failover": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Decide which database instance to use for a specific operation.",
+    "starter_code": "def get_db_instance(op_type):\n    if op_type == \"create_user\":\n        return \"______\"\n    elif op_type == \"fetch_user_profile\":\n        return \"________\"\n    return \"Error\"",
+    "solution": "Leader\nFollower",
+    "hints": [
+      "All writes/modifications must go to the 'Leader' (or Master)",
+      "Reads can be distributed to 'Follower' (or Slave/Replica) nodes"
+    ],
+    "test_code": "assert get_db_instance(\"create_user\") == \"Leader\"\nassert get_db_instance(\"fetch_user_profile\") == \"Follower\"\nprint(\"PASS\")"
+  },
+  "related": ["database-sharding-01", "cap-theorem-01", "acid-properties-01"],
+  "tags": ["database", "replication", "high-availability", "scalability", "backend"]
+}

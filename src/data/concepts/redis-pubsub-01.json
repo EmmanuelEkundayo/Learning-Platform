@@ -1,0 +1,45 @@
+{
+  "id": "redis-pubsub-01",
+  "slug": "redis-pubsub",
+  "title": "Redis Pub/Sub",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A messaging pattern where senders (publishers) send messages to channels without knowing who the receivers (subscribers) are.",
+    "analogy": "A radio station: the DJ broadcasts music to a specific frequency (channel), and anyone with a radio tuned to that frequency can hear it, but the DJ doesn't know who is listening.",
+    "time_complexity": "O(1) to publish; O(N) to subscribe where N is number of channels",
+    "space_complexity": "N/A (Redis does not store pub/sub messages)",
+    "when_to_use": [
+      "Real-time notifications or chat messages",
+      "Triggering background tasks across multiple microservices",
+      "Implementing a 'live' system where subscribers only care about what's happening 'now'"
+    ],
+    "gotchas": [
+      "Redis Pub/Sub is fire-and-forget: if a subscriber is offline when a message is sent, they miss it forever (use Redis Streams for persistence)",
+      "It is not a task queue — there is no acknowledgement or retry logic"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "pub-sub-flow",
+      "show_multiple_subscribers": true,
+      "show_message_propagation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Redis commands to publish and subscribe to a 'news' channel.",
+    "starter_code": "def redis_messaging():\n    # Subscriber terminal\n    sub_cmd = \"__________ news\"\n    \n    # Publisher terminal\n    pub_cmd = \"__________ news 'Hello World'\"\n    return sub_cmd, pub_cmd",
+    "solution": "SUBSCRIBE\nPUBLISH",
+    "hints": [
+      "You 'SUBSCRIBE' to a channel to listen",
+      "You 'PUBLISH' a message to a channel to broadcast"
+    ],
+    "test_code": "sub, pub = redis_messaging()\nassert sub.upper().startswith(\"SUBSCRIBE\")\nassert pub.upper().startswith(\"PUBLISH\")\nprint(\"PASS\")"
+  },
+  "related": ["websockets-01", "redis-data-structures-01", "event-sourcing-01"],
+  "tags": ["redis", "pubsub", "messaging", "real-time", "backend"]
+}

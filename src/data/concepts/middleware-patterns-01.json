@@ -1,0 +1,46 @@
+{
+  "id": "middleware-patterns-01",
+  "slug": "middleware-patterns",
+  "title": "Middleware Patterns",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Functions that sit in the middle of a request-response cycle, allowing you to intercept, process, or modify the request before it reaches your main logic.",
+    "analogy": "A security checkpoint at an airport: before you reach your gate (business logic), you go through ID check (Auth), baggage scan (Validation), and metal detector (Logging/Sanitization).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Authentication and Authorization checks",
+      "Request logging and performance monitoring",
+      "JSON body parsing or input validation",
+      "Adding custom headers (CORS) or handling errors centrally"
+    ],
+    "gotchas": [
+      "The order of middleware matters! If your Logger comes after your Auth check, you won't see logs for failed logins",
+      "If a middleware function doesn't call 'next()', the request will hang and never reach the endpoint"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "middleware-onion",
+      "show_next_chain": true,
+      "show_short_circuit": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Node.js/Express-style middleware function that logs the time and then allows the request to continue.",
+    "starter_code": "def logger_middleware(req, res, ____):\n    print(f\"Request at: {Date.now()}\")\n    # Crucial: move to the next function in the chain\n    ____()",
+    "solution": "next\nnext",
+    "hints": [
+      "The third argument in Express middleware is usually called 'next'",
+      "You MUST call this function to let the request proceed"
+    ],
+    "test_code": "def check(n): return n == \"next\"\nassert check(\"next\")\nprint(\"PASS\")"
+  },
+  "related": ["rest-principles-01", "dependency-injection-01", "jwt-authentication-01"],
+  "tags": ["middleware", "express", "api", "interceptor", "design-patterns", "backend"]
+}

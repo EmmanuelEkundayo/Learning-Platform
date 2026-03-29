@@ -1,0 +1,44 @@
+{
+  "id": "system-design-url-shortener-01",
+  "slug": "system-design-url-shortener",
+  "title": "System Design: URL Shortener",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A service that converts long URLs into short, unique aliases, involving high read throughput, unique ID generation, and efficient redirection logic.",
+    "analogy": "A coat check at a theater: you give them your big, bulky coat (Long URL), and they give you a tiny plastic token (Short URL). When you leave, you hand back the token, and they give you your coat back immediately.",
+    "time_complexity": "O(1) for redirection",
+    "space_complexity": "O(N) for URL mapping storage",
+    "when_to_use": [
+      "Building services like bit.ly or tinyurl.com",
+      "Sharing links on platforms with character limits (like SMS or X)",
+      "Tracking click analytics for marketing campaigns"
+    ],
+    "gotchas": [
+      "Collision risk: if you use a random 6-character string, you will eventually have two different URLs with the same short code. Base-62 encoding of a unique ID is safer.",
+      "Read vs Write ratio: URL shorteners are almost always 100:1 read-heavy, so heavy caching (Redis) is mandatory."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "request-response-topology",
+      "show_id_generator": true,
+      "show_cache_layer": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Estimate the storage required for 100 million URLs per month over 5 years. Assume 500 bytes per record.",
+    "starter_code": "monthly_urls = 100_000_000\nyears = 5\nbytes_per_record = 500\n\ntotal_storage_gb = (monthly_urls * 12 * years * bytes_per_record) / (1024**3)\n# Result is approximately ______ GB",
+    "solution": "2794",
+    "hints": [
+      "100M * 60 months * 500 bytes / 10^9"
+    ],
+    "test_code": "def check(ans): return 2700 < int(ans) < 2900\nassert check(\"2794\")\nprint(\"PASS\")"
+  },
+  "related": ["consistent-hashing-system-01", "system-design-distributed-cache-01", "load-balancer-internals-01"],
+  "tags": ["system-design", "url-shortener", "scaling", "id-generation", "caching", "software-engineering"]
+}

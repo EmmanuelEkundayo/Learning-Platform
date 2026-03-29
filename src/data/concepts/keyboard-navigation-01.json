@@ -1,0 +1,44 @@
+{
+  "id": "keyboard-navigation-01",
+  "slug": "keyboard-navigation",
+  "title": "Keyboard Navigation",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Ensuring that a website can be fully operated using only a keyboard, which is essential for users with motor disabilities and for power users.",
+    "analogy": "A physical building without stairs: if you only have an elevator (Mouse), someone whose elevator is broken (Mouse broken or can't use it) can't get to the second floor. Keyboard navigation (The Stairs) ensures everyone has an alternative way to reach every 'room' in the app.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Building accessible forms and navigation menus",
+      "Implementing 'Skip to Content' links for screen reader users",
+      "Managing focus when a modal or sidebar opens"
+    ],
+    "gotchas": [
+      "Never remove the 'Focus Outline' (`outline: none`) without providing a clearly visible alternative style. This makes the site 'invisible' for keyboard users",
+      "The 'Tab Order' should follow the logical visual layout of the page (top-to-bottom, left-to-right)"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "tab-index-traversal-map",
+      "show_focus_trapping_boundaries": true,
+      "show_custom_key_mapping": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the HTML attribute used to determine the order in which elements are focused when pressing the 'Tab' key.",
+    "starter_code": "<div _________=\"0\">I am now focusable!</div>",
+    "solution": "tabindex",
+    "hints": [
+      "The 'index' of the 'tab'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"tabindex\"\nassert check(\"tabindex\")\nprint(\"PASS\")"
+  },
+  "related": ["aria-roles-01", "screen-reader-compatibility-01", "color-contrast-wcag-01"],
+  "tags": ["accessibility", "a11y", "keyboard", "focus", "ux", "frontend"]
+}

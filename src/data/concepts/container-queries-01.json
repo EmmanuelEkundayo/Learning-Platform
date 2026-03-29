@@ -1,0 +1,44 @@
+{
+  "id": "container-queries-01",
+  "slug": "container-queries",
+  "title": "Container Queries",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A modern CSS feature that allows you to style elements based on the size of their parent container rather than the size of the whole browser viewport.",
+    "analogy": "Self-aware clothes: a shirt that turns into a jacket if you step into a cold 'room' (container), regardless of whether it's winter or summer in the 'rest of the world' (the viewport).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Creating 'Modular Components' that look good in a narrow sidebar AND a wide main area",
+      "Building design systems where components are decoupled from the page layout",
+      "Replacing complex JS-based resize observers with native CSS"
+    ],
+    "gotchas": [
+      "Container queries are relatively new; ensure your target browser supports them or use a polyfill",
+      "You must first mark the parent element as a 'container' using the `container-type` property"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "container-vs-viewport-query",
+      "show_parent_size_trigger": true,
+      "show_component_reappearance": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the CSS property used on the parent to define it as a queryable container.",
+    "starter_code": ".parent {\n    _________-type: size; \n}\n\n@container (min-width: 400px) {\n    .child { color: red; }\n}",
+    "solution": "container",
+    "hints": [
+      "It turns the element into a 'co_______'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"container\"\nassert check(\"container\")\nprint(\"PASS\")"
+  },
+  "related": ["responsive-design-01", "css-grid-01", "flexbox-algorithm-01"],
+  "tags": ["css", "responsive", "container-queries", "modern-css", "components", "frontend"]
+}

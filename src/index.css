@@ -5,6 +5,12 @@
 @layer base {
   :root {
     color-scheme: dark;
+    /* Domain accent colours (mirrors tailwind.config.js tokens) */
+    --domain-dsa:      theme('colors.dsa.500');
+    --domain-ml:       theme('colors.ml.500');
+    --domain-frontend: theme('colors.frontend.500');
+    --domain-backend:  theme('colors.backend.500');
+    --domain-se:       theme('colors.se.500');
   }
 
   body {

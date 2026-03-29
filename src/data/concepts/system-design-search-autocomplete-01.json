@@ -1,0 +1,44 @@
+{
+  "id": "system-design-search-autocomplete-01",
+  "slug": "system-design-search-autocomplete",
+  "title": "System Design: Autocomplete",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A high-performance suggestion engine that predicts the rest of a user's search query in real-time as they type, requiring microsecond-level latency.",
+    "analogy": "A librarian who starts finishing your sentences: as soon as you say 'Al...', they instantly guess 'AlgoLens' or 'Algorithms' because they have a list of exactly what most people ask for, sorted by popularity.",
+    "time_complexity": "O(L) where L is prefix length (using Trie)",
+    "space_complexity": "O(N * L) for Trie storage",
+    "when_to_use": [
+      "Search bars in e-commerce sites",
+      "Command palettes in IDEs",
+      "Global search engines like Google or Bing"
+    ],
+    "gotchas": [
+      "Real-time updates: you can't update the Trie on every single user search in real-time (too slow). You collect searches in logs, aggregate them periodically, and update the Trie in a background 'Offline' pipeline.",
+      "Data Structure: a standard Trie is good, but for autocomplete, you often store the 'Top K' frequent completions inside each Trie node itself to avoid deep traversal."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "autocomplete-trie-optimization",
+      "show_offline_data_pipeline": true,
+      "show_caching_layer": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the tree-based data structure most commonly used to store and search for prefixes in an autocomplete system.",
+    "starter_code": "ds_name = \"____\"",
+    "solution": "Trie",
+    "hints": [
+      "Sounds like 'Try'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"trie\"\nassert check(\"Trie\")\nprint(\"PASS\")"
+  },
+  "related": ["trie-01", "system-design-distributed-cache-01", "consistent-hashing-system-01"],
+  "tags": ["system-design", "autocomplete", "trie", "latency", "search", "software-engineering"]
+}

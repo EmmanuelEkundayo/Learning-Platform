@@ -1,0 +1,44 @@
+{
+  "id": "error-boundaries-01",
+  "slug": "error-boundaries",
+  "title": "Error Boundaries",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Components that catch JavaScript errors anywhere in their child component tree, log those errors, and display a fallback UI instead of the component tree that crashed.",
+    "analogy": "A fuse box: if a toaster in your kitchen (child component) short-circuits, the fuse 'trips' (Error Boundary). Your whole house doesn't burn down (the app doesn't white-screen); you just can't use the kitchen until you fix the toaster.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Preventing a single broken component from crashing the entire app",
+      "Handling errors in third-party widgets",
+      "Showing 'Something went wrong, please try again' messages gracefully"
+    ],
+    "gotchas": [
+      "Error boundaries do NOT catch errors in: Event handlers, Asynchronous code (like fetch), or Server-side rendering",
+      "Currently, Error Boundaries MUST be Class Components in React (there is no functional hook equivalent yet)"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "error-catch-bubble-up",
+      "show_boundary_containment": true,
+      "show_recovery_attempt": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two specific lifecycle methods used to create an Error Boundary in a Class Component.",
+    "starter_code": "class MyBoundary extends React.Component {\n    static ___________(error) { return { hasError: true }; }\n    ___________(error, info) { logToService(error); }\n}",
+    "solution": "getDerivedStateFromError\ncomponentDidCatch",
+    "hints": [
+      "One gets state from error, the other is 'did catch'"
+    ],
+    "test_code": "assert \"getDerived\" in solution\nassert \"DidCatch\" in solution\nprint(\"PASS\")"
+  },
+  "related": ["suspense-react-01", "component-lifecycle-01", "react-fiber-01"],
+  "tags": ["react", "error-handling", "stability", "ux", "frontend"]
+}

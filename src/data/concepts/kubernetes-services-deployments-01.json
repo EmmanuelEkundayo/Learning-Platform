@@ -1,0 +1,44 @@
+{
+  "id": "kubernetes-services-deployments-01",
+  "slug": "kubernetes-services-deployments",
+  "title": "K8s: Services & Deployments",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Deployments manage the 'Desired State' of your pods (how many copies), while Services provide a stable network address to reach those pods even as they come and go.",
+    "analogy": "A phone operator: the 'Deployment' ensures there are always 5 operators sitting at desks. The 'Service' is the 1-800 number people call. When someone calls the number, the service routes them to whichever operator is free.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Exposing a group of web pods to the internal cluster network (ClusterIP)",
+      "Exposing an application to the internet via a cloud provider's load balancer (LoadBalancer)",
+      "Handling rolling updates and rollbacks of application versions"
+    ],
+    "gotchas": [
+      "A Service finds its Pods using 'Selectors' and 'Labels'. If your labels don't match exactly, the Service will have 0 endpoints and return errors.",
+      "The 'NodePort' service type opens a specific port on EVERY node in your cluster, which can be a security risk if not managed."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "svc-to-pod-routing",
+      "show_label_selector_matching": true,
+      "show_rolling_update_progression": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Deployment strategy that replaces old pods with new ones one-by-one to ensure zero downtime.",
+    "starter_code": "strategy = \"_______ Update\"",
+    "solution": "Rolling",
+    "hints": [
+      "It roll-s forward"
+    ],
+    "test_code": "def check(ans): return \"roll\" in ans.lower()\nassert check(\"Rolling\")\nprint(\"PASS\")"
+  },
+  "related": ["kubernetes-basics-01", "helm-basics-01", "load-balancer-internals-01"],
+  "tags": ["kubernetes", "k8s", "deployment", "service", "scaling", "devops", "software-engineering"]
+}

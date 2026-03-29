@@ -1,0 +1,44 @@
+{
+  "id": "event-sourcing-01",
+  "slug": "event-sourcing",
+  "title": "Event Sourcing",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Storing the state of an application as a sequence of immutable events, rather than just storing the current 'final' snapshot.",
+    "analogy": "A bank ledger: instead of just storing 'Current Balance $500', the bank stores every deposit and withdrawal (+100, -50, +450). You can reconstruct the balance by playing back all the entries.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) events",
+    "when_to_use": [
+      "Auditing systems where you MUST know exactly how you arrived at the current state",
+      "Complex systems where you might need to 'travel back in time' or re-run historical data",
+      "Collaborative tools where users edit shared state frequently"
+    ],
+    "gotchas": [
+      "Querying the 'current state' is hard because you have to play all events up to now (solved by 'Snapshots')",
+      "Renaming a field or changing an event's schema is very difficult since events are immutable history"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "event-log-playback",
+      "show_event_store": true,
+      "show_state_reconstruction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the logic to reconstruct current state from an event log.",
+    "starter_code": "def get_current_balance(events):\n    balance = 0\n    for event in events:\n        if event.type == \"DEPOSIT\":\n            balance += event.amount\n        elif event.type == \"WITHDRAW\":\n            balance -= event.amount\n    return balance\n\n# This process is called Event ________.",
+    "solution": "Replay",
+    "hints": [
+      "You 'replay' the events to get the current state"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"replay\"\nassert check(\"Replay\")\nprint(\"PASS\")"
+  },
+  "related": ["cqrs-01", "saga-pattern-01", "kafka-basics-01"],
+  "tags": ["event-sourcing", "distributed-systems", "architecture", "audit", "immutability", "backend"]
+}

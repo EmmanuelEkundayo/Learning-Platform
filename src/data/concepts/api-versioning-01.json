@@ -1,0 +1,45 @@
+{
+  "id": "api-versioning-01",
+  "slug": "api-versioning",
+  "title": "API Versioning",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Managing changes to your API so that existing clients don't break when you introduce brand-new features or structural changes.",
+    "analogy": "A physical library: instead of rearranging all the books every time a new category is added, you build an 'Extension' (v2) and keep the old rooms (v1) exactly as they are so regular visitors don't get lost.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "When making 'breaking changes' (removing fields, changing data types, changing endpoints)",
+      "Maintaining legacy support for old mobile app versions that can't be updated instantly",
+      "Providing a 'stable' vs 'experimental' interface for developers"
+    ],
+    "gotchas": [
+      "Try to avoid versioning for as long as possible (additive changes are NOT breaking changes)",
+      "API versioning in the URL (e.g., /v1/users) is the most common, but versioning via Headers (Accept: application/vnd.v2+json) is considered more RESTful"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "version-diversion",
+      "show_v1_vs_v2_response": true,
+      "show_routing_logic": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three main ways to version an API.",
+    "starter_code": "versioning_methods = [\n    \"URL path (e.g., /api/____/users)\",\n    \"Query parameter (e.g., /users?version=____)\",\n    \"HTTP ____ (e.g., X-API-Version: 2)\"\n]",
+    "solution": "v1\n2\nHeader",
+    "hints": [
+      "URL path usually uses 'v1', 'v2', etc.",
+      "Query params and Headers use the version number or string"
+    ],
+    "test_code": "assert \"v1\" in versioning_methods[0]\nassert \"Header\" in versioning_methods[2]\nprint(\"PASS\")"
+  },
+  "related": ["rest-api-design-01", "rest-principles-01", "idempotency-01"],
+  "tags": ["api", "versioning", "maintenance", "rest", "backend"]
+}

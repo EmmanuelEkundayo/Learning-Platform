@@ -1,0 +1,44 @@
+{
+  "id": "kubernetes-basics-01",
+  "slug": "kubernetes-basics",
+  "title": "Kubernetes (K8s) Basics",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "An orchestration platform for automating the deployment, scaling, and management of containerized applications across a cluster of servers.",
+    "analogy": "A captain of a fleet: you tell the captain 'I want 3 ships carrying corn' (Desired State). If one ship sinks, the captain automatically orders a new ship to be built and filled with corn to maintain the 3-ship minimum (Self-healing).",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) nodes and pods",
+    "when_to_use": [
+      "Managing complex microservices in production",
+      "Automating horizontal scaling based on traffic spikes",
+      "Maintaining high availability with automated restarts and replacements"
+    ],
+    "gotchas": [
+      "The 'Control Plane' (Master) nodes manage the cluster, while 'Worker' nodes run your actual applications. If the control plane fails, the cluster is 'headless' and can't change state.",
+      "Pods are ephemeral: never store data inside a Pod's local disk, as it will be purged when the pod restarts. Use Persistent Volumes (PVs) instead."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "k8s-cluster-components",
+      "show_apiserver_etcd_scheduler": true,
+      "show_kubelet_proxy": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the smallest deployable unit in Kubernetes that can contain one or more containers.",
+    "starter_code": "unit = \"___\"",
+    "solution": "Pod",
+    "hints": [
+      "Like a 'pod' of peas"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"pod\"\nassert check(\"Pod\")\nprint(\"PASS\")"
+  },
+  "related": ["kubernetes-services-deployments-01", "docker-internals-01", "helm-basics-01"],
+  "tags": ["kubernetes", "k8s", "orchestration", "devops", "cloud-native", "software-engineering"]
+}

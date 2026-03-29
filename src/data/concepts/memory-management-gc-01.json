@@ -1,0 +1,44 @@
+{
+  "id": "memory-management-gc-01",
+  "slug": "memory-management-gc",
+  "title": "Memory Management & GC",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The automatic process where the browser identifies which chunks of memory are no longer needed ('Garbage') and frees them up for the rest of the application.",
+    "analogy": "A hotel housekeeping service: they go around to every room (object). If a room is not checked into (has no reference), they clear the bed and empty the fridge (free memory). If someone is still in the room (referenced), they leave it alone.",
+    "time_complexity": "N/A (Periodic)",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Understanding the cause of memory leaks",
+      "Optimizing performance in data-heavy applications",
+      "Writing 'GC-friendly' code to prevent stuttering"
+    ],
+    "gotchas": [
+      "The 'Mark and Sweep' algorithm starts from 'Roots' (like the global `window` object). If the GC can't reach an object from a Root, it deletes it",
+      "Memory leaks happen when YOU keep a reference to an object that you don't actually need anymore (e.g., in a global array)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "mark-and-sweep-flow",
+      "show_root_reachability": true,
+      "show_memory_compaction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary algorithm used by modern browser JS engines for garbage collection.",
+    "starter_code": "def identify_algo():\n    # It 'marks' the used ones and 'sweeps' the unused ones\n    algo = \"_____ and _____\"\n    return algo",
+    "solution": "Mark and Sweep",
+    "hints": [
+      "You 'mark' it with a pen, then 'sweep' it up with a broom"
+    ],
+    "test_code": "def check(ans): return \"mark\" in ans.lower() and \"sweep\" in ans.lower()\nassert check(\"Mark and Sweep\")\nprint(\"PASS\")"
+  },
+  "related": ["weakmap-weakref-01", "closures-js-01", "event-loop-browser-01"],
+  "tags": ["memory", "gc", "javascript", "performance", "allocation", "frontend"]
+}

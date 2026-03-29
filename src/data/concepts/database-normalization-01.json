@@ -1,0 +1,46 @@
+{
+  "id": "database-normalization-01",
+  "slug": "database-normalization",
+  "title": "Database Normalization",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The process of organizing data in a database to reduce redundancy and improve data integrity by splitting tables and defining relationships.",
+    "analogy": "Instead of writing your address on every single paycheck you receive, you list it once in your 'employee profile' and your paychecks just refer to your ID. If you move, you only change it in one place.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Designing a new relational database schema",
+      "Fixing 'update anomalies' (where you change info in one place but forget others)",
+      "When minimizing storage space is a priority"
+    ],
+    "gotchas": [
+      "Over-normalization (like 4th or 5th Normal Form) can require too many JOINS, slowing down read performance",
+      "Sometimes 'Denormalization' is preferred in high-read systems (like NoSQL) to avoid complex joins"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "1nf-to-3nf",
+      "show_splitting_tables": true,
+      "show_redundancy_removal": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Normal Form (1NF, 2NF, or 3NF) required for this specific rule.",
+    "starter_code": "def get_required_nf(rule):\n    if rule == \"No repeating groups, every cell has a single value\":\n        return \"___\"\n    elif rule == \"No partial functional dependencies (attributes depend on full PK)\":\n        return \"___\"\n    elif rule == \"No transitive dependencies (attributes only depend on PK)\":\n        return \"___\"\n    return \"Unknown\"",
+    "solution": "1NF\n2NF\n3NF",
+    "hints": [
+      "The first step is 1NF",
+      "The middle step is 2NF",
+      "The most common goal for production DBs is 3NF"
+    ],
+    "test_code": "assert get_required_nf(\"No repeating groups, every cell has a single value\") == \"1NF\"\nassert get_required_nf(\"No partial functional dependencies (attributes depend on full PK)\") == \"2NF\"\nassert get_required_nf(\"No transitive dependencies (attributes only depend on PK)\") == \"3NF\"\nprint(\"PASS\")"
+  },
+  "related": ["sql-joins-01", "database-indexing-01", "database-sharding-01"],
+  "tags": ["database", "normalization", "schema-design", "integrity", "backend"]
+}

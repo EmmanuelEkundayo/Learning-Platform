@@ -1,0 +1,44 @@
+{
+  "id": "stateless-services-01",
+  "slug": "stateless-services",
+  "title": "Stateless Services",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A service that doesn't remember anything about previous requests. Every request must contain all the information needed for processing, allowing any server to handle any request.",
+    "analogy": "A vending machine vs a bartender: a **Bartender** (Stateful) remembers you ordered 'the usual'. A **Vending Machine** (Stateless) doesn't care who you are; you put in a coin and a code, and you get a soda. You can go to any vending machine in the world and it works the same.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Enabling easy horizontal scaling (any server can handle the next click)",
+      "Building RESTful APIs that are easy to cache and load-balance",
+      "Simplifying deployments, as you can kill and restart servers without losing user data"
+    ],
+    "gotchas": [
+      "You still need state! You just move it OUT of the app server and INTO a shared 'State Store' like Redis or a Database.",
+      "Session management: instead of storing 'User Logged In' in Memory, you use JWTs (Tokens) that the client sends every time."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "stateless-vs-stateful-flow",
+      "show_session_stickiness_problem": true,
+      "show_external_state_store_redis": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Where do stateless services typically store session data (e.g., shopping cart items)?",
+    "starter_code": "storage = \"An external __________ like Redis or PostgreSQL.\"",
+    "solution": "database",
+    "hints": [
+      "D-B"
+    ],
+    "test_code": "def check(ans): return \"db\" in ans.lower() or \"database\" in ans.lower()\nassert check(\"database\")\nprint(\"PASS\")"
+  },
+  "related": ["horizontal-vs-vertical-scaling-01", "session-authentication-01", "redis-data-structures-01"],
+  "tags": ["architecture", "stateless", "scaling", "rest", "cloud", "software-engineering"]
+}

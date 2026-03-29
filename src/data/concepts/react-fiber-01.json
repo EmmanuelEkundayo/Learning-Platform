@@ -1,0 +1,44 @@
+{
+  "id": "react-fiber-01",
+  "slug": "react-fiber",
+  "title": "React Fiber",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The internal engine of React 16+ that allows the reconciliation process to be broken into small chunks, paused, and prioritized, ensuring the main thread stays responsive for user interactions.",
+    "analogy": "A chef with a 'pause' button: in the old engine (Stack), once the chef started a 10-course meal, they couldn't stop until it was finished. With Fiber, the chef can chop one onion, check if a customer needs water (User Interaction), then go back to chopping.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Understanding Concurrent Rendering features",
+      "Optimizing apps with heavy computations that freeze the UI",
+      "Debugging complex scheduling or suspense issues"
+    ],
+    "gotchas": [
+      "Fiber is an internal implementation detail; you don't interact with it directly, but you feel its effects through features like `useTransition` and `Suspense` ",
+      "It separates rendering into 'Render phase' (interruptible) and 'Commit phase' (must be synchronous)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "fiber-work-loop",
+      "show_priority_levels": ["Immediate", "UserBlocking", "Normal", "Low", "Idle"],
+      "show_work_in_progress_tree": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two main phases of the Fiber reconciliation cycle.",
+    "starter_code": "phases = [\n    \"1. ______ Phase: React builds the work-in-progress tree (Interruptible)\",\n    \"2. ______ Phase: React applies changes to the real DOM (Synchronous)\"\n]",
+    "solution": "Render\nCommit",
+    "hints": [
+      "First you 'Render' the plan, then you 'Commit' the changes"
+    ],
+    "test_code": "assert \"Render\" in phases[0]\nassert \"Commit\" in phases[1]\nprint(\"PASS\")"
+  },
+  "related": ["virtual-dom-reconciliation-01", "concurrent-mode-01", "suspense-react-01"],
+  "tags": ["react", "fiber", "reconciliation", "scheduling", "concurrent", "frontend"]
+}

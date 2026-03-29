@@ -1,0 +1,44 @@
+{
+  "id": "blue-green-deployment-01",
+  "slug": "blue-green-deployment",
+  "title": "Blue-Green Deployment",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A release strategy that maintains two identical production environments (Blue and Green). Traffic is switched from one to the other to achieve zero-downtime updates.",
+    "analogy": "A twin bridge: you have two bridges side-by-side. Traffic is currently on the Blue bridge. You paint and repair the Green bridge. When it's ready, you flip the signs to send traffic to the Green bridge instantly. If something is wrong with the new paint, you flip the signs back to Blue in seconds.",
+    "time_complexity": "O(1) switch time",
+    "space_complexity": "2x Infrastructure cost",
+    "when_to_use": [
+      "Critical production systems that cannot tolerate any downtime",
+      "Performing big, risky releases where a fast rollback is essential",
+      "Testing the new version in a real production environment before making it live"
+    ],
+    "gotchas": [
+      "Cost: you have to pay for double the infrastructure because two full environments are running simultaneously.",
+      "Database compatibility: the database must support both versions of the application at once, or you'll have'Sync' issues during the bridge flip."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "traffic-switch-flip",
+      "show_load_balancer_reconfiguration": true,
+      "show_rollback_trigger": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary benefit of Blue-Green deployment compared to standard replacement.",
+    "starter_code": "benefit = \"Zero-________ updates and instant rollback.\"",
+    "solution": "downtime",
+    "hints": [
+      "When the site is 'down'"
+    ],
+    "test_code": "def check(ans): return \"down\" in ans.lower()\nassert check(\"downtime\")\nprint(\"PASS\")"
+  },
+  "related": ["canary-releases-01", "load-balancer-internals-01", "environment-management-01"],
+  "tags": ["devops", "deployment", "blue-green", "availability", "high-availability", "software-engineering"]
+}

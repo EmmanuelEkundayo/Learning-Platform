@@ -1,0 +1,44 @@
+{
+  "id": "environment-management-01",
+  "slug": "environment-management",
+  "title": "Environment Management",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The practice of managing distinct stages of a software lifecycle (Local, Dev, Staging, Production) to ensure code is thoroughly tested before reaching real users.",
+    "analogy": "A restaurant kitchen: the 'Local' environment is a chef's home kitchen where they experiment. 'Dev/Staging' is the back of the restaurant where they cook the actual meal. 'Production' is the dining room where the customer finally eats the food.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Preventing production bugs by testing in a 'Staging' environment that mirrors production",
+      "Isolating experimental features in a dedicated 'Development' environment",
+      "Managing different API keys and database credentials for each stage"
+    ],
+    "gotchas": [
+      "Environment Drift: one of the biggest risks is when 'Staging' and 'Production' become different (e.g., different DB versions), leading to 'It worked in staging but failed in prod' bugs.",
+      "Parity: follow the 'Twelve-Factor App' principle of keeping Dev, Staging, and Production as similar as possible."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "environment-promotion-flow",
+      "show_config_variations": true,
+      "show_data_anonymization": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the environment that should be a near-perfect replica of Production for final quality assurance.",
+    "starter_code": "env = \"_______\"",
+    "solution": "Staging",
+    "hints": [
+      "It starts with 'S' and rhymes with 'paging'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"staging\"\nassert check(\"Staging\")\nprint(\"PASS\")"
+  },
+  "related": ["cicd-pipelines-01", "infrastructure-as-code-01", "docker-internals-01"],
+  "tags": ["devops", "environments", "staging", "production", "promotion", "software-engineering"]
+}

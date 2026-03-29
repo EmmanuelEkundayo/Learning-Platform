@@ -1,0 +1,44 @@
+{
+  "id": "usestate-internals-01",
+  "slug": "usestate-internals",
+  "title": "useState Internals",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The core hook for managing local state in functional components. Under the hood, React stores state values in a linked list or array associated with the component's position in the Fiber tree.",
+    "analogy": "A row of lockers in a gym: every time you call `useState`, you are assigned the 'next' locker. React remembers which locker belongs to which call based strictly on the ORDER you call them in.",
+    "time_complexity": "O(1) to read; O(1) to queue update",
+    "space_complexity": "O(N) per component state",
+    "when_to_use": [
+      "Storing form inputs",
+      "Toggling UI visibility (modals, dropdowns)",
+      "Keeping track of counter values or simple flags"
+    ],
+    "gotchas": [
+      "State updates are ASYNCHRONOUS! If you set state and immediately log it, you will see the old value because the re-render hasn't happened yet",
+      "Hooks MUST be called at the top level — you cannot call `useState` inside an if-statement or loop, or React will get the 'locker' order wrong"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "state-update-batching",
+      "show_queue_processing": true,
+      "show_re_render_trigger": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the correct way to update state based on its previous value.",
+    "starter_code": "# BAD: This might use a stale value during batching\n# set_count(count + 1)\n\n# GOOD: Use the 'functional' update pattern\nset_count(____ count: count + 1)",
+    "solution": "lambda",
+    "hints": [
+      "In JS it's an arrow function: (prev) => prev + 1. In Python pseudocode, it's a ______"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"lambda\"\nassert check(\"lambda\")\nprint(\"PASS\")"
+  },
+  "related": ["useeffect-internals-01", "component-lifecycle-01", "react-fiber-01"],
+  "tags": ["react", "useState", "hooks", "state", "batching", "frontend"]
+}

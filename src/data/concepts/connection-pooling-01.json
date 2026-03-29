@@ -1,0 +1,45 @@
+{
+  "id": "connection-pooling-01",
+  "slug": "connection-pooling",
+  "title": "Connection Pooling",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Maintaining a cache of open database connections that can be reused for future requests, rather than opening and closing a new connection every time.",
+    "analogy": "Taxi cabs at a stand: instead of buying a new car every time you want to go to the airport and selling it when you arrive, you just grab an existing cab from the pool and return it when you're done.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "In any high-traffic application to reduce the latency of the 'TCP + Database Handshake'",
+      "Preventing 'connection exhaust' on the database server during traffic spikes",
+      "Scaling microservices where each service needs to talk to the database"
+    ],
+    "gotchas": [
+      "If you don't 'release' a connection back to the pool in your code (e.g., inside a finally block), your app will eventually hang as the pool runs dry",
+      "A pool that is too large can overwhelm the database CPU; a pool that is too small becomes a bottleneck for the application"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "resource-pool",
+      "show_idle_vs_active": true,
+      "show_queueing": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the pseudocode to safely use and release a database connection.",
+    "starter_code": "def get_user(id):\n    conn = pool.________()  # Get connection from pool\n    try:\n        res = conn.query(f\"SELECT * FROM users WHERE id={id}\")\n        return res\n    finally:\n        pool.________(conn) # Critical step: return it!",
+    "solution": "acquire\nrelease",
+    "hints": [
+      "You 'acquire' or 'check out' a connection",
+      "You must 'release' or 'return' it in a finally block to avoid leaks"
+    ],
+    "test_code": "def check(a, r): return a == \"acquire\" and r == \"release\"\nassert check(\"acquire\", \"release\")\nprint(\"PASS\")"
+  },
+  "related": ["postgresql-internals-01", "database-transactions-01", "query-optimization-01"],
+  "tags": ["database", "connection-pooling", "latency", "scalability", "backend"]
+}

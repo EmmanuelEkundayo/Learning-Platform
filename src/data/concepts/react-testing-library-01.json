@@ -1,0 +1,44 @@
+{
+  "id": "react-testing-library-01",
+  "slug": "react-testing-library",
+  "title": "React Testing Library (RTL)",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A library for testing React components in a way that resembles how an actual user would interact with them, focusing on the DOM rather than component internals.",
+    "analogy": "A secret shopper: the shopper doesn't care how the kitchen is organized or what the chef's name is (component state/props). They only care if the food is served correctly and the waiter is polite (the resulting DOM and events).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing if a button click opens a modal",
+      "Ensuring form validation messages appear correctly",
+      "Verifying that data fetched from an API is displayed on the screen"
+    ],
+    "gotchas": [
+      "Avoid searching by 'Test IDs' if possible. Instead, use 'Accessible Queries' (like `getByRole('button')`) to ensure your site is also accessible",
+      "Do NOT test internal component state (`wrapper.state()`); RTL is designed to discourage this practice"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "user-centric-querying",
+      "show_accessibility_tree_lookup": true,
+      "show_event_firing_sim": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the most recommended query type in RTL because it mimics how screen readers find elements.",
+    "starter_code": "test('loads and displays greeting', async () => {\n    render(<Greeting />)\n    # Prefer this over getByTestId or querySelector\n    const button = screen._________('button', { name: /login/i })\n    # ...\n})",
+    "solution": "getByRole",
+    "hints": [
+      "It gets an element by its ARIA 'Role'"
+    ],
+    "test_code": "def check(ans): return \"role\" in ans.lower()\nassert check(\"getByRole\")\nprint(\"PASS\")"
+  },
+  "related": ["unit-vs-integration-e2e-01", "aria-roles-01", "mocking-strategies-frontend-01"],
+  "tags": ["testing", "react", "rtl", "accessibility", "dom", "frontend"]
+}

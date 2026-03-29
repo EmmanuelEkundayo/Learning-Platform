@@ -1,0 +1,44 @@
+{
+  "id": "system-design-chat-01",
+  "slug": "system-design-chat",
+  "title": "System Design: Messenger/Chat",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A real-time communication system requiring persistent connections, low latency, and efficient message synchronization across multiple devices.",
+    "analogy": "A physical walkie-talkie channel: everyone stays connected (WebSocket) so messages can be heard immediately, rather than checking the mailbox (HTTP Polling) every 5 minutes to see if a letter arrived.",
+    "time_complexity": "O(1) delivery",
+    "space_complexity": "O(N) message history",
+    "when_to_use": [
+      "Building WhatsApp, Slack, or Discord clones",
+      "Implementing customer support live chat widgets",
+      "Multiplayer gaming lobbies"
+    ],
+    "gotchas": [
+      "Connection state: maintaining 1 million active WebSockets on a single server is hard. You need horizontally scaled 'Gateway' servers and a 'Presence' service.",
+      "Order of messages: in a distributed system, messages might arrive out of order. Using sequential IDs or vector clocks is necessary."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "pub-sub-messenger-flow",
+      "show_websocket_gateway": true,
+      "show_presence_service": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the protocol used for full-duplex, persistent communication between the client and chat server.",
+    "starter_code": "protocol = \"__________\"",
+    "solution": "WebSockets",
+    "hints": [
+      "It's not HTTP, it's Web______"
+    ],
+    "test_code": "def check(ans): return \"socket\" in ans.lower()\nassert check(\"WebSockets\")\nprint(\"PASS\")"
+  },
+  "related": ["websockets-01", "system-design-notifications-01", "system-design-distributed-cache-01"],
+  "tags": ["system-design", "chat", "real-time", "websockets", "scaling", "software-engineering"]
+}

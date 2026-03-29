@@ -1,0 +1,44 @@
+{
+  "id": "cdn-basics-01",
+  "slug": "cdn-basics",
+  "title": "CDN Basics",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A network of geographically distributed servers that work together to deliver web content (images, videos, JS) from the location closest to the user.",
+    "analogy": "Ordering a pizza: instead of one kitchen in Italy delivery to every house in the world, the pizza company has local kitchens in every city so your pizza arrives hot and fast.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Serving static assets (images, CSS, JS) to a global audience",
+      "Reducing the load on your origin (main) server",
+      "Minimizing 'Time to First Byte' (TTFB) for users thousands of miles away"
+    ],
+    "gotchas": [
+      "Cache invalidation (purging) is hard — if you update a file, the CDN might still serve the old version until the TTL expires",
+      "CDN costs can spiral if you don't correctly set Cache-Control headers"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "geographical-latency",
+      "show_edge_nodes": true,
+      "show_origin_fallthrough": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the technique to ensure users always get the latest front-end assets without waiting for CDN TTLs to expire.",
+    "starter_code": "def generate_asset_url(filename):\n    # Technique: add a unique hash to the filename based on content\n    # e.g., main.js -> main.ae27b1.js\n    file_hash = get_content_hash(filename)\n    return f\"{filename}.{file_hash}.js\"\n\n# This process is called Cache ____ing.",
+    "solution": "Bust",
+    "hints": [
+      "You are 'busting' the cache by changing the filename"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"bust\"\nassert check(\"Bust\")\nprint(\"PASS\")"
+  },
+  "related": ["dns-resolution-01", "rate-limiting-01", "http-versions-01"],
+  "tags": ["cdn", "caching", "performance", "networking", "backend"]
+}

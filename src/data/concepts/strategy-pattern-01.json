@@ -1,0 +1,44 @@
+{
+  "id": "strategy-pattern-01",
+  "slug": "strategy-pattern",
+  "title": "Strategy Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A behavioral pattern that turns a set of behaviors into objects and makes them interchangeable inside an original context object.",
+    "analogy": "A versatile gaming mouse: you can swap the side-panels. If you're playing an FPS, you snap on the '2-button' panel (**Strategy A**). If you're playing an MMO, you snap on the '12-button' panel (**Strategy B**). The mouse (Context) stays the same, but its behavior changes instantly.",
+    "time_complexity": "O(1) swap",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Providing different sorting algorithms (QuickSort vs BubbleSort) that a user can choose at runtime",
+      "Handling different payment methods (PayPal, CreditCard, Crypto) in an e-commerce checkout",
+      "Implementing different validation rules for a form based on the country"
+    ],
+    "gotchas": [
+      "The 'Client' must be aware of the different strategies to choose one. If you have 50 strategies, the client code might get messy just picking which one to use.",
+      "It's the OOP version of a 'Switch' statement — but much more flexible and extensible."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "strategy-interface-interchange",
+      "show_runtime_swap": true,
+      "show_if_else_elimination": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which SOLID principle the Strategy pattern primarily supports by allowing behaviors to be added without modifying the context class.",
+    "starter_code": "principle = \"____-______ Principle (OCP)\"",
+    "solution": "Open-Closed",
+    "hints": [
+      "Open for extension, ______ for modification"
+    ],
+    "test_code": "def check(ans): return \"open\" in ans.lower() and \"close\" in ans.lower()\nassert check(\"Open-Closed\")\nprint(\"PASS\")"
+  },
+  "related": ["observer-pattern-01", "decorator-pattern-01", "solid-principles-01"],
+  "tags": ["design-patterns", "behavioral", "strategy", "interchangeable", "polymorphism", "software-engineering"]
+}

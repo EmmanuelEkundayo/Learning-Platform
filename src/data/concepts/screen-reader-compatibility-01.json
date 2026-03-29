@@ -1,0 +1,44 @@
+{
+  "id": "screen-reader-compatibility-01",
+  "slug": "screen-reader-compatibility",
+  "title": "Screen Reader Compatibility",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Optimizing how software reads your website aloud to blind or visually impaired users. It involves creating a clean 'Accessibility Tree' that mirrors your visual layout.",
+    "analogy": "A radio play of a movie: if the movie only has cool graphics and no sound, the radio listener (Screen Reader user) has no idea what's happening. You need to add 'narrative descriptions' (Alt text, ARIA, Labels) so the story makes sense without the pictures.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing your site with tools like NVDA, JAWS, or VoiceOver",
+      "Adding 'alt' text to complex images and diagrams",
+      "Ensuring form inputs have associated `<label>` tags"
+    ],
+    "gotchas": [
+      "A common mistake is using `title` attributes for everything; screen readers often ignore them. Use `aria-label` or `aria-labelledby` instead",
+      "If an image is purely 'decorative' (like a background flourish), give it an empty alt tag (`alt=\"\"`) so the screen reader skips it instead of reading the filename"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "dom-to-accessibility-tree",
+      "show_node_roles_and_names": true,
+      "show_screen_reader_verbosity": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the HTML element used to specify the text description for an image.",
+    "starter_code": "<img src=\"cat.jpg\" ___=\"A cute orange cat sleeping\">",
+    "solution": "alt",
+    "hints": [
+      "It's the 'alternative' text"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"alt\"\nassert check(\"alt\")\nprint(\"PASS\")"
+  },
+  "related": ["aria-roles-01", "keyboard-navigation-01", "color-contrast-wcag-01"],
+  "tags": ["accessibility", "a11y", "screen-reader", "semantic-html", "ux", "frontend"]
+}

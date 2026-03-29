@@ -1,0 +1,44 @@
+{
+  "id": "font-optimization-01",
+  "slug": "font-optimization",
+  "title": "Font Optimization",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Ensuring custom web fonts load quickly and don't cause visual jitter (like text suddenly changing size or jumping) during page load.",
+    "analogy": "A restaurant sign: if the custom neon sign (Web Font) is broken, you'd rather see a plain painted sign (Fallback Font) immediately than have a blank, empty wall for 30 seconds while the electrician arrives.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Reducing CLS (Cumulative Layout Shift) caused by font swaps",
+      "Speeding up the time to 'First Contentful Paint'",
+      "Improving the design-to-load-time ratio"
+    ],
+    "gotchas": [
+      "FOUT (Flash of Unstyled Text): the user sees a system font before the web font pops in. FOIT (Flash of Invisible Text): the user sees NOTHING until the font loads",
+      "Self-hosting fonts is often faster than using Google Fonts because it avoids an extra DNS lookup and connection to a 3rd party server"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "font-display-modes",
+      "show_fout_vs_foit": true,
+      "show_subsetting_impact": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the CSS property used to control the FOUT/FOIT behavior.",
+    "starter_code": "@font-face {\n    font-family: 'MyFont';\n    src: url('font.woff2');\n    # Use 'swap' to show fallback text immediately\n    font-_______: swap;\n}",
+    "solution": "display",
+    "hints": [
+      "It determines how the font is 'displayed'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"display\"\nassert check(\"display\")\nprint(\"PASS\")"
+  },
+  "related": ["prefetching-preloading-01", "image-optimization-01", "core-web-vitals-01"],
+  "tags": ["performance", "fonts", "css", "typography", "cls", "frontend"]
+}

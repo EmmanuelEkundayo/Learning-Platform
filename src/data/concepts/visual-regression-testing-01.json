@@ -1,0 +1,44 @@
+{
+  "id": "visual-regression-testing-01",
+  "slug": "visual-regression-testing",
+  "title": "Visual Regression Testing",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A testing technique that takes a screenshot of your UI and compares it pixel-by-pixel with a 'baseline' (the known good version) to detect accidental visual changes.",
+    "analogy": "'Spot the Difference' puzzles: you have two almost-identical pictures. A visual regression tool is a computer that circles every single pixel that changed between the old version and the new version instantly.",
+    "time_complexity": "O(N) pixels per image",
+    "space_complexity": "O(N) for storing snapshots",
+    "when_to_use": [
+      "Preventing layout shifts during large CSS refactors",
+      "Ensuring UI consistency across different browsers and operating systems",
+      "Catching bugs that don't cause code errors but look 'broken' to the user"
+    ],
+    "gotchas": [
+      "Dynamic data (like the current time or random user IDs) will cause tests to fail every time. You must 'mask' these areas in your screenshots",
+      "Small rendering differences in fonts between macOS and Windows can cause 'False Positives'"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "screenshot-diffing-preview",
+      "show_pixel_mismatch_overlay": true,
+      "show_ghost_comparison": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the popular Playwright tool used for visual comparisons.",
+    "starter_code": "await expect(page).toHave_________();",
+    "solution": "Screenshot",
+    "hints": [
+      "It takes a 'photo' or a 'scre______'"
+    ],
+    "test_code": "def check(ans): return \"screen\" in ans.lower()\nassert check(\"Screenshot\")\nprint(\"PASS\")"
+  },
+  "related": ["snapshot-testing-01", "unit-vs-integration-e2e-01", "react-testing-library-01"],
+  "tags": ["testing", "visual", "regression", "design", "playwright", "percy", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "lazy-loading-frontend-01",
+  "slug": "lazy-loading-frontend",
+  "title": "Lazy Loading (Frontend)",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Delaying the loading of non-critical resources (like images or off-screen components) until they are actually needed by the user.",
+    "analogy": "An 'Infinity Buffet': the kitchen doesn't bring out every single dish at once. They only bring out the salad when you sit down, and they only bring the dessert once you've finished your main course and 'scroll' over to the dessert table.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Optimizing long pages with many images",
+      "Improving initial page load time (First Contentful Paint)",
+      "Reducing unnecessary data usage for users"
+    ],
+    "gotchas": [
+      "Don't lazy load images that are 'Above the Fold' (the part of the page users see immediately). This will actually slow down your LCP score",
+      "Always provide a placeholder or 'blur' image so the page layout doesn't jump when the real image finally loads"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "intersection-observer-trigger",
+      "show_viewport_containment": true,
+      "show_dynamic_asset_fetch": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the standard HTML attribute used to enable native browser lazy loading for images.",
+    "starter_code": "<img src=\"large-photo.jpg\" ______=\"lazy\" />",
+    "solution": "loading",
+    "hints": [
+      "It's about 'loading' the image"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"loading\"\nassert check(\"loading\")\nprint(\"PASS\")"
+  },
+  "related": ["image-optimization-01", "core-web-vitals-01", "prefetching-preloading-01"],
+  "tags": ["performance", "lazy-loading", "optimization", "images", "ux", "frontend"]
+}

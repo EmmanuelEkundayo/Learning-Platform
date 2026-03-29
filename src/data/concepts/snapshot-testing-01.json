@@ -1,0 +1,44 @@
+{
+  "id": "snapshot-testing-01",
+  "slug": "snapshot-testing",
+  "title": "Snapshot Testing",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Capturing the rendered output (usually HTML string or component tree) of a component and saving it to a file, then ensuring it doesn't change unexpectedly in the future.",
+    "analogy": "A physical photo of your room: after you clean it up perfectly, you take a polaroid. A week later, you compare the room to the polaroid. If a shoe is on the bed, the 'test' fails and you have to decide if that's a mistake or if you meant to move the shoe.",
+    "time_complexity": "O(N) string comparison",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing large, static data objects or config files",
+      "Ensuring a component's rendered HTML structure remains stable",
+      "Detecting unexpected changes in API responses"
+    ],
+    "gotchas": [
+      "Snapshots can be 'fragile': if you change one class name for styling, 50 tests might fail, leading to developers blindly pressing 'U' (update) without actually checking the diff",
+      "They don't test if the UI *works*, only if it *looks the same as before* in code"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "code-mismatch-diff",
+      "show_html_structure_diff": true,
+      "show_update_baseline_workflow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Jest function used for snapshot matching.",
+    "starter_code": "expect(rendered_ui).to______(__________);",
+    "solution": "Match Snapshot",
+    "hints": [
+      "It 'matches' the 'snapshot'"
+    ],
+    "test_code": "def check(ans): return \"match\" in ans.lower() and \"snap\" in ans.lower()\nassert check(\"MatchSnapshot\")\nprint(\"PASS\")"
+  },
+  "related": ["visual-regression-testing-01", "unit-vs-integration-e2e-01", "react-testing-library-01"],
+  "tags": ["testing", "snapshot", "jest", "dom", "regression", "frontend"]
+}

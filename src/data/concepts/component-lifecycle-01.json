@@ -1,0 +1,45 @@
+{
+  "id": "component-lifecycle-01",
+  "slug": "component-lifecycle",
+  "title": "Component Lifecycle",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The series of stages a React component goes through from the moment it's created and added to the page until it's removed.",
+    "analogy": "A theatrical play: the actors arrive and get into costume (Mounting), they perform and react to the audience (Updating), and finally the curtain closes and they leave the stage (Unmounting).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Fetching data when a page loads (Mount)",
+      "Cleaning up interval timers or event listeners (Unmount)",
+      "Syncing state changes with third-party libraries (Update)"
+    ],
+    "gotchas": [
+      "In functional components, all these stages are handled by the `useEffect` hook",
+      "If you forget to 'clean up' in the unmount stage, you'll create memory leaks and 'state update on unmounted component' warnings"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "lifecycle-stages-flow",
+      "show_hook_mapping": true,
+      "show_cleanup_logic": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Match the lifecycle stage to the useEffect dependency array.",
+    "starter_code": "stages = {\n    \"Runs once on Mount\": \"useEffect(fn, ___)\",\n    \"Runs on every render\": \"useEffect(fn)\",\n    \"Runs on Mount and when 'id' changes\": \"useEffect(fn, [___])\"\n}",
+    "solution": "[]\nid",
+    "hints": [
+      "An empty list means 'no dependencies', so it only runs once",
+      "Passing 'id' means it watches that specific variable"
+    ],
+    "test_code": "assert \"[]\" in stages.values()\nassert \"id\" in stages.values()\nprint(\"PASS\")"
+  },
+  "related": ["useeffect-internals-01", "usestate-internals-01", "virtual-dom-reconciliation-01"],
+  "tags": ["react", "lifecycle", "mount", "unmount", "hooks", "frontend"]
+}

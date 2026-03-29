@@ -1,0 +1,44 @@
+{
+  "id": "shadow-dom-01",
+  "slug": "shadow-dom",
+  "title": "Shadow DOM",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A way to encapsulate a 'private' DOM tree inside an element, completely isolated from the main document's CSS and JavaScript.",
+    "analogy": "A tinted car window: from the outside (main DOM), you just see a car. Inside (Shadow DOM), there is a whole dashboard, seats, and people that are hidden from public view and don't get 'wet' if it rains outside (CSS leaked).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Building reusable Web Components",
+      "Creating widgets or libraries (like a Video Player) that shouldn't be affected by the host site's styles",
+      "Enforcing strict CSS scoping"
+    ],
+    "gotchas": [
+      "Shadow DOM is NOT for security; it is for isolation. You can still reach it with JS if you have the reference",
+      "Legacy global CSS (like a reset.css) won't style elements inside a Shadow Root unless you explicitly use CSS variables (--var) or ::part"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "shadow-vs-light-dom",
+      "show_encapsulation_boundary": true,
+      "show_css_scoping": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the method used to attach a shadow root to an element.",
+    "starter_code": "const host = document.querySelector('#my-element');\n# mode can be 'open' or 'closed'\nconst shadow = host.______( { mode: 'open' } );",
+    "solution": "attachShadow",
+    "hints": [
+      "You 'attach' a 'Shadow'"
+    ],
+    "test_code": "def check(ans): return \"attach\" in ans.lower() and \"shadow\" in ans.lower()\nassert check(\"attachShadow\")\nprint(\"PASS\")"
+  },
+  "related": ["web-components-01", "dom-internals-01", "cssom-01"],
+  "tags": ["dom", "web-components", "encapsulation", "shadow-dom", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "branch-strategies-01",
+  "slug": "branch-strategies",
+  "title": "Git Branching Strategies",
+  "domain": "Software Engineering",
+  "category": "Git & Collaboration",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Standardized sets of rules for how to name branches and integrate code (GitFlow, GitHub Flow, Trunk-Based Development) to ensure team coordination.",
+    "analogy": "A train track: **Trunk-based** is one single main track where everyone adds their cars constantly. **GitFlow** is a massive train yard with specialized tracks for repairs (Hotfixes), future trains (Develop), and trains about to depart (Release).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Trunk-Based: High-velocity teams with excellent automated testing",
+      "GitFlow: Projects with strict scheduled release cycles (like mobile apps)",
+      "GitHub Flow: Small web projects using simple Pull Requests"
+    ],
+    "gotchas": [
+      "Merge Hell: if you use a long-lived 'Develop' branch and don't merge back to 'Main' for 6 months, the eventual merge will be a nightmare.",
+      "Complexity: GitFlow is often considered 'Over-engineered' for modern web development."
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "branch-topology-animation",
+      "show_gitflow_vs_trunk": true,
+      "show_hotfix_redirection": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the strategy that favors merging small, frequent changes into a single, always-shippable 'main' branch.",
+    "starter_code": "strategy = \"_____-based development\"",
+    "solution": "Trunk",
+    "hints": [
+      "The main part of a tree"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"trunk\"\nassert check(\"Trunk\")\nprint(\"PASS\")"
+  },
+  "related": ["git-internals-dag-01", "merge-vs-rebase-01", "code-review-best-practices-01"],
+  "tags": ["git", "branching", "workflow", "collaboration", "gitflow", "trunk-based", "software-engineering"]
+}

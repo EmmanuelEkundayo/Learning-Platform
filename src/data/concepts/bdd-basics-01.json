@@ -1,0 +1,44 @@
+{
+  "id": "bdd-basics-01",
+  "slug": "bdd-basics",
+  "title": "BDD (Behavior Driven Development)",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "An extension of TDD that focuses on the 'behavior' of the system from a business perspective, using natural language (Given/When/Then) to define requirements.",
+    "analogy": "A contract between a customer and a builder: instead of saying 'Use 50 bricks', the contract says 'GIVEN I am standing outside, WHEN I open the door, THEN I should see a kitchen'. It describes the result, not the implementation.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Collaborating with non-technical stakeholders (PO, QA) to define acceptance criteria",
+      "Building complex user flows (e.g., 'A user can checkout if they have at least 3 items')",
+      "Ensuring that the software actually delivers what the business needs"
+    ],
+    "gotchas": [
+      "Complexity: BDD frameworks like Cucumber/Gherkin can be slow to set up and maintain. Don't use it for simple unit tests.",
+      "English is ambiguous: if your 'Then' statements aren't precise, the automated tests will be flaky."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "gherkin-to-code-mapping",
+      "show_given_when_then_logical_flow": true,
+      "show_stakeholder_sync_view": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three keywords used in Gherkin syntax to define a BDD scenario.",
+    "starter_code": "scenario = {\n    \"Initial State\": \"_____ \",\n    \"Action\": \"____ \",\n    \"Expected Result\": \"____ \"\n}",
+    "solution": "Given\nWhen\nThen",
+    "hints": [
+      "G____, W___, T___"
+    ],
+    "test_code": "assert \"given\" in solution.lower()\nassert \"when\" in solution.lower()\nassert \"then\" in solution.lower()\nprint(\"PASS\")"
+  },
+  "related": ["tdd-cycle-01", "contract-testing-01", "technical-debt-01"],
+  "tags": ["bdd", "testing", "gherkin", "agile", "collaboration", "software-engineering"]
+}

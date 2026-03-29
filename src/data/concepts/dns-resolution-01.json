@@ -1,0 +1,46 @@
+{
+  "id": "dns-resolution-01",
+  "slug": "dns-resolution",
+  "title": "DNS Resolution",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The phonebook of the internet — turning human-friendly domain names into machine-readable IP addresses.",
+    "analogy": "Looking up a contact in your phone: you search for 'Mom' and your phone finds the number '555-0199'.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Connecting to any server using a domain name instead of a hardcoded IP",
+      "Setting up load balancing via DNS (Round Robin)",
+      "Configuring email servers using MX records"
+    ],
+    "gotchas": [
+      "DNS propagation can take hours — changes aren't always instant due to recursive caching",
+      "Root servers don't store individual website IPs; they point you to the TLD servers (.com, .org, etc.)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "dns-lookup",
+      "show_recursive_steps": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Order the DNS resolution steps from browser to IP.",
+    "starter_code": "def dns_lookup_flow():\n    steps = [\n        \"Browser checks local cache\",\n        \"OS checks /etc/hosts\",\n        \"____ Resolver (usually ISP)\",\n        \"____ Name Server\",\n        \"____ Name Server (e.g., .com)\",\n        \"____ Name Server (e.g., cloudflare)\"\n    ]\n    return steps",
+    "solution": "Recursive\nRoot\nTLD\nAuthoritative",
+    "hints": [
+      "The ISP runs the Recursive resolver",
+      "The 'dot' at the end of a domain starts at the Root",
+      "TLD stands for Top-Level Domain",
+      "The final server that knows the IP is Authoritative"
+    ],
+    "test_code": "steps = dns_lookup_flow()\nassert \"Recursive\" in steps[2]\nassert \"Root\" in steps[3]\nassert \"TLD\" in steps[4]\nassert \"Authoritative\" in steps[5]\nprint(\"PASS\")"
+  },
+  "related": ["cdn-basics-01", "http-versions-01", "tcp-vs-udp-01"],
+  "tags": ["dns", "networking", "internet", "infrastructure", "backend"]
+}

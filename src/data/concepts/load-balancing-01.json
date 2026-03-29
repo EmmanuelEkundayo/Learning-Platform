@@ -1,0 +1,44 @@
+{
+  "id": "load-balancing-01",
+  "slug": "load-balancing",
+  "title": "Load Balancing",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Distributing incoming network traffic across multiple servers to ensure no single server is overwhelmed and the system remains available.",
+    "analogy": "A grocery store with 10 checkout lines: a manager (Load Balancer) stands at the entrance and directs each customer to a line so that no one waits too long in the same queue.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Scaling your application to handle more users than a single server can support",
+      "Ensuring High Availability (if one server dies, the load balancer skips it)",
+      "Zero-downtime deployments (gradually shifting traffic from old version to new version)"
+    ],
+    "gotchas": [
+      "Sticky Sessions: if your app stores state on the server (session auth), you must force the Load Balancer to send the same user to the same server every time",
+      "L4 (Transport) vs L7 (Application) load balancing: L7 is smarter (can route by URL path) but requires more CPU power"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "round-robin-routing",
+      "show_server_health_checks": true,
+      "show_traffic_distribution": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the basic load balancing algorithm that cycles through servers in order (1, 2, 3, 1, 2, 3...).",
+    "starter_code": "def identify_algorithm(behavior):\n    if behavior == \"Fairly distribute requests by rotating through the list\":\n        return \"_____ ______\"\n    return \"Unknown\"",
+    "solution": "Round Robin",
+    "hints": [
+      "It's a common name for a circular rotation"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"round robin\"\nassert check(\"Round Robin\")\nprint(\"PASS\")"
+  },
+  "related": ["api-gateway-01", "database-replication-01", "dns-resolution-01"],
+  "tags": ["load-balancing", "scaling", "infrastructure", "high-availability", "backend"]
+}

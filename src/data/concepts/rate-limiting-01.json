@@ -1,0 +1,45 @@
+{
+  "id": "rate-limiting-01",
+  "slug": "rate-limiting",
+  "title": "Rate Limiting",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Controlling the number of requests a user or client can make to an API within a specific timeframe to prevent abuse and ensure stability.",
+    "analogy": "A free sample line at a grocery store: the clerk only lets you take one sample every 5 minutes so one person doesn't eat the whole tray.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Protecting against DDoS attacks and brute-force login attempts",
+      "Preventing accidental 'infinite loops' in client-side code from crashing your server",
+      "Monetizing your API with different tiers (Free vs. Pro usage limits)"
+    ],
+    "gotchas": [
+      "Always return the '429 Too Many Requests' status code when a user is throttled",
+      "Use distributed storage (like Redis) for rate limiting in multi-server environments, or users can bypass it by hitting different nodes"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "token-bucket",
+      "show_tokens": true,
+      "show_429_response": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the logic for a simple fixed-window rate limiter.",
+    "starter_code": "def is_allowed(user_id):\n    # Get current window (e.g., current minute)\n    window = get_current_window()\n    key = f\"limit:{user_id}:{window}\"\n    \n    count = redis.get(key) or 0\n    if count < 100:\n        redis.______(key, 1)\n        return True\n    return ____ # Limit exceeded",
+    "solution": "incr\nFalse",
+    "hints": [
+      "You need to increment the count in Redis",
+      "If the count is already 100 or more, return False"
+    ],
+    "test_code": "class MockRedis: \n    def __init__(self): self.c=0\n    def incr(self, k, v): self.c += v\n    def get(self, k): return self.c\nredis = MockRedis()\nassert is_allowed(\"user1\") == True\nredis.c = 100\nassert is_allowed(\"user1\") == False\nprint(\"PASS\")"
+  },
+  "related": ["cdn-basics-01", "redis-data-structures-01", "cors-01"],
+  "tags": ["rate-limiting", "security", "throttling", "scalability", "backend"]
+}

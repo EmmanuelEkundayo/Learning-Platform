@@ -1,0 +1,44 @@
+{
+  "id": "bundle-analysis-01",
+  "slug": "bundle-analysis",
+  "title": "Bundle Analysis",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Using visualization tools (like Webpack Bundle Analyzer) to see exactly which libraries and files are taking up the most space in your final JavaScript bundle.",
+    "analogy": "Checking your credit card statement: you might be surprised to see that 'Small Subscription' (that tiny library you imported) is actually costing you $50/month (adding 500KB to your bundle).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Finding 'Heavy' libraries that can be replaced with lighter alternatives",
+      "Identifying accidentally duplicated code",
+      "Optimizing 'Code Splitting' strategies"
+    ],
+    "gotchas": [
+      "Make sure you are analyzing the PRODUCTION bundle, not the development one. Dev bundles are much larger and not minified",
+      "Look for 'Parsed' size vs 'Gzipped' size. Gzipped size is what the user actually downloads, but Parsed size is what the browser's CPU has to process"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "treemap-visualization",
+      "show_parsed_vs_gzipped": true,
+      "show_dependency_bloat": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the name of the popular optimization tool used to visualize JS bundles as a 'Treemap'.",
+    "starter_code": "def identify_tool():\n    name = \"Webpack Bundle ________\"\n    return name",
+    "solution": "Analyzer",
+    "hints": [
+      "It 'analyzes' the bundle"
+    ],
+    "test_code": "def check(ans): return \"analyze\" in ans.lower()\nassert check(\"Analyzer\")\nprint(\"PASS\")"
+  },
+  "related": ["tree-shaking-01", "bundlers-internals-01", "code-splitting-strategies-01"],
+  "tags": ["performance", "bundling", "optimization", "metrics", "treemap", "frontend"]
+}

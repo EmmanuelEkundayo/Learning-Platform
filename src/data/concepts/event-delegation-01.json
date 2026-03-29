@@ -1,0 +1,44 @@
+{
+  "id": "event-delegation-01",
+  "slug": "event-delegation",
+  "title": "Event Delegation",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The practice of attaching a single event listener to a parent element instead of multiple listeners to child elements, utilizing 'Event Bubbling' to catch events as they travel up the DOM tree.",
+    "analogy": "A teacher in a classroom: instead of giving a separate 'raise your hand' rule to every individual student (30 listeners), you just tell the whole class 'If anyone has a question, tell me' (1 listener on the parent).",
+    "time_complexity": "O(1) setup; O(1) for event handling",
+    "space_complexity": "O(1) listeners (very memory efficient)",
+    "when_to_use": [
+      "Managing events on large lists (e.g., 1000 list items)",
+      "Handling events on elements that are added to the page dynamically after initial load",
+      "Reducing memory usage in complex UIs"
+    ],
+    "gotchas": [
+      "The event must 'bubble' to work (some events like `blur` or `focus` don't bubble by default)",
+      "You must check `event.target` to ensure you are actually reacting to the correct child element"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "event-bubbling-path",
+      "show_target_vs_current_target": true,
+      "show_propagation_flow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the property used to find the actual element that was clicked in a delegated event listener.",
+    "starter_code": "document.getElementById('parent').addEventListener('click', (event) => {\n    # The element that triggered the event\n    const clickedElement = event.______;\n    console.log(clickedElement.tagName);\n});",
+    "solution": "target",
+    "hints": [
+      "It's the 'target' of the action"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"target\"\nassert check(\"target\")\nprint(\"PASS\")"
+  },
+  "related": ["dom-internals-01", "event-loop-browser-01", "web-components-01"],
+  "tags": ["dom", "events", "performance", "bubbling", "javascript", "frontend"]
+}

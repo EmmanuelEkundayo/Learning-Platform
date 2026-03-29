@@ -1,0 +1,44 @@
+{
+  "id": "helm-basics-01",
+  "slug": "helm-basics",
+  "title": "Helm (K8s Package Manager)",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Helm is a package manager for Kubernetes that uses 'Charts' to group multiple K8s resources together into a single, versioned and manageable unit.",
+    "analogy": "A recipe book: instead of individually buying flour, eggs, and sugar (Service, Deployment, Ingress YAMLS), you just order the 'Pancake Mix' (Helm Chart). You can even tell the shop to give you the 'Chocolate Chip' version by changing one variable.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Deploying complex applications like Redis or Jenkins with 10+ linked YAMLS",
+      "Managing different configurations (Prod vs Staging) using the same templates but different 'values.yaml'",
+      "Sharing reusable K8s components across different teams"
+    ],
+    "gotchas": [
+      "Helm is a template engine: it just spits out YAMLS. If your YAMLS are invalid, Kubernetes will still reject them, even if Helm thinks the 'Install' succeeded.",
+      "Watch out for the 'Release' name vs the 'Chart' name; multiple releases of the same chart can exist in the same namespace."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "helm-template-rendering",
+      "show_values_substitution": true,
+      "show_version_rollbacks": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the file used in a Helm chart to store default configuration variables that are injected into the templates.",
+    "starter_code": "filename = \"_______.yaml\"",
+    "solution": "values",
+    "hints": [
+      "It stores the 'values' of variables"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"values\"\nassert check(\"values\")\nprint(\"PASS\")"
+  },
+  "related": ["kubernetes-basics-01", "kubernetes-services-deployments-01", "cicd-pipelines-01"],
+  "tags": ["helm", "kubernetes", "k8s", "devops", "package-manager", "software-engineering"]
+}

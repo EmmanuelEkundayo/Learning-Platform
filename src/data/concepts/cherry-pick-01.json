@@ -1,0 +1,44 @@
+{
+  "id": "cherry-pick-01",
+  "slug": "cherry-pick",
+  "title": "Git Cherry-Pick",
+  "domain": "Software Engineering",
+  "category": "Git & Collaboration",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Applying a single commit from one branch to another branch without merging the entire history.",
+    "analogy": "A grocery list: you have a list with 10 items (a branch), but you only want the 'milk' (one commit). Instead of buying the whole cart, you just grab the milk bottle and put it in your own basket (your current branch).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Porting a specific bug fix from a 'development' branch to a 'hotfix' branch",
+      "Recovering a commit you accidentally deleted or worked on in the wrong branch",
+      "Selecting specific 'Ready' features from a large experimental branch"
+    ],
+    "gotchas": [
+      "Duplicate Commits: cherry-picking creates a NEW commit with a NEW hash, even if the content is the same. This can lead to confusion if you later merge the two branches.",
+      "Conflicts: if the code on the target branch has changed too much, the 'milk' might not fit in your basket (Conflict)."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "commit-extraction-flow",
+      "show_hash_change_warning": true,
+      "show_target_branch_integration": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Write the command to apply commit 'abc1234' to your current branch.",
+    "starter_code": "cmd = \"git _______-____ abc1234\"",
+    "solution": "cherry-pick",
+    "hints": [
+      "Fruit picking"
+    ],
+    "test_code": "def check(ans): return \"cherry\" in ans.lower()\nassert check(\"cherry-pick\")\nprint(\"PASS\")"
+  },
+  "related": ["merge-vs-rebase-01", "git-internals-dag-01", "interactive-rebase-01"],
+  "tags": ["git", "cherry-pick", "vcs", "hotfixes", "productivity", "software-engineering"]
+}

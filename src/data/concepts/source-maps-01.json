@@ -1,0 +1,44 @@
+{
+  "id": "source-maps-01",
+  "slug": "source-maps",
+  "title": "Source Maps",
+  "domain": "Frontend",
+  "category": "Additional JS/Browser",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A file that tells the browser how to map the optimized, minified code it's running back to the original, readable source code you wrote.",
+    "analogy": "A cipher key: the browser is reading a scrambled, coded message (minified JS). The Source Map is the secret key that allows the developer (via DevTools) to see the original, clear message so they can find mistakes.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Debugging errors in production using the original file names and line numbers",
+      "Tracking performance bottlenecks in minified code",
+      "Understanding stack traces in error-tracking tools like Sentry"
+    ],
+    "gotchas": [
+      "NEVER ship large source maps to production unless you are okay with users/competitors seeing your original source code (and they make the site load slower if large)",
+      "They aren't just for JS! They also work for CSS (Sass to CSS) and TypeScript (TS to JS)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "minified-to-original-trace",
+      "show_sourcemap_lookup_index": true,
+      "show_devtools_reconstruction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the file extension typically used for source map files.",
+    "starter_code": "filename = \"app.js.___\"",
+    "solution": "map",
+    "hints": [
+      "It's a 'map' of the source"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"map\"\nassert check(\"map\")\nprint(\"PASS\")"
+  },
+  "related": ["transpilation-babel-01", "bundlers-internals-01", "profiling-benchmarking-01"],
+  "tags": ["debugging", "javascript", "source-maps", "tooling", "minification", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "dependency-injection-01",
+  "slug": "dependency-injection",
+  "title": "Dependency Injection (DI)",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A design pattern where an object's dependencies are provided ('injected') from the outside, rather than the object creating them itself.",
+    "analogy": "Building a Lego set: instead of the Lego house having to build its own front door and windows, you (the builder) just snap existing doors and windows (dependencies) onto the house.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Writing unit tests (inject a 'MockDatabase' instead of a real one)",
+      "Keeping your code decoupled and easy to refactor",
+      "Using frameworks like Spring (Java), NestJS (TS), or Angular"
+    ],
+    "gotchas": [
+      "Don't confuse DI with a 'Service Locator' — DI is about receiving dependencies, Service Locator is about asking for them",
+      "In simple scripts, over-using DI can add unnecessary complexity 'boilerplate' that makes the code harder to read"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "di-container-flow",
+      "show_dependency_graph": true,
+      "show_inversion_of_control": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Convert this tightly coupled code into Dependency Injection style.",
+    "starter_code": "# Before (Tight Coupling)\nclass UserService:\n    def __init__(self):\n        self.db = Database() # Locked in!\n\n# After (Dependency Injection)\nclass UserService:\n    def __init__(self, _______):\n        self.db = _______",
+    "solution": "db\ndb",
+    "hints": [
+      "Pass the 'db' instance into the constructor instead of creating it inside"
+    ],
+    "test_code": "class MockDB: pass\nus = UserService(MockDB())\nassert isinstance(us.db, MockDB)\nprint(\"PASS\")"
+  },
+  "related": ["repository-pattern-01", "middleware-patterns-01", "orm-patterns-01"],
+  "tags": ["dependency-injection", "di", "ioc", "testing", "design-patterns", "backend"]
+}

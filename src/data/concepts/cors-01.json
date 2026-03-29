@@ -1,0 +1,45 @@
+{
+  "id": "cors-01",
+  "slug": "cors",
+  "title": "CORS",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A browser security mechanism that allows or blocks a frontend app on one domain from accessing resources on a different domain.",
+    "analogy": "A school dance where only students from that school are allowed in, unless the principal (the server) explicitly adds an guest list (CORS headers) allowing students from the rival school.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "When your frontend (e.g., app.com) needs to fetch data from your API (e.g., api.app.com)",
+      "Allowing third-party widgets or scripts to access your public data",
+      "Preventing malicious sites from making unauthorized requests on behalf of your users"
+    ],
+    "gotchas": [
+      "CORS is enforced by the BROWSER, not the server — a server might successfully process a request but the browser hides the result",
+      "Simple requests (GET/POST) behave differently than requests with custom headers, which require an 'OPTIONS' preflight check"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "cors-preflight",
+      "show_options_request": true,
+      "show_origin_header": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Fill in the required server-side CORS headers to allow requests from https://myapp.com.",
+    "starter_code": "response_headers = {\n    \"Access-Control-Allow-______\": \"https://myapp.com\",\n    \"Access-Control-Allow-Methods\": \"GET, POST, OPTIONS\",\n    \"Access-Control-Allow-______\": \"Content-Type, Authorization\"\n}",
+    "solution": "Origin\nHeaders",
+    "hints": [
+      "The 'Origin' header specifies which domain is allowed",
+      "The 'Headers' header specifies which custom client headers are allowed"
+    ],
+    "test_code": "assert response_headers[\"Access-Control-Allow-Origin\"] == \"https://myapp.com\"\nassert \"Headers\" in [k.split(\"-\")[-1] for k in response_headers.keys()]\nprint(\"PASS\")"
+  },
+  "related": ["http-versions-01", "tls-ssl-handshake-01", "rest-principles-01"],
+  "tags": ["cors", "security", "browser", "headers", "backend"]
+}

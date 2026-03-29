@@ -1,0 +1,45 @@
+{
+  "id": "job-queues-01",
+  "slug": "job-queues",
+  "title": "Job Queues (Task Queues)",
+  "domain": "Backend",
+  "category": "Message Queues & Events",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A specific type of message queue used to distribute unit-of-work 'jobs' across multiple worker processes to be executed in the background.",
+    "analogy": "A kitchen ticket rail: the server (Producer) clips a ticket ('Order: 2 Burgers') to the rail. The line cooks (Workers) each grab one ticket at a time, finish the job, and then take the next one.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) jobs",
+    "when_to_use": [
+      "Sending emails or SMS notifications",
+      "Generating PDF reports or processing large CSV files",
+      "Web scraping or long-running data syncs"
+    ],
+    "gotchas": [
+      "Ensure your jobs are 'Idempotent' — if a worker crashes halfway through and the job is retried, it shouldn't cause double-billing or corruption",
+      "Monitoring: you always need to watch the 'Queue Depth' to know if you need to add more worker servers"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "worker-pool-distribution",
+      "show_task_status": ["Pending", "Processing", "Completed"],
+      "show_concurrency_scaling": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the popular library for Job Queues in these languages.",
+    "starter_code": "libraries = {\n    \"Python\": \"______\",\n    \"JavaScript/Node\": \"____\",\n    \"Ruby\": \"Sidekiq\"\n}",
+    "solution": "Celery\nBull",
+    "hints": [
+      "A green stalk in Python",
+      "A strong animal in Node (BullMQ)"
+    ],
+    "test_code": "assert libraries[\"Python\"].lower() == \"celery\"\nassert libraries[\"JavaScript/Node\"].lower() in [\"bull\", \"bullmq\"]\nprint(\"PASS\")"
+  },
+  "related": ["message-queue-concepts-01", "worker-threads-01", "retry-and-backoff-01"],
+  "tags": ["job-queue", "tasks", "asynchronous", "background-jobs", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "color-contrast-wcag-01",
+  "slug": "color-contrast-wcag",
+  "title": "Color Contrast (WCAG)",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The difference in brightness between text and its background. High contrast is required to ensure readability for people with low vision or in bright environments (like using a phone in the sun).",
+    "analogy": "Writing on a chalkboard: white chalk on a black board is easy to read (High Contrast). Pale yellow chalk on a white board is almost impossible to read (Low Contrast).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Designing accessible color palettes",
+      "Checking the readability of text over images",
+      "Meeting legal accessibility requirements (WCAG AA/AAA)"
+    ],
+    "gotchas": [
+      "WCAG 2.1 AA requires a contrast ratio of at least **4.5:1** for normal text and **3:1** for large text",
+      "Don't use color ALONE to convey meaning (e.g., a red border for an error). Always add an icon or text label for color-blind users"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "contrast-ratio-calc",
+      "show_aa_vs_aaa_thresholds": true,
+      "show_color_blindness_simulation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the standard minimum contrast ratio for normal text under WCAG 2.1 AA.",
+    "starter_code": "def get_min_ratio():\n    return \"_._:1\"",
+    "solution": "4.5",
+    "hints": [
+      "F___-point-five"
+    ],
+    "test_code": "def check(ans): return \"4.5\" in ans\nassert check(\"4.5\")\nprint(\"PASS\")"
+  },
+  "related": ["keyboard-navigation-01", "aria-roles-01", "screen-reader-compatibility-01"],
+  "tags": ["accessibility", "a11y", "wcag", "contrast", "design", "frontend"]
+}

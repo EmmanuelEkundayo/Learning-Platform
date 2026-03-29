@@ -1,0 +1,44 @@
+{
+  "id": "kafka-architecture-01",
+  "slug": "kafka-architecture",
+  "title": "Kafka Architecture",
+  "domain": "Backend",
+  "category": "Message Queues & Events",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A distributed streaming platform that treats messages as a distributed, immutable log of events, allowing for high throughput and fault tolerance.",
+    "analogy": "A digital continuous scroll (like a never-ending receipt printer): messages are appended to the end of the roll. Different readers (Consumers) can read from any point on the roll using a 'bookmark' (Offset).",
+    "time_complexity": "O(1) to append and read by offset",
+    "space_complexity": "O(N) for retained logs",
+    "when_to_use": [
+      "High-throughput real-time data pipelines (billions of events/day)",
+      "Log aggregation and activity tracking",
+      "Event Sourcing and stream processing"
+    ],
+    "gotchas": [
+      "Kafka is NOT a simple task queue; messages aren't 'deleted' immediately after being read (they are kept based on retention time/size)",
+      "Misconfiguring 'Partitions' can lead to data being processed in the wrong order or unevenly across servers"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "kafka-log-structure",
+      "show_topics_and_partitions": true,
+      "show_consumer_offsets": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Kafka component that allows for horizontal scaling of a single Topic.",
+    "starter_code": "def identify_kafka_scaling():\n    # Dividing a topic into multiple pieces across brokers\n    component = \"__________\"\n    return component",
+    "solution": "partition",
+    "hints": [
+      "It starts with 'P' and means a part of a whole"
+    ],
+    "test_code": "def check(ans): return ans.lower().startswith(\"partition\")\nassert check(\"partition\")\nprint(\"PASS\")"
+  },
+  "related": ["event-sourcing-01", "message-queue-concepts-01", "pubsub-pattern-01"],
+  "tags": ["kafka", "distributed-systems", "streaming", "big-data", "backend"]
+}

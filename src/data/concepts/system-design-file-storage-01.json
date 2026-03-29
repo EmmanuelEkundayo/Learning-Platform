@@ -1,0 +1,44 @@
+{
+  "id": "system-design-file-storage-01",
+  "slug": "system-design-file-storage",
+  "title": "System Design: File Storage (S3-like)",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "An object storage system designed for massive scaling, durability, and accessibility of unstructured data like images, videos, and backups.",
+    "analogy": "A giant warehouse with bins: instead of a filing cabinet where folders are inside other folders (Traditional FS), you just have a 'Key' (the bin number) and you can put an 'Object' (the item) inside. The warehouse can house billions of bins without getting slower.",
+    "time_complexity": "O(1) retrieval by key",
+    "space_complexity": "O(N) for total objects",
+    "when_to_use": [
+      "Storing user-uploaded profile pictures and videos",
+      "Serving static assets (JS, CSS, HTML) for a website",
+      "Storing logs and database backups for disaster recovery"
+    ],
+    "gotchas": [
+      "Consistency: object stores often use 'Eventual Consistency' for overwrites. If you update a file and immediately read it, you might still get the old version.",
+      "Direct Uploads: don't route large file uploads through your application server. Use 'Pre-signed URLs' so the client can upload directly to storage."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "object-storage-architecture",
+      "show_metadata_service": true,
+      "show_data_sharding": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the technique where a file is split into smaller chunks (e.g., 64MB) and distributed across multiple servers for parallel access and redundancy.",
+    "starter_code": "technique = \"_________\"",
+    "solution": "Sharding",
+    "hints": [
+      "Like breaking a glass into 'shards'"
+    ],
+    "test_code": "def check(ans): return \"shard\" in ans.lower()\nassert check(\"Sharding\")\nprint(\"PASS\")"
+  },
+  "related": ["database-sharding-01", "cdn-basics-01", "acid-properties-01"],
+  "tags": ["system-design", "storage", "cloud", "scalability", "distributed-caching", "software-engineering"]
+}

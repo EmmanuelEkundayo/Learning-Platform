@@ -1,0 +1,44 @@
+{
+  "id": "nginx-config-01",
+  "slug": "nginx-config",
+  "title": "Nginx Configuration",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Nginx is a high-performance web server and reverse proxy that uses a simple, block-based configuration to handle thousands of concurrent connections efficiently.",
+    "analogy": "A highly efficient switchboard operator: the operator (Nginx) gets 10,000 calls at once. They don't talk to the callers themselves; they just quickly look at the caller ID and route them to the correct office (App Server) or play a recording (Static File).",
+    "time_complexity": "O(1) request processing (Event Loop)",
+    "space_complexity": "O(N) connection overhead (minimal)",
+    "when_to_use": [
+      "Serving static files (HTML, images) with extreme speed",
+      "Handling SSL/TLS encryption for an unprotected backend app (SSL Termination)",
+      "Distributing traffic between multiple backend servers (Load Balancing)"
+    ],
+    "gotchas": [
+      "The order of 'location' blocks matters. Nginx uses prefix matching and regex matching rules that can be confusing (e.g., `^~` vs `=`).",
+      "Reload vs Restart: always use `nginx -s reload` to apply new config without dropping active connections."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "nginx-request-lifecycle",
+      "show_config_block_inheritance": true,
+      "show_worker_process_utilization": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Nginx block used to define a virtual host (e.g., example.com).",
+    "starter_code": "______ {\n    listen 80;\n    server_name example.com;\n    location / {\n        proxy_pass http://localhost:3000;\n    }\n}",
+    "solution": "server",
+    "hints": [
+      "It represents a virtual web 's_____'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"server\"\nassert check(\"server\")\nprint(\"PASS\")"
+  },
+  "related": ["reverse-proxy-01", "load-balancer-internals-01", "ssl-termination-01"],
+  "tags": ["nginx", "web-server", "proxy", "devops", "performance", "networking", "software-engineering"]
+}

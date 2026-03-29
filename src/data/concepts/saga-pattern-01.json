@@ -1,0 +1,44 @@
+{
+  "id": "saga-pattern-01",
+  "slug": "saga-pattern",
+  "title": "Saga Pattern",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A way to manage data consistency across multiple microservices by using a sequence of local transactions and compensating actions if one step fails.",
+    "analogy": "Booking a vacation: Step 1: Book flight. Step 2: Book hotel. Step 3: Book car. If Step 3 fails, the 'Saga' automatically calls the hotel and airline to cancel the previous bookings.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Distributed transactions where traditional 'Two-Phase Commit' is too slow or unsupported",
+      "Long-lived business processes that span multiple services",
+      "E-commerce order fulfillment (Inventory -> Payment -> Shipping)"
+    ],
+    "gotchas": [
+      "Designing 'compensating' actions (reversals) for every step can be very complex",
+      "Debuging a failed Saga is harder than debugging a single database transaction"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "saga-choreography-vs-orchestration",
+      "show_compensation_logic": true,
+      "show_service_hops": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two types of Saga implementation patterns.",
+    "starter_code": "saga_types = [\n    \"___________: A central coordinator tells services what to do\",\n    \"___________: Services talk to each other via events without a central brain\"\n]",
+    "solution": "Orchestration\nChoreography",
+    "hints": [
+      "Think of an 'Orchestra' leader vs. 'Choreography' in a dance group"
+    ],
+    "test_code": "assert \"Orchestration\" in saga_types[0]\nassert \"Choreography\" in saga_types[1]\nprint(\"PASS\")"
+  },
+  "related": ["event-sourcing-01", "cqrs-01", "database-transactions-01"],
+  "tags": ["saga", "microservices", "distributed-transactions", "reliability", "backend"]
+}

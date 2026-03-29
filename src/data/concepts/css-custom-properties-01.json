@@ -1,0 +1,44 @@
+{
+  "id": "css-custom-properties-01",
+  "slug": "css-custom-properties",
+  "title": "CSS Variables (Custom Properties)",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Dynamic variables defined in CSS that can be reused throughout a stylesheet and changed at runtime using JavaScript or media queries.",
+    "analogy": "A global 'find and replace' that stays alive: instead of writing 'hex code #3b82f6' 50 times, you define `--brand-blue: #3b82f6`. If you want to change to 'brand-red', you only change it in one place, and the whole site updates instantly.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Implementing Dark Mode / Light Mode themes",
+      "Storing consistent design tokens (colors, spacing, font sizes)",
+      "Dynamic components where styles change based on user input (via JS)"
+    ],
+    "gotchas": [
+      "CSS variables follow the cascade and inheritance rules! If you define `--color` on a parent, all children inherit it unless they override it",
+      "You access them using the `var()` function, like `color: var(--brand-blue);`"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "variable-inheritance-chain",
+      "show_scope_resolution": true,
+      "show_runtime_update_flow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the CSS variable definition and usage.",
+    "starter_code": ":root {\n    --main-bg: #ffffff;\n}\n\nbody {\n    background-color: ___(__________);\n}",
+    "solution": "var\n--main-bg",
+    "hints": [
+      "Use the 'var' function and the variable name starting with '--'"
+    ],
+    "test_code": "assert \"var\" in solution\nassert \"--\" in solution\nprint(\"PASS\")"
+  },
+  "related": ["css-specificity-cascade-01", "responsive-design-01", "tailwind-internals-01"],
+  "tags": ["css", "variables", "custom-properties", "tokens", "theming", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "n-plus-one-query-01",
+  "slug": "n-plus-one-query",
+  "title": "N+1 Query Problem",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A common database performance anti-pattern where an application makes one query to get a list of items, and then one additional query PER item to fetch related data.",
+    "analogy": "Grocery shopping: instead of buying 10 items in one trip (1 query), you drive to the store for a bag of chips (1), drive home, then drive back for a soda (1), drive home... doing 11 trips total for 10 items.",
+    "time_complexity": "O(N) queries instead of O(1)",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Detecting why a page with a simple list is taking 10 seconds to load",
+      "Optimization phase of any application using an ORM (Active Record/Data Mapper)",
+      "Debugging high database 'Connection Count' alarms"
+    ],
+    "gotchas": [
+      "ORMs often 'Lazy Load' related data by default, which creates the N+1 problem unless you explicitly 'Eager Load' (using JOINs)",
+      "It is easy to miss in development with small datasets, but it explodes in production with thousands of records"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "n-plus-one-table",
+      "show_query_waterfall": true,
+      "show_joins_vs_loops": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the ORM-style code to fix the N+1 problem using eager loading.",
+    "starter_code": "# BAD: Triggers N+1 queries\nusers = db.query(User).all()\nfor u in users:\n    print(u.profile.bio)  # Fires 1 query per user!\n\n# GOOD: Loads everything in 1 or 2 queries total\nusers = db.query(User).__________ (User.profile).all()",
+    "solution": "joinedload",
+    "hints": [
+      "In SQLAlchemy/ActiveRecord, you often use 'include' or 'joinedload' or 'prefetch'"
+    ],
+    "test_code": "def check(ans): return ans.lower() in [\"joinedload\", \"include\", \"prefetch_related\"]\nassert check(\"joinedload\")\nprint(\"PASS\")"
+  },
+  "related": ["sql-joins-01", "query-optimization-01", "lazy-vs-eager-loading-01"],
+  "tags": ["orm", "database", "performance", "n+1", "sql", "backend"]
+}

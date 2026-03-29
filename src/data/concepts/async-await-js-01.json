@@ -1,0 +1,44 @@
+{
+  "id": "async-await-js-01",
+  "slug": "async-await-js",
+  "title": "Async/Await",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Syntactic sugar built on top of Promises that allows you to write asynchronous code that looks and behaves like synchronous code, making it much easier to read and maintain.",
+    "analogy": "Reading a choose-your-own-adventure book: instead of having to write 'go to page 50 if success' (Promise), you just read the book page by page. When a page says 'Wait for 5 minutes' (await), you stop reading until time is up, then continue exactly where you left off.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Writing clean, readable API requests",
+      "Avoiding the 'Pyramid of Doom' (nested `.then()` blocks)",
+      "Handling errors using standard `try/catch` blocks"
+    ],
+    "gotchas": [
+      "`await` blocks the execution of the current function, but it NOT block the rest of the application (it yields to the Event Loop)",
+      "If you forget the `await` keyword, you'll get back the Promise object itself instead of the data you expected"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "yield-resume-flow",
+      "show_generator_transform": true,
+      "show_microtask_suspension": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the try/catch logic for an async function.",
+    "starter_code": "async function fetchData() {\n    try {\n        const response = ______ fetch('/api/data');\n        const data = ______ response.json();\n        return data;\n    } catch (error) {\n        console.error('Failed:', error);\n    }\n}",
+    "solution": "await\nawait",
+    "hints": [
+      "You must 'wait' for the response"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"await\"\nassert check(\"await\")\nprint(\"PASS\")"
+  },
+  "related": ["promises-internals-01", "generators-js-01", "event-loop-browser-01"],
+  "tags": ["async-await", "javascript", "promises", "async", "sugar", "frontend"]
+}

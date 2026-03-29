@@ -1,0 +1,44 @@
+{
+  "id": "adapter-pattern-01",
+  "slug": "adapter-pattern",
+  "title": "Adapter Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A structural pattern that allows objects with incompatible interfaces to collaborate by converting the interface of one class into an interface expected by the client.",
+    "analogy": "A travel plug: your hair dryer has a 3-prong UK plug (**Class A**), but the wall socket is a 2-prong European hole (**Client expecting Class B**). You put an 'Adapter' in the middle that 'speaks' both languages.",
+    "time_complexity": "O(1) delegation",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Integrating a third-party library that uses different method names than your existing code",
+      "Converting legacy XML data into JSON for a modern frontend component",
+      "Refactoring code where you want to swap a library for a better one without changing your core logic"
+    ],
+    "gotchas": [
+      "Don't confuse it with 'Bridge' or 'Proxy'. Adapter changes the interface; Proxy keeps the same interface; Bridge separates interface from implementation.",
+      "Overuse: if you have 50 adapters, it's likely a sign that your core architecture is messy."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "adapter-glue-mapping",
+      "show_interface_translation": true,
+      "show_delegation_flow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary goal of the Adapter pattern.",
+    "starter_code": "goal = \"To make ______________ interfaces work together.\"",
+    "solution": "incompatible",
+    "hints": [
+      "Things that don't 'fit'"
+    ],
+    "test_code": "def check(ans): return \"incomp\" in ans.lower()\nassert check(\"incompatible\")\nprint(\"PASS\")"
+  },
+  "related": ["facade-pattern-01", "decorator-pattern-01", "proxy-pattern-01"],
+  "tags": ["design-patterns", "structural", "adapter", "compatibility", "wrappers", "software-engineering"]
+}

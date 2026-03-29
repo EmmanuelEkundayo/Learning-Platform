@@ -1,0 +1,44 @@
+{
+  "id": "weakmap-weakref-01",
+  "slug": "weakmap-weakref",
+  "title": "WeakMap & WeakRef",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Special collection types and references that do not prevent the garbage collector from reclaiming an object if it's not being used elsewhere.",
+    "analogy": "A guest list with 'invisible ink': if a guest leaves the party (is no longer used in the code), the ink disappears, and their name is erased from the guest list automatically (the map). A regular List is like a 'permanent marker' that keeps the guest there forever.",
+    "time_complexity": "O(1) access",
+    "space_complexity": "O(N) entries",
+    "when_to_use": [
+      "Associating private data with DOM elements without causing memory leaks",
+      "Implementing caches for large objects where you'd rather recreate the object than run out of RAM",
+      "Keeping metadata about an object until the object itself is deleted"
+    ],
+    "gotchas": [
+      "WeakMaps are NOT iterable; you cannot call `.forEach()` or check `.size()` because the contents might be deleted by the GC at any moment",
+      "Only Objects can be keys in a WeakMap, not strings or numbers"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "garbage-collection-bypass",
+      "show_weak_vs_strong_ref": true,
+      "show_gc_trigger": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which collection type prevents memory leaks when using DOM nodes as keys.",
+    "starter_code": "def choose_map(use_case):\n    if use_case == \"Avoid GC issues with objects\":\n        return \"_______\"\n    return \"Map\"",
+    "solution": "WeakMap",
+    "hints": [
+      "It makes the reference 'Weak'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"weakmap\"\nassert check(\"WeakMap\")\nprint(\"PASS\")"
+  },
+  "related": ["memory-management-gc-01", "closures-js-01", "dom-internals-01"],
+  "tags": ["memory", "javascript", "weakmap", "gc", "optimization", "frontend"]
+}

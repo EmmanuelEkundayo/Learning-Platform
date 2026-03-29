@@ -1,0 +1,44 @@
+{
+  "id": "responsive-design-01",
+  "slug": "responsive-design",
+  "title": "Responsive Design & Breakpoints",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "An approach to web design that makes web pages render well on a variety of devices and window or screen sizes from minimum to maximum display size.",
+    "analogy": "Water in a container: on a narrow phone, the content (water) flows into a tall, thin shape. On a wide desktop, it flows into a flat, wide shape. The content is the same, but the 'container' (viewport) forces it to rearrange.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Making a website usable on Mobile, Tablet, and Desktop",
+      "Hiding non-essential sidebar content on smaller screens",
+      "Switching from a 3-column layout to a 1-column list for readability"
+    ],
+    "gotchas": [
+      "Always design 'Mobile First': write styles for small screens first, then use media queries to ADD complexity for larger screens",
+      "Don't forget the Meta Viewport tag in your HTML; without it, mobile browsers will just zoom out and make everything tiny"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "viewport-resizing-simulation",
+      "show_media_query_active_state": true,
+      "show_content_reflow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the CSS rule used to apply styles only when the screen is wider than 768px.",
+    "starter_code": "@_____ screen and (min-width: 768px) {\n    .sidebar { display: block; }\n}",
+    "solution": "media",
+    "hints": [
+      "It queries the 'media'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"media\"\nassert check(\"media\")\nprint(\"PASS\")"
+  },
+  "related": ["container-queries-01", "flexbox-algorithm-01", "css-grid-01"],
+  "tags": ["css", "responsive", "mobile-first", "media-queries", "breakpoints", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "system-design-distributed-cache-01",
+  "slug": "system-design-distributed-cache",
+  "title": "System Design: Distributed Cache",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A high-performance, in-memory data store shared across multiple servers to improve data retrieval speed and reduce load on primary databases.",
+    "analogy": "A shared bookshelf in an office: instead of every employee driving home (Database) to check a fact, important books are kept in a common room (Cache). If one person updates a book, everyone sees the new version immediately.",
+    "time_complexity": "O(1) access",
+    "space_complexity": "O(N) data in RAM",
+    "when_to_use": [
+      "Storing session data for web users",
+      "Reducing Latency for frequent database queries",
+      "Implementing Rate Limiters or Pub/Sub systems"
+    ],
+    "gotchas": [
+      "Cache Invalidation: keeping the cache perfectly in sync with the database is one of the hardest problems in CS ('There are only two hard things in Computer Science: cache invalidation and naming things').",
+      "Hot Keys: if one specific piece of data is requested millions of times per second (like a celebrity's profile), it can overwhelm the specific cache server holding it."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "distributed-cache-topology",
+      "show_write_through_vs_back": true,
+      "show_lru_eviction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the caching strategy where data is written to the cache FIRST, and the database is updated asynchronously later.",
+    "starter_code": "strategy = \"Write-____\"",
+    "solution": "Back",
+    "hints": [
+      "Opposite of 'through'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"back\"\nassert check(\"Back\")\nprint(\"PASS\")"
+  },
+  "related": ["consistent-hashing-system-01", "redis-data-structures-01", "lru-cache-01"],
+  "tags": ["system-design", "caching", "redis", "memcached", "scalability", "distributed-systems", "software-engineering"]
+}

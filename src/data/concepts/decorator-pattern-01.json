@@ -1,0 +1,44 @@
+{
+  "id": "decorator-pattern-01",
+  "slug": "decorator-pattern",
+  "title": "Decorator Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A structural pattern that allows behavior to be added to an individual object, dynamically, without affecting the behavior of other objects from the same class.",
+    "analogy": "A coffee order: you start with a 'Basic Coffee'. You 'decorate' it with 'Milk', then 'decorate' that with 'Sugar', then 'decorate' that with 'Whipped Cream'. Each decorator wraps the item before it, adding its own cost and feature.",
+    "time_complexity": "O(D) where D is number of decorators",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Adding features like 'Encryption' or 'Compression' to a standard file stream",
+      "Implementing UI elements that can be 'Scrolled', then 'Bordered', then 'Shadowed'",
+      "Extending a class when 'Subclassing' would lead to a 'Class Explosion' (e.g., needing MilkCoffee, SugarCoffee, MilkSugarCoffee...)"
+    ],
+    "gotchas": [
+      "Hard to remove: once you've wrapped an object in 5 decorators, it's very difficult to 'un-wrap' just the middle one.",
+      "Identity: even though the decorated object looks like the original, it's actually a new wrapper object. `decoratedObj == originalObj` will return false."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "decorator-wrapping-layers",
+      "show_recursive_delegation": true,
+      "show_dynamic_composition": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary benefit of Decorator over Inheritance.",
+    "starter_code": "ans = \"It allows adding behavior __________ at runtime instead of statically at compile time.\"",
+    "solution": "dynamically",
+    "hints": [
+      "On the fly"
+    ],
+    "test_code": "def check(ans): return \"dynam\" in ans.lower()\nassert check(\"dynamically\")\nprint(\"PASS\")"
+  },
+  "related": ["strategy-pattern-01", "adapter-pattern-01", "proxy-pattern-01"],
+  "tags": ["design-patterns", "structural", "decorator", "composition", "wrappers", "software-engineering"]
+}

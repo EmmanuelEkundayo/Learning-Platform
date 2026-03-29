@@ -1,0 +1,44 @@
+{
+  "id": "ssl-termination-01",
+  "slug": "ssl-termination",
+  "title": "SSL/TLS Termination",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The process of decrypting SSL-encrypted traffic at the proxy level (Nginx/LB) so that the traffic can be forwarded to internal servers as plain HTTP, reducing CPU load on the backend.",
+    "analogy": "A secure compound gate: visitors speak a secret code (HTTPS) at the gate. The guards verify them, and then they walk into the compound (Internal Network) where everyone speaks normally (HTTP). This way, and the people inside don't have to keep checking codes every time someone moves between rooms.",
+    "time_complexity": "O(N) for initial handshake",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Centralizing SSL certificate management in one place (The Proxy)",
+      "Speeding up backend servers that aren't optimized for heavy math (Encryption)",
+      "Inspecting traffic content at the gateway for security threats"
+    ],
+    "gotchas": [
+      "Internal risk: data is unencrypted on your internal network. If an attacker gets inside your private VPC, they can 'sniff' all your plain HTTP traffic.",
+      "Some regulatory environments (like Finance) require 'End-to-End' encryption, making termination at the gateway illegal/unsafe."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "tls-termination-handshake",
+      "show_encryption_boundary": true,
+      "show_cpu_savings": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the protocol used for communication BETWEEN the reverse proxy and the backend when SSL termination is enabled.",
+    "starter_code": "protocol = \"____\"",
+    "solution": "HTTP",
+    "hints": [
+      "It's the unencrypted version"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"HTTP\"\nassert check(\"HTTP\")\nprint(\"PASS\")"
+  },
+  "related": ["tls-ssl-handshake-01", "reverse-proxy-01", "nginx-config-01"],
+  "tags": ["ssl", "tls", "encryption", "networking", "security", "devops", "software-engineering"]
+}

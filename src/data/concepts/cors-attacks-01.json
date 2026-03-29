@@ -1,0 +1,44 @@
+{
+  "id": "cors-attacks-01",
+  "slug": "cors-attacks",
+  "title": "CORS & Origin Attacks",
+  "domain": "Backend",
+  "category": "Security",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Exploiting misconfigured Cross-Origin Resource Sharing (CORS) policies to allow a malicious site to read sensitive data from your API.",
+    "analogy": "A neighbor's ladder: CORS is like a rule saying you can only borrow a ladder if you're a trusted neighbor. If the rule is accidentally set to 'Let anyone on Earth borrow the ladder', a thief from another country can walk into your yard and climb into your window.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Configuring which domains are allowed to call your API (e.g., allowing your frontend at `app.com` but blocking `hacker.com`)",
+      "Debugging 'Blocked by CORS Policy' errors in the browser console",
+      "Understanding the 'Preflight' (OPTIONS) request sent by browsers"
+    ],
+    "gotchas": [
+      "Setting your Access-Control-Allow-Origin to '*' (everyone) is extremely dangerous if your API returns user-specific private data",
+      "CORS is a BROWSER-side security feature; it does not protect your API from direct calls made via cURL, Postman, or a Python script"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "cors-preflight-check",
+      "show_options_request": true,
+      "show_origin_header_validation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the HTTP verb used by browsers for the CORS 'Preflight' check.",
+    "starter_code": "def identify_preflight_verb():\n    # Browser asks the server 'Is it okay if I POST to you?'\n    verb = \"_______\"\n    return verb",
+    "solution": "OPTIONS",
+    "hints": [
+      "Select an 'Option'"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"OPTIONS\"\nassert check(\"OPTIONS\")\nprint(\"PASS\")"
+  },
+  "related": ["cors-01", "csrf-01", "owasp-top-10-01"],
+  "tags": ["security", "cors", "web", "api", "browsers", "backend"]
+}

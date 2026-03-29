@@ -1,0 +1,44 @@
+{
+  "id": "distributed-tracing-01",
+  "slug": "distributed-tracing",
+  "title": "Distributed Tracing",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A method used to monitor and profile request flows as they travel through a complex web of microservices, using a unique Trace ID passed in headers.",
+    "analogy": "A passport with stamps: as a traveler (Request) goes through different countries (Services), each border control agent stamps the same passport with a record of when they arrived and when they left. At the end, you can see the whole journey in one book.",
+    "time_complexity": "O(1) to tag; O(N) to aggregate",
+    "space_complexity": "O(N) trace data storage",
+    "when_to_use": [
+      "Debugging 'Why is this slow?' in a system with many internal service calls",
+      "Identifying which specific service in a chain is failing or throwing errors",
+      "Visualizing dependencies between services in real-time"
+    ],
+    "gotchas": [
+      "Storage Cost: tracing every single request can produce Terabytes of data per hour. Most systems use 'Sampling' to only trace 1% or 0.1% of requests.",
+      "Instrumentation: every service needs to be 'taught' how to pass the Trace ID. If one service in the middle forgets, the trace is broken."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "trace-span-aggregation",
+      "show_trace_id_propagation": true,
+      "show_gantt_chart_view": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the term for a single unit of work within a trace, representing a start and end time in one service.",
+    "starter_code": "term = \"____\"",
+    "solution": "Span",
+    "hints": [
+      "A bridge ____s a river"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"span\"\nassert check(\"Span\")\nprint(\"PASS\")"
+  },
+  "related": ["service-mesh-01", "system-design-api-gateway-01", "profiling-benchmarking-01"],
+  "tags": ["tracing", "observability", "microservices", "jaeger", "opentelemetry", "software-engineering"]
+}

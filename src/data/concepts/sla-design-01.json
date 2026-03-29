@@ -1,0 +1,44 @@
+{
+  "id": "sla-design-01",
+  "slug": "sla-design",
+  "title": "SLAs, SLOs, & SLIs",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The 3-layered framework for measuring reliability: SLIs (What we measure), SLOs (Our target), and SLAs (Our legal promise to the customer).",
+    "analogy": "A pizza delivery: **SLI** is the stopwatch showing '35 minutes'. **SLO** is the chef's goal: 'Keep 99% of deliveries under 40 mins'. **SLA** is the flyer: 'If it's more than 60 mins, you get a free pizza'.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Communicating the quality of your service to paid customers (SLA)",
+      "Setting internal engineering priorities (if we miss an SLO, stop building features and fix bugs)",
+      "Measuring technical success in SRE (Site Reliability Engineering)"
+    ],
+    "gotchas": [
+      "100% is impossible: don't promise 100% uptime. Even Google only promises 'Five Nines' (99.999%), which still allows 5 minutes of downtime per year.",
+      "The 'Error Budget': if your SLO is 99%, you have 1% 'Budget' to break things while experimenting."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "reliability-stack-mapping",
+      "show_sli_vs_slo_vs_sla": true,
+      "show_error_budget_burn": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the acronym for the actual METRIC being measured (e.g. latency or error rate).",
+    "starter_code": "metric = \"___ (Service Level Indicator)\"",
+    "solution": "SLI",
+    "hints": [
+      "Three letters, starts with S, ends with I"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"SLI\"\nassert check(\"SLI\")\nprint(\"PASS\")"
+  },
+  "related": ["disaster-recovery-01", "observability-logs-metrics-traces-01", "load-balancing-01"],
+  "tags": ["sre", "reliability", "metrics", "availability", "management", "software-engineering"]
+}

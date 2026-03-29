@@ -21,6 +21,27 @@ export default {
           500: '#f59e0b',
           600: '#d97706',
         },
+        // Frontend accent: violet
+        frontend: {
+          300: '#c4b5fd',
+          400: '#a78bfa',
+          500: '#8b5cf6',
+          600: '#7c3aed',
+        },
+        // Backend accent: emerald
+        backend: {
+          300: '#6ee7b7',
+          400: '#34d399',
+          500: '#10b981',
+          600: '#059669',
+        },
+        // Software Engineering accent: rose
+        se: {
+          300: '#fda4af',
+          400: '#fb7185',
+          500: '#f43f5e',
+          600: '#e11d48',
+        },
         // Dark theme surface colors
         surface: {
           900: '#0d0d0f',

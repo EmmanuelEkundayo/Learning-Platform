@@ -1,0 +1,45 @@
+{
+  "id": "usememo-usecallback-01",
+  "slug": "usememo-usecallback",
+  "title": "useMemo & useCallback",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Two hooks used for memoization: `useMemo` caches the RESULT of an expensive calculation, while `useCallback` caches the FUNCTION instance itself.",
+    "analogy": "A cheat sheet: `useMemo` is writing down the answer to '1423 * 54' (caching the result) so you don't have to do the math again. `useCallback` is keeping the same photocopy of the math steps (caching the function) so you don't have to write them out again every single time.",
+    "time_complexity": "O(1) to retrieve from cache",
+    "space_complexity": "O(1) storage for cached value/ref",
+    "when_to_use": [
+      "Skipping expensive calculations on re-renders",
+      "Preventing unnecessary re-renders of child components that use `React.memo` by providing stable function references",
+      "Optimizing 'Referential Equality' for dependency arrays"
+    ],
+    "gotchas": [
+      "Overusing them can actually SLOW DOWN your app because the overhead of tracking dependencies and storing the values isn't free",
+      "They only work if you provide the correct dependency array — if you miss a variable, you'll get a 'stale' value from the past"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "referential-equality-check",
+      "show_identity_comparison": true,
+      "show_calculation_skipping": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which hook to use based on the goal.",
+    "starter_code": "goals = {\n    \"Cache the result of sorting 10,000 items\": \"_______\",\n    \"Keep the same function reference across renders\": \"_________\"\n}",
+    "solution": "useMemo\nuseCallback",
+    "hints": [
+      "Memo is for 'Memorizing' a value",
+      "Callback is for a 'Function' (callback)"
+    ],
+    "test_code": "assert \"Memo\" in goals.values()\nassert \"Callback\" in goals.values()\nprint(\"PASS\")"
+  },
+  "related": ["usestate-internals-01", "virtual-dom-reconciliation-01", "useeffect-internals-01"],
+  "tags": ["react", "memoization", "hooks", "performance", "optimization", "frontend"]
+}

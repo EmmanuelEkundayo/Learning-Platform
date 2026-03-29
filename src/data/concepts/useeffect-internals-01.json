@@ -1,0 +1,44 @@
+{
+  "id": "useeffect-internals-01",
+  "slug": "useeffect-internals",
+  "title": "useEffect Internals",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The hook that allows you to perform side effects (data fetching, subscriptions, DOM mutations) in functional components, running AFTER the browser has painted the screen.",
+    "analogy": "A 'Post-it' note on the back of a painting: the painter finishes the artwork (renders the UI), hangs it on the wall (paints the screen), and only THEN reads the note to see if they need to call the gallery or turn on the spotlights (run effects).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Fetching data from an API",
+      "Setting up a WebSocket connection",
+      "Updating document.title or manually interacting with a 3rd party chart library"
+    ],
+    "gotchas": [
+      "If you don't provide a dependency array, the effect runs on EVERY render, which can lead to infinite loops if you update state inside the effect",
+      "Use `useLayoutEffect` if you need the effect to run BEFORE the browser paints (to avoid visual flickering)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "effect-cleanup-render-cycle",
+      "show_diffing_dependencies": true,
+      "show_cleanup_execution": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the return value of useEffect used for cleaning up resources.",
+    "starter_code": "useEffect(() => {\n    const timer = setInterval(() => console.log('tick'), 1000);\n    \n    # Return a __________ function to clear the interval\n    return () => clearInterval(timer);\n}, []);",
+    "solution": "cleanup",
+    "hints": [
+      "It 'cleans up' the mess when the component leaves"
+    ],
+    "test_code": "def check(ans): return \"clean\" in ans.lower()\nassert check(\"cleanup\")\nprint(\"PASS\")"
+  },
+  "related": ["usestate-internals-01", "component-lifecycle-01", "usememo-usecallback-01"],
+  "tags": ["react", "useEffect", "hooks", "side-effects", "lifecycle", "frontend"]
+}

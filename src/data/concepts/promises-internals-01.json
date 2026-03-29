@@ -1,0 +1,44 @@
+{
+  "id": "promises-internals-01",
+  "slug": "promises-internals",
+  "title": "Promises & Async Internals",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An object representing the eventual completion (or failure) of an asynchronous operation and its resulting value.",
+    "analogy": "A buzzer at a restaurant: when you order, they give you a buzzer (the Promise). It's 'Pending' while they cook. When the food is ready, it buzzes ('Fulfilled'). If they run out of ingredients, it lights up red ('Rejected').",
+    "time_complexity": "O(1) to create; callbacks are O(1)",
+    "space_complexity": "O(1) per promise",
+    "when_to_use": [
+      "Handling network requests (fetch)",
+      "Wrapping old 'callback-hell' code into a modern API",
+      "Running multiple async tasks in parallel (`Promise.all`)"
+    ],
+    "gotchas": [
+      "Promises are NOT lazy; the code inside the constructor starts running immediately",
+      "Unhandled Rejections: if you forget the `.catch()` block, your application might crash or log noisy errors that are hard to trace"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "promise-state-transitions",
+      "show_pending_settled": true,
+      "show_handler_registration": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three states of a Promise.",
+    "starter_code": "states = [\n    \"1. ________: The start state\",\n    \"2. ________: Success state\",\n    \"3. ________: Failure state\"\n]",
+    "solution": "Pending\nFulfilled\nRejected",
+    "hints": [
+      "P______, F_______, R_______"
+    ],
+    "test_code": "assert \"Pending\" in states[0]\nassert \"Fulfilled\" in states[1]\nassert \"Rejected\" in states[2]\nprint(\"PASS\")"
+  },
+  "related": ["event-loop-browser-01", "microtasks-vs-macrotasks-01", "async-await-js-01"],
+  "tags": ["promise", "async", "javascript", "concurrency", "frontend"]
+}

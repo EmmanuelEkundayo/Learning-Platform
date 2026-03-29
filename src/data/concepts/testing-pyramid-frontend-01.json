@@ -1,0 +1,44 @@
+{
+  "id": "testing-pyramid-frontend-01",
+  "slug": "testing-pyramid-frontend",
+  "title": "The Testing Pyramid (Frontend)",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A strategy for balancing your testing effort: you should have many fast, cheap unit tests at the bottom, fewer integration tests in the middle, and only a few slow, expensive E2E tests at the top.",
+    "analogy": "Building a house: you test every brick (Unit), then you test if the plumbing works together (Integration), then finally you walk through the front door and turn on the lights to see if the whole house works (E2E). You don't build 100 houses just to test if one brick is strong.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Designing a test suite for a new project",
+      "Optimizing CI/CD pipelines that are taking too long to run",
+      "Deciding which type of test to write for a new feature"
+    ],
+    "gotchas": [
+      "Don't ignore the pyramid! If you only have E2E tests, your suite will be 'flaky' (fail randomly) and extremely slow",
+      "The 'Testing Trophy' is a modern alternative that emphasizes Integration tests over Unit tests for React apps"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "testing-pyramid-layers",
+      "show_speed_vs_cost": true,
+      "show_typical_quantities": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three layers of the traditional Testing Pyramid from bottom to top.",
+    "starter_code": "layers = [\n    \"1. ____ Tests: Fast and many (e.g. testing a single function)\",\n    \"2. ___________ Tests: Medium speed (e.g. testing a component and its children)\",\n    \"3. ___ Tests: Slow and few (e.g. testing the full user flow in a browser)\"\n]",
+    "solution": "Unit\nIntegration\nE2E",
+    "hints": [
+      "U___, I__________, E__"
+    ],
+    "test_code": "assert \"Unit\" in layers[0]\nassert \"Integration\" in layers[1]\nassert \"E2E\" in layers[2]\nprint(\"PASS\")"
+  },
+  "related": ["unit-vs-integration-e2e-01", "mocking-strategies-frontend-01", "react-testing-library-01"],
+  "tags": ["testing", "pyramid", "quality", "unit-testing", "e2e", "frontend"]
+}

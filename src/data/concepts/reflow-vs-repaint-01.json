@@ -1,0 +1,45 @@
+{
+  "id": "reflow-vs-repaint-01",
+  "slug": "reflow-vs-repaint",
+  "title": "Reflow vs Repaint",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Two types of page updates: Reflow (Layout) recalculates the position and size of elements; Repaint simply updates the look of elements without changing their space.",
+    "analogy": "Renovating a house: Reflow is like moving a wall (everything around it must shift). Repaint is like painting a wall a different color (the furniture stays exactly where it is).",
+    "time_complexity": "O(N) for Reflow; O(M) for Repaint (where M < N typically)",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Optimizing CSS for smooth animations",
+      "Debugging 'Jank' or stuttering on scroll",
+      "Deciding between 'display: none' (reflow) and 'visibility: hidden' (repaint)"
+    ],
+    "gotchas": [
+      "Reflow is MUCH more expensive than Repaint because it triggers a chain reaction of geometry calculations",
+      "Reading certain properties in JS (like offsetHeight or getBoundingClientRect) forces a synchronous 'forced reflow' which kills performance"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "reflow-trigger-comparison",
+      "show_geometrical_changes": true,
+      "show_visual_only_changes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which action causes a Reflow and which causes a Repaint.",
+    "starter_code": "actions = {\n    \"Changing background-color\": \"______\",\n    \"Changing font-size\": \"______\",\n    \"Changing width\": \"______\",\n    \"Changing visibility: hidden\": \"______\"\n}",
+    "solution": "Repaint\nReflow\nReflow\nRepaint",
+    "hints": [
+      "If it changes 'how much space' it takes or 'where' it is, it's Reflow",
+      "If it's just a visual layer update, it's Repaint"
+    ],
+    "test_code": "assert actions[\"Changing background-color\"].lower() == \"repaint\"\nassert actions[\"Changing width\"].lower() == \"reflow\"\nprint(\"PASS\")"
+  },
+  "related": ["render-pipeline-01", "dom-internals-01", "request-animation-frame-01"],
+  "tags": ["performance", "rendering", "css", "layout", "optimization", "frontend"]
+}

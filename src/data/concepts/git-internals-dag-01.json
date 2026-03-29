@@ -1,0 +1,44 @@
+{
+  "id": "git-internals-dag-01",
+  "slug": "git-internals-dag",
+  "title": "Git Internals: The DAG",
+  "domain": "Software Engineering",
+  "category": "Git & Collaboration",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Git stores your project history as a Directed Acyclic Graph (DAG) of objects (commits, trees, blobs), where each commit points to its parent(s) via a unique SHA-1 hash.",
+    "analogy": "A family tree that never loops: you can have one child with two parents (a Merge commit), or one parent with many children (Branches). But you can never be your own grandfather (Acyclic).",
+    "time_complexity": "O(1) commit creation",
+    "space_complexity": "O(N) objects (compressed)",
+    "when_to_use": [
+      "Understanding why 'Merge Conflicts' occur at a structural level",
+      "Using `git rev-parse` or `git cat-file` to debug corrupted repositories",
+      "Visualizing complex branch histories with `git log --graph`"
+    ],
+    "gotchas": [
+      "Git is 'Content-Addressable': if you change one byte in a file, its hash changes, which changes the tree hash, which changes the commit hash. History is immutable!",
+      "Branches are just lightweight pointers to a commit hash. When you move a branch, you aren't moving the history, just the sticker."
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "dag-commit-pointers",
+      "show_heads_vs_commits": true,
+      "show_merges_vs_rebases": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the data structure Git uses to represent commit history.",
+    "starter_code": "ds_name = \"___ (Directed Acyclic Graph)\"",
+    "solution": "DAG",
+    "hints": [
+      "Three letters, starts with D"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"DAG\"\nassert check(\"DAG\")\nprint(\"PASS\")"
+  },
+  "related": ["merge-vs-rebase-01", "semantic-versioning-01", "cherry-pick-01"],
+  "tags": ["git", "internals", "dag", "graph", "vcs", "software-engineering"]
+}

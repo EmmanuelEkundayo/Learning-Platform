@@ -1,0 +1,44 @@
+{
+  "id": "hexagonal-architecture-01",
+  "slug": "hexagonal-architecture",
+  "title": "Hexagonal Architecture (Ports & Adapters)",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "An architectural pattern that separates the core application from external world concerns using 'Ports' (interfaces) and 'Adapters' (implementations).",
+    "analogy": "A computer motherboard: the CPU (Application) doesn't know about the 4K Monitor (External API) or the Clicky Keyboard (User Input). It just has 'Slots' (Ports). You can plug in a standard USB Adapter, and as long as it fits the port, the CPU can communicate with anything.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Building microservices that need to be tested without a database",
+      "Supporting multiple 'Driving' actors (a CLI, a Web API, and a GUI) for the same core logic",
+      "Protecting the core logic from frequently changing third-party APIs"
+    ],
+    "gotchas": [
+      "Mapping overhead: you often need 'DTO' objects to translate data from the Adapter format into the Port format, which leads to manual code writing.",
+      "Confusion with Clean Architecture: they are very similar and both use the same basic idea of 'Isolate the core'."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "ports-and-adapters-topology",
+      "show_driving_vs_driven_sides": true,
+      "show_adapter_plug_anim": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the alternative name for Hexagonal Architecture.",
+    "starter_code": "name = \"_____ and _________\"",
+    "solution": "Ports\nAdapters",
+    "hints": [
+      "Where things connect and what makes them fit"
+    ],
+    "test_code": "assert \"port\" in solution.lower()\nassert \"adapter\" in solution.lower()\nprint(\"PASS\")"
+  },
+  "related": ["clean-architecture-01", "adapter-pattern-01", "domain-driven-design-01"],
+  "tags": ["architecture", "hexagonal", "ports-and-adapters", "decoupling", "software-engineering"]
+}

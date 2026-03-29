@@ -1,0 +1,44 @@
+{
+  "id": "technical-debt-01",
+  "slug": "technical-debt",
+  "title": "Technical Debt",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The cost of choosing an easy (fast) solution now instead of a better (slower) approach that would take longer to implement. Like financial debt, it must be 'repaid' with interest.",
+    "analogy": "Using credit cards to build a house: you can buy the materials fast, but eventually, the interest (Messy code) becomes so high that you spend all your money on interest (Fixing bugs) instead of building new rooms (Features).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Consciously launching an MVP early to test a market, knowing the code will need refactoring later",
+      "Explaining to managers why new features are taking longer over time",
+      "Planning 'Refactoring Sprints' to pay down the interest"
+    ],
+    "gotchas": [
+      "Accidental Debt: sometimes debt isn't a choice; it happens when business requirements change and the old design no longer fits.",
+      "Defaulting: if you never pay off technical debt, the codebase becomes a 'Big Ball of Mud' and the project eventually dies because no one can change anything without breaking it."
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "technical-debt-quadrant",
+      "show_intentional_vs_accidental": true,
+      "show_maintenance_overhead_growth": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify what 'Interest' represents in the context of technical debt.",
+    "starter_code": "interest = \"The extra _____ and cost required to build new features in a messy codebase.\"",
+    "solution": "effort",
+    "hints": [
+      "Starts with 'e', rhymes with 'comfort'"
+    ],
+    "test_code": "def check(ans): return \"effort\" in ans.lower() or \"time\" in ans.lower()\nassert check(\"effort\")\nprint(\"PASS\")"
+  },
+  "related": ["refactoring-patterns-01", "dry-kiss-yagni-01", "code-coverage-01"],
+  "tags": ["debt", "maintenance", "management", "quality", "agile", "software-engineering"]
+}

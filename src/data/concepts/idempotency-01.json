@@ -1,0 +1,46 @@
+{
+  "id": "idempotency-01",
+  "slug": "idempotency",
+  "title": "Idempotency",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A property where making the same request multiple times has the same effect as making it once, preventing accidental duplicate actions.",
+    "analogy": "An elevator button: pressing it once calls the elevator. Pressing it 20 more times doesn't make the elevator come faster or send 20 elevators — the final result is exactly the same.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Payment processing (avoiding double charges on a slow network click)",
+      "Retrying failed API calls automatically (safe to retry if the endpoint is idempotent)",
+      "Designing background jobs that might run more than once (At-least-once delivery)"
+    ],
+    "gotchas": [
+      "GET, PUT, and DELETE are idempotent by default in REST. POST is NOT idempotent unless you implement a 'deduplication' key",
+      "Idempotency doesn't mean the server returns the EXACT same response, but that the server STATE doesn't change after the first time"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "idempotency-key-flow",
+      "show_header_key": true,
+      "show_cache_lookup": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which HTTP verbs are idempotent in standard REST design.",
+    "starter_code": "is_idempotent = {\n    \"GET\": ____,\n    \"POST\": ____,\n    \"PUT\": ____,\n    \"DELETE\": ____\n}",
+    "solution": "True\nFalse\nTrue\nTrue",
+    "hints": [
+      "Reading (GET) doesn't change anything, so it's idempotent",
+      "Creating (POST) usually adds a new record each time",
+      "Replacing (PUT) or Deleting (DELETE) results in the same state regardless of how many times you do it"
+    ],
+    "test_code": "assert is_idempotent[\"GET\"] == True\nassert is_idempotent[\"POST\"] == False\nassert is_idempotent[\"PUT\"] == True\nprint(\"PASS\")"
+  },
+  "related": ["rest-api-design-01", "api-versioning-01", "database-transactions-01"],
+  "tags": ["idempotency", "api", "rest", "reliability", "backend"]
+}

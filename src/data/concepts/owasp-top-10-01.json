@@ -1,0 +1,44 @@
+{
+  "id": "owasp-top-10-01",
+  "slug": "owasp-top-10",
+  "title": "OWASP Top 10",
+  "domain": "Backend",
+  "category": "Security",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A standard awareness document for developers and web application security, representing a broad consensus on the most critical security risks to web applications.",
+    "analogy": "The 'Top 10 Most Wanted' list for hackers: it tells you exactly what they are looking for so you can lock the right doors and windows first.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Designing the security architecture of a new application",
+      "Training team members on common vulnerabilities",
+      "Prioritizing which bugs to fix during a security audit"
+    ],
+    "gotchas": [
+      "The list changes every few years! What was #1 in 2017 might be #3 in 2021 as new technologies (like microservices and cloud) change the attack landscape",
+      "Fixing all 10 doesn't make you 'uncrackable', but it does protect you against ~90% of common automated attacks"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "risk-impact-matrix",
+      "show_vulnerability_categories": true,
+      "show_severity_labels": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the #1 risk in the most recent OWASP Top 10 (2021).",
+    "starter_code": "top_risk = \"_______ Control (A01:2021)\"\n# It means a user can access data they shouldn't see.",
+    "solution": "Broken Access",
+    "hints": [
+      "If the door isn't locked correctly, the access is 'Broken'"
+    ],
+    "test_code": "def check(ans): return \"broken\" in ans.lower() and \"access\" in ans.lower()\nassert check(\"Broken Access\")\nprint(\"PASS\")"
+  },
+  "related": ["sql-injection-01", "csrf-01", "xss-cross-site-scripting-01"],
+  "tags": ["security", "owasp", "best-practices", "vulnerabilities", "audit", "backend"]
+}

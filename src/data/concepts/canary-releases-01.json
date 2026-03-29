@@ -1,0 +1,44 @@
+{
+  "id": "canary-releases-01",
+  "slug": "canary-releases",
+  "title": "Canary Releases",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A release strategy where you roll out a new feature to a tiny subset of users first (the 'canaries') before rolling it out to the whole population.",
+    "analogy": "A canary in a coal mine: miners used to take a bird into the mine. If there was dangerous gas, the bird would get sick first, warning the miners to get out. In software, if 1% of users get errors, you stop the release before 100% of users are affected.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing new, complex code under real-world traffic patterns",
+      "Gathering feedback from a small group of beta testers",
+      "Ensuring that new features don't cause performance regressions"
+    ],
+    "gotchas": [
+      "Complexity: you must be able to route traffic based on user headers or percentages, which requires an advanced load balancer or service mesh.",
+      "Monitoring: a canary release is useless if you aren't watching the error rates specifically for the canary group."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "incremental-traffic-ramp",
+      "show_error_threshold_abort": true,
+      "show_user_segmentation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "How does a Canary Release differ from a Blue-Green deployment?",
+    "starter_code": "ans = \"Canary is __________; Blue-Green is all-at-once.\"",
+    "solution": "incremental",
+    "hints": [
+      "Doing it in small steps"
+    ],
+    "test_code": "def check(ans): return \"incre\" in ans.lower() or \"step\" in ans.lower()\nassert check(\"incremental\")\nprint(\"PASS\")"
+  },
+  "related": ["blue-green-deployment-01", "observability-logs-metrics-traces-01", "service-mesh-01"],
+  "tags": ["devops", "deployment", "canary", "risk-mitigation", "monitoring", "software-engineering"]
+}

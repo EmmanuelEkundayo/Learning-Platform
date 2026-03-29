@@ -1,0 +1,45 @@
+{
+  "id": "rest-principles-01",
+  "slug": "rest-principles",
+  "title": "REST Principles",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "An architectural style for designing networked applications based on resources, standard HTTP verbs, and stateless communication.",
+    "analogy": "A library where every book has a unique ID (URL) and you use standard actions like 'Get', 'Add', 'Update', or 'Delete' to interact with them.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Building public APIs for mobile apps or web frontends",
+      "CRUD-based systems (Create, Read, Update, Delete)",
+      "When cacheability and simplicity are preferred over complex queries"
+    ],
+    "gotchas": [
+      "REST is not a protocol (unlike SOAP or gRPC); it is a set of constraints and guidelines",
+      "Statelessness means every request must contain all the information needed to understand it; the server session shouldn't store client state"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rest-api-flow",
+      "show_verbs": true,
+      "show_statelessness": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Map the operation to the correct RESTful HTTP verb and URL.",
+    "starter_code": "api_design = {\n    \"Get a specific user\": \"____ /users/123\",\n    \"Create a new post\":  \"____ /posts\",\n    \"Update user bio\":    \"____ /users/123\",\n    \"Delete a comment\":   \"____ /comments/456\"\n}",
+    "solution": "GET\nPOST\nPATCH\nDELETE",
+    "hints": [
+      "Use GET for reading, POST for creating, and DELETE for deleting",
+      "PATCH is used for partial updates (like changing just a bio), while PUT often replaces the whole resource"
+    ],
+    "test_code": "assert \"GET\" in api_design[\"Get a specific user\"]\nassert \"POST\" in api_design[\"Create a new post\"]\nassert \"PATCH\" in api_design.get(\"Update user bio\", \"PUT\") # allow PUT or PATCH for flexibility but PATCH preferred here\nassert \"DELETE\" in api_design[\"Delete a comment\"]\nprint(\"PASS\")"
+  },
+  "related": ["graphql-basics-01", "grpc-01", "http-versions-01"],
+  "tags": ["rest", "api", "http", "architecture", "backend"]
+}

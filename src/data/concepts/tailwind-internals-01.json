@@ -1,0 +1,44 @@
+{
+  "id": "tailwind-internals-01",
+  "slug": "tailwind-internals",
+  "title": "Tailwind CSS Internals",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A utility-first CSS framework that scans your source code for class names (like `flex`, `pt-4`) and generates a minimized CSS file containing ONLY the styles you actually used.",
+    "analogy": "A custom toolbelt: instead of buying a giant pre-filled toolbox where you only use 3 tools (Bootstrap), you tell a robot (Tailwind CLI) exactly which 3 tools you need, and it builds you a tiny, perfectly sized belt.",
+    "time_complexity": "O(N) at build time (scanning files)",
+    "space_complexity": "Very small production CSS",
+    "when_to_use": [
+      "Rapidly prototyping UIs without leaving your HTML/JSX",
+      "Ensuring consistent spacing and color tokens across a project",
+      "Keeping production CSS bundles as small as possible (usually < 10KB)"
+    ],
+    "gotchas": [
+      "Tailwind CANNOT see classes created with string concatenation (e.g., `text-${color}-500`). Use full class names so the scanner can find them",
+      "It requires a build step (PostCSS or Tailwind CLI) to generate the CSS"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "jit-compiler-flow",
+      "show_file_scanning_process": true,
+      "show_unused_style_purging": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Tailwind compiler engine (introduced in v3) that generates CSS on-the-fly as you type.",
+    "starter_code": "engine = \"___ (Just-In-Time)\"",
+    "solution": "JIT",
+    "hints": [
+      "It's just 'in' 'time'"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"JIT\"\nassert check(\"JIT\")\nprint(\"PASS\")"
+  },
+  "related": ["css-in-js-tradeoffs-01", "bundlers-internals-01", "tree-shaking-01"],
+  "tags": ["css", "tailwind", "utility-first", "jit", "purging", "frontend"]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "input-validation-01",
+  "slug": "input-validation",
+  "title": "Input Validation & Sanitization",
+  "domain": "Backend",
+  "category": "Security",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The practice of checking user input against a set of rules (Validation) and cleaning it (Sanitization) to ensure it is safe before processing it.",
+    "analogy": "A bouncer at a club: Validation is checking if the person has an ID and is over 21. Sanitization is making them leave their weapons (malicious scripts) at the door before they enter.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Every single time your application receives data from the outside world (API calls, forms, URL params)",
+      "Standardizing data formats before saving them to the database",
+      "Preventing XSS and SQL injection at the entry point"
+    ],
+    "gotchas": [
+      "Never trust client-side validation alone! Attackers can easily bypass your JavaScript and send malicious data directly to your API",
+      "Don't just blacklist bad characters; it's much safer to 'whitelist' allowed characters"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "validation-pipeline",
+      "show_schema_check": true,
+      "show_type_coercion": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the difference between Validation and Sanitization.",
+    "starter_code": "tasks = {\n    \"Check if the email contains an @ symbol\": \"__________\",\n    \"Strip <script> tags from a comment string\": \"____________\"\n}",
+    "solution": "Validation\nSanitization",
+    "hints": [
+      "Validation is about 'Is this right?'",
+      "Sanitization is about 'Is this clean?'"
+    ],
+    "test_code": "assert \"Val\" in tasks[\"Check if the email contains an @ symbol\"]\nassert \"San\" in tasks[\"Strip <script> tags from a comment string\"]\nprint(\"PASS\")"
+  },
+  "related": ["sql-injection-01", "xss-cross-site-scripting-01", "owasp-top-10-01"],
+  "tags": ["security", "validation", "sanitization", "best-practices", "backend"]
+}

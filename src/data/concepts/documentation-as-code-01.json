@@ -1,0 +1,44 @@
+{
+  "id": "documentation-as-code-01",
+  "slug": "documentation-as-code",
+  "title": "Documentation as Code",
+  "domain": "Software Engineering",
+  "category": "Additional SWE",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The practice of writing and managing documentation using the same tools as software development: plain text (Markdown), Version Control (Git), and automated CI/CD pipelines.",
+    "analogy": "Treating your README like your code: instead of a messy Word document living on someone's desktop, the documentation lives in the `docs/` folder of the repo. Every time someone changes a feature, they also change the documentation in the same Pull Request.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Keeping technical documentation in sync with the actual code",
+      "Allowing developers to write docs without leaving their IDE",
+      "Automatically publishing documentation sites (like Swagger or Docusaurus) on every push"
+    ],
+    "gotchas": [
+      "Out of date: just because it's 'Code' doesn't mean it updates itself. You still need to enforce 'Docs must be updated' in code reviews.",
+      "Complexity: for non-technical users (like Marketing), editing Markdown in a Git repo might be too difficult compared to a Wiki."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "docs-pipeline-rendering",
+      "show_git_commit_linkage": true,
+      "show_automated_screenshot_gen": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the most popular lightweight markup language used for 'Documentation as Code'.",
+    "starter_code": "language = \"________\"",
+    "solution": "Markdown",
+    "hints": [
+      "It has a .md extension"
+    ],
+    "test_code": "def check(ans): return \"markdown\" in ans.lower()\nassert check(\"Markdown\")\nprint(\"PASS\")"
+  },
+  "related": ["cicd-pipelines-01", "github-actions-01", "branch-strategies-01"],
+  "tags": ["documentation", "git", "markdown", "devops", "collaboration", "software-engineering"]
+}

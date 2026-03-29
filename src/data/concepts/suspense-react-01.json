@@ -1,0 +1,44 @@
+{
+  "id": "suspense-react-01",
+  "slug": "suspense-react",
+  "title": "React Suspense",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A component that allows you to declaratively 'wait' for something (like data or code) to load and show a fallback UI (like a spinner) in the meantime.",
+    "analogy": "Waiting for a plane: you arrive at the gate (Suspense Boundary). If the plane isn't there yet (Loading), you wait in the lounge (Fallback). Once the plane arrives (Resolved), you board and fly (Rendered Content).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Showing skeletons while data is fetching",
+      "Handling 'Lazy Loaded' components",
+      "Coordinating multiple loading states in a complex dashboard"
+    ],
+    "gotchas": [
+      "Suspense is NOT a data-fetching library; it's a mechanism that data-fetching libraries (like React Query or Relay) can hook into",
+      "If a component inside a Suspense boundary 'throws' a Promise, React catches it and shows the fallback"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "suspense-waterfall-fix",
+      "show_fallback_transition": true,
+      "show_data_resolution": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the mandatory prop for the Suspense component.",
+    "starter_code": "<Suspense ______={<Spinner />}>\n    <HeavyComponent />\n</Suspense>",
+    "solution": "fallback",
+    "hints": [
+      "What do you 'fall back' to?"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"fallback\"\nassert check(\"fallback\")\nprint(\"PASS\")"
+  },
+  "related": ["concurrent-mode-01", "react-fiber-01", "code-splitting-react-01"],
+  "tags": ["react", "suspense", "loading", "async", "ux", "frontend"]
+}

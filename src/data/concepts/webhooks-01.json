@@ -1,0 +1,45 @@
+{
+  "id": "webhooks-01",
+  "slug": "webhooks",
+  "title": "Webhooks",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "An automated message a server sends to your app immediately after a specific event happens — essentially a 'reverse API' call.",
+    "analogy": "Getting a text notification when your Uber arrives: instead of you opening the app every 10 seconds to check, the Uber server 'calls' your phone when the event (arrival) triggers.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Getting notified when a payment is successful (Stripe/PayPal)",
+      "Triggering a build when code is pushed to GitHub",
+      "Syncing data between two different platforms instantly"
+    ],
+    "gotchas": [
+      "You must provide a public, always-on URL (endpoint) for the server to call",
+      "Security: you should always verify the 'signature' in the webhook header to ensure it actually came from the trusted source (e.g., Stripe) and not a hacker"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "webhook-callback",
+      "show_event_trigger": true,
+      "show_retry_logic": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the pseudocode for a simple webhook receiving endpoint.",
+    "starter_code": "def on_payment_webhook(request):\n    # 1. Verify the signature\n    sig = request.headers[\"X-Signature\"]\n    if not verify_auth(request.body, sig):\n        return \"Forbidden\", 403\n    \n    # 2. Process data\n    event = request.body[\"type\"]\n    if event == \"payment.______\":\n        handle_success(request.body[\"id\"])\n        \n    # 3. Always acknowledge\n    return \"OK\", ____",
+    "solution": "succeeded\n200",
+    "hints": [
+      "For a payment, you're looking for 'succeeded' or 'completed'",
+      "You must return a 200 OK fast so the sender doesn't think the call failed and retry endlessly"
+    ],
+    "test_code": "def check(e, status): return e == \"succeeded\" and status == 200\nassert check(\"succeeded\", 200)\nprint(\"PASS\")"
+  },
+  "related": ["websockets-01", "rest-principles-01", "event-sourcing-01"],
+  "tags": ["webhooks", "callbacks", "events", "api", "integration", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "observer-pattern-01",
+  "slug": "observer-pattern",
+  "title": "Observer Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A behavioral pattern where an object (the subject) maintains a list of its dependents (observers) and notifies them automatically of any state changes.",
+    "analogy": "A YouTube subscription: the creator (Subject) doesn't personally call every fan to say a video is out. They just 'notify' the platform, and every 'Subscriber' (Observer) gets an alert automatically.",
+    "time_complexity": "O(N) notifications",
+    "space_complexity": "O(N) observer list",
+    "when_to_use": [
+      "Implementing 'Events' or 'Listeneers' in UI frameworks (clicking a button notifies many components)",
+      "Syncing multiple UI views with a single data model",
+      "Building a stock market alert system where users watch specific prices"
+    ],
+    "gotchas": [
+      "Memory Leaks: if you 'Subscribe' but forget to 'Unsubscribe', the Subject will keep a reference to your object forever, preventing it from being garbage collected.",
+      "Notification Order: usually, you shouldn't rely on which observer is notified first."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "subject-observer-notification",
+      "show_subscription_lifecycle": true,
+      "show_broadcast_mechanics": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary advantage of the Observer pattern.",
+    "starter_code": "ans = \"It allows for one-to-____ communication where objects stay in sync without knowing each other's internals.\"",
+    "solution": "many",
+    "hints": [
+      "One subject, many ____"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"many\"\nassert check(\"many\")\nprint(\"PASS\")"
+  },
+  "related": ["strategy-pattern-01", "pubsub-pattern-01", "solid-principles-01"],
+  "tags": ["design-patterns", "behavioral", "observer", "events", "pub-sub", "software-engineering"]
+}

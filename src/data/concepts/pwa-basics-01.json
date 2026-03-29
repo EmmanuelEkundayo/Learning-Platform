@@ -1,0 +1,45 @@
+{
+  "id": "pwa-basics-01",
+  "slug": "pwa-basics",
+  "title": "Progressive Web Apps (PWA)",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A set of technologies that allow a website to behave like a native mobile app: it can be installed on the home screen, work offline, and send push notifications.",
+    "analogy": "A 'transformer' for the web: it's a website in the browser, but when you 'install' it on your phone, it transforms into a standalone app with no URL bar that works even in a tunnel (offline).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Increasing user engagement with 'Add to Home Screen'",
+      "Providing a fast, offline-first experience on mobile",
+      "Lowering the friction for users to 'install' your app compared to an app store"
+    ],
+    "gotchas": [
+      "PWAs MUST have a valid 'Manifest' file and a 'Service Worker' to be installable",
+      "Not all browser features are available in PWA mode (like NFC or raw filesystem access on iOS)"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "pwa-install-app-shell",
+      "show_manifest_binding": true,
+      "show_offline_fallback": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two mandatory files required to turn a website into a PWA.",
+    "starter_code": "files = [\n    \"1. Web App ________ (JSON for icons/colors)\",\n    \"2. _______ ______ (Background script for caching)\"\n]",
+    "solution": "Manifest\nService Worker",
+    "hints": [
+      "The First is a 'Manifest'",
+      "The Second is a 'Worker' of the 'Service'"
+    ],
+    "test_code": "assert \"Manifest\" in files[0]\nassert \"Service\" in files[1]\nprint(\"PASS\")"
+  },
+  "related": ["service-workers-01", "browser-caching-01", "caching-strategies-frontend-01"],
+  "tags": ["pwa", "mobile", "offline", "web-apps", "ux", "frontend"]
+}

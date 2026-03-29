@@ -1,0 +1,45 @@
+{
+  "id": "timeseries-databases-01",
+  "slug": "timeseries-databases",
+  "title": "Time-Series Databases (TSDB)",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Databases optimized for storing and querying sequences of data points indexed by time (e.g., metrics, events, or sensor data).",
+    "analogy": "A hospital patient's heart rate monitor: it doesn't just store the current heart rate; it records the exact value at every second, creating a continuous graph of history.",
+    "time_complexity": "N/A (Optimized for O(1) appends and range queries)",
+    "space_complexity": "N/A (Heavily compressed to handle billions of points)",
+    "when_to_use": [
+      "Server monitoring (CPU/RAM usage over time)",
+      "IoT sensor data (temperature, humidity)",
+      "Financial market data (stock prices, crypto trades)",
+      "Application performance monitoring (APM)"
+    ],
+    "gotchas": [
+      "TSDBs are often 'Append-Only' — updating or deleting a specific point from 3 hours ago is usually slow or not supported",
+      "Cardinality explosion: if you add too many unique 'tags' (like UUIDs), the index size can explode and crash the database"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "tsdb-buckets",
+      "show_downsampling": true,
+      "show_compression": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the technique of reducing the resolution of old data to save space (e.g., converting 'per-second' data to 'per-minute' after 7 days).",
+    "starter_code": "def optimize_old_data():\n    # Change resolution from 1s to 1m\n    technique = \"____________\"\n    return technique",
+    "solution": "downsampling",
+    "hints": [
+      "It involves 'sampling' the data 'down' to a lower frequency"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"downsampling\"\nassert check(\"Downsampling\")\nprint(\"PASS\")"
+  },
+  "related": ["database-indexing-01", "cap-theorem-01", "redis-data-structures-01"],
+  "tags": ["timeseries", "database", "influxdb", "prometheus", "monitoring", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "css-animations-01",
+  "slug": "css-animations",
+  "title": "CSS Animations & Transitions",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Transitions allow property changes to happen smoothly over time, while Animations (@keyframes) allow for complex, multi-step motion sequences that can happen automatically.",
+    "analogy": "Transitions are like a slide: you start at the top (state A) and glide smoothly to the bottom (state B). Animations are like a choreographed dance: you follow a set of instructions ('at 50%, jump') and can repeat the dance forever.",
+    "time_complexity": "Hardware accelerated (GPU)",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Smoothing out hover effects (Transitions)",
+      "Creating loading spinners (Animations)",
+      "Building entry animations for elements appearing on screen"
+    ],
+    "gotchas": [
+      "Only animate 'Cheap' properties like `transform` and `opacity` to keep 60fps. Animating `width` or `margin` causes expensive 'Reflows'",
+      "Transitions only work if the property has a numerical or color value (you can't transition from `display: none` to `display: block`)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "keyframe-timeline-preview",
+      "show_easing_curves": ["linear", "ease-in", "ease-out", "cubic-bezier"],
+      "show_gpu_acceleration_status": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the the CSS at-rule used to define a multi-step animation sequence.",
+    "starter_code": "@_________ slide-in {\n    from { transform: translateX(-100%); }\n    to { transform: translateX(0); }\n}",
+    "solution": "keyframes",
+    "hints": [
+      "It contains 'key' 'frames'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"keyframes\"\nassert check(\"keyframes\")\nprint(\"PASS\")"
+  },
+  "related": ["render-pipeline-01", "reflow-vs-repaint-01", "request-animation-frame-01"],
+  "tags": ["css", "animations", "transitions", "keyframes", "performance", "frontend"]
+}

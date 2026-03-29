@@ -1,0 +1,44 @@
+{
+  "id": "code-review-best-practices-01",
+  "slug": "code-review-best-practices",
+  "title": "Code Review Best Practices",
+  "domain": "Software Engineering",
+  "category": "Git & Collaboration",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A collaborative process where team members examine each other's code to catch bugs, improve quality, and share knowledge.",
+    "analogy": "A proofreader for a book: even the best author makes typos. A second pair of eyes finds things the author was 'too close' to see, and they help the author write in a way that the whole team can understand.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Every time a Pull Request is opened",
+      "Onboarding new team members to learn the style guide",
+      "Mentoring junior developers by providing constructive feedback"
+    ],
+    "gotchas": [
+      "Nit-picking: don't argue about semicolons or tabs. Use an automated Linter and Formatter for that! Reviews should focus on logic, security, and design.",
+      "Review Fatigue: if a Pull Request has 1,000 changes, no one will read it properly. Keep PRs small (< 400 lines)."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "review-cycle-feedback-loop",
+      "show_automated_check_blocking": true,
+      "show_constructive_comment_mapping": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "What is the recommended maximum number of lines of code (LOC) for a single pull request to ensure high-quality review?",
+    "starter_code": "max_loc = ____",
+    "solution": "400",
+    "hints": [
+      "Between 300 and 500"
+    ],
+    "test_code": "def check(ans): return int(ans) <= 500\nassert check(\"400\")\nprint(\"PASS\")"
+  },
+  "related": ["git-internals-dag-01", "dry-kiss-yagni-01", "semantic-versioning-01"],
+  "tags": ["collaboration", "code-review", "mentorship", "quality", "teamwork", "software-engineering"]
+}

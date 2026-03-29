@@ -1,0 +1,44 @@
+{
+  "id": "contract-testing-01",
+  "slug": "contract-testing",
+  "title": "Contract Testing",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A method for testing integration points between services by ensuring they both adhere to a shared agreement (The Contract) without needing both services to be running.",
+    "analogy": "A puzzle piece blueprint: service A and service B are being built in different factories. Instead of shipping the whole puzzle back and forth to check if they fit, they both use a scale drawing of the 'Link' (The Contract). If both parts match the drawing, they are guaranteed to fit.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing microservices developed by different teams",
+      "Replacing slow, flaky End-to-End (E2E) tests with faster integration tests",
+      "Preventing breaking API changes before they are deployed"
+    ],
+    "gotchas": [
+      "Consumer-Driven: Pact (the most popular tool) is 'Consumer-Driven', meaning the person USING the API writes the contract first. This can be a culture shock for backend teams.",
+      "Contract tests don't check business logic; they only check that the 'Shape' of the data matches."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "contract-pact-lifecycle",
+      "show_consumer_expectation_recording": true,
+      "show_provider_verification_replay": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the popular framework used for Consumer-Driven Contract Testing.",
+    "starter_code": "framework = \"____\"",
+    "solution": "Pact",
+    "hints": [
+      "Rhymes with 'Fact'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"pact\"\nassert check(\"Pact\")\nprint(\"PASS\")"
+  },
+  "related": ["bdd-basics-01", "distributed-tracing-01", "api-design-principles-01"],
+  "tags": ["testing", "microservices", "integration", "pact", "api", "software-engineering"]
+}

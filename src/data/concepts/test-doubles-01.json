@@ -1,0 +1,44 @@
+{
+  "id": "test-doubles-01",
+  "slug": "test-doubles",
+  "title": "Test Doubles (Mock, Stub, Fake)",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Objects used in place of real dependencies (like a Database or API) during testing to speed up tests and isolate the unit under test.",
+    "analogy": "A crash test dummy: instead of putting a real person in the car (A real database), you put a dummy that looks and feels like a person. It's safer, cheaper, and you can crash 100 times a day (Run 100 tests per second).",
+    "time_complexity": "O(1) setup",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing logic that depends on a slow network API call",
+      "Isolating a function from a complex, hard-to-set-up third-party library",
+      "Simulating rare error cases (like a 'Disk Full' error) that are hard to trigger for real"
+    ],
+    "gotchas": [
+      "Fragile Tests: if you mock too many things, your test becomes tied to the implementation instead of the behavior. If you refactor the code, the test will break even if the result is the same.",
+      "Mocking what you don't own: never mock third-party libraries; wrap them in your own interface and mock that instead."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "test-double-taxonomy",
+      "show_stub_vs_mock_vs_fake": true,
+      "show_interaction_verification_flow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the type of test double that specifically records 'how many times' and 'with what arguments' it was called for verification.",
+    "starter_code": "type = \"____\"",
+    "solution": "Mock",
+    "hints": [
+      "Rhymes with 'Lock'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"mock\"\nassert check(\"Mock\")\nprint(\"PASS\")"
+  },
+  "related": ["tdd-cycle-01", "contract-testing-01", "dependency-inversion-01"],
+  "tags": ["testing", "mocks", "stubs", "fakes", "isolation", "software-engineering"]
+}

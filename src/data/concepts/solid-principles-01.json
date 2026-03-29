@@ -1,0 +1,44 @@
+{
+  "id": "solid-principles-01",
+  "slug": "solid-principles",
+  "title": "SOLID Principles",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A set of five design principles intended to make software designs more understandable, flexible, and maintainable.",
+    "analogy": "Building a custom PC: every part is separate (Single Responsibility), easy to swap for a better version (Open/Closed), uses standard plugs (Interface Segregation), and any 'GPU' works as long as it fits the slot (Liskov Substitution).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Designing a large, long-lived object-oriented codebase",
+      "Refactoring messy 'God Objects' that do too many things",
+      "Building a plugin system where new features shouldn't break old ones"
+    ],
+    "gotchas": [
+      "Don't over-engineer! Applying all 5 principles to a 10-line script is a waste of time. These are tools to manage COMPLEXITY, not rules for every line of code.",
+      "Dependency Inversion (D) is NOT the same as Dependency Injection (the technique), though they usually go together."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "solid-violation-vs-fix",
+      "show_srp_split": true,
+      "show_ocp_extension_point": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the 'S' in SOLID: A class should have one, and only one, reason to change.",
+    "starter_code": "principle = \"______ Responsibility Principle\"",
+    "solution": "Single",
+    "hints": [
+      "Just one"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"single\"\nassert check(\"Single\")\nprint(\"PASS\")"
+  },
+  "related": ["dry-kiss-yagni-01", "dependency-inversion-01", "clean-architecture-01"],
+  "tags": ["design-principles", "solid", "oop", "architecture", "software-engineering"]
+}

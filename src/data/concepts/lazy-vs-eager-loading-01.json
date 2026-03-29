@@ -1,0 +1,45 @@
+{
+  "id": "lazy-vs-eager-loading-01",
+  "slug": "lazy-vs-eager-loading",
+  "title": "Lazy vs Eager Loading",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Two ways to load related data: 'Lazy' waits until you actually need it; 'Eager' loads everything up front in a single batch.",
+    "analogy": "Packing for a trip: Eager loading is packing every possible outfit 'just in case' before you leave. Lazy loading is and 'only' buying a jacket when you arrive and realize it's cold.",
+    "time_complexity": "N/A",
+    "space_complexity": "Eager uses more memory initially; Lazy uses more network round-trips",
+    "when_to_use": [
+      "Eager: When you know for certain you will need the related data (avoids N+1 queries)",
+      "Lazy: When the related data is large and rarely accessed",
+      "Choosing a default policy in your ORM or GraphQL resolvers"
+    ],
+    "gotchas": [
+      "Lazy loading inside a loop is the direct cause of the N+1 Query Problem",
+      "Eager loading too many relationships at once can result in a 'Cartesian Product' that slows down the DB and uses massive RAM"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "lazy-vs-eager-waterfall",
+      "show_network_roundtrips": true,
+      "show_memory_usage": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which loading strategy to use for these scenarios.",
+    "starter_code": "def select_loading_strategy(use_case):\n    if use_case == \"You need to display a list of 50 users AND their 50 profile pictures\":\n        return \"_____ Loading\"\n    elif use_case == \"You load a user but only 1% of users click to see their 'Privacy Settings' table\":\n        return \"____ Loading\"\n    return \"None\"",
+    "solution": "Eager\nLazy",
+    "hints": [
+      "Loading everything up front is 'Eager'",
+      "Loading only when requested is 'Lazy'"
+    ],
+    "test_code": "assert select_loading_strategy(\"You need to display a list of 50 users AND their 50 profile pictures\") == \"Eager Loading\"\nassert select_loading_strategy(\"You load a user but only 1% of users click to see their 'Privacy Settings' table\") == \"Lazy Loading\"\nprint(\"PASS\")"
+  },
+  "related": ["n-plus-one-query-01", "sql-joins-01", "orm-patterns-01"],
+  "tags": ["orm", "performance", "lazy-loading", "eager-loading", "sql", "backend"]
+}

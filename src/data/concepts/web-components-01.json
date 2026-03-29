@@ -1,0 +1,46 @@
+{
+  "id": "web-components-01",
+  "slug": "web-components",
+  "title": "Web Components",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A suite of different technologies (Custom Elements, Shadow DOM, HTML Templates) that allow you to create reusable custom HTML tags that work natively in all browsers without a framework.",
+    "analogy": "Building your own Lego blocks: instead of just using standard 2x4 rectangles (divs and spans), you build a specialized 'Pirate Ship Mast' block (a <user-profile> tag) that you can use anywhere and it always looks and acts the same.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Building a design system that needs to be shared across many different teams and frameworks (React, Vue, Angular)",
+      "Creating standalone widgets (like a weather widget) for embedding on 3rd party sites",
+      "Future-proofing your UI code to work without external library dependencies"
+    ],
+    "gotchas": [
+      "Custom element names MUST contain a hyphen (e.g., <my-tag>) to distinguish them from standard tags",
+      "Web Components don't have built-in state management like React; you have to handle attributes and properties manually"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "web-component-pillars",
+      "show_custom_elements": true,
+      "show_shadow_dom": true,
+      "show_html_templates": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three pillars of Web Components.",
+    "starter_code": "pillars = [\n    \"1. ______ Elements (Defining <my-tag>)\",\n    \"2. Shadow ______ (Encapsulation)\",\n    \"3. HTML Templates (Reusing markup)\"\n]",
+    "solution": "Custom\nDOM",
+    "hints": [
+      "They aren't standard elements, they are 'Custom'",
+      "Encapsulation happens in the 'Shadow' DOM"
+    ],
+    "test_code": "assert \"Custom\" in pillars[0]\nassert \"DOM\" in pillars[1]\nprint(\"PASS\")"
+  },
+  "related": ["shadow-dom-01", "dom-internals-01", "event-delegation-01"],
+  "tags": ["web-components", "html", "custom-elements", "standards", "reusability", "frontend"]
+}

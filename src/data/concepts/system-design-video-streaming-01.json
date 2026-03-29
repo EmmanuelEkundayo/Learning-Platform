@@ -1,0 +1,44 @@
+{
+  "id": "system-design-video-streaming-01",
+  "slug": "system-design-video-streaming",
+  "title": "System Design: Video Streaming",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A high-bandwidth system (like Netflix or YouTube) that delivers video content by chunking files, transcoding them into multiple qualities, and serving them from geographically distributed servers (CDNs).",
+    "analogy": "A fast-food chain with local branches: if everyone in the world tried to get a burger from one 'Master Kitchen' in New York (Central Server), it would be cold by the time it reached Japan. Instead, the kitchen prepares components (Video Chunks) and sends them to local stores (CDNs) all over the world.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N * Q) where Q is number of quality versions",
+    "when_to_use": [
+      "Building Netflix, YouTube, or Twitch platforms",
+      "Implementing internal learning platforms with video content",
+      "Live-streaming events with low-latency requirements"
+    ],
+    "gotchas": [
+      "Adaptive Bitrate Streaming (ABS): the system doesn't just send one file; it monitors the user's internet speed and swaps between 4K, 1080p, and 480p 'chunks' mid-playback.",
+      "Transcoding: a single 4K upload needs to be converted into 10+ different formats/resolutions. This is a massive, asynchronous background job."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "video-ingestion-pipeline",
+      "show_transcoding_workers": true,
+      "show_cdn_edge_caching": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary network component used to deliver large video 'chunks' from a server geographically closest to the user.",
+    "starter_code": "component = \"___\"",
+    "solution": "CDN",
+    "hints": [
+      "Content Delivery Network"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"CDN\"\nassert check(\"CDN\")\nprint(\"PASS\")"
+  },
+  "related": ["cdn-basics-01", "system-design-file-storage-01", "load-balancing-01"],
+  "tags": ["system-design", "video", "streaming", "cdn", "transcoding", "software-engineering"]
+}

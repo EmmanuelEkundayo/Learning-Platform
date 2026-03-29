@@ -1,0 +1,44 @@
+{
+  "id": "system-design-api-gateway-01",
+  "slug": "system-design-api-gateway",
+  "title": "System Design: API Gateway",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A single entry point for all client requests in a microservices architecture, handling cross-cutting concerns like authentication, routing, and rate limiting.",
+    "analogy": "A hotel concierge: guests (Clients) don't go talk to the plumbers, chefs, or cleaners (Microservices) directly. They talk to the concierge (Gateway), who checks their room key (Auth), handles their request, and tells the right staff member what to do.",
+    "time_complexity": "O(1) routing overhead",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Microservices architectures with 10+ internal services",
+      "Implementing centralized Security (JWT validation, CORS)",
+      "Standardizing API responses and error codes across different team projects"
+    ],
+    "gotchas": [
+      "The Gateway is a potential 'Single Point of Failure'. If it goes down, your entire system appears offline. It must be highly available and load-balanced.",
+      "Avoid putting 'Business Logic' inside the gateway. It should be a 'dumb' router/policeman, not a developer."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "gateway-proxy-topology",
+      "show_auth_interceptor": true,
+      "show_service_aggregation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify a common concern that is BEST handled at the API Gateway instead of in every individual microservice.",
+    "starter_code": "concern = \"Rate ________\"",
+    "solution": "Limiting",
+    "hints": [
+      "Keeping things within a 'limit'"
+    ],
+    "test_code": "def check(ans): return \"limit\" in ans.lower()\nassert check(\"Limiting\")\nprint(\"PASS\")"
+  },
+  "related": ["load-balancer-internals-01", "service-mesh-01", "system-design-rate-limiter-01"],
+  "tags": ["system-design", "api-gateway", "microservices", "routing", "security", "software-engineering"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "command-pattern-01",
+  "slug": "command-pattern",
+  "title": "Command Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A behavioral pattern that turns a request into a stand-alone object that contains all information about the request. This lets you pass requests as arguments, queue them, and support undoable operations.",
+    "analogy": "A restaurant order ticket: a customer's request (e.g. 'One Burger') is written on a slip of paper (The Command). A waiter (Invoker) takes the paper and hands it to the chef (Receiver). Because the request is an object, it can be put in a queue, cancelled, or kept for accounting later.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) history for undo",
+    "when_to_use": [
+      "Implementing 'Undo' and 'Redo' functionality in an editor",
+      "Queueing tasks to be executed by a background worker at a later time",
+      "Decoupling the sender of a command (a button) from the receiver (the logic)"
+    ],
+    "gotchas": [
+      "Boilerplate: for every small action, you have to create a new class. This can lead to a lot of small files.",
+      "Command vs Strategy: they look similar! Strategy defines 'How' something is done; Command defines 'What' is to be done."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "command-undo-stack",
+      "show_execute_vs_unexecute": true,
+      "show_history_rollback_anim": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary benefit of the Command pattern for user interfaces.",
+    "starter_code": "benefit = \"It easily supports ____ and ____ functionality by keeping a history of objects.\"",
+    "solution": "Undo\nRedo",
+    "hints": [
+      "Going backward and forward"
+    ],
+    "test_code": "assert \"undo\" in solution.lower()\nassert \"redo\" in solution.lower()\nprint(\"PASS\")"
+  },
+  "related": ["strategy-pattern-01", "observer-pattern-01", "factory-pattern-01"],
+  "tags": ["design-patterns", "behavioral", "command", "undo", "redo", "queues", "software-engineering"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "tcp-vs-udp-01",
+  "slug": "tcp-vs-udp",
+  "title": "TCP vs UDP",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "TCP is a reliable, ordered handshake-based conversation; UDP is a fast, fire-and-forget message delivery.",
+    "analogy": "TCP is like a recorded delivery letter that requires a signature; UDP is like regular mail or shout-broadcasting where you don't check if everyone heard you.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Use TCP for file transfers, emails, and web browsing where data integrity matters",
+      "Use UDP for live video streaming, online gaming, and VoIP where speed is more important than occasional lost packets"
+    ],
+    "gotchas": [
+      "UDP doesn't guarantee order — packets can arrive out of sequence",
+      "TCP congestion control can slow down your connection if it detects packet loss, even if you want speed"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "packet-flow",
+      "show_handshake": true,
+      "show_retransmission": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the logic to select the transport protocol for different applications.",
+    "starter_code": "def select_protocol(app_type):\n    # Need reliability and order for file transfer\n    if app_type == \"file_transfer\":\n        return \"____\"\n    # Need low latency for real-time video, can lose some frames\n    elif app_type == \"video_stream\":\n        return \"____\"\n    return \"Unknown\"",
+    "solution": "TCP\nUDP",
+    "hints": [
+      "Transmission Control Protocol (TCP) ensures reliability",
+      "User Datagram Protocol (UDP) is optimized for speed"
+    ],
+    "test_code": "assert select_protocol(\"file_transfer\") == \"TCP\", \"File transfer needs reliability\"\nassert select_protocol(\"video_stream\") == \"UDP\", \"Real-time video needs speed\"\nprint(\"PASS\")"
+  },
+  "related": ["http-versions-01", "dns-resolution-01", "tls-ssl-handshake-01"],
+  "tags": ["networking", "tcp", "udp", "protocol", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "database-query-caching-01",
+  "slug": "database-query-caching",
+  "title": "Database Query Caching",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Storing the results of an expensive database query in memory so that the same query can be served instantly without hitting the database again.",
+    "analogy": "A restaurant chef: instead of cooking a sophisticated 'Secret Sauce' from scratch every time it's ordered, they make a giant batch in the morning and keep it in a warm jar (Cache) to serve instantly.",
+    "time_complexity": "O(1) cache lookup",
+    "space_complexity": "O(N) cached results",
+    "when_to_use": [
+      "Data that is frequently read but rarely changed (e.g., product categories, city lists)",
+      "Dashboard metrics that are expensive to calculate but okay to be 5 minutes old",
+      "Reducing Database load during peak traffic intervals"
+    ],
+    "gotchas": [
+      "Data consistency: if you cache a query and then the data changes in the DB, your cache is 'stale' until it expires or is manually purged",
+      "Don't cache sensitive, user-specific data in a 'Global' cache, or User A might see User B's private info"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "db-cache-flow",
+      "show_ttl_expiry": true,
+      "show_cache_invalidation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the standard cache eviction policy where the 'least recently used' item is deleted first.",
+    "starter_code": "def check_eviction_policy(name):\n    if name == \"Delete the item that hasn't been accessed for the longest time\":\n        return \"___\"\n    return \"Other\"",
+    "solution": "LRU",
+    "hints": [
+      "Least Recently Used"
+    ],
+    "test_code": "assert check_eviction_policy(\"Delete the item that hasn't been accessed for the longest time\") == \"LRU\"\nprint(\"PASS\")"
+  },
+  "related": ["redis-caching-patterns-01", "lru-cache-01", "cdn-basics-01"],
+  "tags": ["caching", "database", "performance", "scalability", "stale-data", "backend"]
+}

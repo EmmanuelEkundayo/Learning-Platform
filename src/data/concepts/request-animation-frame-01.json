@@ -1,0 +1,44 @@
+{
+  "id": "request-animation-frame-01",
+  "slug": "request-animation-frame",
+  "title": "requestAnimationFrame (rAF)",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A specialized browser API that tells the browser you wish to perform an animation and requests that the browser calls a specified function to update an animation before the next repaint.",
+    "analogy": "A film director waiting for the next 'frame' of the movie: instead of just throwing paint at the wall whenever you want (setTimeout), you wait for the camera operator to say 'Ready!' (the screen is ready to refresh) before you move the subject.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Smooth, high-performance visual animations (e.g., parallax, drag-and-drop)",
+      "Game loops in the browser",
+      "Synchronizing JavaScript logic with the monitor's refresh rate (usually 60Hz or 144Hz)"
+    ],
+    "gotchas": [
+      "rAF is paused automatically by the browser when the tab is hidden or minimized, saving battery and CPU",
+      "Unlike `setInterval`, rAF doesn't guarantee a specific time; it fires as fast as the user's monitor can handle"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "animation-loop-sync",
+      "show_refresh_rate_cycles": true,
+      "show_raf_vs_settimeout": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the recursive loop for a standard JS animation.",
+    "starter_code": "function animate() {\n    updateBoxPosition();\n    \n    # Request the next frame\n    ______(animate);\n}\n\n# Start the loop\n______(animate);",
+    "solution": "requestAnimationFrame\nrequestAnimationFrame",
+    "hints": [
+      "The function name matches the concept title"
+    ],
+    "test_code": "def check(ans): return \"animation\" in ans.lower() and \"frame\" in ans.lower()\nassert check(\"requestAnimationFrame\")\nprint(\"PASS\")"
+  },
+  "related": ["render-pipeline-01", "reflow-vs-repaint-01", "event-loop-browser-01"],
+  "tags": ["animation", "performance", "rendering", "javascript", "browser", "frontend"]
+}

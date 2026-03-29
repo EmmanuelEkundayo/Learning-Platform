@@ -1,0 +1,44 @@
+{
+  "id": "service-mesh-01",
+  "slug": "service-mesh",
+  "title": "Service Mesh",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A dedicated infrastructure layer that handles component-to-component communication in a microservices architecture, usually via 'sidecar' proxies.",
+    "analogy": "A secret service agent for every politician: instead of the politicians (Services) having to worry about security, travel, or communication, they just talk. Their agent (Sidecar Proxy) handles the bulletproof vest (TLS), the secure phone line (mTLS), and the directions (Routing).",
+    "time_complexity": "O(1) proxy overhead",
+    "space_complexity": "O(N) for sidecar containers",
+    "when_to_use": [
+      "Large-scale Kubernetes clusters with hundreds of microservices",
+      "Implementing 'Zero Trust' security with mutual TLS (mTLS)",
+      "Observing service-to-service latency and failures without changing application code"
+    ],
+    "gotchas": [
+      "Complexity: service meshes (like Istio) are notoriously difficult to configure and manage. Don't use one if you only have 3 services.",
+      "Latency: every request now has an extra 'hop' through a proxy, adding a few milliseconds to every internal call."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "sidecar-control-plane-split",
+      "show_service_discovery": true,
+      "show_traffic_management": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the architectural pattern where a proxy container runs next to each application container to handle communication.",
+    "starter_code": "pattern = \"_______ Pattern\"",
+    "solution": "Sidecar",
+    "hints": [
+      "The small seat next to a motorcycle"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"sidecar\"\nassert check(\"Sidecar\")\nprint(\"PASS\")"
+  },
+  "related": ["system-design-api-gateway-01", "distributed-tracing-01", "kubernetes-basics-01"],
+  "tags": ["service-mesh", "istio", "linkerd", "microservices", "infrastructure", "software-engineering"]
+}

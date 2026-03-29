@@ -1,0 +1,44 @@
+{
+  "id": "load-balancer-internals-01",
+  "slug": "load-balancer-internals",
+  "title": "Load Balancer Internals",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A hardware or software component that distributes incoming network traffic across multiple servers to ensure no single server becomes overwhelmed.",
+    "analogy": "A traffic cop at a busy intersection: instead of letting all cars go down one narrow street (Single Server), the cop directs them into 4 different open lanes (Server Cluster) to keep traffic moving smoothly.",
+    "time_complexity": "O(1) routing algorithm",
+    "space_complexity": "O(N) tracking healthy servers",
+    "when_to_use": [
+      "Scaling applications to handle millions of users",
+      "Implementing 'High Availability' (if one server crashes, the LB routes around it)",
+      "Performing zero-downtime Blue/Green deployments"
+    ],
+    "gotchas": [
+      "Session Persistence (Sticky Sessions): if a user's data is only on Server A, but the LB sends their next request to Server B, the app will 'forget' who they are unless you use a shared store.",
+      "L4 vs L7: Layer 4 is fast and only looks at IP/Port. Layer 7 can look at headers and cookies but is slower because it has to 'speak' HTTP."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "load-balancing-algorithms",
+      "show_health_check_pings": true,
+      "show_weighted_round_robin": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the simplest load balancing algorithm that cycles through servers one by one.",
+    "starter_code": "algorithm = \"_____ _____\"",
+    "solution": "Round Robin",
+    "hints": [
+      "Taking turns in a circle"
+    ],
+    "test_code": "def check(ans): return \"round\" in ans.lower() and \"robin\" in ans.lower()\nassert check(\"Round Robin\")\nprint(\"PASS\")"
+  },
+  "related": ["consistent-hashing-system-01", "system-design-api-gateway-01", "nginx-config-01"],
+  "tags": ["load-balancing", "scaling", "high-availability", "networking", "system-design", "software-engineering"]
+}

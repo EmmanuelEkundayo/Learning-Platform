@@ -1,0 +1,44 @@
+{
+  "id": "css-in-js-tradeoffs-01",
+  "slug": "css-in-js-tradeoffs",
+  "title": "CSS-in-JS Tradeoffs",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A styling approach where CSS is written using JavaScript (using libraries like Styled-components or Emotion). This tightly couples styles with logic and components.",
+    "analogy": "Internal organs: instead of putting your skin (CSS) in a separate bag (CSS file), you grow it directly on your muscles (JavaScript components). It's incredibly convenient, but it makes the body heavier to move (runtime performance cost).",
+    "time_complexity": "Runtime cost for style injection",
+    "space_complexity": "Increases JS bundle size",
+    "when_to_use": [
+      "React/Next.js projects where styles depend heavily on dynamic props",
+      "Building UI libraries where styles should be self-contained in the component",
+      "Teams that prefer 'Colocation' (keeping CSS, HTML, and JS in one file)"
+    ],
+    "gotchas": [
+      "Runtime CSS-in-JS can cause 'Style Flicker' on initial load and slows down re-renders of large lists",
+      "Modern trends are moving towards 'Static' CSS-in-JS (like Panda CSS or Vanilla Extract) which have zero runtime cost"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "runtime-injection-pipeline",
+      "show_props_to_css_mapping": true,
+      "show_bundle_size_impact": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the main performance disadvantage of using 'Runtime' CSS-in-JS libraries compared to plain CSS.",
+    "starter_code": "tradeoff = \"Main thread _______ overhead for style calculation.\"",
+    "solution": "execution",
+    "hints": [
+      "JS has to 'run' or 'execute' to generate the CSS"
+    ],
+    "test_code": "def check(ans): return \"exec\" in ans.lower()\nassert check(\"execution\")\nprint(\"PASS\")"
+  },
+  "related": ["tailwind-internals-01", "css-custom-properties-01", "render-pipeline-01"],
+  "tags": ["css", "javascript", "styling", "performance", "architecture", "frontend"]
+}

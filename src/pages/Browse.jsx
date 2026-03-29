@@ -101,10 +101,17 @@ export default function Browse() {
 
         {/* Domain pills */}
         <PillGroup
-          options={['All', 'DSA', 'ML']}
+          options={['All', 'DSA', 'ML', 'Frontend', 'Backend', 'Software Engineering']}
+          labels={{ 'Software Engineering': 'SE' }}
           value={domain}
           onChange={setDomain}
-          colorFn={v => v === 'DSA' ? 'dsa' : v === 'ML' ? 'ml' : null}
+          colorFn={v =>
+            v === 'DSA'                  ? 'dsa'      :
+            v === 'ML'                   ? 'ml'       :
+            v === 'Frontend'             ? 'frontend' :
+            v === 'Backend'              ? 'backend'  :
+            v === 'Software Engineering' ? 'se'       : null
+          }
         />
 
         {/* Category dropdown */}
@@ -192,14 +199,20 @@ function ConceptCard({ concept, prog }) {
 
 // ─── small atoms ────────────────────────────────────────────────────────────
 
+const DOMAIN_BADGE_STYLE = {
+  DSA:                  'bg-dsa-600/20 text-dsa-400',
+  ML:                   'bg-ml-500/20 text-ml-400',
+  Frontend:             'bg-frontend-500/20 text-frontend-400',
+  Backend:              'bg-backend-500/20 text-backend-400',
+  'Software Engineering': 'bg-se-500/20 text-se-400',
+}
+
 function DomainBadge({ domain }) {
+  const style = DOMAIN_BADGE_STYLE[domain] ?? 'bg-gray-500/20 text-gray-400'
+  const label = domain === 'Software Engineering' ? 'SE' : domain
   return (
-    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${
-      domain === 'DSA'
-        ? 'bg-dsa-600/20 text-dsa-400'
-        : 'bg-ml-500/20 text-ml-400'
-    }`}>
-      {domain}
+    <span className={`text-xs font-semibold px-1.5 py-0.5 rounded ${style}`}>
+      {label}
     </span>
   )
 }
@@ -222,11 +235,14 @@ function PillGroup({ options, labels = {}, value, onChange, colorFn }) {
             onClick={() => onChange(opt)}
             className={`px-3 py-1.5 text-xs font-medium transition-colors border-r last:border-r-0 border-surface-600 whitespace-nowrap
               ${active
-                ? color === 'dsa'    ? 'bg-dsa-600 text-white'
-                : color === 'ml'     ? 'bg-ml-500 text-white'
-                : color === 'green'  ? 'bg-green-800 text-green-300'
-                : color === 'yellow' ? 'bg-yellow-900 text-yellow-300'
-                : color === 'red'    ? 'bg-red-900 text-red-300'
+                ? color === 'dsa'      ? 'bg-dsa-600 text-white'
+                : color === 'ml'       ? 'bg-ml-500 text-white'
+                : color === 'frontend' ? 'bg-frontend-600 text-white'
+                : color === 'backend'  ? 'bg-backend-600 text-white'
+                : color === 'se'       ? 'bg-se-600 text-white'
+                : color === 'green'    ? 'bg-green-800 text-green-300'
+                : color === 'yellow'   ? 'bg-yellow-900 text-yellow-300'
+                : color === 'red'      ? 'bg-red-900 text-red-300'
                 : 'bg-surface-600 text-white'
                 : 'bg-surface-800 text-gray-400 hover:text-gray-200 hover:bg-surface-700'
               }`}
@@ -253,7 +269,7 @@ function EmptyState({ query, onClear }) {
       )}
       <button
         onClick={onClear}
-        className="mt-1 text-sm text-dsa-400 hover:underline"
+        className="mt-1 text-sm text-gray-400 hover:underline"
       >
         Clear all filters
       </button>

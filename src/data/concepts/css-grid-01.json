@@ -1,0 +1,44 @@
+{
+  "id": "css-grid-01",
+  "slug": "css-grid",
+  "title": "CSS Grid",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A two-dimensional layout system for the web, allowing you to align content into rows and columns simultaneously with precise control over sizing and placement.",
+    "analogy": "A spreadsheet or a piece of graph paper: you define the columns and rows first, and then you place your 'stickers' (content) into specific cells or ranges of cells.",
+    "time_complexity": "O(N*M) for grid resolution",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Complex page layouts with overlapping elements",
+      "Creating 'Photo Galleries' with varying tile sizes",
+      "Building a dashboard with specific fixed-size sidebars and flexible main areas"
+    ],
+    "gotchas": [
+      "Grid is for 2D (rows AND columns), while Flexbox is better for 1D (rows OR columns)",
+      "The `fr` unit (fractional unit) represents a fraction of the FREE space, not the total width"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "grid-area-projection",
+      "show_rows_columns_fr": true,
+      "show_implicit_vs_explicit_grid": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the CSS property used to define the number and size of columns in a grid.",
+    "starter_code": ".grid {\n    display: grid;\n    grid-template-_______: 1fr 2fr 1fr;\n}",
+    "solution": "columns",
+    "hints": [
+      "The vertical sections of a table"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"columns\"\nassert check(\"columns\")\nprint(\"PASS\")"
+  },
+  "related": ["flexbox-algorithm-01", "container-queries-01", "responsive-design-01"],
+  "tags": ["css", "grid", "layout", "2d", "responsive", "frontend"]
+}

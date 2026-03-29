@@ -1,0 +1,44 @@
+{
+  "id": "message-queue-concepts-01",
+  "slug": "message-queue-concepts",
+  "title": "Message Queue Concepts",
+  "domain": "Backend",
+  "category": "Message Queues & Events",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A form of asynchronous service-to-service communication used in serverless and microservices architectures, where messages are stored in a queue until they are processed by a consumer.",
+    "analogy": "A physical mailbox: you (Producer) drop a letter in. It sits there (Queue) until the mailman or the recipient (Consumer) comes by to pick it up. You don't have to wait for them to read it before you go about your day.",
+    "time_complexity": "O(1) for enqueue/dequeue",
+    "space_complexity": "O(N) messages in the queue",
+    "when_to_use": [
+      "Decoupling heavy tasks (like image processing) from the web request",
+      "Handling traffic spikes by 'buffering' messages",
+      "Implementing reliable communication between microservices"
+    ],
+    "gotchas": [
+      "Queues introduce 'Asynchronous complexity' — you can't instantly return the result of a queued task to the user",
+      "If the consumer is slower than the producer, the queue will grow indefinitely until it crashes or runs out of disk space"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "producer-broker-consumer",
+      "show_message_persistence": true,
+      "show_multiple_consumers": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three main components of a message queue system.",
+    "starter_code": "components = [\n    \"1. ________: The service that sends the message\",\n    \"2. ________: The system that stores the queue (e.g., RabbitMQ)\",\n    \"3. ________: The service that picks up and processes the message\"\n]",
+    "solution": "Producer\nBroker\nConsumer",
+    "hints": [
+      "Think of Send -> Store -> Receive"
+    ],
+    "test_code": "assert \"Producer\" in components[0]\nassert \"Broker\" in components[1]\nassert \"Consumer\" in components[2]\nprint(\"PASS\")"
+  },
+  "related": ["job-queues-01", "rabbitmq-01", "kafka-architecture-01"],
+  "tags": ["messaging", "async", "decoupling", "broker", "backend"]
+}

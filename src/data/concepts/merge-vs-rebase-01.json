@@ -1,0 +1,44 @@
+{
+  "id": "merge-vs-rebase-01",
+  "slug": "merge-vs-rebase",
+  "title": "Merge vs Rebase",
+  "domain": "Software Engineering",
+  "category": "Git & Collaboration",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Two ways to integrate changes from one branch into another: Merge preserves the exact history with a 'Merge Commit', while Rebase 'rewrites' history by moving your commits onto the new tip of the base branch.",
+    "analogy": "A collaborative book: **Merge** is like sticking two chapters together with tape. You see exactly where they joined. **Rebase** is like rewriting your chapter to start after the other person's chapter finished, making it look like you both wrote it in order.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Merge: Keeping a true record of exactly when features were integrated",
+      "Rebase: Maintaining a perfectly clean, linear commit history for easier debugging",
+      "Rebase: Updating your local branch with recent changes from 'main' before a pull request"
+    ],
+    "gotchas": [
+      "The Golden Rule of Rebase: **Never rebase a branch that you have shared with others!** Rewriting history that others are using will lead to a 'Git Nightmare' for your team.",
+      "Merge conflicts appear differently: Rebase makes you solve conflicts one-commit-at-a-time, whereas Merge does it all at once."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "merge-vs-rebase-comparison",
+      "show_merge_commit_creation": true,
+      "show_linear_rebase_rewriting": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Git command that creates a 'clean, linear history' by moving your commits to the end of the target branch.",
+    "starter_code": "command = \"git ______\"",
+    "solution": "rebase",
+    "hints": [
+      "Relocating the 'base'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"rebase\"\nassert check(\"rebase\")\nprint(\"PASS\")"
+  },
+  "related": ["git-internals-dag-01", "interactive-rebase-01", "cherry-pick-01"],
+  "tags": ["git", "rebase", "merge", "vcs", "collaboration", "software-engineering"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "query-optimization-01",
+  "slug": "query-optimization",
+  "title": "Query Optimization",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The process of modifying a database query and its environment to ensure it executes in the most efficient way possible, minimizing resource usage and latency.",
+    "analogy": "Planning the most efficient route for a delivery truck to visit 10 houses: instead of visiting them in a random order, you use a GPS (Query Optimizer) to find the path that uses the least fuel and time.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "When slow database queries are causing API timeouts or high CPU usage",
+      "Before scaling a database to handle higher traffic",
+      "Analyzing 'EXPLAIN' plans to detect missing indices or inefficient joins"
+    ],
+    "gotchas": [
+      "A query that works fast on a development database with 10 rows might be disastrously slow on production with 10 million rows",
+      "The query optimizer sometimes makes mistakes — it might choose a full table scan over an index if it thinks the table is small or the data is highly distributed"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "explain-plan-exec",
+      "show_cost_estimation": true,
+      "show_index_scan_vs_seq_scan": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the SQL keyword used to see the execution plan of a query without actually running the full execution.",
+    "starter_code": "________ SELECT * FROM orders WHERE total > 100;",
+    "solution": "EXPLAIN",
+    "hints": [
+      "This keyword tells the database to 'explain' how it will run the query"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"EXPLAIN\"\nassert check(\"EXPLAIN\")\nprint(\"PASS\")"
+  },
+  "related": ["database-indexing-01", "sql-joins-01", "postgresql-internals-01"],
+  "tags": ["database", "query", "optimization", "explain-plan", "backend"]
+}

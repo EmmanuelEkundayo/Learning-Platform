@@ -1,0 +1,44 @@
+{
+  "id": "feature-flags-01",
+  "slug": "feature-flags",
+  "title": "Feature Flags (Toggles)",
+  "domain": "Software Engineering",
+  "category": "Additional SWE",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A technique that allows you to turn features on or off at runtime without redeploying code, enabling safer releases and A/B testing.",
+    "analogy": "A light switch in a house you're building: the wiring is all finished (Code is deployed), but you keep the switch flipped 'Off'. When the interior decorator says it's ready, you flip the switch. You don't have to call the electrician back to re-wire the house.",
+    "time_complexity": "O(1) lookup",
+    "space_complexity": "O(F) where F is number of flags",
+    "when_to_use": [
+      "Decoupling Code Deployment (Pushing code to server) from Feature Release (User seeing the feature)",
+      "Performing Canary Releases or A/B testing by turning a feature on for 5% of users",
+      "Implementing a 'Kill Switch' for a feature that is causing performance issues"
+    ],
+    "gotchas": [
+      "Technical Debt: if you don't delete your flags after a feature is launched, your code will eventually be a giant mess of `if (flag_x) { ... } else { ... }` blocks.",
+      "Management: as you get to 100+ flags, you need a specialized system (like LaunchDarkly) to track who turned what on."
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "feature-toggle-runtime-eval",
+      "show_conditional_branching_logic": true,
+      "show_dynamic_config_update": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary benefit of feature flags for large teams.",
+    "starter_code": "benefit = \"It decouples code __________ from feature _______.\"",
+    "solution": "deployment\nrelease",
+    "hints": [
+      "D-e-p-l-o-y vs R-e-l-e-a-s-e"
+    ],
+    "test_code": "assert \"deploy\" in solution.lower()\nassert \"release\" in solution.lower()\nprint(\"PASS\")"
+  },
+  "related": ["trunk-based-development-01", "canary-releases-01", "ci-cd-pipelines-01"],
+  "tags": ["feature-flags", "toggles", "ci-cd", "risk-management", "ab-testing", "software-engineering"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "react-query-01",
+  "slug": "react-query",
+  "title": "React Query (TanStack Query)",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Often called the 'Missing Data-Fetching Library' for React, it handles fetching, caching, synchronizing, and updating server state for you.",
+    "analogy": "A smart pantry with an automatic grocery shopper: you ask for 'Apples' (Data). If you have fresh ones in the pantry (Cache), it gives them to you instantly. If they are old (Stale), it gives you the old ones but secretly sends a shopper (Fetch) to get fresh ones in the background.",
+    "time_complexity": "O(1) cache lookup",
+    "space_complexity": "O(N) cached queries",
+    "when_to_use": [
+      "Managing data from REST or GraphQL APIs",
+      "Implementing 'Stale-While-Revalidate' patterns",
+      "Handling loading and error states for every network request automatically"
+    ],
+    "gotchas": [
+      "React Query handles SERVER state (data from a database). It is NOT intended for UI state (like whether a modal is open)",
+      "By default, data is considered 'stale' immediately! You usually need to configure `staleTime` to avoid excessive re-fetching"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "query-lifecycle",
+      "show_fetching_stale_cache": true,
+      "show_background_refetch": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary hook used to fetch data in TanStack Query.",
+    "starter_code": "const { data, isLoading } = ______(['todos'], fetchTodos);",
+    "solution": "useQuery",
+    "hints": [
+      "It 'uses' a 'query'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"usequery\"\nassert check(\"useQuery\")\nprint(\"PASS\")"
+  },
+  "related": ["context-api-01", "zustand-redux-patterns-01", "useeffect-internals-01"],
+  "tags": ["react-query", "data-fetching", "caching", "async", "swr", "frontend"]
+}

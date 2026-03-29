@@ -20,18 +20,22 @@ import { complexityColor } from '../utils/complexity.js'
 
 // ─── viz registry ──────────────────────────────────────────────────────────────
 const VIZ_MAP = {
-  'graph-traversal':   GraphCanvas,
-  'array-bars':        ArrayBars,
-  'matrix-grid':       MatrixGrid,
-  'array-pointers':    ArrayPointers,
-  'tree-canvas':       TreeCanvas,
-  'loss-landscape':    LossLandscape,
-  'cluster-plot':      ClusterPlot,
-  'heatmap-grid':      HeatmapGrid,
-  'timeline-step':     TimelineStep,
-  'decision-boundary': DecisionBoundary,
-  'neural-net-diagram': NeuralNetDiagram,
-  'vector-space':      VectorSpace,
+  'graph-traversal':      GraphCanvas,
+  'array-bars':           ArrayBars,
+  'matrix-grid':          MatrixGrid,
+  'array-pointers':       ArrayPointers,
+  'tree-canvas':          TreeCanvas,
+  'loss-landscape':       LossLandscape,
+  'cluster-plot':         ClusterPlot,
+  'heatmap-grid':         HeatmapGrid,
+  'timeline-step':        TimelineStep,
+  'decision-boundary':    DecisionBoundary,
+  'neural-net-diagram':   NeuralNetDiagram,
+  'vector-space':         VectorSpace,
+  // ── new domain viz types ──
+  'code-flow':            TimelineStep,
+  'state-diagram':        GraphCanvas,
+  'architecture-diagram': NeuralNetDiagram,
 }
 
 // ─── exercise registry ─────────────────────────────────────────────────────────
@@ -47,9 +51,20 @@ const DIFF_STYLE = {
 }
 
 function domainAccent(domain) {
-  return domain === 'DSA'
-    ? { text: 'text-dsa-400', border: 'border-dsa-500', ring: 'hover:border-dsa-500 hover:text-dsa-300' }
-    : { text: 'text-ml-400',  border: 'border-ml-500',  ring: 'hover:border-ml-400  hover:text-ml-300'  }
+  switch (domain) {
+    case 'DSA':
+      return { text: 'text-dsa-400',      border: 'border-dsa-500',      ring: 'hover:border-dsa-500      hover:text-dsa-300'      }
+    case 'ML':
+      return { text: 'text-ml-400',       border: 'border-ml-500',       ring: 'hover:border-ml-400       hover:text-ml-300'       }
+    case 'Frontend':
+      return { text: 'text-frontend-400', border: 'border-frontend-500', ring: 'hover:border-frontend-500 hover:text-frontend-300' }
+    case 'Backend':
+      return { text: 'text-backend-400',  border: 'border-backend-500',  ring: 'hover:border-backend-500  hover:text-backend-300'  }
+    case 'Software Engineering':
+      return { text: 'text-se-400',       border: 'border-se-500',       ring: 'hover:border-se-500       hover:text-se-300'       }
+    default:
+      return { text: 'text-gray-400',     border: 'border-gray-500',     ring: 'hover:border-gray-400     hover:text-gray-300'     }
+  }
 }
 
 // ─── page ──────────────────────────────────────────────────────────────────────
@@ -73,7 +88,7 @@ export default function Concept() {
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <p className="text-gray-500 font-mono text-sm mb-3">/{slug}</p>
         <h1 className="text-2xl font-bold mb-4">Concept not found</h1>
-        <Link to="/browse" className="text-dsa-400 hover:underline text-sm">
+        <Link to="/browse" className="text-gray-400 hover:underline text-sm">
           ← Browse all concepts
         </Link>
       </div>
@@ -327,14 +342,22 @@ function RelatedChip({ slug, currentDomain }) {
     >
       {domain && (
         <span
-          className={`w-1.5 h-1.5 rounded-full shrink-0 ${
-            domain === 'DSA' ? 'bg-dsa-400' : 'bg-ml-400'
-          }`}
+          className={`w-1.5 h-1.5 rounded-full shrink-0 ${domainDot(domain)}`}
         />
       )}
       {title}
     </Link>
   )
+}
+
+function domainDot(domain) {
+  return {
+    DSA:                  'bg-dsa-400',
+    ML:                   'bg-ml-400',
+    Frontend:             'bg-frontend-400',
+    Backend:              'bg-backend-400',
+    'Software Engineering': 'bg-se-400',
+  }[domain] ?? 'bg-gray-400'
 }
 
 function prettifySlug(slug) {

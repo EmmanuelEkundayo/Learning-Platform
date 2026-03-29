@@ -1,0 +1,44 @@
+{
+  "id": "critical-rendering-path-01",
+  "slug": "critical-rendering-path",
+  "title": "Critical Rendering Path (CRP)",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The set of steps the browser must perform to convert HTML, CSS, and JavaScript into pixels on the screen for the first time.",
+    "analogy": "The 'shortest path' to opening a store: you need the keys (HTML), the sign (CSS), and the cash register (JS). You can't open until all three are ready and at the door.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Optimizing 'Time to First Paint'",
+      "Reducing the number of 'render-blocking' resources",
+      "Inlining 'critical CSS' to speed up the initial load"
+    ],
+    "gotchas": [
+      "Every external script or stylesheet adds another network round-trip that delays the CRP",
+      "The CRP is finished when the first frame is painted on the screen"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "crp-optimization",
+      "show_network_waterfall": true,
+      "show_render_blocking_assets": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the technique of moving non-critical JS out of the Critical Rendering Path using a script attribute.",
+    "starter_code": "def optimize_path():\n    # Use <script ________> to load JS without blocking HTML parsing\n    attribute = \"defer\"\n    return attribute",
+    "solution": "defer",
+    "hints": [
+      "It 'defers' the execution until the DOM is ready"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"defer\" or ans.lower() == \"async\"\nassert check(\"defer\")\nprint(\"PASS\")"
+  },
+  "related": ["render-pipeline-01", "dom-internals-01", "browser-caching-01"],
+  "tags": ["performance", "crp", "rendering", "optimization", "web-vitals", "frontend"]
+}

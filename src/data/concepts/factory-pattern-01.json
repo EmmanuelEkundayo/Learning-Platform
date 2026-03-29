@@ -1,0 +1,44 @@
+{
+  "id": "factory-pattern-01",
+  "slug": "factory-pattern",
+  "title": "Factory Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A creational pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.",
+    "analogy": "A pizza shop: you order a 'Pepperoni' or 'Veggie'. You don't know how the dough is kneaded or where the cheese comes from. You just tell the 'Factory' (The Shop) what you want, and it hands you the correct 'Pizza Object'.",
+    "time_complexity": "O(1) creation",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Decoupling the 'Client' code from the specific classes it needs to instantiate",
+      "Handling complex object creation that requires setting up many parameters",
+      "Creating different types of UI components (Button, Input) based on a platform string"
+    ],
+    "gotchas": [
+      "Don't use it for simple objects! If you just need a `new User()`, a factory is unnecessary overhead.",
+      "The 'Abstract Factory' is a step above this, creating 'Families' of related objects."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "factory-method-dispatch",
+      "show_client_decoupling": true,
+      "show_subclass_polymorphism": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary benefit of the Factory pattern.",
+    "starter_code": "benefit = \"It promotes __________ between the client and the concrete classes it creates.\"",
+    "solution": "decoupling",
+    "hints": [
+      "Breaking the tight link"
+    ],
+    "test_code": "def check(ans): return \"decoup\" in ans.lower()\nassert check(\"decoupling\")\nprint(\"PASS\")"
+  },
+  "related": ["singleton-pattern-01", "solid-principles-01", "adapter-pattern-01"],
+  "tags": ["design-patterns", "creational", "factory", "oop", "software-engineering"]
+}

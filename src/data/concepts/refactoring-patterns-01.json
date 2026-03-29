@@ -1,0 +1,44 @@
+{
+  "id": "refactoring-patterns-01",
+  "slug": "refactoring-patterns",
+  "title": "Refactoring Patterns",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Standardized techniques for improving the internal structure of code without changing its external behavior.",
+    "analogy": "Tidying a desk: you aren't writing any new letters, but you are putting the pens in a holder and stacking the papers. The work output is the same, but it's much easier to find the stapler tomorrow.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Extracting Method: when a function gets too 'Long' and hard to read",
+      "Renaming Variables: when names like `x` and `temp` hide the meaning of the data",
+      "Moving logic from a messy Controller into a clean Service class"
+    ],
+    "gotchas": [
+      "Refactoring without tests is just 'Breaking things'. You MUST have a solid test suite before you start tidying, or you'll never know if you changed the behavior by mistake.",
+      "Stop when you're done: don't refactor for 3 days straight without committing. Do it in tiny, 5-minute segments."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "refactor-step-by-step-transformation",
+      "show_logic_preserving_ops": true,
+      "show_test_suite_safety_check": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary rule of refactoring regarding external behavior.",
+    "starter_code": "rule = \"External behavior must remain ____________.\"",
+    "solution": "unchanged",
+    "hints": [
+      "Doesn't change"
+    ],
+    "test_code": "def check(ans): return \"unchange\" in ans.lower()\nassert check(\"unchanged\")\nprint(\"PASS\")"
+  },
+  "related": ["technical-debt-01", "tdd-cycle-01", "solid-principles-01"],
+  "tags": ["refactoring", "clean-code", "quality", "maintenance", "software-engineering"]
+}

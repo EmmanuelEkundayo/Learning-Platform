@@ -1,0 +1,44 @@
+{
+  "id": "docker-networking-01",
+  "slug": "docker-networking",
+  "title": "Docker Networking",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The system used to connect Docker containers to each other, the host, and external networks using various drivers like Bridge, Host, and Overlay.",
+    "analogy": "A private apartment building intercom: within the building (The Bridge Network), apartments can talk to each other by room number. If someone wants to talk to the outside world, they go through the lobby (The Gateway).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Connecting a Web container to a DB container on the same host",
+      "Connecting containers across different physical servers (Overlay)",
+      "Exposing local development ports to your host browser"
+    ],
+    "gotchas": [
+      "The 'Host' network driver removes isolation between the container and the host's networking stack — use it sparingly.",
+      "By default, containers on the same 'Bridge' network can talk to each other by name (DNS), but containers on the default 'docker0' bridge cannot."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "network-driver-topology",
+      "show_bridge_vs_overlay": true,
+      "show_dns_resolution_internal": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Docker network driver used to connect containers running on DIFFERENT physical hosts in a swarm cluster.",
+    "starter_code": "driver = \"_______\"",
+    "solution": "Overlay",
+    "hints": [
+      "It lays 'over' the physical network"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"overlay\"\nassert check(\"Overlay\")\nprint(\"PASS\")"
+  },
+  "related": ["docker-internals-01", "kubernetes-basics-01", "reverse-proxy-01"],
+  "tags": ["docker", "networking", "devops", "bridge", "overlay", "software-engineering"]
+}

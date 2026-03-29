@@ -1,0 +1,45 @@
+{
+  "id": "threads-vs-processes-01",
+  "slug": "threads-vs-processes",
+  "title": "Threads vs Processes",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A process is a standalone 'box' with its own memory; a thread is a lightweight 'worker' inside that box that shares memory with other threads.",
+    "analogy": "A restaurant: a Process is the entire restaurant building. The Threads are the individual chefs in the kitchen sharing the same fridge and stove.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) for memory allocation per process",
+    "when_to_use": [
+      "Processes: For isolation (if one crashes, the others live) and utilizing multiple CPU cores in Python",
+      "Threads: For I/O bound tasks and when you need extremely fast communication between workers",
+      "Multiplying workers to handle more concurrent requests in a web server"
+    ],
+    "gotchas": [
+      "Threading in Python (CPython) is limited by the GIL (Global Interpreter Lock), so it doesn't give real CPU-parallelism for compute-heavy tasks",
+      "In many threads, you risk 'Race Conditions' where two workers try to change the same memory at the exact same time"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "process-thread-comparison",
+      "show_shared_memory": true,
+      "show_isolation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify if the characteristic belongs to a Process or a Thread.",
+    "starter_code": "characteristics = {\n    \"Own memory space, high isolation\": \"________\",\n    \"Shared memory space, low overhead\": \"________\",\n    \"Context switching is expensive\": \"________\",\n    \"Context switching is cheaper\": \"________\"\n}",
+    "solution": "Process\nThread\nProcess\nThread",
+    "hints": [
+      "Processes 'own' their memory",
+      "Threads share it"
+    ],
+    "test_code": "assert \"Process\" in characteristics[\"Own memory space, high isolation\"]\nassert \"Thread\" in characteristics[\"Shared memory space, low overhead\"]\nprint(\"PASS\")"
+  },
+  "related": ["worker-threads-01", "async-await-internals-01", "event-loop-nodejs-01"],
+  "tags": ["concurrency", "operating-systems", "threads", "processes", "parallelism", "backend"]
+}

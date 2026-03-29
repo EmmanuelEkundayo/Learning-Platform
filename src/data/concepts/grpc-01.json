@@ -1,0 +1,45 @@
+{
+  "id": "grpc-01",
+  "slug": "grpc",
+  "title": "gRPC",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A high-performance Remote Procedure Call (RPC) framework that allows a client to call methods on a server as if it were a local object.",
+    "analogy": "A dedicated tunnel between two specialized workstations where instructions are passed in a private, highly optimized code rather than shouting through the public lobby in plain English.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Internal microservice-to-microservice communication where speed is critical",
+      "Connecting Polyglot systems (services written in different languages using the same .proto file)",
+      "Streaming APIs (Client-to-Server, Server-to-Client, or Bidirectional)"
+    ],
+    "gotchas": [
+      "Requires HTTP/2 support — cannot be called directly from most browsers without a proxy (gRPC-Web)",
+      "Strict schema-first approach means you must share `.proto` files between teams to stay in sync"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rpc-flow",
+      "show_protobuff_serialization": true,
+      "show_binary_transfer": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Protobuf definition for a Greeter service.",
+    "starter_code": "syntax = \"proto3\";\n\nmessage HelloRequest {\n  string name = 1;\n}\n\nmessage HelloReply {\n  string _______ = 1;\n}\n\nservice Greeter {\n  rpc SayHello (HelloRequest) returns (__________) {}\n}",
+    "solution": "message\nHelloReply",
+    "hints": [
+      "A reply usually contains a 'message'",
+      "The service method 'SayHello' accepts a Request and returns a Reply"
+    ],
+    "test_code": "proto = \"\"\"\nmessage HelloReply { string message = 1; }\nservice Greeter { rpc SayHello (HelloRequest) returns (HelloReply) {} }\n\"\"\"\nassert \"HelloReply\" in proto\nassert \"service Greeter\" in proto\nprint(\"PASS\")"
+  },
+  "related": ["rest-principles-01", "graphql-basics-01", "http-versions-01"],
+  "tags": ["grpc", "rpc", "protobuf", "microservices", "backend"]
+}

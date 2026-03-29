@@ -1,0 +1,45 @@
+{
+  "id": "circuit-breaker-01",
+  "slug": "circuit-breaker",
+  "title": "Circuit Breaker Pattern",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A stability pattern that prevents a service from repeatedly trying an operation that is likely to fail, allowing the system to recover rather than cascading the failure.",
+    "analogy": "An electrical circuit breaker in your house: if too much power flows (a service is failing), the breaker 'trips' and cuts the power to prevent a fire (crashing your whole system).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Calling external 3rd-party APIs that might be down or slow",
+      "Microservice-to-microservice communication where you want to fail fast",
+      "Preventing a 'slow local database' from backing up all your web requests"
+    ],
+    "gotchas": [
+      "The 'Open' state means the service is NOT called at all (fast fail). The 'Half-Open' state allows a few test requests through to see if it's fixed",
+      "Don't use it for operations that should always succeed eventually (like writing a critical log); use a Retry queue instead"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "circuit-breaker-states",
+      "show_transitions": ["Closed", "Open", "Half-Open"],
+      "show_failure_threshold": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the circuit breaker state based on the behavior.",
+    "starter_code": "states = {\n    \"Requests flow normally\": \"______\",\n    \"Requests fail immediately (blocked)\": \"____\",\n    \"A few test requests are allowed through\": \"Half-____\"\n}",
+    "solution": "Closed\nOpen\nOpen",
+    "hints": [
+      "Closed means the circuit is complete (flowing)",
+      "Open means the circuit is broken (blocked)"
+    ],
+    "test_code": "assert states[\"Requests flow normally\"] == \"Closed\"\nassert states[\"Requests fail immediately (blocked)\"] == \"Open\"\nprint(\"PASS\")"
+  },
+  "related": ["retry-and-backoff-01", "api-gateway-01", "load-balancing-01"],
+  "tags": ["stability", "fault-tolerance", "design-patterns", "microservices", "backend"]
+}

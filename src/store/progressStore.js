@@ -81,6 +81,24 @@ export const useProgressStore = create(
           .filter(([, p]) => p.viewed && p.last_seen < cutoff)
           .map(([slug]) => slug)
       },
+
+      /**
+       * Per-domain completion summary.
+       * @param {Array<{slug:string, domain:string}>} concepts — full concept list from conceptStore
+       * @returns Record<domain, { total, viewed, passed }>
+       */
+      getSummaryByDomain(concepts) {
+        const { progress } = get()
+        const summary = {}
+        for (const { slug, domain } of concepts) {
+          if (!summary[domain]) summary[domain] = { total: 0, viewed: 0, passed: 0 }
+          summary[domain].total++
+          const p = progress[slug] ?? {}
+          if (p.viewed)           summary[domain].viewed++
+          if (p.exercise_passed)  summary[domain].passed++
+        }
+        return summary
+      },
     }),
     { name: 'algolens-progress' }
   )

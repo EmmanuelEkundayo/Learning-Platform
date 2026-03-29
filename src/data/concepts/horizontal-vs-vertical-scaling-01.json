@@ -1,0 +1,44 @@
+{
+  "id": "horizontal-vs-vertical-scaling-01",
+  "slug": "horizontal-vs-vertical-scaling",
+  "title": "Horizontal vs Vertical Scaling",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Vertical scaling (Scaling Up) means getting a bigger server. Horizontal scaling (Scaling Out) means getting MORE servers.",
+    "analogy": "A moving company: **Vertical** is buying a giant monster truck (One huge CPU/RAM box). **Horizontal** is buying 10 small vans. The monster truck is easier to park (Simple setup), but the 10 vans can carry more total and won't stop the whole company if one breaks (Fault Tolerance).",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) nodes",
+    "when_to_use": [
+      "Vertical: Small startups where simplicity is key and traffic is low",
+      "Horizontal: Large websites (Netflix, Amazon) that need to scale infinitely",
+      "Horizontal: High-availability systems where losing one server should not crash the site"
+    ],
+    "gotchas": [
+      "Vertical scaling has a 'Hard Limit': eventually, you can't buy a faster CPU no matter how much money you have.",
+      "Horizontal scaling requires 'Stateless' applications. If your app stores data on its own disk, users will be confused when they hit a different server next time."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "scaling-comparison-topology",
+      "show_load_balancer_role": true,
+      "show_failure_blast_radius": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the scaling type that involves adding more machines to your resource pool.",
+    "starter_code": "type = \"__________ Scaling\"",
+    "solution": "Horizontal",
+    "hints": [
+      "Like the horizon line"
+    ],
+    "test_code": "def check(ans): return \"horiz\" in ans.lower()\nassert check(\"Horizontal\")\nprint(\"PASS\")"
+  },
+  "related": ["stateless-services-01", "database-scaling-patterns-01", "load-balancer-internals-01"],
+  "tags": ["scaling", "performance", "architecture", "availability", "cloud", "software-engineering"]
+}

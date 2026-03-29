@@ -1,0 +1,44 @@
+{
+  "id": "backup-strategies-01",
+  "slug": "backup-strategies",
+  "title": "Backup Strategies",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The process of creating copies of data to ensure it can be restored in case of loss or corruption.",
+    "analogy": "The 3-2-1 rule: Have **3** copies of your data, on **2** different types of media (e.g. SSD and Cloud), with **1** copy completely off-site (in another building). If your house burns down, the cloud copy is still safe.",
+    "time_complexity": "O(N) data size to backup",
+    "space_complexity": "O(N * versions)",
+    "when_to_use": [
+      "Every single production database! Always.",
+      "Versioning code in GitHub (which is a form of decentralized backup)",
+      "Storing static assets (user uploads) in durable object storage like S3"
+    ],
+    "gotchas": [
+      "A backup that has never been 'Restored' is not a backup. You must periodically verify that you can actually use the files you're saving.",
+      "Incremental vs Full: a 'Full' backup saves everything; an 'Incremental' only saves what changed since yesterday. Mix them to save space."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "backup-lifecycle-incremental",
+      "show_3-2-1-rule_topology": true,
+      "show_point_in_time_recovery": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the strategy that saves ONLY the data that has changed since the last full backup.",
+    "starter_code": "strategy = \"___________ Backup\"",
+    "solution": "Incremental",
+    "hints": [
+      "Going up in little 'increments'"
+    ],
+    "test_code": "def check(ans): return \"increm\" in ans.lower()\nassert check(\"Incremental\")\nprint(\"PASS\")"
+  },
+  "related": ["disaster-recovery-01", "sql-joins-01", "database-scaling-patterns-01"],
+  "tags": ["backup", "data-safety", "reliability", "storage", "software-engineering"]
+}

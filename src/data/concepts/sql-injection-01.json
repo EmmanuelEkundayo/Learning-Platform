@@ -1,0 +1,44 @@
+{
+  "id": "sql-injection-01",
+  "slug": "sql-injection",
+  "title": "SQL Injection",
+  "domain": "Backend",
+  "category": "Security",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A security vulnerability where an attacker 'injects' malicious SQL code into an input field, which is then executed by the database, potentially revealing or destroying data.",
+    "analogy": "A trick at the bank: instead of writing your name on a deposit slip, you write 'My Name AND GIVE ME ALL THE MONEY TOO'. If the teller just reads the slip and follows the 'instructions' without checking, you've successfully injected a command.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Understanding how to prevent the most common database attack",
+      "Writing secure database queries in any backend language",
+      "Performing security audits on legacy codebases"
+    ],
+    "gotchas": [
+      "SQL injection can happen anywhere user input is used: URL parameters, cookie contents, or even HTTP headers",
+      "The fix is NOT just 'cleaning' the text (sanitization); the real fix is using 'Parametrized Queries' (Prepared Statements)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "sql-injection-attack",
+      "show_malicious_query_construction": true,
+      "show_prepared_statement_fix": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the technique used to prevent SQL injection by separating the SQL command from the data.",
+    "starter_code": "def secure_query(user_id):\n    # BAD: Unsafe string formatting\n    # query = f\"SELECT * FROM users WHERE id = {user_id}\"\n    \n    # GOOD: Using ___________ Questions or Prepared Statements\n    cursor.execute(\"SELECT * FROM users WHERE id = ?\", (user_id,))\n    return cursor.fetchone()",
+    "solution": "Parametrized",
+    "hints": [
+      "It involves passing 'parameters' separately"
+    ],
+    "test_code": "def check(ans): return ans.lower().startswith(\"para\")\nassert check(\"Parametrized\")\nprint(\"PASS\")"
+  },
+  "related": ["database-transactions-01", "input-validation-01", "owasp-top-10-01"],
+  "tags": ["security", "sql", "injection", "vulnerability", "database", "backend"]
+}

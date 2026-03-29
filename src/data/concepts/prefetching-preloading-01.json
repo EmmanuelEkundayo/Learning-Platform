@@ -1,0 +1,45 @@
+{
+  "id": "prefetching-preloading-01",
+  "slug": "prefetching-preloading",
+  "title": "Prefetching vs Preloading",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Techniques to tell the browser which resources will be needed soon. Preloading is for resources needed for the CURRENT page; Prefetching is for resources needed for SUBSEQUENT pages.",
+    "analogy": "Going to a concert: Preloading is putting your tickets in your front pocket because you need them right now at the gate. Prefetching is packing a map of the city you're visiting tomorrow.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Preloading critical fonts to avoid flickering (FOIT)",
+      "Prefetching the JavaScript for the 'Checkout' page while the user is still in the 'Cart'",
+      "Speeding up navigation between internal app routes"
+    ],
+    "gotchas": [
+      "Don't prefetch too much! You might waste the user's data and battery for pages they never actually visit",
+      "Preloading ignores the browser's normal cache priority and forces the download, using it for non-critical assets can actually slow down the page"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "priority-resource-loading",
+      "show_preloader_vs_prefetcher": true,
+      "show_network_idle_trigger": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the <link> tags for both techniques.",
+    "starter_code": "tags = [\n    \"<link rel='__________' href='/fonts/main.woff2' as='font'>\",\n    \"<link rel='__________' href='/js/next-page.js' as='script'>\"\n]",
+    "solution": "preload\nprefetch",
+    "hints": [
+      "Current page is 'preload'",
+      "Future page is 'prefetch'"
+    ],
+    "test_code": "assert \"preload\" in tags[0]\nassert \"prefetch\" in tags[1]\nprint(\"PASS\")"
+  },
+  "related": ["lazy-loading-frontend-01", "browser-caching-01", "font-optimization-01"],
+  "tags": ["performance", "prefetch", "preload", "networking", "optimization", "frontend"]
+}

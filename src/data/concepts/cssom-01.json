@@ -1,0 +1,44 @@
+{
+  "id": "cssom-01",
+  "slug": "cssom",
+  "title": "CSSOM (CSS Object Model)",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The CSS Object Model is a map of all CSS selectors and relevant properties for every node in the DOM, used by the browser to calculate the final styles.",
+    "analogy": "A set of 'styling instructions' for the building blueprint: if the DOM says 'This is a wall', the CSSOM says 'All walls should be blue and 10 feet tall'.",
+    "time_complexity": "O(N) to build",
+    "space_complexity": "O(N) style rules",
+    "when_to_use": [
+      "Optimizing page load time (CSSOM construction blocks rendering)",
+      "Understanding how 'cascading' and 'specificity' work under the hood",
+      "Debugging why a specific style isn't being applied"
+    ],
+    "gotchas": [
+      "CSSOM construction is 'Render-Blocking' — the browser cannot start painting until it has the full CSSOM",
+      "Inline styles and external CSS files are all merged into this single object model"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "css-parsing-flow",
+      "show_specificity_calculation": true,
+      "show_cascading_rules": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Does the browser build the DOM and CSSOM in parallel or sequentially?",
+    "starter_code": "def building_process():\n    # They are built _____________, but both are needed for the Render Tree\n    order = \"parallel\"\n    return order",
+    "solution": "parallel",
+    "hints": [
+      "The browser doesn't wait for HTML to finish before starting on CSS it found"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"parallel\"\nassert check(\"parallel\")\nprint(\"PASS\")"
+  },
+  "related": ["dom-internals-01", "render-pipeline-01", "critical-rendering-path-01"],
+  "tags": ["cssom", "css", "browser", "parsing", "rendering", "frontend"]
+}

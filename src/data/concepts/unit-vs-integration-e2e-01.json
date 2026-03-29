@@ -1,0 +1,46 @@
+{
+  "id": "unit-vs-integration-e2e-01",
+  "slug": "unit-vs-integration-e2e",
+  "title": "Unit vs Integration vs E2E",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The three main levels of software testing, distinguished by how much of the system is being tested at once and how 'real' the environment is.",
+    "analogy": "Testing a car: a **Unit** test checks if one single lightbulb works. An **Integration** test checks if flicking the switch turns on the light. An **E2E** test checks if a human can drive the car to the store at night.",
+    "time_complexity": "E2E is significantly slower than Unit",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Unit: For pure functions, utilities, and isolated logic",
+      "Integration: For React components that interact with each other or the store",
+      "E2E: For critical 'Happy Paths' (like Login or Checkout)"
+    ],
+    "gotchas": [
+      "E2E tests are 'Flaky': they often fail due to network lag or timing issues, not actual code bugs",
+      "Mocking too much in an Integration test turns it into a Unit test, losing the value of checking how parts work together"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "test-execution-flow",
+      "show_mocking_depth": true,
+      "show_environment_realism": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Match the test tool to its typical category.",
+    "starter_code": "tools = {\n    \"Jest (testing a math util)\": \"____\",\n    \"Cypress / Playwright (clicking buttons)\": \"___\",\n    \"React Testing Library (rendering a form)\": \"___________\"\n}",
+    "solution": "Unit\nE2E\nIntegration",
+    "hints": [
+      "Jest is for small 'Units'",
+      "Cypress is for 'End to End' (E2E)",
+      "RTL is for 'Integration'"
+    ],
+    "test_code": "assert \"Unit\" in tools.values()\nassert \"E2E\" in tools.values()\nprint(\"PASS\")"
+  },
+  "related": ["testing-pyramid-frontend-01", "react-testing-library-01", "mocking-strategies-frontend-01"],
+  "tags": ["testing", "jest", "cypress", "playwright", "integration", "frontend"]
+}

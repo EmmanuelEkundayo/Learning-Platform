@@ -1,0 +1,45 @@
+{
+  "id": "sql-joins-01",
+  "slug": "sql-joins",
+  "title": "SQL Joins",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Combining rows from two tables based on a related column to answer questions that span multiple data sets.",
+    "analogy": "A personalized 'pairing' of people from two different lists — like matching students with their specific lockers using a shared ID number.",
+    "time_complexity": "O(N + M) for Hash Join; O(N log N + M log M) for Sort-Merge Join; O(N * M) for Nested Loop",
+    "space_complexity": "O(N) for building a hash table in a Hash Join",
+    "when_to_use": [
+      "Querying normalized data across multiple tables (e.g., getting a list of orders with customer names)",
+      "Finding related records in a one-to-many or many-to-many relationship",
+      "Filtering a list based on existence in another table (using a Left Join and checking for NULL)"
+    ],
+    "gotchas": [
+      "Joining on non-indexed columns causes the database to use a slow Nested Loop join, which kills performance on large tables",
+      "Confusing a LEFT JOIN with an INNER JOIN: the former keeps all records from the left table even if no match is found, while the latter only keeps matching pairs"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "sql-join-results",
+      "tables": ["customers", "orders"],
+      "join_type": "inner",
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the SQL query to get all orders including the customer's name, even if the order was placed anonymously (unlikely, but for the sake of the join type).",
+    "starter_code": "SELECT orders.id, customers.name\nFROM orders\n____ JOIN customers\nON orders.customer_id = ________.id;",
+    "solution": "LEFT\ncustomers",
+    "hints": [
+      "Use a LEFT join to ensure all rows from the 'orders' table are included",
+      "The join condition is on the common ID column"
+    ],
+    "test_code": "def check_sql(sql):\n    return \"LEFT\" in sql.upper() and \"orders.customer_id = customers.id\" in sql.lower()\n\nassert check_sql(\"SELECT ... FROM orders LEFT JOIN customers ON orders.customer_id = customers.id\")\nprint(\"PASS\")"
+  },
+  "related": ["database-indexing-01", "database-normalization-01", "query-optimization-01"],
+  "tags": ["sql", "database", "joins", "query", "backend"]
+}

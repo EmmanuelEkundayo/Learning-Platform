@@ -1,0 +1,45 @@
+{
+  "id": "cqrs-01",
+  "slug": "cqrs",
+  "title": "CQRS (Command-Query Responsibility Segregation)",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Splitting your application into two separate models: one for 'Commands' (changing data) and one for 'Queries' (reading data).",
+    "analogy": "A physical library: the 'Write' system is the librarians putting books on shelves. The 'Read' system is the public index catalog. They are completely different tools optimized for different speeds.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Large-scale systems where read performance needs are vastly different from write performance",
+      "When the same data needs to be presented in many different formats to users",
+      "Combining with Event Sourcing for complex business workflows"
+    ],
+    "gotchas": [
+      "CQRS adds massive complexity — don't use it for simple CRUD apps",
+      "It usually leads to 'Eventual Consistency' between the write DB and the read DB"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "cqrs-split-flow",
+      "show_command_vs_query_path": true,
+      "show_read_db_sync": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify if the action is a Command (updates state) or a Query (returns data).",
+    "starter_code": "actions = {\n    \"GetAccountBalance\": \"______\",\n    \"TransferMoney\":    \"______\",\n    \"UpdateUserProfile\": \"______\",\n    \"ListAllOrders\":     \"______\"\n}",
+    "solution": "Query\nCommand\nCommand\nQuery",
+    "hints": [
+      "If it changes information, it's a Command",
+      "If it just looks at information, it's a Query"
+    ],
+    "test_code": "assert actions[\"GetAccountBalance\"] == \"Query\"\nassert actions[\"TransferMoney\"] == \"Command\"\nprint(\"PASS\")"
+  },
+  "related": ["event-sourcing-01", "saga-pattern-01", "eventual-consistency-01"],
+  "tags": ["cqrs", "architecture", "distributed-systems", "scalability", "backend"]
+}

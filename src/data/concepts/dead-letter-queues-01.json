@@ -1,0 +1,44 @@
+{
+  "id": "dead-letter-queues-01",
+  "slug": "dead-letter-queues",
+  "title": "Dead Letter Queues (DLQ)",
+  "domain": "Backend",
+  "category": "Message Queues & Events",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A secondary queue used to store messages that could not be processed successfully after multiple retries, preventing them from blocking the main queue.",
+    "analogy": "The 'Lost and Found' box or the 'Junk Mail' folder: if the mailman can't deliver a letter (invalid address or recipient moved), they don't throw it on the ground; they put it in a special box for later inspection.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Debugging failing background jobs without losing the original data",
+      "Handling 'poison pill' messages (messages with invalid format that crash the consumer)",
+      "Protecting your system from 'infinite loops' of failing retries"
+    ],
+    "gotchas": [
+      "Messages in a DLQ are NOT automatically fixed; someone (or a script) must eventually look at them and decide to 'Replay' or delete them",
+      "Failing to monitor your DLQ can lead to thousands of failed messages piling up silently until the broker crashes"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "dlq-re-routing",
+      "show_retry_limit": true,
+      "show_manual_inspection": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the logic for a message that has failed its max retries.",
+    "starter_code": "def process_msg(msg):\n    try:\n        do_work(msg)\n    except Exception as e:\n        if msg.retries < MAX_RETRIES:\n            msg.retries += 1\n            queue.push(msg) # Retry\n        else:\n            # Move to the special graveyard queue\n            ____.push(msg)",
+    "solution": "dlq",
+    "hints": [
+      "The acronym for the graveyard queue is DLQ"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"dlq\"\nassert check(\"dlq\")\nprint(\"PASS\")"
+  },
+  "related": ["retry-and-backoff-01", "message-queue-concepts-01", "rabbitmq-01"],
+  "tags": ["messaging", "reliability", "debugging", "fault-tolerance", "backend"]
+}

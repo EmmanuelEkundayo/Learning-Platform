@@ -1,0 +1,44 @@
+{
+  "id": "dependency-inversion-01",
+  "slug": "dependency-inversion",
+  "title": "Dependency Inversion",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The 'D' in SOLID. High-level modules should not depend on low-level modules; both should depend on abstractions (interfaces).",
+    "analogy": "A wall socket: your Lamp (High-level) doesn't know about the 'Electrical Grid' (Low-level). Both depend on the 'Plug' (Abstraction). If the grid changes from Coal to Solar, your lamp still works perfectly because it only cares about the 'Plug' interface.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Writing 'Pluggable' code where you can swap a real DB for a Mock DB in tests",
+      "Decoupling your application logic from a specific UI framework or Library",
+      "Designing systems that need to support multiple third-party providers"
+    ],
+    "gotchas": [
+      "It requires extra work! You have to create 'Interfaces' for everything, which can feel like YAGNI violation if you know you'll only ever use one DB.",
+      "It makes code harder to navigate initially ('Go to definition' often takes you to an interface instead of the real code)."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "dependency-graph-inversion",
+      "show_abstraction_layer_insertion": true,
+      "show_mock_swapping_demo": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Instead of high-level code calling low-level code directly, both should depend on a(n) ___________.",
+    "starter_code": "ans = \"___________\"",
+    "solution": "abstraction",
+    "hints": [
+      "Something not concrete"
+    ],
+    "test_code": "def check(ans): return \"abstra\" in ans.lower()\nassert check(\"abstraction\")\nprint(\"PASS\")"
+  },
+  "related": ["solid-principles-01", "service-mesh-01", "clean-architecture-01"],
+  "tags": ["design-principles", "solid", "dependency-inversion", "di", "ioc", "software-engineering"]
+}

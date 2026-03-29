@@ -1,0 +1,45 @@
+{
+  "id": "vector-databases-01",
+  "slug": "vector-databases",
+  "title": "Vector Databases",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A specialized database designed to store and search 'embeddings' (high-dimensional vectors) — enabling semantic search based on meaning rather than exact keywords.",
+    "analogy": "A giant 3D map where 'Apple' and 'iPhone' are pinned very close to each other, but 'Apple' and 'Banana' are further apart, and 'Apple' and 'Car' are in different buildings entirely.",
+    "time_complexity": "O(log N) for Approximate Nearest Neighbor (ANN) search",
+    "space_complexity": "O(N * D) where D is vector dimensions",
+    "when_to_use": [
+      "RAG (Retrieval-Augmented Generation) for LLMs",
+      "Image or audio similarity search",
+      "Recommendation engines ('Users who liked this also liked...')",
+      "Semantic search in documentation or product catalogs"
+    ],
+    "gotchas": [
+      "Traditional SQL indices don't work for vectors — you need specialized indices like HNSW or IVF",
+      "Accuracy vs. Speed trade-off: searching for the 'Approximate' nearest neighbor is fast, but occasionally misses the true closest match"
+    ]
+  },
+  "visualization": {
+    "type": "vector-space",
+    "config": {
+      "mode": "semantic-clusters",
+      "show_cosine_similarity": true,
+      "show_nearest_neighbors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the mathematical function most commonly used to measure the similarity between two vectors.",
+    "starter_code": "def measure_similarity(vec1, vec2):\n    # Calculates the angle between vectors 0 to 1\n    method = \"______ similarity\"\n    return method",
+    "solution": "cosine",
+    "hints": [
+      "It is a trigonometric function"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"cosine\"\nassert check(\"Cosine\")\nprint(\"PASS\")"
+  },
+  "related": ["rag-retrieval-augmented-generation-01", "vector-embeddings-faiss-01", "database-indexing-01"],
+  "tags": ["vector-db", "ai", "llm", "semantic-search", "embeddings", "backend"]
+}

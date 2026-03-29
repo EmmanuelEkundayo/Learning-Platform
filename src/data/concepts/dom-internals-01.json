@@ -1,0 +1,44 @@
+{
+  "id": "dom-internals-01",
+  "slug": "dom-internals",
+  "title": "DOM Internals",
+  "domain": "Frontend",
+  "category": "Browser & Rendering",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The Document Object Model (DOM) is a tree-like representation of your HTML that the browser creates so it can programmatically access and change the page structure, style, and content.",
+    "analogy": "A physical building's blueprint: the HTML is the original paper drawing, and the DOM is the actual 3D model the architects use to see how moving a wall (element) affects the rest of the structure.",
+    "time_complexity": "O(N) to build; O(1) to access by ID; O(N) to traverse",
+    "space_complexity": "O(N) nodes",
+    "when_to_use": [
+      "Understanding how JavaScript interacts with HTML",
+      "Optimizing performance by minimizing DOM manipulation",
+      "Debugging layout issues and element visibility"
+    ],
+    "gotchas": [
+      "The DOM is NOT the HTML source; it can be different if JavaScript has modified it or the browser fixed broken tags (like adding a missing </tbody>)",
+      "Frequent DOM updates are slow because they trigger the 'Render Pipeline' repeatedly"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "html-to-dom-parsing",
+      "show_tokenization": true,
+      "show_tree_construction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the standard tree traversal method most commonly used by the browser to build the DOM from HTML tokens.",
+    "starter_code": "def build_dom():\n    # Browser uses a stack to build the tree\n    # This is essentially a __________ traversal\n    method = \"Depth-First Search\"\n    return method",
+    "solution": "depth-first",
+    "hints": [
+      "The browser goes deep into a tag's children before moving to the next sibling"
+    ],
+    "test_code": "def check(ans): return \"depth\" in ans.lower() and \"first\" in ans.lower()\nassert check(\"depth-first\")\nprint(\"PASS\")"
+  },
+  "related": ["cssom-01", "render-pipeline-01", "shadow-dom-01"],
+  "tags": ["dom", "browser", "html", "parsing", "web-fundamentals", "frontend"]
+}

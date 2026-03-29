@@ -1,0 +1,44 @@
+{
+  "id": "caching-strategies-frontend-01",
+  "slug": "caching-strategies-frontend",
+  "title": "Frontend Caching Strategies",
+  "domain": "Frontend",
+  "category": "Performance",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Different patterns used by Service Workers to decide whether to get data from the Cache or the Network.",
+    "analogy": "Eating food: 'Cache First' is like looking in your fridge first. 'Network First' is like always checking the grocery store first to see if they have fresh milk, and only using the old fridge milk if the store is closed.",
+    "time_complexity": "O(1) for cache; O(N) for network",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Cache-First: For static assets like CSS and JS that don't change often",
+      "Network-First: For dynamic data like a user's bank balance or latest news",
+      "Stale-While-Revalidate: The most popular for fast UI plus eventual consistency"
+    ],
+    "gotchas": [
+      "Stale-While-Revalidate is tricky: the user sees 'old' data immediately, but the 'new' data is being fetched silently for the NEXT time they visit",
+      "Always have a 'Fallback' image or page for when both cache AND network fail (Offline Fallback)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "sw-strategy-comparison",
+      "show_cache_vs_network_latency": true,
+      "show_fallback_scenarios": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the caching strategy that returns old data immediately while updating the cache in the background.",
+    "starter_code": "strategy = \"_____ while __________\"",
+    "solution": "Stale Revalidate",
+    "hints": [
+      "It uses 'Stale' data and will 'Revalidate' later"
+    ],
+    "test_code": "def check(ans): return \"stale\" in ans.lower() and \"revalidate\" in ans.lower()\nassert check(\"Stale while Revalidate\")\nprint(\"PASS\")"
+  },
+  "related": ["service-workers-01", "browser-caching-01", "pwa-basics-01"],
+  "tags": ["caching", "performance", "swr", "pwa", "offline", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "cicd-pipelines-01",
+  "slug": "cicd-pipelines",
+  "title": "CI/CD Pipelines",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Continuous Integration (CI) is the practice of automatically testing every code change, while Continuous Deployment (CD) is automatically shipping those changes to production.",
+    "analogy": "An automated assembly line: every time a worker adds a part (Code Commit), a robot instantly checks if it's the right size (Unit Tests). If it is, the belt moves it forward, eventually painting it and putting it on the truck (Deployment) without anyone touching it.",
+    "time_complexity": "O(N) pipeline stages",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Every professional software project! It ensures quality and speed",
+      "Catching bugs early before they reach the main branch",
+      "Automating repetitive tasks like building Docker images and running linters"
+    ],
+    "gotchas": [
+      "Pipeline Bloat: if your tests take 2 hours to run, developers will stop following the CI process. Keep the 'Fast' tests first and the 'Slow' ones last.",
+      "Security: CI pipelines usually have tokens to access production. If your CI system is hacked, your whole production environment is at risk."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "ci-cd-pipeline-flow",
+      "show_build_test_deploy_stages": true,
+      "show_failure_feedback_loop": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the acronym for the practice of automatically deploying code to production after passing tests.",
+    "starter_code": "practice = \"Continuous __________ (CD)\"",
+    "solution": "Deployment",
+    "hints": [
+      "Opposite of 'pullback'"
+    ],
+    "test_code": "def check(ans): return \"deploy\" in ans.lower()\nassert check(\"Deployment\")\nprint(\"PASS\")"
+  },
+  "related": ["github-actions-01", "docker-internals-01", "testing-pyramid-frontend-01"],
+  "tags": ["devops", "ci-cd", "automation", "testing", "deployment", "software-engineering"]
+}

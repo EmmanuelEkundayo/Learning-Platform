@@ -1,0 +1,45 @@
+{
+  "id": "database-transactions-01",
+  "slug": "database-transactions",
+  "title": "Database Transactions",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Grouping multiple database operations into a single unit of work that either succeeds completely or fails completely.",
+    "analogy": "A retail checkout process: scanning items, applying coupons, and charging the card. If the card charge fails, the coupons shouldn't be 'used up' and the items shouldn't be marked as 'sold'.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Transferring money between two accounts (debit one, credit the other)",
+      "Creating an order record AND 5 item-order records simultaneously",
+      "Updating multiple related tables where partial data would be corrupting"
+    ],
+    "gotchas": [
+      "Leaving a transaction open too long locks rows and can 'gridlock' the entire database",
+      "Transactions protect data integrity, but they don't solve logic errors (e.g., sending the wrong amount of money)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "transaction-flow",
+      "show_begin_commit_rollback": true,
+      "show_locks": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the pseudocode for a safe bank transfer using SQL transaction keywords.",
+    "starter_code": "____ TRANSACTION;\nUPDATE accounts SET bal = bal - 100 WHERE id = 1;\nUPDATE accounts SET bal = bal + 100 WHERE id = 2;\n# If any error occurred, we would ROLLBACK\n____;",
+    "solution": "BEGIN\nCOMMIT",
+    "hints": [
+      "A transaction starts with 'BEGIN'",
+      "A transaction is finalized with 'COMMIT'"
+    ],
+    "test_code": "def check(start, end): return start.upper() == \"BEGIN\" and end.upper() == \"COMMIT\"\nassert check(\"BEGIN\", \"COMMIT\")\nprint(\"PASS\")"
+  },
+  "related": ["acid-properties-01", "postgresql-internals-01", "database-indexing-01"],
+  "tags": ["database", "transaction", "sql", "atomicity", "backend"]
+}

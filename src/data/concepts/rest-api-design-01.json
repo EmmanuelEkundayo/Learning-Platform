@@ -1,0 +1,45 @@
+{
+  "id": "rest-api-design-01",
+  "slug": "rest-api-design",
+  "title": "REST API Design",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Designing APIs that are intuitive, scalable, and follow standard web conventions for resources and endpoints.",
+    "analogy": "A clear, well-labeled restaurant menu: you know exactly where the appetizers are, where the main courses are, and how to order more of something vs. sending something back.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Creating the primary interface for your backend services",
+      "When you need a standard, predictable way for multiple team's frontends to consume your data",
+      "Designing for public-facing developer APIs"
+    ],
+    "gotchas": [
+      "Don't use verbs in URLs (e.g., /getUser/123) — use nouns and HTTP verbs instead (GET /users/123)",
+      "Always return the correct HTTP status code; don't return '200 OK' with an error message in the JSON body"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rest-naming-conventions",
+      "show_verb_resource_mapping": true,
+      "show_pluralization_rule": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Correct the non-RESTful URL and choose the right HTTP verb to update just the email of user 42.",
+    "starter_code": "operation = {\n    \"Bad URL\": \"POST /updateUserEmail/42\",\n    \"RESTful URL\": \"____ /users/____\",\n    \"Verb\": \"____\"\n}",
+    "solution": "PATCH\n42\nPATCH",
+    "hints": [
+      "The URL should be just the resource: /users/42",
+      "A partial update uses the PATCH verb"
+    ],
+    "test_code": "assert \"/users/42\" in operation.values()\nassert \"PATCH\" in operation.values()\nprint(\"PASS\")"
+  },
+  "related": ["rest-principles-01", "api-versioning-01", "idempotency-01"],
+  "tags": ["api", "rest", "design", "naming", "web", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "repository-pattern-01",
+  "slug": "repository-pattern",
+  "title": "Repository Pattern",
+  "domain": "Backend",
+  "category": "APIs & Architecture",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An abstraction layer between the domain logic and the data source, helping you treat your database like a simple in-memory collection.",
+    "analogy": "A restaurant waiter: you ask for a 'Chef's Salad' (UserRepository.getById). You don't care if they get the lettuce from the fridge or if they go out to the garden — you just get the salad.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Decoupling your application from a specific database technology (e.g., swapping SQL for NoSQL later)",
+      "Centralizing data access logic so it's not scattered across controllers",
+      "Simplifying unit testing by mocking the repository interface"
+    ],
+    "gotchas": [
+      "Don't turn your repository into a giant 'god object' with hundreds of specialized methods (findActiveUsersInParisByAge...)",
+      "If you're using a powerful ORM like Django or Rails, a separate Repository pattern might just be redundant 'boilerplate'"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "repository-abstraction",
+      "show_controller_to_repo_to_db": true,
+      "show_data_mapping": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify where the database query (e.g., SELECT * FROM...) should live.",
+    "starter_code": "def handle_request(id):\n    # 1. Controller calls the ____\n    user = user_repository.find(id)\n    \n    # 2. The ____ contains the raw SQL/DB logic\n    # SELECT * FROM users WHERE id = ...\n    return user",
+    "solution": "repository\nrepository",
+    "hints": [
+      "The repository handles all the 'dirty' details of talking to the database"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"repository\"\nassert check(\"repository\")\nprint(\"PASS\")"
+  },
+  "related": ["dependency-injection-01", "orm-patterns-01", "cqrs-01"],
+  "tags": ["repository-pattern", "design-patterns", "abstraction", "database", "backend"]
+}

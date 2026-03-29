@@ -1,0 +1,44 @@
+{
+  "id": "eventual-consistency-01",
+  "slug": "eventual-consistency",
+  "title": "Eventual Consistency",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A consistency model used in distributed systems where, if no new updates are made to a data item, all accesses to that item will eventually return the last updated value.",
+    "analogy": "Social media likes: if you like a post, your friend across the world might not see it for a few seconds, but after a short wait, everyone will see the same total count.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "High-scale systems where latency is more critical than instant accuracy (e.g., DNS, global social networks)",
+      "When using Amazon S3, DynamoDB, or Cassandra in certain configurations",
+      "Reducing network bottlenecks by allowing data to propagate asynchronously"
+    ],
+    "gotchas": [
+      "It makes the 'Read-Your-Own-Writes' experience difficult without session-stickiness or extra client-side logic",
+      "Not suitable for financial transactions where a $0 balance must be reflected instantly worldwide"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "propagation-delay",
+      "show_divergent_states": true,
+      "show_eventual_convergence": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the term for achieving the exact same data across all nodes at the exact same time (the opposite of eventual consistency).",
+    "starter_code": "In a distributed system, requiring all nodes to see the same data at all times is called ______ ___________.",
+    "solution": "Strong Consistency",
+    "hints": [
+      "It is the 'Strong' version of consistency"
+    ],
+    "test_code": "def check(ans): return \"strong\" in ans.lower() and \"consistency\" in ans.lower()\nassert check(\"Strong Consistency\")\nprint(\"PASS\")"
+  },
+  "related": ["cap-theorem-01", "database-replication-01", "acid-properties-01"],
+  "tags": ["distributed-systems", "consistency", "database", "availability", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "transpilation-babel-01",
+  "slug": "transpilation-babel",
+  "title": "Transpilation (Babel)",
+  "domain": "Frontend",
+  "category": "Additional JS/Browser",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The process of converting modern JavaScript code (ES6+) into an older version of JavaScript (ES5) so it can run in older browsers that don't support the latest features.",
+    "analogy": "A universal translator: you are speaking 'Modern English' (ES2024), but you want to talk to someone who only understands 'Medieval English' (IE11). Babel takes your modern sentences and translates them so the older browser can understand the meaning.",
+    "time_complexity": "O(N) at build time",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Using cutting-edge JS features (like Optional Chaining) in projects that must support older browsers",
+      "Converting JSX into plain `React.createElement` calls",
+      "Minifying code by renaming long variables to short ones"
+    ],
+    "gotchas": [
+      "Transpilation increases the final file size because modern shorthand (like `...args`) often requires a multi-line helper function in older JS",
+      "It is NOT the same as 'Compiling'. Compiling usually goes from high-level to low-level; Transpiling goes from one language to another at similar levels"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "code-transformation-pipeline",
+      "show_ast_parsing": true,
+      "show_esnext_vs_es5_output": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the popular JS 'compiler' that handles transpilation for most web apps.",
+    "starter_code": "def identify_compiler():\n    # Named after a biblical tower associated with languages\n    name = \"_____\"\n    return name",
+    "solution": "Babel",
+    "hints": [
+      "The Tower of _____"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"babel\"\nassert check(\"Babel\")\nprint(\"PASS\")"
+  },
+  "related": ["source-maps-01", "bundlers-internals-01", "tree-shaking-01"],
+  "tags": ["javascript", "babel", "transpilation", "compiler", "es6", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "api-design-principles-01",
+  "slug": "api-design-principles",
+  "title": "API Design Principles",
+  "domain": "Software Engineering",
+  "category": "Additional SWE",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A set of best practices for creating APIs that are easy to use, hard to misuse, and maintainable over time (e.g., Consistency, Error handling, Versioning).",
+    "analogy": "A good light switch: it's in a predictable place, it only has two visible states (on/off), and it works the same way in every house. A bad API is like a switch that requires you to enter a 4-digit code and sometimes gives you an electric shock instead of light.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Designing a public API for external developers",
+      "Building internal microservices that must be 'Consumer-Friendly'",
+      "Standardizing on a single style (REST, GraphQL, or gRPC) across a company"
+    ],
+    "gotchas": [
+      "Leaking Internals: a common mistake is returning internal database IDs or stack traces in error messages, which is a security risk and makes the API coupled to the DB.",
+      "Stability: once people start using your API, you CANNOT change it without breaking their apps. Use versioning (like `/v1/`) from day one."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "api-request-consistency-check",
+      "show_naming_conventions": true,
+      "show_meaningful_error_codes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the property of an API operation where making the same request multiple times has the same effect as making it once.",
+    "starter_code": "property_name = \"____________\"",
+    "solution": "Idempotency",
+    "hints": [
+      "I-D-E-M-..."
+    ],
+    "test_code": "def check(ans): return \"idempot\" in ans.lower()\nassert check(\"Idempotency\")\nprint(\"PASS\")"
+  },
+  "related": ["semantic-versioning-01", "rest-principles-01", "contract-testing-01"],
+  "tags": ["api", "design", "rest", "developer-experience", "versioning", "software-engineering"]
+}

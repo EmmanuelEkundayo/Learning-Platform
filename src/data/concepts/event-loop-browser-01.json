@@ -1,0 +1,46 @@
+{
+  "id": "event-loop-browser-01",
+  "slug": "event-loop-browser",
+  "title": "Browser Event Loop",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The mechanism that allows JavaScript to perform non-blocking I/O operations despite being single-threaded, by offloading tasks to the browser APIs and coordinating their execution via a queue.",
+    "analogy": "A fast-food manager (the Event Loop) who takes your order (Call Stack), gives it to the kitchen (Browser APIs), and then moves to the next customer. When the burger is ready (Task Queue), the manager only hands it to you when they are not busy talking to another customer.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Understanding why `setTimeout` isn't always accurate",
+      "Debugging UI freezes caused by long-running calculations",
+      "Optimizing asynchronous code for performance"
+    ],
+    "gotchas": [
+      "If the 'Call Stack' is busy running a heavy loop (like `while(true)`), the Event Loop is blocked, and the browser cannot paint or respond to clicks",
+      "The Event Loop prioritizes 'Microtasks' (Promises) over 'Macrotasks' (setTimeout)"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "event-loop-cycle",
+      "show_stack_queue_heap": true,
+      "show_rendering_sync": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three main components of the JavaScript runtime environment that interact via the Event Loop.",
+    "starter_code": "components = [\n    \"1. The ______: Where synchronous code is executed one-by-one\",\n    \"2. Web ______: Provided by the browser (e.g., fetch, timer)\",\n    \"3. The Task ______: Where asynchronous callbacks wait to be executed\"\n]",
+    "solution": "Stack\nAPIs\nQueue",
+    "hints": [
+      "Execution happens on the 'Stack'",
+      "Browser features are 'APIs'",
+      "Things wait in a 'Queue'"
+    ],
+    "test_code": "assert \"Stack\" in components[0]\nassert \"APIs\" in components[1]\nassert \"Queue\" in components[2]\nprint(\"PASS\")"
+  },
+  "related": ["microtasks-vs-macrotasks-01", "promises-internals-01", "web-workers-01"],
+  "tags": ["event-loop", "javascript", "async", "concurrency", "browser", "frontend"]
+}

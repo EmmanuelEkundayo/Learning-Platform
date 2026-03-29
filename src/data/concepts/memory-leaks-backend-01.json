@@ -1,0 +1,44 @@
+{
+  "id": "memory-leaks-backend-01",
+  "slug": "memory-leaks-backend",
+  "title": "Backend Memory Leaks",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A situation where a program fails to release memory it no longer needs, causing the application's RAM usage to grow over time until it eventually crashes (OOM).",
+    "analogy": "A restaurant that never clears the tables: eventually, new customers can't sit down because every table is covered in old dishes and leftovers, even though those people left hours ago.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(Infinity) over time",
+    "when_to_use": [
+      "Debugging 'Out of Memory' (OOM) errors in long-running server processes",
+      "Identifying why a background worker's RAM usage doubles every 24 hours",
+      "Optimizing high-traffic APIs where every byte of leaked memory counts"
+    ],
+    "gotchas": [
+      "In garbage-collected languages (Java, JS, Python), leaks happen when you keep UNINTENTIONAL references to objects (e.g., adding to a global list and never removing)",
+      "Closures in JavaScript can capture large variables from their outer scope and keep them in memory longer than expected"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "memory-growth-over-time",
+      "show_leak_accumulation": true,
+      "show_garbage_collection_spikes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the common cause of a memory leak in this pseudocode.",
+    "starter_code": "global_cache = []\n\ndef handle_request(data):\n    # 1. Process data\n    result = process(data)\n    \n    # 2. Store to global list for 'logging'\n    global_cache.append(result)\n    \n    # 3. Return response\n    return result\n\n# The problem is that 'global_cache' ________ grows forever.",
+    "solution": "linearly",
+    "hints": [
+      "If you keep adding to a list and never clear it, it grows in a straight line"
+    ],
+    "test_code": "def check(ans): return ans.lower() in [\"linearly\", \"continuously\", \"infinitely\"]\nassert check(\"linearly\")\nprint(\"PASS\")"
+  },
+  "related": ["profiling-benchmarking-01", "event-loop-nodejs-01", "worker-threads-01"],
+  "tags": ["performance", "memory", "debugging", "leak", "optimization", "backend"]
+}

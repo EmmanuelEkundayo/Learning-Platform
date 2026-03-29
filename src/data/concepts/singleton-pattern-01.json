@@ -1,0 +1,44 @@
+{
+  "id": "singleton-pattern-01",
+  "slug": "singleton-pattern",
+  "title": "Singleton Pattern",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A creational pattern that ensures a class has only one instance and provides a global point of access to it.",
+    "analogy": "The President of a country: there is only ever one 'President' person serving at a time. No matter who asks to see 'The President', they are always directed to the same single office.",
+    "time_complexity": "O(1) access",
+    "space_complexity": "O(1) for the single instance",
+    "when_to_use": [
+      "Managing a single Database Connection pool for the whole app",
+      "Creating a global 'Logger' or 'Configuration' object",
+      "Managing hardware access (like a printer spooler) where multiple instances would crash"
+    ],
+    "gotchas": [
+      "Singletons are often considered an 'Anti-pattern' because they act like global variables, making unit testing very difficult (state leaks between tests).",
+      "Concurrency: in multi-threaded languages, you must be careful to avoid creating two instances if two threads ask for it at the exact same millisecond."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "singleton-instance-check",
+      "show_global_access_point": true,
+      "show_private_constructor_block": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the keyword used in most languages to ensure a class's constructor cannot be called from the outside to enforce a Singleton.",
+    "starter_code": "class Database {\n    _______ constructor() {}\n}",
+    "solution": "private",
+    "hints": [
+      "Opposite of 'public'"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"private\"\nassert check(\"private\")\nprint(\"PASS\")"
+  },
+  "related": ["factory-pattern-01", "solid-principles-01", "dependency-inversion-01"],
+  "tags": ["design-patterns", "creational", "singleton", "oop", "global-state", "software-engineering"]
+}

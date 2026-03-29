@@ -1,0 +1,44 @@
+{
+  "id": "zustand-redux-patterns-01",
+  "slug": "zustand-redux-patterns",
+  "title": "Zustand & Redux Patterns",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "External state management libraries that store the application's entire 'Source of Truth' in a single place outside of the React component tree.",
+    "analogy": "A Central Bank: instead of every person carrying their own cash (Local State), everyone stores their money in one central vault (Store). If you want to spend money, you send a formal request (Action/Dispatch) to the bank teller (Reducer) who updates the vault.",
+    "time_complexity": "O(1) access; O(1) update",
+    "space_complexity": "O(N) total state size",
+    "when_to_use": [
+      "Large-scale applications with complex data dependencies between distant components",
+      "Undo/Redo functionality (Time Travel Debugging)",
+      "Persisting state to local storage automatically"
+    ],
+    "gotchas": [
+      "Redux requires a lot of 'boilerplate' code (Actions, Reducers, Selectors). Zustand is much simpler and uses hooks natively",
+      "Don't put EVERY piece of state in the store. If a variable is only used by one component, keep it in `useState`"
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "unidirectional-data-flow",
+      "show_action_dispatch": true,
+      "show_selector_updates": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the Redux term for the function that takes (state, action) and returns the NEXT state.",
+    "starter_code": "def red(state, action):\n    if action == 'INC': return state + 1\n    return state\n\n# This function is called a ________",
+    "solution": "reducer",
+    "hints": [
+      "It 'reduces' an action and state into a new state"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"reducer\"\nassert check(\"reducer\")\nprint(\"PASS\")"
+  },
+  "related": ["context-api-01", "react-query-01", "usestate-internals-01"],
+  "tags": ["redux", "zustand", "state", "store", "patterns", "flux", "frontend"]
+}

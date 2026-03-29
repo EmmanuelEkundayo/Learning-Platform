@@ -1,0 +1,44 @@
+{
+  "id": "infrastructure-as-code-01",
+  "slug": "infrastructure-as-code",
+  "title": "Infrastructure as Code (IaC)",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Managing and provisioning computer data centers through machine-readable definition files (code), rather than physical hardware configuration or interactive configuration tools.",
+    "analogy": "Ordering a kit car: instead of going to a factory and manually welding parts together (Manual AWS Console clicking), you have a blueprint (Terraform file). You give the blueprint to a robot, and it builds the exact car you described perfectly every time.",
+    "time_complexity": "O(N) resources to create",
+    "space_complexity": "O(N) state management",
+    "when_to_use": [
+      "Scaling your infrastructure to multiple regions identically",
+      "Keeping track of infrastructure changes in Git (Version Control)",
+      "Automating the setup of dev/staging environments"
+    ],
+    "gotchas": [
+      "State Management: tools like Terraform need a 'State File' to remember what they built. If you lose this file, the tool won't know how to update your production servers.",
+      "Manual changes: once you use IaC, you must STOP clicking buttons in the AWS/Azure console, or your code will get out of sync with reality ('State Drift')."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "iac-plan-apply-lifecycle",
+      "show_resource_dependency_graph": true,
+      "show_state_drift_detection": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the most popular cloud-agnostic IaC tool used to define resources using HCL (HashiCorp Configuration Language).",
+    "starter_code": "tool = \"_________\"",
+    "solution": "Terraform",
+    "hints": [
+      "Terra-something"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"terraform\"\nassert check(\"Terraform\")\nprint(\"PASS\")"
+  },
+  "related": ["environment-management-01", "kubernetes-basics-01", "cicd-pipelines-01"],
+  "tags": ["devops", "iac", "terraform", "automation", "cloud", "software-engineering"]
+}

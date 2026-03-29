@@ -1,0 +1,44 @@
+{
+  "id": "event-driven-architecture-01",
+  "slug": "event-driven-architecture",
+  "title": "Event-Driven Architecture (EDA)",
+  "domain": "Backend",
+  "category": "Message Queues & Events",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A design pattern where services communicate by emitting and responding to events ('something happened') rather than directly calling each other.",
+    "analogy": "A fire alarm system: the sensor (Producer) just screams 'FIRE!'. It doesn't know about the sprinklers, the fire station, or the elevator. Those systems (Consumers) listen for the scream and decide what to do independently.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Large-scale microservices where you want maximum decoupling",
+      "Real-time data processing (notifications, analytics)",
+      "Systems that need to be highly extensible (easy to add new listeners without changing the producer)"
+    ],
+    "gotchas": [
+      "It makes the overall 'flow' of the system harder to trace because there is no single 'main' function",
+      "Eventual Consistency: Service B might not know about Service A's update for a few milliseconds or seconds"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "event-bus-mesh",
+      "show_loose_coupling": true,
+      "show_event_types": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the main difference between a Request/Response and an Event.",
+    "starter_code": "patterns = {\n    \"Direct call expecting a return value now\": \"Req/Res\",\n    \"Broadcast saying 'X happened' with no expected return\": \"______\"\n}",
+    "solution": "Event",
+    "hints": [
+      "It 'happened' and people 'happily listen' to it"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"event\"\nassert check(\"Event\")\nprint(\"PASS\")"
+  },
+  "related": ["message-queue-concepts-01", "pubsub-pattern-01", "kafka-architecture-01"],
+  "tags": ["architecture", "eda", "microservices", "asynchronous", "scalability", "backend"]
+}

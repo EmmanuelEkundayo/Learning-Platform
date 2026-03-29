@@ -1,0 +1,44 @@
+{
+  "id": "stacking-context-01",
+  "slug": "stacking-context",
+  "title": "Stacking Context",
+  "domain": "Frontend",
+  "category": "CSS & Layout",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A three-dimensional conceptualization of HTML elements along an imaginary z-axis relative to the user. It dictates which elements appear 'on top' of others.",
+    "analogy": "A folder system: if element B is inside Folder 1, and Folder 2 has a higher `z-index` than Folder 1, then EVERYTHING in Folder 2 will be on top of element B, even if element B has a huge `z-index` of 9999.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Fixing bugs where modals or tooltips appear behind other elements",
+      "Creating layered parallax effects",
+      "Ensuring fixed headers stay on top of scrolling content"
+    ],
+    "gotchas": [
+      "Setting `opacity` less than 1, `transform`, or `filter` on an element creates a NEW stacking context automatically",
+      "The `z-index` property ONLY works on elements that have a `position` other than `static` (like relative, absolute, or fixed)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "z-index-resolution-tree",
+      "show_context_creation_triggers": true,
+      "show_local_vs_global_stacking": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify which element will be on top. Element A is z-index 10. Element B is z-index 1 but is inside a parent with z-index 20. Neither creates a new context except the parent.",
+    "starter_code": "winner = \"Element _\"",
+    "solution": "B",
+    "hints": [
+      "B's parent (20) beats A (10)"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"B\"\nassert check(\"B\")\nprint(\"PASS\")"
+  },
+  "related": ["css-specificity-cascade-01", "dom-internals-01", "flexbox-algorithm-01"],
+  "tags": ["css", "z-index", "stacking-context", "layers", "rendering", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "tdd-cycle-01",
+  "slug": "tdd-cycle",
+  "title": "TDD Cycle (Red-Green-Refactor)",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Test-Driven Development (TDD) is a process where you write a failing test first, then write the minimum code to pass it, and finally clean up the code.",
+    "analogy": "Building a Lego set with a missing piece detector: first, you look for a specific piece you don't have (Red: Failing Test). Then, you find that exact piece and put it in (Green: Pass). Finally, you straighten the blocks so they look nice (Refactor).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Ensuring high test coverage from the start of a project",
+      "Designing clean APIs by thinking about how they are 'called' before how they are 'built'",
+      "Preventing regressions when adding new features to complex logic"
+    ],
+    "gotchas": [
+      "Don't skip the Refactor step! If you only do Red and Green, your codebase will eventually become a messy pile of hacks.",
+      "TDD is not about Testing; it is about DESIGN. It helps you write decoupled, modular code."
+    ]
+  },
+  "visualization": {
+    "type": "state-diagram",
+    "config": {
+      "mode": "tdd-loop-animation",
+      "show_fail_pass_refactor_states": true,
+      "show_test_first_constraint": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three steps of the TDD cycle in order.",
+    "starter_code": "cycle = [\"___ (Write failing test)\", \"_____ (Make it pass)\", \"________ (Clean up code)\"]",
+    "solution": "Red\nGreen\nRefactor",
+    "hints": [
+      "Stop light colors, then spruce up"
+    ],
+    "test_code": "assert \"red\" in solution.lower()\nassert \"green\" in solution.lower()\nassert \"refactor\" in solution.lower()\nprint(\"PASS\")"
+  },
+  "related": ["bdd-basics-01", "refactoring-patterns-01", "code-coverage-01"],
+  "tags": ["tdd", "testing", "design", "agile", "quality", "software-engineering"]
+}

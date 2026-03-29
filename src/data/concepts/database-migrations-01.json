@@ -1,0 +1,45 @@
+{
+  "id": "database-migrations-01",
+  "slug": "database-migrations",
+  "title": "Database Migrations",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A version control system for your database schema, allowing you to gradually modify the structure over time in a safe, reversible way.",
+    "analogy": "Updating a recipe book: instead of throwing away the old book and writing a new one every time you add a spice, you write a small 'sticky note' saying 'Add 1 tsp salt' so everyone knows exactly what changed.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Changing the database structure when multiple developers are working on the same project",
+      "Deploying schema changes to production safely",
+      "Reverting a broken schema change (Rolling back)"
+    ],
+    "gotchas": [
+      "Never modify production data directly; always use a migration to keep all environments in sync",
+      "Destructive migrations (like dropping a column) should be done in multiple steps: add new column, sync data, then drop old column (Expand-Contract pattern)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "migration-history",
+      "show_up_down_scripts": true,
+      "show_version_tracking": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the migration file logic for adding an 'age' column.",
+    "starter_code": "class AddAgeToUsers:\n    def up(self):\n        # Run when applying the migration\n        execute(\"ALTER TABLE users ____ COLUMN age INT\")\n\n    def down(self):\n        # Run when reverting the migration\n        execute(\"ALTER TABLE users ____ COLUMN age\")",
+    "solution": "ADD\nDROP",
+    "hints": [
+      "In the 'up' method, you 'ADD' the column",
+      "In the 'down' method, you 'DROP' the column to revert"
+    ],
+    "test_code": "def check(u, d): return u.upper() == \"ADD\" and d.upper() == \"DROP\"\nassert check(\"ADD\", \"DROP\")\nprint(\"PASS\")"
+  },
+  "related": ["orm-patterns-01", "sql-joins-01", "database-normalization-01"],
+  "tags": ["database", "migrations", "devops", "schema-design", "version-control", "backend"]
+}

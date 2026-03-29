@@ -1,0 +1,44 @@
+{
+  "id": "system-design-notifications-01",
+  "slug": "system-design-notifications",
+  "title": "System Design: Notifications",
+  "domain": "Software Engineering",
+  "category": "System Design",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A scalable system to deliver messages across multiple channels (Push, Email, SMS) while handling retries, prioritization, and user preferences.",
+    "analogy": "A central mailing office: workers (Notification Service) receive letters, check the address (Registry), decide if it goes by truck or plane (Provider), and try again if the truck breaks down (Retries).",
+    "time_complexity": "O(1) to enqueue; O(N) delivery",
+    "space_complexity": "O(N) pending messages in queue",
+    "when_to_use": [
+      "Transactional emails (password reset, order confirmation)",
+      "Marketing push notifications",
+      "Real-time alerts for system monitoring"
+    ],
+    "gotchas": [
+      "Rate limiting: you don't want to spam a user with 50 notifications in 1 minute just because they got 50 likes. You need a 'Debouncing' or 'Aggregator' layer.",
+      "Third-party reliability: notification systems depend on external providers (Twilio, SendGrid, FCM) which can fail. Heavy use of Message Queues is mandatory."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "notification-pipeline-stages",
+      "show_retry_logic": true,
+      "show_delivery_providers": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary architectural component used to decouple the notification request from the actual delivery process to ensure reliability.",
+    "starter_code": "component = \"Message _____\"",
+    "solution": "Queue",
+    "hints": [
+      "A line of people waiting"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"queue\"\nassert check(\"Queue\")\nprint(\"PASS\")"
+  },
+  "related": ["message-queue-concepts-01", "retry-and-backoff-01", "system-design-chat-01"],
+  "tags": ["system-design", "notifications", "queues", "reliability", "distributed-systems", "software-engineering"]
+}

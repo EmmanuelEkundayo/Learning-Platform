@@ -1,0 +1,44 @@
+{
+  "id": "observability-logs-metrics-traces-01",
+  "slug": "observability-logs-metrics-traces",
+  "title": "The 3 Pillars of Observability",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Observability is the ability to understand what is happening inside your system by looking at the external data it produces: Logs (Events), Metrics (Aggregates), and Traces (Journeys).",
+    "analogy": "A hospital patient: **Metrics** are their heart rate and temperature (numbers over time). **Logs** are the doctor's notes ('Patient complained of headache at 2 PM'). **Traces** are the record of the patient moving from Triage to X-Ray to Surgery.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) data volume (heavy!)",
+    "when_to_use": [
+      "Debugging performance bottlenecks in production",
+      "Setting up alerts for when error rates (Metrics) spike",
+      "Following a single user's request through 10 different microservices (Traces)"
+    ],
+    "gotchas": [
+      "Monitoring is 'Is it working?'. Observability is 'Why is it not working?'.",
+      "Data overload: if you log every single variable, your logging bill will eventually be higher than your server bill. Use 'Sampling' and 'Log Levels'."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "observability-data-correllation",
+      "show_logs_to_metrics_agg": true,
+      "show_trace_id_linkage": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the three pillars of observability.",
+    "starter_code": "pillars = [\n    \"1. _____: Textual records of events\",\n    \"2. _______: Numerical data points over time\",\n    \"3. ______: End-to-end request journeys\"\n]",
+    "solution": "Logs\nMetrics\nTraces",
+    "hints": [
+      "L___, M______, T_____"
+    ],
+    "test_code": "assert \"logs\" in solution.lower()\nassert \"metrics\" in solution.lower()\nprint(\"PASS\")"
+  },
+  "related": ["distributed-tracing-01", "system-design-notifications-01", "canary-releases-01"],
+  "tags": ["devops", "observability", "monitoring", "logs", "metrics", "traces", "software-engineering"]
+}

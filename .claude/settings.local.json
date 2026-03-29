@@ -13,7 +13,11 @@
       "Bash(node -e \"import\\(''./vite.config.js''\\).then\\(m => console.log\\(''vite config ok''\\)\\).catch\\(e => console.error\\(e.message\\)\\)\")",
       "Bash(ls src/data/concepts/*.json)",
       "Bash(python3 -c \":*)",
-      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d[''''slug''''], d[''''title'''']\\)\")"
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d[''''slug''''], d[''''title'''']\\)\")",
+      "Bash(npm run:*)",
+      "Bash(cmd /c \"npm run build\")",
+      "Bash(powershell -Command \"cd 'C:/Users/Emmanuel/Desktop/Learning Platform'; npm run build\" 2>&1)",
+      "Bash(node:*)"
     ]
   }
 }

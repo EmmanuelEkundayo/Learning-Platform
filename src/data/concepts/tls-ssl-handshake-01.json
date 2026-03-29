@@ -1,0 +1,45 @@
+{
+  "id": "tls-ssl-handshake-01",
+  "slug": "tls-ssl-handshake",
+  "title": "TLS/SSL Handshake",
+  "domain": "Backend",
+  "category": "Networking & HTTP",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A sequence of steps to establish a secure, encrypted connection between a client and a server using public-key cryptography.",
+    "analogy": "Two strangers meeting to exchange a private secret: they first prove their identity with IDs (certificates), then agree on a secret code (session key) using a complex locked-box ritual.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Securing any sensitive data transfer (HTTPS, SFTP, SMTPS)",
+      "Verifying the identity of a server to prevent Man-in-the-Middle attacks",
+      "Compliance with security standards like PCI-DSS or HIPAA"
+    ],
+    "gotchas": [
+      "The 'handshake' adds latency (extra round trips) before the first byte of data is sent — optimized in TLS 1.3",
+      "A valid certificate only proves identity, not that the site is 'good' or non-malicious"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "tls-1.2-vs-1.3",
+      "show_handshake_steps": true,
+      "show_certificates": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Correct the TLS 1.2 handshake sequence.",
+    "starter_code": "def tls_handshake_order():\n    # Scrambled order\n    return [\n        \"ClientHello\",\n        \"ServerHello + Certificate\",\n        \"____ Key Exchange\",\n        \"ChangeCipherSpec\",\n        \"____\"\n    ]",
+    "solution": "Client\nFinished",
+    "hints": [
+      "After the server sends its certificate, the Client performs its key exchange",
+      "The 'Finished' message indicates encrypted data can now flow"
+    ],
+    "test_code": "order = tls_handshake_order()\nassert order[0] == \"ClientHello\"\nassert \"Client\" in order[2]\nassert \"Finished\" in order[4]\nprint(\"PASS\")"
+  },
+  "related": ["http-versions-01", "dns-resolution-01", "tcp-vs-udp-01"],
+  "tags": ["tls", "ssl", "security", "encryption", "handshake", "backend"]
+}

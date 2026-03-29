@@ -1,0 +1,44 @@
+{
+  "id": "virtual-dom-reconciliation-01",
+  "slug": "virtual-dom-reconciliation",
+  "title": "Virtual DOM & Reconciliation",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "React's strategy of maintaining a lightweight copy of the UI in memory (Virtual DOM) and comparing it with the previous version to find the minimum number of changes needed to update the real DOM.",
+    "analogy": "Building a Lego castle based on a photo: if you want to change the color of the drawbridge, you don't tear down the whole castle. You compare the new photo (New VDOM) with the old one (Old VDOM), see that ONLY the drawbridge changed, and swap only those specific blocks.",
+    "time_complexity": "O(N) (using React's heuristic diffing)",
+    "space_complexity": "O(N) for VDOM tree",
+    "when_to_use": [
+      "Understanding how React optimizes UI updates",
+      "Debugging why a component is re-rendering unexpectedly",
+      "Optimizing performance in large, complex list views"
+    ],
+    "gotchas": [
+      "The Virtual DOM is NOT faster than the real DOM; it's an abstraction that finds the most efficient way to UPDATE the real DOM",
+      "Using 'index' as a key in lists can confuse the reconciliation algorithm if the list order changes, leading to UI bugs"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "diffing-algorithm-flow",
+      "show_old_vs_new_tree": true,
+      "show_patch_operations": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the standard React property used to help the reconciliation algorithm identify which items in a list have changed, been added, or been removed.",
+    "starter_code": "def render_list(items):\n    return [\n        # Each item needs a unique identifier\n        f\"<li ______='{item.id}'>{item.text}</li>\"\n        for item in items\n    ]",
+    "solution": "key",
+    "hints": [
+      "It's a 'key' part of list rendering"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"key\"\nassert check(\"key\")\nprint(\"PASS\")"
+  },
+  "related": ["react-fiber-01", "dom-internals-01", "component-lifecycle-01"],
+  "tags": ["react", "vdom", "reconciliation", "diffing", "performance", "frontend"]
+}

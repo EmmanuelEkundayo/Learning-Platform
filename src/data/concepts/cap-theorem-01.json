@@ -1,0 +1,45 @@
+{
+  "id": "cap-theorem-01",
+  "slug": "cap-theorem",
+  "title": "CAP Theorem",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "In a distributed data store, it is impossible to simultaneously provide Consistency, Availability, and Partition Tolerance.",
+    "analogy": "A group project with 3 students: you can have it perfect (Consistency), turned in on time (Availability), or work separately when the internet goes out (Partition Tolerance). You can only pick 2.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Choosing between different types of databases (e.g., MongoDB vs Cassandra vs SQL)",
+      "Designing systems that must stay alive even if the network fails (Partition Tolerance)",
+      "Deciding if it's okay for a user to temporarily see old data (Eventual Consistency)"
+    ],
+    "gotchas": [
+      "Partition Tolerance (P) is NOT optional in real distributed systems (networks always fail eventually), so you are really choosing between C and A during a network split",
+      "PACELC is an extension of CAP that also considers Latency vs. Consistency when there is no partition"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "cap-triangle",
+      "show_tradeoffs": true,
+      "show_partition_scenario": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the CAP choice for a specific database behavior.",
+    "starter_code": "def identify_cap_choice(behavior):\n    if behavior == \"System remains functional but may return stale data\":\n        return \"__\"\n    elif behavior == \"System returns an error if it cannot guarantee the latest data\":\n        return \"__\"\n    return \"Unknown\"",
+    "solution": "AP\nCP",
+    "hints": [
+      "Available and Partition Tolerant systems don't wait for sync",
+      "Consistent and Partition Tolerant systems refuse to answer if they can't sync"
+    ],
+    "test_code": "assert identify_cap_choice(\"System remains functional but may return stale data\") == \"AP\"\nassert identify_cap_choice(\"System returns an error if it cannot guarantee the latest data\") == \"CP\"\nprint(\"PASS\")"
+  },
+  "related": ["eventual-consistency-01", "database-replication-01", "acid-properties-01"],
+  "tags": ["distributed-systems", "cap-theorem", "database", "trade-offs", "backend"]
+}

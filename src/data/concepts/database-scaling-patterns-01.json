@@ -1,0 +1,44 @@
+{
+  "id": "database-scaling-patterns-01",
+  "slug": "database-scaling-patterns",
+  "title": "Database Scaling Patterns",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Techniques for handling massive amounts of data and traffic that a single database instance cannot manage alone: Replication, Sharding, and Federation.",
+    "analogy": "A library: **Replication** is making 5 copies of a popular book so 5 people can read it at once. **Sharding** is splitting the library by letter (A-M in building 1, N-Z in building 2). **Federation** is having separate libraries for Comics vs Textbooks.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Replication: When you have 10,000 'Reads' (Views) but only 10 'Writes' (Posts)",
+      "Sharding: When your data is so huge it won't fit on one physical hard drive",
+      "Caching: Using Redis to store frequent queries and take pressure off the main DB"
+    ],
+    "gotchas": [
+      "Replication Lag: if you write to the Master and immediately try to read from a Replica, the data might not be there yet! (Eventual Consistency).",
+      "Sharding Complexity: once you shard, you can no longer do 'JOINS' between shards easily. You have to do them in your application code."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "db-scaling-topology-view",
+      "show_master_slave_replication": true,
+      "show_shard_key_routing": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the scaling pattern that involves splitting a single large dataset into smaller pieces across multiple servers.",
+    "starter_code": "pattern = \"________\"",
+    "solution": "Sharding",
+    "hints": [
+      "Breaking into 'shards' of glass"
+    ],
+    "test_code": "def check(ans): return \"shard\" in ans.lower()\nassert check(\"Sharding\")\nprint(\"PASS\")"
+  },
+  "related": ["database-sharding-01", "database-replication-01", "cap-theorem-01"],
+  "tags": ["database", "scaling", "sharding", "replication", "performance", "software-engineering"]
+}

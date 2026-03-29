@@ -1,0 +1,44 @@
+{
+  "id": "hydration-islands-01",
+  "slug": "hydration-islands",
+  "title": "Hydration & Islands Architecture",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Hydration is the process of attaching event listeners to server-rendered HTML. Islands Architecture goes a step further by only hydrating small, interactive parts of the page (Islands) while keeping the rest as static HTML.",
+    "analogy": "A desert with small oases: the desert (Static HTML) is large and dry (no JS). The oases (Islands) are small pockets where life (interactivity/JS) exists. You don't need to water the whole desert just for the oases to thrive.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Optimizing content-heavy websites (Astro framework style)",
+      "Improving 'Total Blocking Time' (TBT) by reducing the amount of JS that runs on page load",
+      "Mixed-content pages where only 10% of the UI needs state"
+    ],
+    "gotchas": [
+      "Hydration Mismatch: if the HTML from the server doesn't perfectly match what the client expects, you'll get a nasty warning and potentially flickering UI",
+      "Pure 'Islands' can't easily share state with each other unless you use a global store or custom events"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "selective-hydration-flow",
+      "show_static_vs_interactive_zones": true,
+      "show_event_listener_attachment": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the process of making static HTML interactive in the browser.",
+    "starter_code": "def make_interactive(html):\n    # Browser takes the HTML and 'adds life' to it\n    process = \"_________\"\n    return process",
+    "solution": "hydration",
+    "hints": [
+      "Like adding 'water' to a plant"
+    ],
+    "test_code": "def check(ans): return \"hydra\" in ans.lower()\nassert check(\"hydration\")\nprint(\"PASS\")"
+  },
+  "related": ["react-server-components-01", "render-pipeline-01", "web-components-01"],
+  "tags": ["architecture", "hydration", "islands", "performance", "rendering", "frontend"]
+}

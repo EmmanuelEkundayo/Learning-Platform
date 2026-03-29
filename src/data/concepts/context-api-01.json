@@ -1,0 +1,44 @@
+{
+  "id": "context-api-01",
+  "slug": "context-api",
+  "title": "Context API",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A way to share data like 'Current User' or 'Theme' across the entire component tree without having to manually pass props down through every single level (Prop Drilling).",
+    "analogy": "A radio station: instead of the parent shouting the news to the child, who whispers it to the grandchild (Prop Drilling), the parent simply broadcasts the news on a specific frequency (Provider). Any component that wants to hear it just tunes in (useContext).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Managing global themes (Dark/Light mode)",
+      "Storing authenticated user information",
+      "Sharing localized strings (i18n) across the app"
+    ],
+    "gotchas": [
+      "Context is NOT a replacement for all state management! Every time the context value changes, EVERY component consuming that context re-renders",
+      "Avoid putting deep, complex state objects into a single context; split them into multiple smaller contexts to prevent wasted renders"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "prop-drilling-vs-context",
+      "show_provider_consumer_link": true,
+      "show_render_impact": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two main components of the Context API pattern.",
+    "starter_code": "components = [\n    \"1. The ________: Wraps segments of the tree and provides the value\",\n    \"2. The hook __________: Used by child components to read the value\"\n]",
+    "solution": "Provider\nuseContext",
+    "hints": [
+      "One provides, the other 'uses' the 'context'"
+    ],
+    "test_code": "assert \"Provider\" in components[0]\nassert \"useContext\" in components[1]\nprint(\"PASS\")"
+  },
+  "related": ["zustand-redux-patterns-01", "usestate-internals-01", "react-query-01"],
+  "tags": ["react", "context", "state-management", "patterns", "decoupling", "frontend"]
+}

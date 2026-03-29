@@ -1,0 +1,44 @@
+{
+  "id": "code-coverage-01",
+  "slug": "code-coverage",
+  "title": "Code Coverage",
+  "domain": "Software Engineering",
+  "category": "Testing & Quality",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A metric that measures the percentage of your source code executed during testing. It helps identify 'dark corners' of the app that have no tests at all.",
+    "analogy": "A coloring book: the source code is the drawing. Every time a test runs over a line, it colors it in. If you finish your tests and half the page is still white, your tests haven't 'visited' those parts of the code yet.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Identifying risky areas of the code that are completely untested",
+      "Gamifying the testing process to encourage developers to write more tests",
+      "Setting a 'CI Gate' (e.g., 'Build fails if coverage is below 80%')"
+    ],
+    "gotchas": [
+      "Coverage != Quality: you can have 100% coverage with tests that assert NOTHING. Coverage tells you which lines were 'Touched', not which lines were 'Verified'.",
+      "Diminishing Returns: going from 0% to 80% is great; going from 95% to 100% is often very hard and not worth the effort."
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "source-line-execution-map",
+      "show_branch_vs_statement_cov": true,
+      "show_cold_spots_untested": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the type of coverage that checks if both the 'true' and 'false' paths of an 'if' statement have been tested.",
+    "starter_code": "cov_type = \"______ Coverage\"",
+    "solution": "Branch",
+    "hints": [
+      "A tree has many _______"
+    ],
+    "test_code": "def check(ans): return \"branch\" in ans.lower()\nassert check(\"Branch\")\nprint(\"PASS\")"
+  },
+  "related": ["mutation-testing-01", "tdd-cycle-01", "static-analysis-01"],
+  "tags": ["testing", "metrics", "coverage", "quality", "software-engineering"]
+}

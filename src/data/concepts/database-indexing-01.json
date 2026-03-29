@@ -1,0 +1,45 @@
+{
+  "id": "database-indexing-01",
+  "slug": "database-indexing",
+  "title": "Database Indexing",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A separate data structure (usually a B-Tree) that improves the speed of data retrieval operations at the cost of slower writes and extra storage.",
+    "analogy": "The index at the back of a textbook: instead of reading through the entire 500-page book to find 'DNS', you look up 'DNS' in the index and jump straight to page 342.",
+    "time_complexity": "O(log n) for searching indexed columns; O(n) for non-indexed (Full Table Scan)",
+    "space_complexity": "O(n) for the index structure",
+    "when_to_use": [
+      "Columns used frequently in WHERE clauses",
+      "Columns used in JOIN conditions",
+      "Columns used in ORDER BY and GROUP BY clauses to speed up sorting"
+    ],
+    "gotchas": [
+      "Over-indexing' slows down INSERT, UPDATE, and DELETE operations because the database must update every index for every change",
+      "Indices are not automatically used for LIKE queries starting with a wildcard (e.g., '%search') — this still triggers a full table scan"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "b-tree-index",
+      "show_pointer_links": true,
+      "show_leaf_nodes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the SQL command to create an index on the 'email' column of the 'users' table.",
+    "starter_code": "CREATE ________ idx_user_email\nON ________ (email);",
+    "solution": "INDEX\nusers",
+    "hints": [
+      "The command starts with 'CREATE INDEX'",
+      "You create the index 'ON' a specific table"
+    ],
+    "test_code": "def check_idx(sql):\n    return \"CREATE INDEX\" in sql.upper() and \"ON users\" in sql.upper()\n\nassert check_idx(\"CREATE INDEX test ON users(email)\")\nprint(\"PASS\")"
+  },
+  "related": ["query-optimization-01", "sql-joins-01", "postgresql-internals-01"],
+  "tags": ["database", "index", "b-tree", "performance", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "aria-roles-01",
+  "slug": "aria-roles",
+  "title": "ARIA Roles & Attributes",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Accessible Rich Internet Applications (ARIA) is a set of attributes that you add to HTML to describe the purpose and state of elements to assistive technologies (like screen readers).",
+    "analogy": "Closed captioning for the UI: if you build a custom 'checkbox' out of a `<div>`, a screen reader doesn't know it's clickable. By adding `role=\"checkbox\"`, you are giving the screen reader the 'script' so it can tell the user what's happening.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Creating custom UI widgets (drawers, tabs, sliders) that don't have native HTML equivalents",
+      "Labeling interactive elements that don't have visible text (like an 'X' button for closing)",
+      "Announcing dynamic content changes to screen readers using `aria-live`"
+    ],
+    "gotchas": [
+      "The First Rule of ARIA: If you can use a native HTML element (like `<button>`) instead of ARIA (like `<div role=\"button\">`), DO IT. Native elements have accessibility built-in for free",
+      "Incorrect ARIA is often worse than NO ARIA, as it can confuse assistive technologies"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "aria-attribute-matrix",
+      "show_role_vs_state_mapping": true,
+      "show_screen_reader_interpretation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the attribute used to tell a screen reader that a section was updated dynamically.",
+    "starter_code": "<div aria-____=\"polite\">\n    The score is now 10-5!\n</div>",
+    "solution": "live",
+    "hints": [
+      "It's happening 'live' right now"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"live\"\nassert check(\"live\")\nprint(\"PASS\")"
+  },
+  "related": ["screen-reader-compatibility-01", "keyboard-navigation-01", "react-testing-library-01"],
+  "tags": ["accessibility", "a11y", "aria", "web-standards", "inclusive", "frontend"]
+}

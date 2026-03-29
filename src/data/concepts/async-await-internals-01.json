@@ -1,0 +1,45 @@
+{
+  "id": "async-await-internals-01",
+  "slug": "async-await-internals",
+  "title": "Async/Await Internals",
+  "domain": "Backend",
+  "category": "Concurrency & Performance",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Syntactic sugar over generators and promises that allows you to write non-blocking code that looks and behaves like synchronous code.",
+    "analogy": "A waiter at a cafe: they take your order and 'await' the kitchen. Instead of standing still at your table (blocking), they move on to help other customers and return when the food is ready.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) per pending task in the event loop",
+    "when_to_use": [
+      "Handling thousands of concurrent I/O requests (database calls, API fetches) without a high memory cost",
+      "Building responsive backends in Node.js, Python (asyncio), or Rust (tokio)",
+      "Avoiding 'Callback Hell' in JavaScript"
+    ],
+    "gotchas": [
+      "Calling a synchronous, blocking function inside an async function will block the entire event loop for everyone",
+      "Forgetting to 'await' a promise/future means the code will continue immediately, often resulting in bugs or unhandled errors"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "async-execution-flow",
+      "show_stack_vs_heap": true,
+      "show_event_loop_interaction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Python code to fetch two URLs concurrently using asyncio.",
+    "starter_code": "import asyncio\n\nasync def fetch_all(urls):\n    tasks = [fetch_url(url) for url in urls]\n    # Wait for all tasks to finish at once\n    results = ______ asyncio.____(*tasks)\n    return results",
+    "solution": "await\ngather",
+    "hints": [
+      "You 'await' the grouped tasks",
+      "The function to group them is 'gather'"
+    ],
+    "test_code": "import asyncio\nasync def mock_fetch(u): return u\ndef run_mock():\n    loop = asyncio.new_event_loop()\n    tasks = [mock_fetch(\"a\"), mock_fetch(\"b\")]\n    return loop.run_until_complete(asyncio.gather(*tasks))\nassert run_mock() == [\"a\", \"b\"]\nprint(\"PASS\")"
+  },
+  "related": ["event-loop-nodejs-01", "threads-vs-processes-01", "worker-threads-01"],
+  "tags": ["async", "await", "concurrency", "event-loop", "non-blocking", "backend"]
+}

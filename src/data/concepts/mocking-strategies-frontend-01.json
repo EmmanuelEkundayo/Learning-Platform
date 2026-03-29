@@ -1,0 +1,44 @@
+{
+  "id": "mocking-strategies-frontend-01",
+  "slug": "mocking-strategies-frontend",
+  "title": "Mocking Strategies",
+  "domain": "Frontend",
+  "category": "Testing & Accessibility",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Replacing real parts of your system (like an API or a third-party library) with 'fake' versions that behave in a predictable way during tests.",
+    "analogy": "A crash test dummy: you don't use a real person (the real API) to test a car crash (the test). You use a dummy (the Mock) that looks and acts enough like a person to give you the data you need without the risk or cost of a real human.",
+    "time_complexity": "O(1) compared to real I/O",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing components that fetch data from an API",
+      "Simulating error responses (404, 500) from the server",
+      "Isolating a component from its complex parent dependencies"
+    ],
+    "gotchas": [
+      "Over-mocking can lead to 'False Positives': your tests pass because your mocks are too simple, even though the real app would break",
+      "Always prefer mocking the 'Network' (using MSW) rather than mocking the 'code' (using jest.mock), as it tests more of your actual app logic"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "mock-interception-cycle",
+      "show_real_vs_mock_response": true,
+      "show_msw_v_jest_mock": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the popular library used to mock network requests at the browser/service-worker level.",
+    "starter_code": "def identify_tool():\n    # It stands for 'Mock Service Worker'\n    tool = \"___\"\n    return tool",
+    "solution": "MSW",
+    "hints": [
+      "Three letters: M_W"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"MSW\"\nassert check(\"MSW\")\nprint(\"PASS\")"
+  },
+  "related": ["unit-vs-integration-e2e-01", "react-testing-library-01", "testing-pyramid-frontend-01"],
+  "tags": ["testing", "mocking", "jest", "msw", "api", "frontend"]
+}

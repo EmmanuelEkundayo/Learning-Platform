@@ -1,0 +1,44 @@
+{
+  "id": "database-sharding-01",
+  "slug": "database-sharding",
+  "title": "Database Sharding",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Horizontal scaling by splitting a large dataset into smaller chunks ('shards') and distributing them across multiple database servers.",
+    "analogy": "If one library building becomes too small for a city's books, instead of building one giant skyscraper, you build 5 smaller neighborhood libraries and put books A-E in the first, F-J in the second, and so on.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "When a single database server exceeds its CPU, RAM, or storage limits",
+      "To improve write performance by parallelizing writes across different nodes",
+      "To keep data geolocated (e.g., European user data on European servers)"
+    ],
+    "gotchas": [
+      "Sharding makes cross-shard JOINs and transactions extremely difficult and slow to perform",
+      "Choosing a bad 'sharding key' can lead to 'hot spots' where one server gets all the traffic while others are idle"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "sharding-routing",
+      "show_shard_key_logic": true,
+      "show_multiple_nodes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Determine which shard a user should be routed to based on a consistent hashing logic (id % total_shards).",
+    "starter_code": "def get_shard_id(user_id, total_shards):\n    # Divide user_id by shard count and get the remainder\n    shard_index = user_id ____ total_shards\n    return shard_index",
+    "solution": "%",
+    "hints": [
+      "The modulo operator (%) is used to find the remainder of a division"
+    ],
+    "test_code": "assert get_shard_id(10, 3) == 1, \"10 % 3 = 1\"\nassert get_shard_id(15, 3) == 0, \"15 % 3 = 0\"\nprint(\"PASS\")"
+  },
+  "related": ["database-replication-01", "cap-theorem-01", "database-indexing-01"],
+  "tags": ["database", "sharding", "scalability", "horizontal-scaling", "backend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "docker-internals-01",
+  "slug": "docker-internals",
+  "title": "Docker Internals",
+  "domain": "Software Engineering",
+  "category": "DevOps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A containerization technology that uses Linux kernel features to isolate processes, allowing applications to run in consistent environments regardless of the host OS.",
+    "analogy": "A specialized shipping container: even if the ship (Host OS) is carrying fish, electronics, and cars, each container is sealed and has its own temperature and environment. The fish inside one container never smell the electronics in another.",
+    "time_complexity": "N/A",
+    "space_complexity": "O(N) image layers",
+    "when_to_use": [
+      "Ensuring 'It works on my machine' works in production",
+      "Isolating microservices with different language runtimes on the same server",
+      "Standardizing CI/CD build environments"
+    ],
+    "gotchas": [
+      "Docker is NOT a Virtual Machine. VMs virtualize hardware (Hypervisor), while Docker virtualizes the OS (Shared Kernel), making it much lighter but less isolated.",
+      "Root permissions: by default, Docker containers run as root, which is a major security risk. Always use the `USER` instruction in your Dockerfile."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "container-engine-layers",
+      "show_namespaces_cgroups": true,
+      "show_union_fs_layers": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two Linux kernel features used by Docker for isolation (one for resource limits, one for visibility).",
+    "starter_code": "isolation = {\n    \"Resource Limits (CPU/RAM)\": \"_______s\",\n    \"Visibility (PID/Network)\": \"__________\"\n}",
+    "solution": "cgroups\nnamespaces",
+    "hints": [
+      "C-groups and Name-spaces"
+    ],
+    "test_code": "assert \"cgroup\" in isolation[\"Resource Limits (CPU/RAM)\"].lower()\nassert \"namespace\" in isolation[\"Visibility (PID/Network)\"].lower()\nprint(\"PASS\")"
+  },
+  "related": ["docker-networking-01", "kubernetes-basics-01", "cicd-pipelines-01"],
+  "tags": ["docker", "containers", "devops", "linux", "isolation", "software-engineering"]
+}

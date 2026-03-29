@@ -1,0 +1,45 @@
+{
+  "id": "code-splitting-react-01",
+  "slug": "code-splitting-react",
+  "title": "Code Splitting in React",
+  "domain": "Frontend",
+  "category": "React & State",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The practice of splitting your JS into smaller chunks that can be loaded on demand, ensuring users only download the code they need for the page they are currently visiting.",
+    "analogy": "A library: instead of giving the reader every single book in the building when they walk in the door (One Big Bundle), you give them a catalog. They only go to the shelf to pick up a book when they actually want to read it (Lazy Loading).",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Large SPAs with many routes",
+      "Loading heavy libraries (like a 3D viewer) only when requested",
+      "Improving the 'Time to Interactive' on slow devices"
+    ],
+    "gotchas": [
+      "You should almost always wrap lazily-loaded components in a `<Suspense>` boundary to handle the loading state",
+      "Splitting too much can actually hurt performance due to 'Cascading Waterfall' requests (A loads B, then B loads C)"
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "bundle-splitting-graph",
+      "show_dynamic_imports": true,
+      "show_chunk_size_reduction": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the two React utilities used together for code splitting.",
+    "starter_code": "const HeavyComp = ______ ( () => ____('./HeavyComp') );",
+    "solution": "lazy\nimport",
+    "hints": [
+      "It's 'lazy'",
+      "You 'import' the file"
+    ],
+    "test_code": "def check(l, i): return l.lower() == \"lazy\" and i.lower() == \"import\"\nassert check(\"lazy\", \"import\")\nprint(\"PASS\")"
+  },
+  "related": ["suspense-react-01", "bundlers-internals-01", "tree-shaking-01"],
+  "tags": ["react", "performance", "bundling", "lazy-loading", "optimization", "frontend"]
+}

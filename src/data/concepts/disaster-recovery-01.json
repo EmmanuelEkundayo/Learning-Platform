@@ -1,0 +1,44 @@
+{
+  "id": "disaster-recovery-01",
+  "slug": "disaster-recovery",
+  "title": "Disaster Recovery (DR)",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The set of policies and tools to enable the recovery or continuation of vital infrastructure and systems following a natural or human-induced disaster.",
+    "analogy": "An airplane's redundant engines and emergency parachute: usually, the engines work fine. But if a bird flies into one engine (A Data Center fire), the pilot must have a plan to land safely or switch to the other engine immediately.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Protecting against cloud regional outages (e.g., AWS US-East-1 goes down)",
+      "Recovering from a catastrophic database deletion or ransomware attack",
+      "Meeting legal requirements for data safety in highly regulated industries"
+    ],
+    "gotchas": [
+      "DR is NOT Backup: a 'Backup' stores the data. 'DR' is the plan for how you get the web servers running again using that data.",
+      "Untested plans are useless: if you haven't tried a full 'Recovery' in a year, it probably won't work when the real fire starts."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rpo-rto-timeline",
+      "show_hot_vs_cold_site_switch": true,
+      "show_data_consistency_sync": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the acronym for the maximum amount of TIME it should take to bring a system back online after a disaster.",
+    "starter_code": "metric = \"___ (Recovery Time Objective)\"",
+    "solution": "RTO",
+    "hints": [
+      "Three letters, starts with R"
+    ],
+    "test_code": "def check(ans): return ans.upper() == \"RTO\"\nassert check(\"RTO\")\nprint(\"PASS\")"
+  },
+  "related": ["backup-strategies-01", "sla-design-01", "chaos-engineering-01"],
+  "tags": ["reliability", "dr", "continuity", "cloud", "backup", "software-engineering"]
+}

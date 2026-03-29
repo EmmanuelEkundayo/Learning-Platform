@@ -1,0 +1,44 @@
+{
+  "id": "prototypal-inheritance-01",
+  "slug": "prototypal-inheritance",
+  "title": "Prototypal Inheritance",
+  "domain": "Frontend",
+  "category": "JavaScript Core",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "JavaScript's way of sharing methods and properties between objects, where every object has a 'link' to another object (its prototype) and searches up the chain until it finds the property.",
+    "analogy": "A family tree of skills: you (the Object) know how to 'Play Guitar'. If someone asks you to 'Fix a Pipe' and you don't know how, you ask your Parent (Prototype). If they don't know, they ask your Grandparent, until someone knows or you reach the 'Original Ancestor' (Object.prototype).",
+    "time_complexity": "O(D) where D is depth of the chain",
+    "space_complexity": "O(1) per instance (shared methods)",
+    "when_to_use": [
+      "Implementing object-oriented patterns in JavaScript",
+      "Creating memory-efficient libraries (sharing one method across 1000s of objects)",
+      "Understanding how 'Classes' in JS work (they are just sugar for prototypes)"
+    ],
+    "gotchas": [
+      "Modifying `Object.prototype` directly is dangerous as it affects EVERY object in your entire application",
+      "The `__proto__` property is the link to the parent, while the `.prototype` property on a function is what it uses for NEW objects it creates"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "prototype-chain-lookup",
+      "show_property_shadowing": true,
+      "show_builtin_prototypes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the top-most object in the prototype chain that is the 'parent' of almost all JS objects.",
+    "starter_code": "def find_root():\n    # In JS: array.__proto__.__proto__ === _______.prototype\n    root = \"Object\"\n    return root",
+    "solution": "Object",
+    "hints": [
+      "Everything in JS is basically an ______"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"object\"\nassert check(\"Object\")\nprint(\"PASS\")"
+  },
+  "related": ["this-binding-01", "closures-js-01", "esm-vs-cjs-01"],
+  "tags": ["javascript", "inheritance", "prototype", "oop", "frontend"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "clean-architecture-01",
+  "slug": "clean-architecture",
+  "title": "Clean Architecture",
+  "domain": "Software Engineering",
+  "category": "Software Design",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "An architectural philosophy by Robert C. Martin (Uncle Bob) that organizes code into concentric layers, ensuring dependency only flows inward toward the core 'Business Rules'.",
+    "analogy": "An onion: the 'Business Logic' (Entities / Use Cases) is the core. The 'Databases' and 'UI' are the outer skins. You can peel off the outer skin (switch from Web to Mobile, or SQL to MongoDB) without hurting the core of the onion.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Large-scale enterprise systems with complex domain logic",
+      "Projects that need to be completely independent of their Database or Framework",
+      "Teams that want to test their business logic in isolation from the UI"
+    ],
+    "gotchas": [
+      "Extreme Boilerplate: preparing one data request requires passing an object through 4 layers of 'Controllers', 'Interactors', 'Gateways', and 'Entities'.",
+      "Over-engineering for small apps: it adds a massive amount of overhead for simple CRUD operations."
+    ]
+  },
+  "visualization": {
+    "type": "architecture-diagram",
+    "config": {
+      "mode": "onion-architecture-view",
+      "show_dependency_direction_inward": true,
+      "show_entity_core_protection": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the primary rule of Clean Architecture regarding dependencies.",
+    "starter_code": "rule = \"Dependencies can only point _______.\"",
+    "solution": "inward",
+    "hints": [
+      "Toward the center of the onion"
+    ],
+    "test_code": "def check(ans): return ans.lower() == \"inward\"\nassert check(\"inward\")\nprint(\"PASS\")"
+  },
+  "related": ["solid-principles-01", "hexagonal-architecture-01", "domain-driven-design-01"],
+  "tags": ["architecture", "clean-architecture", "design-principles", "uncle-bob", "software-engineering"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "chaos-engineering-01",
+  "slug": "chaos-engineering",
+  "title": "Chaos Engineering",
+  "domain": "Software Engineering",
+  "category": "Scalability & Reliability",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The discipline of experimenting on a system in order to build confidence in its capability to withstand turbulent conditions (like server outages or network failures) in production.",
+    "analogy": "A fire drill: you choose to set off the alarm and walk everyone out into the rain while the company is working. It's annoying, but it's the only way to know if people WILL actually survive a real fire.",
+    "time_complexity": "N/A",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Testing if your system automatically recovers when a random server is deleted (The 'Chaos Monkey')",
+      "Simulating network latency to see if your 'Timed Out' pages look okay to users",
+      "Validating that your 'Circuit Breakers' actually trip under high load"
+    ],
+    "gotchas": [
+      "Don't do it blindly! Chaos engineering is for system that you THINK are stable. If you know a server will crash, don't delete it; just fix the crash first.",
+      "Blast Radius: start small. Don't delete your entire database in the first experiment. Kill one unimportant pod first."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "chaos-test-execution",
+      "show_injection_vs_recovery_metrics": true,
+      "show_steady_state_monitoring": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the famous tool created by Netflix to randomly disable production instances to test resiliency.",
+    "starter_code": "tool = \"_____ ______\"",
+    "solution": "Chaos Monkey",
+    "hints": [
+      "An ape that brings disorder"
+    ],
+    "test_code": "def check(ans): return \"monkey\" in ans.lower()\nassert check(\"Chaos Monkey\")\nprint(\"PASS\")"
+  },
+  "related": ["circuit-breaker-01", "disaster-recovery-01", "horizontal-vs-vertical-scaling-01"],
+  "tags": ["chaos", "resiliency", "devops", "netflix", "sre", "reliability", "software-engineering"]
+}

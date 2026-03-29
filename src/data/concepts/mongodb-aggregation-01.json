@@ -1,0 +1,46 @@
+{
+  "id": "mongodb-aggregation-01",
+  "slug": "mongodb-aggregation",
+  "title": "MongoDB Aggregation",
+  "domain": "Backend",
+  "category": "Databases",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A powerful multi-stage pipeline used to process, filter, and transform documents into aggregated results (like SQL's GROUP BY but far more flexible).",
+    "analogy": "An assembly line in a factory: raw materials (documents) enter, and each station (stage) does one thing—adds a part, paints it, or counts it—until the finished product comes out at the end.",
+    "time_complexity": "N/A (Dependent on pipeline complexity and indices)",
+    "space_complexity": "N/A (100MB limit per stage unless allowDiskUse is true)",
+    "when_to_use": [
+      "Grouping data by a specific field to calculate sums, averages, or counts",
+      "Performing complex 'joins' between collections using $lookup",
+      "Reshaping documents (adding/removing fields) before sending them to the client"
+    ],
+    "gotchas": [
+      "Pipelines are ordered: filtering with $match should always come first to reduce the number of documents processed in later stages",
+      "$unwind can explode the data size significantly if an array has many elements, leading to memory issues"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "aggregation-pipeline",
+      "show_stages": ["$match", "$group", "$project"],
+      "show_data_transformation": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the aggregation pipeline to find the average price of products in the 'Electronics' category.",
+    "starter_code": "pipeline = [\n    # Stage 1: Filter\n    { \"$______\": { \"category\": \"Electronics\" } },\n    \n    # Stage 2: Group and Average\n    { \n        \"$______\": {\n            \"_id\": \"$category\",\n            \"avgPrice\": { \"$avg\": \"$______\" }\n        }\n    }\n]",
+    "solution": "match\ngroup\nprice",
+    "hints": [
+      "Use $match to filter documents",
+      "Use $group to aggregate common fields",
+      "The value to average is the 'price' field"
+    ],
+    "test_code": "assert pipeline[0].get(\"$match\")\nassert pipeline[1].get(\"$group\")\nassert pipeline[1][\"$group\"][\"avgPrice\"][\"$avg\"] == \"$price\"\nprint(\"PASS\")"
+  },
+  "related": ["sql-joins-01", "query-optimization-01", "database-indexing-01"],
+  "tags": ["mongodb", "nosql", "aggregation", "pipeline", "backend"]
+}
