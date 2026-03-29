@@ -1,0 +1,45 @@
+{
+  "id": "astar-01",
+  "slug": "astar",
+  "title": "A* Search",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Dijkstra explores outward uniformly; A* prioritises nodes by f(n) = g(n) + h(n), where g(n) is the known cost from start and h(n) is a heuristic estimate to the goal. A good heuristic focuses the search toward the goal, skipping irrelevant directions.",
+    "analogy": "Navigating with a map: instead of exploring every road equally (Dijkstra), you instinctively favour roads that head toward your destination. The heuristic is your sense of direction — it tells the algorithm which way is 'forward'.",
+    "time_complexity": "O(E log V) with an admissible heuristic; degenerates to Dijkstra if h=0",
+    "space_complexity": "O(V) for the open/closed sets",
+    "when_to_use": [
+      "Shortest path on grid/map when a good heuristic exists (Euclidean or Manhattan distance)",
+      "Game AI pathfinding (classic A* use case)",
+      "When Dijkstra is too slow and a problem-specific lower-bound heuristic is available"
+    ],
+    "gotchas": [
+      "Heuristic must be admissible (never overestimates) for A* to return optimal paths",
+      "Consistent (monotone) heuristic: h(u) ≤ w(u,v) + h(v) — avoids reopening nodes",
+      "With an inadmissible heuristic, A* is faster but may return suboptimal paths"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "astar",
+      "show_heuristic": true,
+      "show_f_scores": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement A* on a grid. Cells are (row, col); heuristic is Manhattan distance.",
+    "starter_code": "import heapq\n\ndef astar(grid, start, goal):\n    \"\"\"\n    grid : 2D list, 0=open 1=wall\n    Returns list of (r,c) on the shortest path, or [] if unreachable.\n    \"\"\"\n    rows, cols = len(grid), len(grid[0])\n    def h(pos): return abs(pos[0]-goal[0]) + abs(pos[1]-goal[1])\n\n    g = {start: 0}\n    came_from = {}\n    heap = [(h(start), 0, start)]  # (f, g, pos)\n\n    while heap:\n        f, cost, pos = heapq.heappop(heap)\n        if pos == goal:\n            path = []\n            while pos in came_from:\n                path.append(pos); pos = came_from[pos]\n            return [start] + path[::-1]\n        if cost > g.get(pos, float('inf')):\n            continue\n        r, c = pos\n        for dr, dc in [(-1,0),(1,0),(0,-1),(0,1)]:\n            nr, nc = r+dr, c+dc\n            if 0<=nr<rows and 0<=nc<cols and grid[nr][nc]==0:\n                new_g = cost + 1\n                nbr = (nr, nc)\n                if new_g < g.get(nbr, float('inf')):\n                    g[nbr] = new_g\n                    came_from[nbr] = pos\n                    heapq.heappush(heap, (___________, new_g, nbr))\n    return []",
+    "solution": "new_g + h(nbr)",
+    "hints": [
+      "The heap key is f = g + h. Push (new_g + h(nbr), new_g, nbr) — the first element is the f-score used for prioritisation"
+    ],
+    "test_code": "grid = [\n    [0,0,0,0,0],\n    [1,1,0,1,0],\n    [0,0,0,1,0],\n    [0,1,1,1,0],\n    [0,0,0,0,0],\n]\npath = astar(grid, (0,0), (4,4))\nassert path[0]  == (0,0)\nassert path[-1] == (4,4)\n# All cells on path must be open\nfor r,c in path:\n    assert grid[r][c] == 0, f'Wall in path at ({r},{c})'\n# Blocked grid\ngrid2 = [[0,1],[1,0]]\nassert astar(grid2,(0,0),(1,1)) == []\nprint('PASS')"
+  },
+  "related": ["dijkstra-01", "bfs-01", "dfs-graph-01", "floyd-warshall-01"],
+  "tags": ["astar", "A*", "heuristic-search", "shortest-path", "pathfinding", "admissible"]
+}

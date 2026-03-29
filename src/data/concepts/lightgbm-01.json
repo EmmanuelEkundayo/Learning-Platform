@@ -1,0 +1,44 @@
+{
+  "id": "lightgbm-01",
+  "slug": "lightgbm",
+  "title": "LightGBM",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "LightGBM speeds up gradient boosting with two key innovations: GOSS (Gradient-based One-Side Sampling) keeps high-gradient samples and randomly samples low-gradient ones — gradient magnitude indicates how much a sample is under-fitted. EFB (Exclusive Feature Bundling) merges mutually exclusive features to reduce feature dimensions.",
+    "analogy": "Studying for an exam: instead of reviewing all topics equally (full GBM), focus most of your effort on topics you got wrong (high gradient) and briefly skim the ones you already know (GOSS sampling). Merge similar topics you can't get wrong simultaneously (EFB).",
+    "time_complexity": "O(n · B · T) where B = number of histogram bins; much faster than XGBoost for large n",
+    "space_complexity": "O(B · d) for histograms",
+    "when_to_use": [
+      "Large datasets (>100k rows) where XGBoost is too slow",
+      "High-cardinality categorical features (native handling)",
+      "Competition settings where training speed matters"
+    ],
+    "gotchas": [
+      "Leaf-wise growth is faster but more prone to overfitting on small data — use num_leaves carefully",
+      "min_data_in_leaf is critical for preventing overfitting on small datasets",
+      "LightGBM's histogram-based splits lose some accuracy vs exact splits — rarely matters in practice"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "lightgbm",
+      "show_histogram": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement histogram-based split finding: bin features and find the best split using bin sums.",
+    "starter_code": "def histogram_split(feature_vals, gradients, hessians, n_bins=4, lam=1.0):\n    \"\"\"\n    Build histogram and find the best split point.\n    Returns (best_threshold_bin, best_gain).\n    \"\"\"\n    # Bin the feature values\n    min_v, max_v = min(feature_vals), max(feature_vals)\n    bin_width = (max_v - min_v) / n_bins + 1e-9\n    bins_g = [0.0] * n_bins\n    bins_h = [0.0] * n_bins\n    for i, v in enumerate(feature_vals):\n        b = min(int((v - min_v) / bin_width), n_bins - 1)\n        bins_g[b] += gradients[i]\n        bins_h[b] += hessians[i]\n\n    G_total = sum(bins_g)\n    H_total = sum(bins_h)\n    best_gain, best_bin = float('-inf'), 0\n    G_L, H_L = 0.0, 0.0\n    for b in range(n_bins - 1):  # try each possible split\n        G_L += bins_g[b]; H_L += bins_h[b]\n        G_R = G_total - G_L;  H_R = H_total - H_L\n        gain = 0.5 * (___________)\n        if gain > best_gain:\n            best_gain, best_bin = gain, b\n    return best_bin, best_gain",
+    "solution": "G_L**2/(H_L+lam) + G_R**2/(H_R+lam) - G_total**2/(H_total+lam)",
+    "hints": [
+      "The gain formula (without gamma) is: 0.5 * (GL²/(HL+λ) + GR²/(HR+λ) - G²/(H+λ)) — same as XGBoost split gain without the gamma term"
+    ],
+    "test_code": "# Feature: [1,2,3,4,5,6,7,8], perfect split at 4\n# Left samples (1-4) have high gradient, right (5-8) have low\ng = [2.0, 2.0, 2.0, 2.0, 0.1, 0.1, 0.1, 0.1]\nh = [1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0, 1.0]\nbest_bin, gain = histogram_split([1,2,3,4,5,6,7,8], g, h, n_bins=8)\nassert gain > 0, f'Best gain should be positive, got {gain}'\n# Best split should separate high-gradient from low-gradient samples\nprint(f'Best bin: {best_bin}, gain: {gain:.4f}')\nprint('PASS')"
+  },
+  "related": ["xgboost-01", "gradient-boosting-01", "random-forest-01", "decision-tree-01"],
+  "tags": ["LightGBM", "histogram-split", "GOSS", "EFB", "leaf-wise", "fast-gradient-boosting"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "cross-validation-01",
+  "slug": "cross-validation",
+  "title": "Cross-Validation",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Split data into k folds; train on k-1 folds and evaluate on the held-out fold, rotating which fold is held out. Average the k validation scores for an unbiased estimate of generalisation error. More reliable than a single train/val split.",
+    "analogy": "Grading students by letting each one serve as the test case once while the others study together. The average score across all 'test' rounds gives a fair estimate of how the class performs overall — no single student's result is the whole story.",
+    "time_complexity": "O(k · T_train) where T_train = time to train on n·(k-1)/k samples",
+    "space_complexity": "O(n) for fold indices",
+    "when_to_use": [
+      "Hyperparameter tuning — use k-fold to evaluate each hyperparameter setting",
+      "Model selection — compare different model families with fair evaluation",
+      "Small datasets where a single held-out split wastes too much training data"
+    ],
+    "gotchas": [
+      "Shuffle before splitting — especially for time-series data where shuffling is inappropriate (use time-series CV instead)",
+      "Stratified k-fold preserves class proportions in each fold — important for imbalanced datasets",
+      "Nested CV is needed for unbiased hyperparameter tuning AND test evaluation"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "cross-validation",
+      "show_folds": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement k-fold cross-validation and return per-fold validation scores.",
+    "starter_code": "def k_fold_cv(X, y, model_fn, score_fn, k=5, shuffle=True, seed=42):\n    \"\"\"\n    model_fn : callable(X_train, y_train) -> model\n    score_fn : callable(model, X_val, y_val) -> float\n    Returns list of k validation scores.\n    \"\"\"\n    import random\n    random.seed(seed)\n    n       = len(X)\n    indices = list(range(n))\n    if shuffle: random.shuffle(indices)\n    fold_size = n // k\n    scores    = []\n\n    for i in range(k):\n        val_idx   = indices[i * fold_size : (i+1) * fold_size]\n        train_idx = indices[:i*fold_size] + ___________\n        X_val  = [X[j] for j in val_idx];   y_val  = [y[j] for j in val_idx]\n        X_tr   = [X[j] for j in train_idx]; y_tr   = [y[j] for j in train_idx]\n        model  = model_fn(X_tr, y_tr)\n        scores.append(score_fn(model, X_val, y_val))\n    return scores",
+    "solution": "indices[(i+1)*fold_size:]",
+    "hints": [
+      "The training indices are everything except the current validation fold: concat the part before fold i and the part after fold i"
+    ],
+    "test_code": "# Simple model: predict mean of training y\ndef train(X, y): return sum(y)/len(y)\ndef score(model, X_val, y_val):\n    preds = [model]*len(y_val)\n    return sum((p-y)**2 for p,y in zip(preds,y_val))/len(y_val)\n\nX = [[i] for i in range(20)]\ny = [float(i) for i in range(20)]\nscores = k_fold_cv(X, y, train, score, k=4)\nassert len(scores) == 4\nassert all(s > 0 for s in scores)\n# Scores should be similar across folds (data is regular)\nassert max(scores) / min(scores) < 5\nprint('PASS')"
+  },
+  "related": ["bias-variance-tradeoff-01", "overfitting-underfitting-01", "feature-scaling-01", "random-forest-01"],
+  "tags": ["cross-validation", "k-fold", "model-selection", "hyperparameter-tuning", "generalisation"]
+}

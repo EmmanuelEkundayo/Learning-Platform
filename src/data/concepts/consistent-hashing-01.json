@@ -1,0 +1,44 @@
+{
+  "id": "consistent-hashing-01",
+  "slug": "consistent-hashing",
+  "title": "Consistent Hashing",
+  "domain": "DSA",
+  "category": "Hashing",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Map both nodes and keys onto a circular ring (hash ring). Each key is served by the first node clockwise from the key on the ring. When a node is added/removed, only O(K/n) keys need to be remapped — not all K keys.",
+    "analogy": "Assigning customers to bank branches around a circular route: each customer goes to the nearest branch clockwise. Adding a new branch only steals customers from the next branch clockwise — all other assignments are unchanged.",
+    "time_complexity": "O(log n) per key lookup with sorted node ring; O(1) amortised key migration per node change",
+    "space_complexity": "O(n) for the ring",
+    "when_to_use": [
+      "Distributed caching (Memcached, Redis Cluster)",
+      "Partitioning data across distributed storage nodes",
+      "Load balancing where node changes should minimise disruption"
+    ],
+    "gotchas": [
+      "Without virtual nodes, one physical node may hold far more keys than others — use k virtual nodes per physical node for uniform distribution",
+      "Virtual nodes are additional ring positions that map to the same physical node",
+      "The ring is typically modulo 2³² (32-bit hash space)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "hash-ring",
+      "show_ring": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement consistent hashing: add/remove nodes, look up which node serves a key.",
+    "starter_code": "import bisect\n\nclass ConsistentHash:\n    def __init__(self, vnodes=100):\n        self.vnodes  = vnodes\n        self.ring    = {}     # position -> node_name\n        self.sorted_keys = []\n\n    def _pos(self, key): return hash(key) % (2**32)\n\n    def add_node(self, node):\n        for i in range(self.vnodes):\n            pos = self._pos(f'{node}#{i}')\n            self.ring[pos] = node\n            bisect.insort(self.sorted_keys, pos)\n\n    def remove_node(self, node):\n        for i in range(self.vnodes):\n            pos = self._pos(f'{node}#{i}')\n            del self.ring[pos]\n            idx = bisect.bisect_left(self.sorted_keys, pos)\n            self.sorted_keys.pop(idx)\n\n    def get_node(self, key):\n        if not self.ring:\n            return None\n        pos = self._pos(key)\n        idx = bisect.bisect_right(self.sorted_keys, pos)\n        idx = ___________   # wrap around the ring\n        return self.ring[self.sorted_keys[idx]]",
+    "solution": "idx % len(self.sorted_keys)",
+    "hints": [
+      "If bisect_right returns an index equal to the list length, wrap to 0 using modulo: idx % len(self.sorted_keys)"
+    ],
+    "test_code": "ch = ConsistentHash(vnodes=50)\nch.add_node('A')\nch.add_node('B')\nch.add_node('C')\n\n# Each key maps to some node\nnodes = set(ch.get_node(f'key{i}') for i in range(100))\nassert nodes <= {'A','B','C'}\nassert len(nodes) >= 2, 'Keys should distribute to multiple nodes'\n\n# Remove a node — remaining keys still map to valid nodes\nch.remove_node('B')\nfor i in range(100):\n    assert ch.get_node(f'key{i}') in {'A','C'}\nprint('PASS')"
+  },
+  "related": ["hash-table-internals-01", "open-addressing-01", "bloom-filter-01", "rolling-hash-advanced-01"],
+  "tags": ["consistent-hashing", "hash-ring", "virtual-nodes", "distributed-systems", "partitioning"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "policy-gradient-01",
+  "slug": "policy-gradient",
+  "title": "Policy Gradient (REINFORCE)",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Directly parameterise the policy π(a|s;θ) and optimise by gradient ascent on expected return J(θ). Policy gradient theorem: ∇J(θ) = E[∇log π(a|s;θ) · G_t]. The term ∇log π is the 'score function' — actions taken in high-return trajectories are reinforced. REINFORCE uses full episode returns G_t; subtracting a baseline b(s) reduces variance without adding bias.",
+    "analogy": "Coaching a tennis player by positive and negative feedback: after each match, reinforce every shot made in winning games and discourage shots from losing games, weighted by the margin of victory. The player gradually adjusts their shot distribution — more of what works, less of what doesn't.",
+    "time_complexity": "O(T · d) per episode (T steps, d policy network size)",
+    "space_complexity": "O(T) for episode trajectory storage",
+    "when_to_use": [
+      "Continuous or large action spaces where Q-table is intractable",
+      "Stochastic policies needed (exploration, game theory mixed strategies)",
+      "Foundation for Actor-Critic and PPO"
+    ],
+    "gotchas": [
+      "High variance: returns vary widely across episodes — use baselines or advantage estimates",
+      "Sample inefficient: each trajectory used only once — use PPO's clipped objective for multiple epochs",
+      "Local optima: policy gradient is not guaranteed to find global optimum"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "policy-gradient",
+      "show_returns": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Compute REINFORCE returns (discounted cumulative rewards) for an episode.",
+    "starter_code": "def compute_returns(rewards, gamma):\n    \"\"\"\n    Compute discounted returns G_t for each time step t.\n    G_t = r_t + gamma*r_{t+1} + gamma^2*r_{t+2} + ...\n    rewards: list of per-step rewards\n    Returns list of returns, same length as rewards.\n    \"\"\"\n    T = len(rewards)\n    G = [0.0] * T\n    running = 0.0\n    for t in reversed(range(T)):\n        running = ___________\n        G[t]    = running\n    return G",
+    "solution": "rewards[t] + gamma * running",
+    "hints": [
+      "Work backwards: G_T = r_T, then G_t = r_t + γ·G_{t+1}. Accumulate from the last time step."
+    ],
+    "test_code": "# Simple 3-step episode\nrewards = [1.0, 0.0, 2.0]\nG = compute_returns(rewards, gamma=0.9)\n\n# G[2] = 2.0\nassert abs(G[2] - 2.0) < 1e-9\n# G[1] = 0 + 0.9*2 = 1.8\nassert abs(G[1] - 1.8) < 1e-9\n# G[0] = 1 + 0.9*1.8 = 2.62\nassert abs(G[0] - 2.62) < 1e-9\n\n# gamma=0: returns equal immediate rewards\nG0 = compute_returns(rewards, gamma=0.0)\nassert G0 == rewards\nprint('PASS')"
+  },
+  "related": ["actor-critic-01", "ppo-01", "markov-decision-process-01", "deep-q-network-01"],
+  "tags": ["policy-gradient", "REINFORCE", "score-function", "baseline", "variance-reduction", "reinforcement-learning"]
+}

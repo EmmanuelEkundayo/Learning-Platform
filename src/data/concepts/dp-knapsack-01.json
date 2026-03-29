@@ -1,0 +1,48 @@
+{
+  "id": "dp-knapsack-01",
+  "slug": "dynamic-programming-knapsack",
+  "title": "0/1 Knapsack",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "For each item, decide to take it or leave it — and remember the best outcome of every (item, capacity) subproblem so you never recompute.",
+    "analogy": "Packing a hiking backpack: for each piece of gear, you choose to pack it or skip it, and you track the best value you can carry for every possible weight limit.",
+    "time_complexity": "O(n × W)",
+    "space_complexity": "O(n × W), reducible to O(W) with rolling array",
+    "when_to_use": [
+      "Each item can be used at most once (0/1 constraint)",
+      "Problem asks to maximize value subject to a capacity constraint",
+      "Subset-sum and partition problems (boolean variant of knapsack)"
+    ],
+    "gotchas": [
+      "Iterating the capacity loop backwards when using a 1D table — forward iteration would allow an item to be picked more than once (that's unbounded knapsack)",
+      "Off-by-one on table dimensions: dp has n+1 rows and W+1 columns",
+      "Fractional knapsack is NOT solved by DP — use a greedy value/weight ratio sort instead"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "rows_label": "items",
+      "cols_label": "capacity",
+      "show_recurrence": true,
+      "highlight_cell": true,
+      "step_annotations": true,
+      "show_traceback": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the 0/1 knapsack DP. Return the maximum value achievable within capacity W.",
+    "starter_code": "def knapsack(weights, values, W):\n    n = len(weights)\n    dp = [[0] * (W + 1) for _ in range(n + 1)]\n    for i in range(1, n + 1):\n        for w in range(W + 1):\n            # skip item i-1\n            dp[i][w] = dp[i-1][w]\n            if weights[i-1] <= w:\n                # take item i-1\n                dp[i][w] = max(dp[i][w], ___________)\n    return dp[n][W]",
+    "solution": "dp[i-1][w - weights[i-1]] + values[i-1]",
+    "hints": [
+      "If you take item i-1, you gain values[i-1] but must reduce available capacity by weights[i-1]",
+      "The value you had available before item i-1 at that reduced capacity is dp[i-1][w - weights[i-1]]"
+    ],
+    "test_code": "r1 = knapsack([2,3,4,5],[3,4,5,7],8)\nassert r1 == 10, f'Expected 10, got {r1}'\nr2 = knapsack([1,2,3],[6,10,12],5)\nassert r2 == 22, f'Expected 22 (take w=2+w=3), got {r2}'\nr3 = knapsack([10],[100],5)\nassert r3 == 0,  f'Item too heavy: expected 0, got {r3}'\nr4 = knapsack([1],[1],1)\nassert r4 == 1,  f'Trivial case: expected 1, got {r4}'\nprint('PASS')"
+  },
+  "related": ["dp-subset-sum-01", "dp-unbounded-knapsack-01", "dp-coin-change-01"],
+  "tags": ["dynamic-programming", "knapsack", "optimization", "subset", "tabulation"]
+}

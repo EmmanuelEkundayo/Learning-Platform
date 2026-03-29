@@ -1,0 +1,49 @@
+{
+  "id": "backpropagation-01",
+  "slug": "backpropagation",
+  "title": "Backpropagation",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Compute how much each weight contributed to the loss by applying the chain rule backwards through the network — each layer gets its blame proportional to its effect.",
+    "analogy": "A factory assembly line with a quality defect at the end: you trace backwards — which station caused it? By what fraction? Each station gets blamed proportionally, and each worker adjusts their technique accordingly.",
+    "time_complexity": "O(n × L × w) per batch — n samples, L layers, w weights per layer",
+    "space_complexity": "O(L × w) to store activations and gradients for all layers",
+    "when_to_use": [
+      "Training any neural network with differentiable layers",
+      "Computing gradients for any computation graph (not just NNs — used in PyTorch autograd, JAX, etc.)",
+      "Understanding why a network's output changed after a weight update"
+    ],
+    "gotchas": [
+      "Vanishing gradients: sigmoid/tanh squash gradients near 0 in deep networks — use ReLU or batch norm",
+      "Exploding gradients: gradients grow exponentially in deep RNNs — use gradient clipping",
+      "Backprop only gives exact gradients for differentiable operations — non-differentiable activations (e.g., hard argmax) require workarounds"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "backprop",
+      "show_forward_pass": true,
+      "show_backward_pass": true,
+      "show_gradient_values": true,
+      "show_chain_rule": true,
+      "step_annotations": true,
+      "layers": 3
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the backward pass for a single linear layer followed by MSE loss. Compute the gradient of the loss with respect to the weights.",
+    "starter_code": "def backward(X, y, weights, bias, lr):\n    \"\"\"\n    X: (n, d) inputs\n    y: (n,)  true labels\n    weights: (d,) current weights\n    \"\"\"\n    n = len(y)\n    # Forward pass\n    y_pred = X @ weights + bias\n    loss = ((y_pred - y) ** 2).mean()\n\n    # Backward pass — chain rule: dL/dW = dL/dy_pred * dy_pred/dW\n    d_loss_d_pred = ___________          # gradient of MSE w.r.t. predictions\n    dW = ___________                     # gradient w.r.t. weights\n    db = d_loss_d_pred.mean()\n\n    weights -= lr * dW\n    bias    -= lr * db\n    return weights, bias, loss",
+    "solution": "d_loss_d_pred = 2 * (y_pred - y) / n   # derivative of mean((y_pred-y)^2)\ndW = X.T @ d_loss_d_pred / n            # chain rule: sum over samples",
+    "hints": [
+      "MSE = mean((y_pred - y)²). Its derivative w.r.t. y_pred is 2*(y_pred - y)/n",
+      "The gradient of W is the chain rule: dL/dW = X^T · (dL/dy_pred). Think of it as each input feature x_i getting blamed proportionally to the prediction error it caused"
+    ],
+    "test_code": "import numpy as np\nX = np.array([[1.,2.],[3.,4.],[5.,6.]])\ny = np.array([3.,7.,11.])\nw = np.array([0.5,0.5]); b = 0.\nw2,b2,loss = backward(X,y,w,b,lr=0.1)\nassert w2.shape==(2,), f'weights shape: {w2.shape}'\nassert float(loss)>0, 'initial loss must be positive'\nloss_after = ((X@w2+b2-y)**2).mean()\nassert loss_after < float(loss)+1e-6, f'Loss must decrease: {float(loss):.4f} -> {loss_after:.4f}'\nprint('PASS')"
+  },
+  "related": ["gradient-descent-01", "neural-network-mlp-01", "activation-functions-01"],
+  "tags": ["backpropagation", "chain-rule", "gradients", "neural-network", "training", "autograd"]
+}

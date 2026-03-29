@@ -1,0 +1,44 @@
+{
+  "id": "dbscan-01",
+  "slug": "dbscan",
+  "title": "DBSCAN",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Classify points as core (≥ minPts neighbours within ε), border (within ε of a core point), or noise. Clusters are maximal sets of density-connected core points. DBSCAN finds arbitrary-shaped clusters and automatically identifies outliers.",
+    "analogy": "A population map: dense cities (core points) expand to include nearby suburbs (border points); isolated farmhouses (noise) don't belong to any city. Cities are defined by density, not shape — an oddly shaped city is still a city.",
+    "time_complexity": "O(n log n) with spatial indexing; O(n²) brute force",
+    "space_complexity": "O(n) for labels",
+    "when_to_use": [
+      "Clusters with non-spherical shapes (crescent, ring, blobs)",
+      "Automatic number of clusters (no k to specify)",
+      "Anomaly detection: noise points are outliers"
+    ],
+    "gotchas": [
+      "ε and minPts are sensitive hyperparameters — use k-distance plot to set ε",
+      "DBSCAN struggles with clusters of varying density (use HDBSCAN instead)",
+      "High-dimensional data: ε meaning changes — distances become less meaningful"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "mode": "dbscan",
+      "show_core_points": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement DBSCAN clustering.",
+    "starter_code": "def dbscan(X, eps, min_pts):\n    \"\"\"\n    Returns labels: -1 for noise, 0..k for cluster ids.\n    \"\"\"\n    n      = len(X)\n    labels = [-1] * n\n    cluster_id = 0\n\n    def dist(a, b):\n        return sum((ai-bi)**2 for ai,bi in zip(a,b))**0.5\n\n    def region_query(p):\n        return [q for q in range(n) if dist(X[p], X[q]) <= eps]\n\n    def expand(p, neighbours):\n        labels[p] = cluster_id\n        i = 0\n        while i < len(neighbours):\n            q = neighbours[i]\n            if labels[q] == -1:\n                labels[q] = cluster_id   # border point\n            if labels[q] == 0:           # unvisited\n                labels[q] = cluster_id\n                q_nb = region_query(q)\n                if ___________:          # q is a core point\n                    neighbours += q_nb\n            i += 1\n\n    visited = [False] * n\n    for p in range(n):\n        if visited[p]: continue\n        visited[p] = True\n        nb = region_query(p)\n        if len(nb) < min_pts:\n            labels[p] = -1   # noise (tentative)\n        else:\n            expand(p, nb)\n            cluster_id += 1\n    return labels",
+    "solution": "len(q_nb) >= min_pts",
+    "hints": [
+      "q is a core point if it has at least min_pts neighbours within eps — check len(q_nb) >= min_pts before expanding its neighbourhood into the current cluster"
+    ],
+    "test_code": "# Two tight clusters + noise\ncluster1 = [[1,1],[1.1,1],[1,1.1],[0.9,1]]\ncluster2 = [[5,5],[5.1,5],[5,5.1],[4.9,5]]\nnoise    = [[10,10]]\nX = cluster1 + cluster2 + noise\nlabels = dbscan(X, eps=0.5, min_pts=2)\n# First 4 points same cluster, next 4 another, last is noise\nassert len(set(labels[:4])) == 1,       'Cluster 1 should be one cluster'\nassert len(set(labels[4:8])) == 1,      'Cluster 2 should be one cluster'\nassert labels[:4][0] != labels[4:8][0], 'Two different clusters'\nassert labels[8] == -1,                 'Noise point'\nprint('PASS')"
+  },
+  "related": ["knn-01", "k-means-01", "hierarchical-clustering-01", "feature-scaling-01"],
+  "tags": ["DBSCAN", "density-based", "clustering", "outlier-detection", "arbitrary-shape", "eps-minPts"]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "xgboost-01",
+  "slug": "xgboost",
+  "title": "XGBoost",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "XGBoost improves gradient boosting with second-order Taylor expansion of the loss (using both gradient g and Hessian h per sample) and a regularised objective. The optimal leaf value = -G/( H + λ) and optimal split gain = ½·(G_L²/(H_L+λ) + G_R²/(H_R+λ) - (G_L+G_R)²/(H_L+H_R+λ)) - γ.",
+    "analogy": "Instead of just measuring the slope of a hill (gradient), XGBoost also measures the curvature (Hessian). Knowing both slope and curve lets you take a bigger, more confident step — like a second-order Newton step vs a first-order gradient step.",
+    "time_complexity": "O(n · d · log n · T) with histogram approximation",
+    "space_complexity": "O(n · T)",
+    "when_to_use": [
+      "Competition winning baseline on tabular data",
+      "When gradient boosting needs regularisation to avoid overfitting",
+      "Out-of-core training on very large datasets (XGBoost supports external memory)"
+    ],
+    "gotchas": [
+      "λ (L2 on leaf weights) and γ (min gain for a split) are regularisation — increase to reduce overfitting",
+      "XGBoost uses column subsampling (colsample_bytree) for additional regularisation",
+      "LightGBM grows leaf-wise; XGBoost grows level-wise — LightGBM is often faster on large data"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "xgboost",
+      "show_gain": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the XGBoost optimal leaf value and split gain formulas.",
+    "starter_code": "def xgb_leaf_value(G, H, lam=1.0):\n    \"\"\"\n    Optimal leaf weight given sum of gradients G and Hessians H.\n    w* = -G / (H + lambda)\n    \"\"\"\n    return ___________\n\ndef xgb_split_gain(G_L, H_L, G_R, H_R, lam=1.0, gamma=0.0):\n    \"\"\"\n    Gain from splitting a leaf into left (G_L, H_L) and right (G_R, H_R) children.\n    Gain = 0.5 * [GL^2/(HL+lam) + GR^2/(HR+lam) - (GL+GR)^2/(HL+HR+lam)] - gamma\n    \"\"\"\n    return ___________",
+    "solution": "-G / (H + lam)\n0.5 * (G_L**2/(H_L+lam) + G_R**2/(H_R+lam) - (G_L+G_R)**2/(H_L+H_R+lam)) - gamma",
+    "hints": [
+      "Leaf value: w* = -G / (H + lambda)",
+      "Split gain = 0.5 * (GL²/(HL+λ) + GR²/(HR+λ) - (GL+GR)²/(HL+HR+λ)) - γ"
+    ],
+    "test_code": "import math\n# Leaf value\nassert math.isclose(xgb_leaf_value(-3.0, 6.0, lam=0.0), 0.5)\nassert math.isclose(xgb_leaf_value(-3.0, 6.0, lam=1.0), 3/7)\n\n# Split gain\n# Perfect split: all gradients go left\ngain = xgb_split_gain(G_L=-4, H_L=4, G_R=0, H_R=0.01, lam=1.0, gamma=0)\nassert gain > 0, 'Good split should have positive gain'\n\n# No gain: equal split\ngain2 = xgb_split_gain(G_L=-1, H_L=1, G_R=-1, H_R=1, lam=1.0, gamma=0)\nassert math.isclose(gain2, 0.0, abs_tol=1e-9), f'Equal split gain={gain2}'\nprint('PASS')"
+  },
+  "related": ["gradient-boosting-01", "lightgbm-01", "random-forest-01", "decision-tree-01"],
+  "tags": ["XGBoost", "gradient-boosting", "second-order", "Hessian", "regularisation", "split-gain"]
+}

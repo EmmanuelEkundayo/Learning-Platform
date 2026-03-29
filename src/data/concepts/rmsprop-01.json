@@ -1,0 +1,44 @@
+{
+  "id": "rmsprop-01",
+  "slug": "rmsprop",
+  "title": "RMSprop",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Adaptive gradient method: maintain a running average of squared gradients Eₜ[g²] = ρ·Eₜ₋₁[g²] + (1−ρ)·gₜ². Update: θ ← θ − (α/√(Eₜ[g²]+ε))·gₜ. Parameters with consistently large gradients get smaller effective rates; parameters with small gradients get larger rates. Addresses Adagrad's monotonically shrinking rates by using an exponential moving average.",
+    "analogy": "Adjusting walking speed based on recent terrain: if you've been walking uphill steeply (large gradients), slow down (small step); if the recent terrain has been flat (small gradients), speed up. Using a moving average means yesterday's steep hill doesn't permanently slow you down.",
+    "time_complexity": "O(d) per step",
+    "space_complexity": "O(d) for the EMA of squared gradients",
+    "when_to_use": [
+      "RNNs and non-stationary objectives — Hinton's original motivation",
+      "When Adagrad's learning rate collapses too quickly",
+      "A stepping stone to understanding Adam (which adds momentum to RMSprop)"
+    ],
+    "gotchas": [
+      "ρ=0.9 typical — lower values track recent gradients more closely",
+      "No bias correction unlike Adam — can cause slow start on sparse problems",
+      "Adam = RMSprop + momentum + bias correction — usually prefer Adam"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "rmsprop",
+      "show_trajectory": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement one RMSprop optimizer step.",
+    "starter_code": "import math\n\ndef rmsprop_step(params, grads, cache, lr=1e-3, rho=0.9, eps=1e-8):\n    \"\"\"\n    params, grads, cache: lists of floats (same length).\n    cache: running mean of squared gradients (modified in place).\n    \"\"\"\n    for i in range(len(params)):\n        cache[i] = rho * cache[i] + (1 - rho) * grads[i] ** 2\n        params[i] -= ___________\n    return params, cache",
+    "solution": "lr * grads[i] / (math.sqrt(cache[i]) + eps)",
+    "hints": [
+      "Divide the learning rate by the square root of the running average of squared gradients: lr / (√E[g²] + ε)."
+    ],
+    "test_code": "import math\n# Minimise f(x) = x^2, grad = 2x\nparams = [4.0]; cache = [0.0]\nfor _ in range(300):\n    g = [2.0 * params[0]]\n    params, cache = rmsprop_step(params, g, cache, lr=0.05)\nassert abs(params[0]) < 0.1, f'Should converge, got {params[0]:.4f}'\n\n# Cache should be positive\nassert cache[0] > 0\nprint('PASS')"
+  },
+  "related": ["adam-optimizer-01", "adagrad-01", "stochastic-gradient-descent-01", "learning-rate-scheduling-01"],
+  "tags": ["RMSprop", "adaptive-learning-rate", "EMA", "squared-gradients", "optimizer", "deep-learning"]
+}

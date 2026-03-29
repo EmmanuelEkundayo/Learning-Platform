@@ -1,0 +1,46 @@
+{
+  "id": "prefix-sum-01",
+  "slug": "prefix-sum",
+  "title": "Prefix Sum",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Precompute cumulative sums so any range query [l, r] costs O(1) instead of O(n).",
+    "analogy": "A bank statement with a running balance — to find how much you spent in any month range, subtract the opening balance of that range from the closing balance. You don't re-add every transaction.",
+    "time_complexity": "O(n) build, O(1) per range query",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Multiple range sum queries on a static array",
+      "Counting subarrays with a given sum (prefix_sum[r] - prefix_sum[l-1] = target)",
+      "2D prefix sums for rectangular region queries in a matrix",
+      "Difference arrays for range update + point query (inverse of prefix sum)"
+    ],
+    "gotchas": [
+      "Use a 1-indexed prefix array of size n+1 (prefix[0] = 0) to avoid off-by-one errors in range queries",
+      "prefix[r] - prefix[l-1] gives sum of arr[l..r] — the fence-post is l-1, not l",
+      "Prefix sums only work for static arrays — use a Fenwick tree if you need point updates too"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "prefix-sum",
+      "show_running_total": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Build a prefix sum array and implement an O(1) range sum query.",
+    "starter_code": "def build_prefix(arr):\n    n = len(arr)\n    prefix = [0] * (n + 1)   # prefix[0] = 0 sentinel\n    for i in range(n):\n        prefix[i + 1] = ___________\n    return prefix\n\ndef range_sum(prefix, lo, hi):\n    \"\"\"Sum of arr[lo..hi] inclusive (0-indexed).\"\"\"\n    return ___________",
+    "solution": "prefix[i + 1] = prefix[i] + arr[i]\nreturn prefix[hi + 1] - prefix[lo]",
+    "hints": [
+      "Each prefix entry is the previous entry plus the current array value: prefix[i+1] = prefix[i] + arr[i]",
+      "Range sum arr[lo..hi] = total up to hi+1 minus total up to lo: prefix[hi+1] - prefix[lo]"
+    ],
+    "test_code": "arr = [3, 1, 4, 1, 5, 9, 2, 6]\npre = build_prefix(arr)\nassert len(pre) == len(arr) + 1,          'Prefix array must have length n+1'\nassert pre[0] == 0,                        'Sentinel: prefix[0] must be 0'\nassert range_sum(pre, 0, 0) == 3,          'Single element: arr[0]=3'\nassert range_sum(pre, 0, 7) == sum(arr),   'Full range must equal sum(arr)'\nassert range_sum(pre, 2, 5) == 4+1+5+9,   'arr[2..5] = 4+1+5+9 = 19'\nassert range_sum(pre, 4, 4) == 5,          'arr[4..4] = 5'\nprint('PASS')"
+  },
+  "related": ["sliding-window-01", "kadanes-algorithm-01", "dp-knapsack-01"],
+  "tags": ["prefix-sum", "arrays", "range-query", "O(1)-query", "cumulative"]
+}

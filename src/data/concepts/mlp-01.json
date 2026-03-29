@@ -1,0 +1,44 @@
+{
+  "id": "mlp-01",
+  "slug": "mlp",
+  "title": "Multi-Layer Perceptron (MLP)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Stack layers of perceptrons with non-linear activations (ReLU, sigmoid). Forward pass: z = Wx + b, a = σ(z). Backward pass (backprop): δ = (dL/da)·σ'(z), then ∂L/∂W = δ·aᵀ_{prev}. Universal approximation theorem: a single hidden layer with enough neurons can approximate any continuous function.",
+    "analogy": "A factory assembly line with quality inspectors at each station: raw materials (inputs) flow forward, each station transforms them (layer), and when the final product is wrong, inspectors propagate blame backwards (backprop) — each station learns exactly how much it contributed to the error.",
+    "time_complexity": "O(n · Σ dₗ · dₗ₊₁) per forward/backward pass",
+    "space_complexity": "O(Σ dₗ · dₗ₊₁) for weights",
+    "when_to_use": [
+      "Tabular data classification and regression as a strong baseline",
+      "Function approximation when feature engineering is impractical",
+      "Building block for all deep architectures"
+    ],
+    "gotchas": [
+      "Deep networks suffer from vanishing gradients — use ReLU and batch norm",
+      "Overparameterisation requires regularisation (dropout, weight decay, early stopping)",
+      "Weight initialisation matters — random uniform near zero causes slow learning; use He/Xavier init"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "mlp",
+      "show_activations": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the forward pass and ReLU activation for a 2-layer MLP.",
+    "starter_code": "import math\n\ndef relu(x):     return max(0.0, x)\ndef relu_vec(v):  return [relu(x) for x in v]\n\ndef matmul_vec(W, x):\n    \"\"\"W: m x n matrix (list of rows), x: n-vector. Returns m-vector.\"\"\"\n    return [sum(W[i][j]*x[j] for j in range(len(x))) for i in range(len(W))]\n\ndef add_bias(z, b):\n    return [zi + bi for zi, bi in zip(z, b)]\n\ndef sigmoid(x): return 1.0 / (1.0 + math.exp(-x))\n\ndef mlp_forward(x, W1, b1, W2, b2):\n    \"\"\"\n    2-layer MLP: hidden=ReLU, output=sigmoid.\n    Returns output probability (scalar).\n    \"\"\"\n    z1 = add_bias(matmul_vec(W1, x), b1)   # (h,)\n    a1 = relu_vec(z1)                       # (h,)\n    z2 = add_bias(matmul_vec(W2, a1), b2)  # (1,)\n    return ___________                      # scalar probability",
+    "solution": "sigmoid(z2[0])",
+    "hints": [
+      "The output layer has one neuron: apply sigmoid to z2[0] to get a probability in (0,1)."
+    ],
+    "test_code": "# Simple XOR-like test with fixed weights that solve it\n# W1: 2x2, b1: 2, W2: 1x2, b2: 1\nW1 = [[20.0, -20.0], [-20.0, 20.0]]\nb1 = [-10.0, -10.0]\nW2 = [[20.0, 20.0]]\nb2 = [-10.0]\n\npreds = [mlp_forward(x, W1, b1, W2, b2) for x in [[0,0],[0,1],[1,0],[1,1]]]\nassert preds[0] < 0.1, f'[0,0] should be ~0, got {preds[0]:.4f}'\nassert preds[1] > 0.9, f'[0,1] should be ~1, got {preds[1]:.4f}'\nassert preds[2] > 0.9, f'[1,0] should be ~1, got {preds[2]:.4f}'\nassert preds[3] < 0.1, f'[1,1] should be ~0, got {preds[3]:.4f}'\nprint('PASS')"
+  },
+  "related": ["perceptron-01", "activation-functions-01", "weight-initialization-01", "batch-normalization-01", "dropout-01"],
+  "tags": ["MLP", "multi-layer-perceptron", "forward-pass", "backpropagation", "universal-approximation", "deep-learning"]
+}

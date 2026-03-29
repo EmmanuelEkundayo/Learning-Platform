@@ -1,0 +1,44 @@
+{
+  "id": "dp-on-graphs-01",
+  "slug": "dp-on-graphs",
+  "title": "DP on Graphs (DAG DP)",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "On a DAG, process nodes in topological order: dp[v] = best answer for paths ending at v, computed from all predecessors u. Since a DAG has no cycles, topological order guarantees dp[u] is final before dp[v] needs it.",
+    "analogy": "Filling out a project timeline: you can only plan a task once all its dependencies are completed. Processing in dependency order (topological) ensures you always have the necessary prior results when planning each task.",
+    "time_complexity": "O(V + E) — topological sort + single relaxation pass",
+    "space_complexity": "O(V) for dp array",
+    "when_to_use": [
+      "Longest / shortest path in a DAG",
+      "Number of paths from source to destination",
+      "Game DP where states form a DAG (no repeated game states)"
+    ],
+    "gotchas": [
+      "Only works on DAGs — cycles require Bellman-Ford or other cycle-handling approaches",
+      "Longest path in general graphs is NP-hard — but O(V+E) on DAGs",
+      "Memoised DFS on a DAG is equivalent to topological DP — both process nodes once"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "dag-dp",
+      "show_dp_values": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the longest path in a DAG using topological DP.",
+    "starter_code": "from collections import deque\n\ndef longest_path_dag(n, adj):\n    \"\"\"\n    n   : number of vertices (0..n-1)\n    adj : adjacency list dict {u: [(v, weight), ...]}\n    Returns length of the longest path starting from any vertex.\n    \"\"\"\n    indegree = [0] * n\n    for u in adj:\n        for v, _ in adj[u]:\n            indegree[v] += 1\n\n    queue = deque(u for u in range(n) if indegree[u] == 0)\n    dp    = [0] * n   # longest path ending at each node\n\n    while queue:\n        u = queue.popleft()\n        for v, w in adj.get(u, []):\n            dp[v] = max(dp[v], ___________)\n            indegree[v] -= 1\n            if indegree[v] == 0:\n                queue.append(v)\n    return max(dp)",
+    "solution": "dp[u] + w",
+    "hints": [
+      "Relax edge (u→v): dp[v] = max(dp[v], dp[u] + w) — longest path to v through u is dp[u] + w"
+    ],
+    "test_code": "adj = {\n    0: [(1,3),(2,2)],\n    1: [(3,4)],\n    2: [(3,1),(4,2)],\n    3: [(5,1)],\n    4: [(5,3)],\n    5: []\n}\nassert longest_path_dag(6, adj) == 8  # 0->1->3->5 = 3+4+1=8\n\n# Single node\nassert longest_path_dag(1, {0:[]}) == 0\n\n# Two nodes, one edge\nassert longest_path_dag(2, {0:[(1,5)], 1:[]}) == 5\nprint('PASS')"
+  },
+  "related": ["topological-sort-kahns-01", "bitmask-dp-01", "bellman-ford-01", "memoization-vs-tabulation-01"],
+  "tags": ["DAG-dp", "longest-path", "topological-sort", "dynamic-programming", "graph-dp"]
+}

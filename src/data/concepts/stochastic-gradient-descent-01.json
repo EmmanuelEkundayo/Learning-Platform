@@ -1,0 +1,45 @@
+{
+  "id": "stochastic-gradient-descent-01",
+  "slug": "stochastic-gradient-descent",
+  "title": "Stochastic Gradient Descent (SGD)",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Instead of computing the gradient over the entire dataset (batch GD), SGD estimates it using a single randomly sampled example. The noisy gradient is biased but fast — O(1) per step vs O(n). The noise can help escape local minima and saddle points.",
+    "analogy": "Navigating a foggy mountain by taking one step at a time using only what you can see immediately around you. You can't see the whole slope, but taking many quick steps in roughly the right direction gets you down fast — occasional missteps are part of the process.",
+    "time_complexity": "O(1) per step (single sample gradient); O(n) per epoch",
+    "space_complexity": "O(p) for parameters, O(1) for gradient",
+    "when_to_use": [
+      "Large datasets where full-batch gradient is too expensive",
+      "Online learning (samples arrive as a stream)",
+      "When noise in the gradient helps avoid sharp minima"
+    ],
+    "gotchas": [
+      "SGD requires careful learning rate tuning — too high diverges, too low is slow",
+      "Mini-batch SGD (batch size 32–256) balances noise and efficiency — pure SGD (batch=1) is rarely used",
+      "Momentum, Adam, and RMSProp are SGD variants that adapt the step size"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "sgd",
+      "show_trajectory": true,
+      "show_noise": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement SGD for linear regression: update weights using one sample at a time.",
+    "starter_code": "import random\n\ndef sgd_linear(X, y, lr=0.01, epochs=100, seed=42):\n    \"\"\"\n    X: list of feature vectors (list of lists)\n    y: list of target values\n    Returns trained weight vector w.\n    \"\"\"\n    random.seed(seed)\n    n, d = len(X), len(X[0])\n    w = [0.0] * d\n\n    for _ in range(epochs):\n        i   = random.randint(0, n - 1)\n        xi, yi = X[i], y[i]\n        pred  = sum(w[j] * xi[j] for j in range(d))\n        error = pred - yi\n        for j in range(d):\n            w[j] -= ___________   # SGD update: move opposite to gradient\n    return w",
+    "solution": "lr * error * xi[j]",
+    "hints": [
+      "The MSE gradient w.r.t. w[j] for a single sample is error * x[j] (where error = pred - y). Update: w[j] -= lr * error * xi[j]"
+    ],
+    "test_code": "# y = 2*x1 + 3*x2\nX = [[1,0],[0,1],[1,1],[2,1],[1,2]]\ny = [2,3,5,7,8]\nw = sgd_linear(X, y, lr=0.1, epochs=2000)\nassert abs(w[0] - 2.0) < 0.3, f'w[0]={w[0]:.3f}'\nassert abs(w[1] - 3.0) < 0.3, f'w[1]={w[1]:.3f}'\nprint('PASS')"
+  },
+  "related": ["gradient-descent-01", "mini-batch-gradient-descent-01", "learning-rate-scheduling-01", "loss-functions-01"],
+  "tags": ["SGD", "stochastic-gradient-descent", "optimisation", "online-learning", "gradient"]
+}

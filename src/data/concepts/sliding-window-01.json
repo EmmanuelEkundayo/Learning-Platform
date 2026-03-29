@@ -1,0 +1,47 @@
+{
+  "id": "sliding-window-01",
+  "slug": "sliding-window",
+  "title": "Sliding Window",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Maintain a contiguous subarray (window) that expands and contracts as you scan left-to-right, reusing work from the previous position instead of recomputing from scratch.",
+    "analogy": "Looking through a moving train window: instead of describing a new scene from scratch each second, you drop what just left the frame and add what just entered.",
+    "time_complexity": "O(n) — each element enters and leaves the window at most once",
+    "space_complexity": "O(1) for fixed-size windows; O(k) for variable windows tracking a set/map",
+    "when_to_use": [
+      "Maximum or minimum sum/product of a subarray of size k",
+      "Longest substring satisfying a property (no repeats, at most k distinct chars, etc.)",
+      "Smallest contiguous subarray with sum ≥ target",
+      "Any problem asking about contiguous subarrays where brute force is O(n²)"
+    ],
+    "gotchas": [
+      "Fixed-size windows expand by one, shrink by one — easy. Variable windows require a condition to decide when to shrink",
+      "Track what's inside the window carefully — a frequency map or running sum prevents O(n) recomputation on each slide",
+      "Off-by-one: the window [lo, hi] is inclusive on both ends; length = hi - lo + 1"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "sliding-window",
+      "show_lo_hi": true,
+      "sorted": false,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the fixed-size sliding window to find the maximum sum of any subarray of length k.",
+    "starter_code": "def max_subarray_sum(arr, k):\n    n = len(arr)\n    if n < k:\n        return None\n    # Build initial window\n    window_sum = sum(arr[:k])\n    max_sum = window_sum\n    # Slide: add new element on right, drop old element on left\n    for i in range(k, n):\n        window_sum += ___________\n        window_sum -= ___________\n        max_sum = max(max_sum, window_sum)\n    return max_sum",
+    "solution": "window_sum += arr[i]         # new element entering window on the right\nwindow_sum -= arr[i - k]     # old element leaving window on the left",
+    "hints": [
+      "The new element entering is arr[i] — the rightmost element of the current window",
+      "The element leaving is arr[i - k] — exactly k positions behind the new element"
+    ],
+    "test_code": "assert max_subarray_sum([2,1,5,1,3,2], 3) == 9,  'Window [5,1,3] sums to 9'\nassert max_subarray_sum([1,2,3,4,5], 2)    == 9,  'Window [4,5] sums to 9'\nassert max_subarray_sum([1,1,1,1], 4)      == 4,  'Only one window of size 4'\nassert max_subarray_sum([3], 1)             == 3,  'Single element'\nassert max_subarray_sum([1,2], 3)          is None, 'k > n returns None'\nprint('PASS')"
+  },
+  "related": ["two-pointers-01", "prefix-sum-01", "kadanes-algorithm-01"],
+  "tags": ["sliding-window", "arrays", "subarray", "O(n)", "two-pointers"]
+}

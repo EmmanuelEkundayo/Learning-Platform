@@ -1,0 +1,44 @@
+{
+  "id": "selection-sort-01",
+  "slug": "selection-sort",
+  "title": "Selection Sort",
+  "domain": "DSA",
+  "category": "Sorting & Searching",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Divide the array into a sorted prefix and an unsorted suffix. On each pass, find the minimum element in the unsorted suffix and swap it to the boundary — growing the sorted prefix by one element.",
+    "analogy": "Picking cards from a shuffled deck: each round, scan the remaining cards, find the lowest, and place it at the front. After n rounds, the deck is sorted.",
+    "time_complexity": "O(n²) — always, even for sorted input",
+    "space_complexity": "O(1) — in-place",
+    "when_to_use": [
+      "When the cost of swapping is very high (selection sort does at most n-1 swaps)",
+      "Simple implementation for tiny arrays",
+      "Teaching the 'find minimum, place it' paradigm"
+    ],
+    "gotchas": [
+      "Not stable in the standard implementation — equal elements may be reordered by swapping a non-adjacent element",
+      "Always O(n²) comparisons — no early exit possible like bubble sort",
+      "Outperforms bubble sort on write-heavy systems due to O(n) swaps vs O(n²) swaps"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "selection-sort",
+      "highlight_min": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement selection sort. Find the minimum in the unsorted region and swap it to position i.",
+    "starter_code": "def selection_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        min_idx = i\n        for j in range(i + 1, n):\n            if arr[j] < arr[min_idx]:\n                min_idx = ___________     # track index of current minimum\n        arr[i], arr[min_idx] = arr[min_idx], arr[i]\n    return arr",
+    "solution": "j",
+    "hints": [
+      "When arr[j] is smaller than arr[min_idx], update min_idx = j to track the new minimum's index"
+    ],
+    "test_code": "assert selection_sort([64,25,12,22,11]) == [11,12,22,25,64]\nassert selection_sort([1]) == [1]\nassert selection_sort([]) == []\nassert selection_sort([3,2,1]) == [1,2,3]\nassert selection_sort([1,2,3]) == [1,2,3]\nprint('PASS')"
+  },
+  "related": ["bubble-sort-01", "insertion-sort-01", "counting-sort-01", "binary-search-01"],
+  "tags": ["selection-sort", "sorting", "comparison-sort", "in-place", "O(n^2)", "minimum-swaps"]
+}

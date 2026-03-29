@@ -1,0 +1,44 @@
+{
+  "id": "heap-operations-01",
+  "slug": "heap-operations",
+  "title": "Heap Operations",
+  "domain": "DSA",
+  "category": "Heaps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Beyond push/pop, heaps support decrease-key (update a priority) and arbitrary deletion — both require sifting up or down after the change. Efficient Dijkstra and Prim's use decrease-key to update shortest distances.",
+    "analogy": "A hospital triage queue: patients can be re-prioritised when their condition changes (decrease-key). The patient with the highest priority always goes next. Updating a priority means re-sorting the queue from that patient's position.",
+    "time_complexity": "O(log n) for push, pop, decrease-key, delete-at-index",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Dijkstra / Prim's with decrease-key for O((V+E) log V)",
+      "A* search where node priorities are updated",
+      "Any priority queue that needs both extract-min and priority updates"
+    ],
+    "gotchas": [
+      "To find an element for decrease-key, maintain a position map: pos[key] = index in heap array",
+      "After decrease-key, always sift UP (new priority may violate parent invariant)",
+      "After increase-key (or delete), sift DOWN (new priority may violate children invariant)"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "heap-ops",
+      "show_index_map": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement decrease-key on a min-heap with a position map.",
+    "starter_code": "class IndexedMinHeap:\n    def __init__(self):\n        self.heap = []    # (priority, key)\n        self.pos  = {}    # key -> index in heap\n\n    def push(self, key, priority):\n        self.heap.append((priority, key))\n        self.pos[key] = len(self.heap) - 1\n        self._sift_up(len(self.heap) - 1)\n\n    def pop(self):\n        self._swap(0, len(self.heap) - 1)\n        pri, key = self.heap.pop()\n        del self.pos[key]\n        if self.heap: self._sift_down(0)\n        return key, pri\n\n    def decrease_key(self, key, new_priority):\n        i = self.pos[key]\n        self.heap[i] = (new_priority, key)\n        ___________             # sift up since priority decreased\n\n    def _swap(self, i, j):\n        self.heap[i], self.heap[j] = self.heap[j], self.heap[i]\n        self.pos[self.heap[i][1]] = i\n        self.pos[self.heap[j][1]] = j\n\n    def _sift_up(self, i):\n        while i > 0:\n            p = (i - 1) // 2\n            if self.heap[p][0] > self.heap[i][0]:\n                self._swap(p, i); i = p\n            else: break\n\n    def _sift_down(self, i):\n        n = len(self.heap)\n        while True:\n            s = i; l, r = 2*i+1, 2*i+2\n            if l < n and self.heap[l][0] < self.heap[s][0]: s = l\n            if r < n and self.heap[r][0] < self.heap[s][0]: s = r\n            if s == i: break\n            self._swap(i, s); i = s",
+    "solution": "self._sift_up(i)",
+    "hints": [
+      "After decreasing the priority at index i, sift up from i — the smaller priority may now violate the parent's invariant"
+    ],
+    "test_code": "h = IndexedMinHeap()\nh.push('a', 10)\nh.push('b', 5)\nh.push('c', 8)\nassert h.heap[0][1] == 'b'   # b has lowest priority\nh.decrease_key('a', 2)        # a now has priority 2\nassert h.heap[0][1] == 'a'   # a should be at root\nk, p = h.pop()\nassert k == 'a' and p == 2\nk, p = h.pop()\nassert k == 'b' and p == 5\nprint('PASS')"
+  },
+  "related": ["max-min-heap-01", "heapify-01", "dijkstra-01", "prims-01"],
+  "tags": ["heap-operations", "decrease-key", "indexed-heap", "priority-update", "Dijkstra"]
+}

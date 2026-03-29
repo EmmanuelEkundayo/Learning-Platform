@@ -1,0 +1,150 @@
+import { motion, AnimatePresence } from 'framer-motion'
+
+const SPEEDS = [0.5, 1, 1.5, 2, 3]
+
+export default function StepControls({
+  step,
+  totalSteps,
+  playing,
+  speed,
+  annotation,
+  onPrev,
+  onNext,
+  onPlay,
+  onPause,
+  onReset,
+  onSpeedChange,
+}) {
+  const pct = totalSteps > 1 ? (step / (totalSteps - 1)) * 100 : 0
+
+  return (
+    <div className="flex flex-col gap-2">
+      {/* Annotation */}
+      <div className="min-h-[2.5rem] px-3 py-2 rounded bg-surface-700 border border-surface-600 text-sm text-gray-300 font-mono leading-snug">
+        <AnimatePresence mode="wait">
+          <motion.span
+            key={step}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.15 }}
+          >
+            {annotation || '—'}
+          </motion.span>
+        </AnimatePresence>
+      </div>
+
+      {/* Progress bar */}
+      <div className="h-1 rounded-full bg-surface-600 overflow-hidden">
+        <motion.div
+          className="h-full bg-dsa-500 rounded-full"
+          animate={{ width: `${pct}%` }}
+          transition={{ duration: 0.15 }}
+        />
+      </div>
+
+      {/* Controls row */}
+      <div className="flex items-center gap-2">
+        {/* Reset */}
+        <button
+          onClick={onReset}
+          className="p-1.5 rounded text-gray-400 hover:text-white hover:bg-surface-600 transition-colors"
+          title="Reset"
+        >
+          <ResetIcon />
+        </button>
+
+        {/* Prev */}
+        <button
+          onClick={onPrev}
+          disabled={step === 0}
+          className="p-1.5 rounded text-gray-400 hover:text-white hover:bg-surface-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          title="Previous step"
+        >
+          <PrevIcon />
+        </button>
+
+        {/* Play / Pause */}
+        <button
+          onClick={playing ? onPause : onPlay}
+          disabled={step === totalSteps - 1}
+          className="flex items-center justify-center w-8 h-8 rounded-full bg-dsa-600 hover:bg-dsa-500 text-white transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          title={playing ? 'Pause' : 'Play'}
+        >
+          {playing ? <PauseIcon /> : <PlayIcon />}
+        </button>
+
+        {/* Next */}
+        <button
+          onClick={onNext}
+          disabled={step === totalSteps - 1}
+          className="p-1.5 rounded text-gray-400 hover:text-white hover:bg-surface-600 transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
+          title="Next step"
+        >
+          <NextIcon />
+        </button>
+
+        {/* Step counter */}
+        <span className="ml-1 text-xs text-gray-500 font-mono tabular-nums">
+          {step + 1} / {totalSteps}
+        </span>
+
+        {/* Speed picker */}
+        <div className="ml-auto flex items-center gap-1.5">
+          <span className="text-xs text-gray-500">Speed</span>
+          {SPEEDS.map((s) => (
+            <button
+              key={s}
+              onClick={() => onSpeedChange(s)}
+              className={`text-xs px-1.5 py-0.5 rounded font-mono transition-colors ${
+                speed === s
+                  ? 'bg-dsa-600 text-white'
+                  : 'text-gray-400 hover:text-white hover:bg-surface-600'
+              }`}
+            >
+              {s}×
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+function PlayIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M6 3.5l7 4.5-7 4.5V3.5z" />
+    </svg>
+  )
+}
+function PauseIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+      <rect x="3" y="3" width="4" height="10" rx="1" />
+      <rect x="9" y="3" width="4" height="10" rx="1" />
+    </svg>
+  )
+}
+function PrevIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M10 12L5 8l5-4v8z" />
+    </svg>
+  )
+}
+function NextIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="currentColor">
+      <path d="M6 4l5 4-5 4V4z" />
+    </svg>
+  )
+}
+function ResetIcon() {
+  return (
+    <svg className="w-4 h-4" viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5">
+      <path d="M2 8a6 6 0 1 0 1.5-4L2 2" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M2 2v4h4" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  )
+}

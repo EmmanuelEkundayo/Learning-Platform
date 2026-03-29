@@ -1,0 +1,44 @@
+{
+  "id": "q-learning-01",
+  "slug": "q-learning",
+  "title": "Q-Learning",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Off-policy TD control: learn Q*(s,a) directly from environment interactions. Update: Q(s,a) ← Q(s,a) + α[r + γ·max_{a'}Q(s',a') − Q(s,a)]. Off-policy because the target uses max over all actions regardless of which action was actually taken. ε-greedy exploration: take random action with prob ε, else argmax Q.",
+    "analogy": "Learning the value of chess moves by playing many games: after each move, update its estimated worth based on what you actually gained plus the best move you see from the new position — even if you played a suboptimal move to explore. Over time, you converge on true move values.",
+    "time_complexity": "O(|S| · |A|) per episode step for tabular Q",
+    "space_complexity": "O(|S| · |A|) for Q-table",
+    "when_to_use": [
+      "Tabular environments with discrete state/action spaces",
+      "Off-policy learning: can learn from arbitrary behaviour (replayed experience)",
+      "Foundation for DQN — replace Q-table with neural network"
+    ],
+    "gotchas": [
+      "Q-learning overestimates Q-values due to max operator — Double Q-learning (two Q networks) corrects this",
+      "ε must decay: high ε early for exploration, low ε later for exploitation",
+      "Tabular Q-learning doesn't scale — use function approximation for large state spaces"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "q-table",
+      "show_policy": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement ε-greedy action selection for Q-learning.",
+    "starter_code": "import random\n\ndef epsilon_greedy(Q_s, epsilon, actions):\n    \"\"\"\n    Q_s    : dict action -> Q-value for current state s\n    epsilon: exploration probability\n    actions: list of valid actions\n    Returns selected action.\n    \"\"\"\n    if random.random() < epsilon:\n        return random.choice(actions)   # explore\n    return ___________                  # exploit",
+    "solution": "max(actions, key=lambda a: Q_s[a])",
+    "hints": [
+      "Exploitation: return the action with the highest Q-value using max with a key function."
+    ],
+    "test_code": "import random\nrandom.seed(42)\nQ_s = {'left': 1.0, 'right': 5.0, 'up': 2.0}\nactions = list(Q_s.keys())\n\n# eps=0: always greedy\nfor _ in range(50):\n    assert epsilon_greedy(Q_s, 0.0, actions) == 'right'\n\n# eps=1: always random\nchosen = [epsilon_greedy(Q_s, 1.0, actions) for _ in range(300)]\nassert 'left' in chosen and 'up' in chosen  # explored all\n\n# eps=0.1: mostly greedy\nrandom.seed(0)\ngreedy_count = sum(1 for _ in range(1000) if epsilon_greedy(Q_s, 0.1, actions) == 'right')\nassert greedy_count > 850, f'Expected >85% greedy, got {greedy_count/10:.1f}%'\nprint('PASS')"
+  },
+  "related": ["bellman-equation-01", "deep-q-network-01", "markov-decision-process-01", "actor-critic-01"],
+  "tags": ["Q-learning", "epsilon-greedy", "off-policy", "TD-control", "tabular-RL", "reinforcement-learning"]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "monotonic-queue-01",
+  "slug": "monotonic-queue",
+  "title": "Monotonic Deque",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A deque that stays sorted by evicting smaller (or larger) elements from the back and expired elements from the front — the front always holds the current window's maximum (or minimum).",
+    "analogy": "A priority boarding line where a new VIP can push out all less-important passengers behind them, and passengers who've already boarded (left the window) are removed from the front.",
+    "time_complexity": "O(n) total — each element enters and leaves the deque exactly once",
+    "space_complexity": "O(k) where k is the window size",
+    "when_to_use": [
+      "Sliding window maximum or minimum in O(n) — the core primitive",
+      "Jump game variants where you need the max/min reachable in the last k steps",
+      "Any DP recurrence of the form dp[i] = f(max/min of dp[i-k..i-1])"
+    ],
+    "gotchas": [
+      "Store indices in the deque, not values — you need indices to check expiry (front is out of window) and to write results",
+      "Evict from back when new element is >= current back (for max deque) — using > would keep duplicates; >= removes stale smaller elements immediately",
+      "Evict from front when front index is <= i - k (no longer in the window of size k)"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "monotonic-deque",
+      "show_deque": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Sliding window maximum using a monotonic deque. Return the max of each window of size k.",
+    "starter_code": "from collections import deque\n\ndef sliding_window_max(nums, k):\n    dq     = deque()  # indices, decreasing by nums value\n    result = []\n    for i, num in enumerate(nums):\n        # Evict expired indices from the front\n        while dq and dq[0] <= i - k:\n            dq.popleft()\n        # Evict smaller elements from the back\n        while dq and nums[dq[-1]] < num:\n            ___________\n        dq.append(i)\n        # Window is full when i >= k-1\n        if i >= k - 1:\n            result.append(___________)\n    return result",
+    "solution": "dq.pop()\nresult.append(nums[dq[0]])",
+    "hints": [
+      "Pop from the back (dq.pop()) when the new element is larger — those smaller elements can never be the window max",
+      "The current window maximum is always at the front of the deque: nums[dq[0]]"
+    ],
+    "test_code": "assert sliding_window_max([1,3,-1,-3,5,3,6,7], 3) == [3,3,5,5,6,7]\nassert sliding_window_max([1], 1)                   == [1]\nassert sliding_window_max([1,2,3,4,5], 3)           == [3,4,5]\nassert sliding_window_max([5,4,3,2,1], 3)           == [5,4,3]\nassert sliding_window_max([1,3,1,2,0,5], 3)         == [3,3,2,5]\nprint('PASS')"
+  },
+  "related": ["monotonic-stack-01", "sliding-window-01", "deque-01"],
+  "tags": ["monotonic-deque", "sliding-window", "max", "deque", "O(n)"]
+}

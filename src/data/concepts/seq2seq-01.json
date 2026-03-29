@@ -1,0 +1,44 @@
+{
+  "id": "seq2seq-01",
+  "slug": "seq2seq",
+  "title": "Seq2Seq (Encoder–Decoder)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Encoder RNN/LSTM reads the source sequence and compresses it into a context vector (final hidden state). Decoder RNN/LSTM generates the target sequence token-by-token, initialised with the context vector. Teacher forcing: during training, feed the ground-truth previous token to the decoder; at inference, feed its own prediction.",
+    "analogy": "A human translator: read the entire French sentence (encoder), form a mental summary of its meaning (context vector), then write the English translation word by word (decoder) — each word informed by the summary and the words already written.",
+    "time_complexity": "O((T_src + T_tgt) · d²) per sequence",
+    "space_complexity": "O(T_src · d) encoder states + O(T_tgt · d) decoder states",
+    "when_to_use": [
+      "Machine translation, text summarisation, dialogue systems",
+      "Any variable-length input → variable-length output mapping",
+      "Adding attention over encoder states dramatically improves quality"
+    ],
+    "gotchas": [
+      "Context vector bottleneck: all source information squeezed into one vector — attention solves this",
+      "Exposure bias: teacher forcing at train time vs free-running at inference — use scheduled sampling to bridge the gap",
+      "Beam search at inference improves over greedy decoding by keeping k best partial sequences"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "seq2seq",
+      "show_encoder_decoder": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a minimal seq2seq forward pass (encode + greedy decode).",
+    "starter_code": "def rnn_step(x, h, W_xh, W_hh, b):\n    \"\"\"Vanilla RNN step. Returns new hidden state.\"\"\"\n    import math\n    d_h = len(b)\n    pre = [sum(W_xh[i][j]*x[j] for j in range(len(x))) +\n           sum(W_hh[i][j]*h[j] for j in range(len(h))) + b[i]\n           for i in range(d_h)]\n    return [math.tanh(v) for v in pre]\n\ndef seq2seq(src_ids, tgt_vocab_size, embed, enc_W, dec_W, out_W, SOS, EOS, max_steps=10):\n    \"\"\"\n    src_ids : list of source token ids\n    embed   : id -> vector (list of lists)\n    enc_W, dec_W : (W_xh, W_hh, b) tuples for encoder/decoder RNNs\n    out_W   : (W, b) output projection to vocab\n    Returns list of generated token ids (greedy).\n    \"\"\"\n    d_h = len(enc_W[2])\n    # --- Encode ---\n    h = [0.0] * d_h\n    for sid in src_ids:\n        h = rnn_step(embed[sid], h, *enc_W)\n    context = h  # final encoder hidden state\n\n    # --- Decode (greedy) ---\n    h = context\n    token = SOS\n    output = []\n    for _ in range(max_steps):\n        h = rnn_step(embed[token], h, *dec_W)\n        # Project hidden to vocab logits\n        logits = [sum(out_W[0][v][j]*h[j] for j in range(d_h)) + out_W[1][v]\n                  for v in range(tgt_vocab_size)]\n        next_token = ___________\n        if next_token == EOS:\n            break\n        output.append(next_token)\n    return output",
+    "solution": "max(range(tgt_vocab_size), key=lambda v: logits[v])",
+    "hints": [
+      "Greedy decoding: pick the token with the highest logit at each step — argmax over the vocabulary."
+    ],
+    "test_code": "import math, random\nrandom.seed(7)\nV, d_h, d_in = 5, 4, 4\nembed = [[random.gauss(0,0.1) for _ in range(d_in)] for _ in range(V)]\ndef rand_W(r,c): return [[random.gauss(0,0.1) for _ in range(c)] for _ in range(r)]\nenc_W = (rand_W(d_h,d_in), rand_W(d_h,d_h), [0.0]*d_h)\ndec_W = (rand_W(d_h,d_in), rand_W(d_h,d_h), [0.0]*d_h)\nout_W = (rand_W(V, d_h), [0.0]*V)\n\nSOS, EOS = 0, 1\nout = seq2seq([2,3,4], V, embed, enc_W, dec_W, out_W, SOS, EOS, max_steps=8)\nassert isinstance(out, list)\nassert EOS not in out\nassert len(out) <= 8\nprint('PASS')"
+  },
+  "related": ["rnn-01", "lstm-01", "attention-mechanism-01", "gru-01"],
+  "tags": ["seq2seq", "encoder-decoder", "context-vector", "teacher-forcing", "machine-translation", "beam-search"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "heapify-01",
+  "slug": "heapify",
+  "title": "Heapify (Build Heap in O(n))",
+  "domain": "DSA",
+  "category": "Heaps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Building a heap by inserting n elements one-by-one takes O(n log n). Heapify does it in O(n): start from the last non-leaf (index n//2 - 1) and sift-down each node toward the root. Most nodes are near the bottom where sift-down is cheap (O(1)), giving O(n) total.",
+    "analogy": "Organising a corporate hierarchy starting from the middle management down: you fix each manager's relationship with their team first, then work up to the CEO. By the time you reach the top, all sub-trees are already valid.",
+    "time_complexity": "O(n) — tighter analysis shows sum of sift-down costs = O(n)",
+    "space_complexity": "O(1) — in-place",
+    "when_to_use": [
+      "Heapsort (in-place O(n log n) sort using O(n) heapify + n pops)",
+      "Building a priority queue from a batch of known elements",
+      "Python's heapq.heapify() uses this algorithm"
+    ],
+    "gotchas": [
+      "Start from index n//2 - 1 (last non-leaf), not from n-1 (last leaf)",
+      "Sift DOWN (not up) during heapify — you're fixing violations at the top of sub-trees",
+      "Python's heapq.heapify() modifies the list in-place using this O(n) algorithm"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "heapify",
+      "show_sift_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement O(n) heapify (build min-heap in-place from an arbitrary array).",
+    "starter_code": "def heapify(arr):\n    \"\"\"\n    Transform arr in-place into a min-heap in O(n).\n    \"\"\"\n    n = len(arr)\n\n    def sift_down(i):\n        while True:\n            smallest = i\n            l, r = 2*i+1, 2*i+2\n            if l < n and arr[l] < arr[smallest]: smallest = l\n            if r < n and arr[r] < arr[smallest]: smallest = r\n            if smallest == i: break\n            arr[i], arr[smallest] = arr[smallest], arr[i]\n            i = smallest\n\n    # Start from last non-leaf and sift down each internal node\n    for i in range(___________, -1, -1):\n        sift_down(i)\n    return arr",
+    "solution": "n // 2 - 1",
+    "hints": [
+      "The last non-leaf node in a 0-indexed array of size n is at index n//2 - 1 — start there and work backward to 0"
+    ],
+    "test_code": "import heapq\narr1 = [9,4,7,1,6,3,8,2,5]\nheapify(arr1)\n# Verify min-heap property\ndef is_min_heap(a):\n    for i in range(len(a)):\n        l, r = 2*i+1, 2*i+2\n        if l < len(a) and a[i] > a[l]: return False\n        if r < len(a) and a[i] > a[r]: return False\n    return True\nassert is_min_heap(arr1)\nassert arr1[0] == 1  # min at root\n\n# Compare with Python's heapq\narr2 = [9,4,7,1,6,3,8,2,5]\nheapq.heapify(arr2)\nassert is_min_heap(arr2)\nprint('PASS')"
+  },
+  "related": ["max-min-heap-01", "heap-operations-01", "k-way-merge-01", "quicksort-01"],
+  "tags": ["heapify", "build-heap", "O(n)", "in-place", "sift-down", "heapsort"]
+}

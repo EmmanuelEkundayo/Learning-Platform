@@ -1,0 +1,44 @@
+{
+  "id": "kinetic-heaps-01",
+  "slug": "kinetic-heaps",
+  "title": "Kinetic Heaps",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A kinetic data structure maintains the maximum (or minimum) of a set of moving elements over time. Each element's value is a linear function of time: v(t) = a·t + b. The heap tracks the current maximum; 'certificates' (crossing events) are stored in a priority queue and processed as time advances.",
+    "analogy": "Tracking the lead runner in a race where each runner has a constant speed. The leader changes when two runners' time-position lines cross. Instead of re-sorting at every tick, you precompute exactly when crossings happen and update the lead only at those events.",
+    "time_complexity": "O(n log n) build; O(log n) amortised per advance/insert",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Maintaining the maximum/minimum of a set of linear functions over time",
+      "Computational geometry: convex hull maintenance under point motion",
+      "Simulation problems where a sorted order changes predictably"
+    ],
+    "gotchas": [
+      "Kinetic structures are complex to implement correctly — often a simpler offline approach exists",
+      "Certificate events must be sorted by time — use a min-heap of (crossing_time, elements)",
+      "Kinetic heap is 'responsive' — each advance is O(k log n) where k = number of events until next query"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "kinetic",
+      "show_certificates": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Simulate a kinetic maximum: given linear functions f_i(t) = a_i*t + b_i, find the maximum at each integer time step.",
+    "starter_code": "def kinetic_max_sequence(lines, T):\n    \"\"\"\n    lines: list of (a, b) representing f_i(t) = a*t + b\n    T    : compute max for t = 0, 1, ..., T\n    Returns list of max values at each t.\n    \"\"\"\n    results = []\n    for t in range(T + 1):\n        max_val = max(___________  for a, b in lines)\n        results.append(max_val)\n    return results",
+    "solution": "a * t + b",
+    "hints": [
+      "Evaluate each linear function at time t: a * t + b, then take the max over all lines"
+    ],
+    "test_code": "# Lines: f0=2t+0, f1=t+3, f2=0t+10\nlines = [(2,0),(1,3),(0,10)]\nresults = kinetic_max_sequence(lines, 8)\n# t=0: max(0,3,10)=10, t=3: max(6,6,10)=10, t=4: max(8,7,10)=10, t=7: max(14,10,10)=14\nassert results[0] == 10\nassert results[3] == 10\nassert results[7] == 14\nassert results[8] == 16  # 2*8+0=16\n\n# Single line\nassert kinetic_max_sequence([(3,1)], 4) == [1,4,7,10,13]\nprint('PASS')"
+  },
+  "related": ["convex-hull-trick-01", "li-chao-tree-01", "segment-tree-01", "priority-queue-01"],
+  "tags": ["kinetic-heaps", "kinetic-data-structures", "moving-elements", "certificates", "simulation"]
+}

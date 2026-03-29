@@ -1,0 +1,44 @@
+{
+  "id": "gpt-01",
+  "slug": "gpt",
+  "title": "GPT (Decoder-Only Transformer)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "GPT stacks transformer decoder blocks with only masked self-attention (no encoder, no cross-attention). Pre-trained on next-token prediction: P(xₜ | x₁…xₜ₋₁). The causal mask ensures left-to-right generation. Scaling laws: loss ∝ N^(-0.076) (N=params) — more parameters and data consistently improve performance. Few-shot prompting emerges at scale.",
+    "analogy": "An extremely well-read author who has memorised patterns from billions of pages: given a prompt, they continue writing by predicting the most likely next word at each step, conditioned on everything written so far. The causal mask is the author's rule of never peeking ahead.",
+    "time_complexity": "O(L · T² · d) training; O(L · T · d) per token at inference with KV cache",
+    "space_complexity": "O(L · d²) weights + O(L · T · d) KV cache",
+    "when_to_use": [
+      "Autoregressive text generation, code completion, chat",
+      "Zero/few-shot learning via in-context examples",
+      "Fine-tuning for instruction following (instruction-tuning) or RLHF"
+    ],
+    "gotchas": [
+      "Autoregressive inference is sequential — each token requires a full forward pass (batched with KV cache)",
+      "Temperature / top-p / top-k sampling control diversity vs quality trade-off",
+      "Context window is the hard limit — sliding window or retrieval needed for long documents"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "gpt-generation",
+      "show_causal_mask": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement top-k sampling for GPT token generation.",
+    "starter_code": "import math, random\n\ndef softmax_temp(logits, temperature=1.0):\n    logits_t = [l / temperature for l in logits]\n    m = max(logits_t)\n    e = [math.exp(x - m) for x in logits_t]\n    s = sum(e)\n    return [x/s for x in e]\n\ndef top_k_sample(logits, k, temperature=1.0, seed=None):\n    \"\"\"\n    Keep only the top-k logits, re-normalise, then sample.\n    Returns sampled token index.\n    \"\"\"\n    if seed is not None: random.seed(seed)\n    # Get indices of top-k logits\n    ranked = sorted(range(len(logits)), key=lambda i: logits[i], reverse=True)\n    top_k_idx = ranked[:k]\n    # Zero out non-top-k (set to -inf)\n    filtered = [logits[i] if i in set(top_k_idx) else float('-inf')\n                for i in range(len(logits))]\n    probs = softmax_temp(filtered, temperature)\n    # Sample from distribution\n    r = random.random()\n    cumulative = 0.0\n    for i, p in enumerate(probs):\n        cumulative += p\n        if ___________:\n            return i\n    return len(probs) - 1",
+    "solution": "r <= cumulative",
+    "hints": [
+      "Inverse CDF sampling: accumulate probabilities and return the first index where the cumulative sum exceeds the random draw r."
+    ],
+    "test_code": "import random\nrandom.seed(0)\nlogits = [1.0, 5.0, 2.0, 0.5, 3.0]  # token 1 has highest logit\n\n# Top-1 sampling should always return the argmax\nfor _ in range(20):\n    assert top_k_sample(logits, k=1, temperature=1.0) == 1\n\n# Top-k=2 should only return token 1 or 4 (top two)\ncounts = {}\nfor _ in range(500):\n    t = top_k_sample(logits, k=2, temperature=1.0)\n    counts[t] = counts.get(t, 0) + 1\nassert set(counts.keys()).issubset({1, 4}), f'Got unexpected tokens: {counts}'\nassert counts.get(1, 0) > counts.get(4, 0), 'Token 1 should be sampled more'\nprint('PASS')"
+  },
+  "related": ["transformer-decoder-01", "attention-mechanism-01", "bert-01", "rlhf-01"],
+  "tags": ["GPT", "decoder-only", "autoregressive", "causal-mask", "next-token-prediction", "scaling-laws", "top-k-sampling"]
+}

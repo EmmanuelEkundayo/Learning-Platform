@@ -1,0 +1,44 @@
+{
+  "id": "digit-dp-01",
+  "slug": "digit-dp",
+  "title": "Digit DP",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Count integers in [0, N] satisfying some digit-level property by processing digits left to right. Track: current position, whether we're still bounded by N's digits (tight flag), and any accumulated state (digit sum, last digit, etc.).",
+    "analogy": "Counting valid lock combinations: scan the combination left-to-right, tracking whether you're still at the maximum allowed setting for each dial (tight). Once you go below the max, you're 'free' to choose any digit for remaining dials.",
+    "time_complexity": "O(d · 10 · states) where d = number of digits, states depends on the problem",
+    "space_complexity": "O(d · states) for memoization",
+    "when_to_use": [
+      "Count integers in [L, R] with a digit-level property (sum, product, digit count, divisibility)",
+      "Count of numbers with no two consecutive equal digits",
+      "Any problem of the form 'how many numbers ≤ N satisfy property P?'"
+    ],
+    "gotchas": [
+      "Answer for [L, R] = f(R) - f(L-1); implement f(N) for [0, N]",
+      "The tight flag prevents counting numbers above N — once tight=False, all digits are free",
+      "Leading zeros need separate handling if they affect the digit property"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "digit-dp",
+      "show_tight": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Count numbers in [0, N] whose digits sum to a target value.",
+    "starter_code": "from functools import lru_cache\n\ndef count_digit_sum(N, target):\n    \"\"\"\n    Count integers in [0, N] with digit sum == target.\n    \"\"\"\n    digits = [int(d) for d in str(N)]\n    n = len(digits)\n\n    @lru_cache(maxsize=None)\n    def dp(pos, remaining, tight):\n        \"\"\"\n        pos      : current digit position\n        remaining: target digit sum still needed\n        tight    : True if we're still bounded by N's digits\n        \"\"\"\n        if remaining < 0:\n            return 0\n        if pos == n:\n            return 1 if remaining == 0 else 0\n        limit = digits[pos] if tight else 9\n        result = 0\n        for d in range(0, limit + 1):\n            new_tight = ___________    # stay tight only if d == limit AND tight\n            result += dp(pos + 1, remaining - d, new_tight)\n        return result\n\n    return dp(0, target, True)",
+    "solution": "tight and d == limit",
+    "hints": [
+      "new_tight is True only when we're currently tight AND we chose the maximum allowed digit (d == limit) — otherwise we're free"
+    ],
+    "test_code": "# Numbers 0..99 with digit sum == 10: 19,28,37,46,55,64,73,82,91 = 9 numbers\nassert count_digit_sum(99, 10) == 9\nassert count_digit_sum(100, 1) == 2   # 1 and 10\nassert count_digit_sum(20, 2)  == 3   # 2, 11, 20\nassert count_digit_sum(0, 0)   == 1   # only 0\nassert count_digit_sum(9, 9)   == 1   # only 9\nprint('PASS')"
+  },
+  "related": ["bitmask-dp-01", "memoization-vs-tabulation-01", "dp-knapsack-01", "sos-dp-01"],
+  "tags": ["digit-dp", "dynamic-programming", "counting", "tight-constraint", "digit-sum"]
+}

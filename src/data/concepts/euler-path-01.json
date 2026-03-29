@@ -1,0 +1,44 @@
+{
+  "id": "euler-path-01",
+  "slug": "euler-path",
+  "title": "Eulerian Path & Circuit",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An Eulerian circuit visits every edge exactly once and returns to start; an Eulerian path visits every edge exactly once. Hierholzer's algorithm: start from a valid node, greedily walk until stuck, then stitch the stuck sub-tour into the main tour.",
+    "analogy": "Drawing a figure without lifting your pen and without retracing any line. The condition is purely about degree: even-degree nodes allow you to pass through; odd-degree nodes must be endpoints.",
+    "time_complexity": "O(V + E)",
+    "space_complexity": "O(V + E)",
+    "when_to_use": [
+      "Chinese Postman Problem (minimum-cost traversal of all edges)",
+      "Route planning where every road must be travelled exactly once",
+      "Reconstructing sequences from overlapping fragments (De Bruijn graphs in bioinformatics)"
+    ],
+    "gotchas": [
+      "Eulerian circuit exists iff graph is connected and ALL vertices have even degree",
+      "Eulerian path exists iff exactly 0 or 2 vertices have odd degree (start from an odd-degree vertex if 2 exist)",
+      "Hierholzer uses an explicit stack and splices sub-tours — not a simple DFS"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "euler-path",
+      "show_edge_counts": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Hierholzer's algorithm to find an Eulerian path in a directed graph.",
+    "starter_code": "from collections import defaultdict\n\ndef eulerian_path(n, edges):\n    \"\"\"\n    edges: list of (u, v) directed edges\n    Returns an Eulerian path as a list of nodes, or [] if none exists.\n    \"\"\"\n    graph    = defaultdict(list)\n    in_deg   = [0] * n\n    out_deg  = [0] * n\n    for u, v in edges:\n        graph[u].append(v)\n        out_deg[u] += 1\n        in_deg[v]  += 1\n\n    # Find start: node with out-in == +1; else any node with edges\n    start = -1\n    for u in range(n):\n        diff = out_deg[u] - in_deg[u]\n        if diff == 1:\n            start = u; break\n        if diff == 0 and out_deg[u] > 0 and start == -1:\n            start = u\n    if start == -1:\n        return []\n\n    path  = []\n    stack = [start]\n    while stack:\n        u = stack[-1]\n        if graph[u]:\n            v = graph[u].pop()\n            stack.append(v)          # follow next edge\n        else:\n            ___________              # no more edges: record node\n    return path[::-1]",
+    "solution": "path.append(stack.pop())",
+    "hints": [
+      "When the current node has no remaining edges, pop it from the stack and append to path. Reversing at the end gives the correct order."
+    ],
+    "test_code": "# 0->1->2->3->0 (circuit)\nedges1 = [(0,1),(1,2),(2,3),(3,0)]\np1 = eulerian_path(4, edges1)\nassert p1[0] == p1[-1], 'Circuit: start==end'\nassert len(p1) == 5  # 4 edges + 1\nused = set(zip(p1, p1[1:]))\nassert used == {(0,1),(1,2),(2,3),(3,0)}\n\n# 0->1->2 (path, not circuit)\nedges2 = [(0,1),(1,2)]\np2 = eulerian_path(3, edges2)\nassert p2 == [0,1,2]\nprint('PASS')"
+  },
+  "related": ["dfs-graph-01", "euler-tour-01", "bridges-articulation-points-01", "network-flow-ford-fulkerson-01"],
+  "tags": ["eulerian-path", "eulerian-circuit", "hierholzer", "graph", "edge-traversal"]
+}

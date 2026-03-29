@@ -1,0 +1,44 @@
+{
+  "id": "no-free-lunch-theorem-01",
+  "slug": "no-free-lunch-theorem",
+  "title": "No Free Lunch Theorem",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Averaged over all possible problem distributions, every learning algorithm has the same expected performance. Formally: Σ_{f} L(A,f) = Σ_{f} L(B,f) for any algorithms A and B, where f ranges over all possible target functions. Implication: no algorithm is universally best — every algorithm's advantage on some problems is exactly offset by disadvantage on others.",
+    "analogy": "A key master with keys for every possible lock: on average, any key opens exactly half the locks — the advantage of a specific key on its target lock is paid for by failure on all other locks. Good ML practice means choosing the right key (algorithm/prior) for the specific lock (problem structure) you have.",
+    "time_complexity": "Theoretical result — no computation implied",
+    "space_complexity": "O(1) — abstract theorem",
+    "when_to_use": [
+      "Justifying the need for domain knowledge and inductive biases",
+      "Understanding why benchmark results don't universally transfer",
+      "Motivating Bayesian prior specification — your prior encodes what you believe about the problem"
+    ],
+    "gotchas": [
+      "NFL applies to all possible problem distributions — in practice, we care about real-world distributions which are structured",
+      "NFL does not say 'all algorithms are equal on your specific problem' — only on the uniform average",
+      "Inductive bias is the blessing that makes learning possible on real distributions"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "no-free-lunch",
+      "show_algorithm_comparison": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Demonstrate that two classifiers can have identical average error across complementary problem distributions.",
+    "starter_code": "def evaluate_on_distribution(classifier, problems):\n    \"\"\"\n    classifier: callable (X_train, y_train, X_test) -> y_pred\n    problems  : list of (X_train, y_train, X_test, y_test)\n    Returns average 0/1 error across problems.\n    \"\"\"\n    total_err = 0\n    total_pts = 0\n    for X_tr, y_tr, X_te, y_te in problems:\n        preds = classifier(X_tr, y_tr, X_te)\n        err   = sum(1 for p, t in zip(preds, y_te) if p != t)\n        total_err += err\n        total_pts += len(y_te)\n    return ___________",
+    "solution": "total_err / total_pts",
+    "hints": [
+      "Average error = total misclassified points / total test points across all problems."
+    ],
+    "test_code": "# Classifier A: always predict 0\ndef clf_a(Xtr, ytr, Xte): return [0]*len(Xte)\n# Classifier B: always predict 1\ndef clf_b(Xtr, ytr, Xte): return [1]*len(Xte)\n\n# Complementary distributions\np1 = [([],[],[0,1],[0,0])]  # all label 0: A wins, B loses\np2 = [([],[],[0,1],[1,1])]  # all label 1: B wins, A loses\n\nerr_a_p1 = evaluate_on_distribution(clf_a, p1)  # 0.0\nerr_b_p1 = evaluate_on_distribution(clf_b, p1)  # 1.0\nerr_a_p2 = evaluate_on_distribution(clf_a, p2)  # 1.0\nerr_b_p2 = evaluate_on_distribution(clf_b, p2)  # 0.0\n\n# Averaged over both distributions: both equal\navg_a = (err_a_p1 + err_a_p2) / 2\navg_b = (err_b_p1 + err_b_p2) / 2\nassert avg_a == avg_b == 0.5, f'avg_a={avg_a}, avg_b={avg_b}'\nprint('PASS')"
+  },
+  "related": ["bias-variance-tradeoff-01", "vc-dimension-01", "pac-learning-01", "cross-validation-01"],
+  "tags": ["no-free-lunch", "NFL-theorem", "inductive-bias", "algorithm-comparison", "ML-theory", "generalization"]
+}

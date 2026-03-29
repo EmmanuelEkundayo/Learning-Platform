@@ -1,0 +1,45 @@
+{
+  "id": "prims-01",
+  "slug": "prims",
+  "title": "Prim's Algorithm (MST)",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Grow a Minimum Spanning Tree one edge at a time: always add the cheapest edge that connects a visited vertex to an unvisited one. Use a min-heap to efficiently find that cheapest edge.",
+    "analogy": "Laying cable from a central office: always extend the network by the cheapest wire to the nearest unconnected building. One building at a time, the entire town gets connected at minimum total cost.",
+    "time_complexity": "O((V + E) log V) with a binary heap",
+    "space_complexity": "O(V + E)",
+    "when_to_use": [
+      "Minimum spanning tree on dense graphs (Prim's with adjacency matrix is O(V²))",
+      "Network design: connecting nodes with minimum total edge cost",
+      "Approximation algorithms for TSP"
+    ],
+    "gotchas": [
+      "Prim's works on connected undirected weighted graphs — run on each component for disconnected graphs",
+      "Like Dijkstra's lazy deletion: push (weight, vertex) and skip stale heap entries",
+      "MST total weight ≠ sum of minimum-weight edges incident to each vertex — greedy must grow from a connected set"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "prims",
+      "show_mst_edges": true,
+      "show_heap": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Prim's algorithm. Return the total MST weight.",
+    "starter_code": "import heapq\n\ndef prims(graph, start=0):\n    \"\"\"\n    graph: {node: [(neighbour, weight), ...]}\n    Returns total MST weight.\n    \"\"\"\n    visited = set()\n    total   = 0\n    heap    = [(0, start)]   # (weight, node)\n\n    while heap:\n        w, u = heapq.heappop(heap)\n        if u in visited:\n            continue\n        visited.add(u)\n        total += w\n        for v, weight in ___________:   # expand neighbours\n            if v not in visited:\n                heapq.heappush(heap, (weight, v))\n    return total",
+    "solution": "graph[u]",
+    "hints": [
+      "After visiting u, iterate over graph[u] to push all unvisited neighbours onto the heap with their edge weights"
+    ],
+    "test_code": "g = {\n    0:[(1,2),(3,6)],\n    1:[(0,2),(2,3),(3,8),(4,5)],\n    2:[(1,3),(4,7)],\n    3:[(0,6),(1,8),(4,9)],\n    4:[(1,5),(2,7),(3,9)]\n}\nassert prims(g, 0) == 16  # edges: (0,1,2),(1,2,3),(1,4,5),(0,3,6) = 16\n\n# Single node\nassert prims({0:[]}, 0) == 0\nprint('PASS')"
+  },
+  "related": ["kruskals-01", "dijkstra-01", "union-find-01", "dfs-graph-01"],
+  "tags": ["prims", "MST", "minimum-spanning-tree", "greedy", "heap"]
+}

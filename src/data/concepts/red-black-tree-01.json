@@ -1,0 +1,46 @@
+{
+  "id": "red-black-tree-01",
+  "slug": "red-black-tree",
+  "title": "Red-Black Tree",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Each node is colored red or black; five invariants ensure the longest root-to-leaf path is at most twice the shortest — giving O(log n) guarantees with fewer rotations than AVL.",
+    "analogy": "A traffic system where red lights (nodes) can never be consecutive — this colour rule alone, enforced at every intersection, ensures no route through the city is more than twice as long as the shortest.",
+    "time_complexity": "O(log n) for search, insert, delete",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Default ordered map/set in most language standard libraries (C++ std::map, Java TreeMap)",
+      "When insert and delete are frequent and you need guaranteed O(log n) without AVL's stricter balancing overhead",
+      "Any sorted dictionary structure that must support predecessor/successor queries"
+    ],
+    "gotchas": [
+      "The five invariants: (1) every node is red or black, (2) root is black, (3) leaves (NIL sentinels) are black, (4) no two consecutive red nodes, (5) all paths from any node to its NIL descendants have the same number of black nodes",
+      "Use a NIL sentinel node (black) instead of null to simplify boundary checks in insertion/deletion recoloring",
+      "Deletion is significantly more complex than insertion — requires 6 cases vs 4 for insertion"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "red-black",
+      "show_colors": true,
+      "show_rotations": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Verify the Red-Black tree black-height property: all root-to-NIL paths must have the same black node count.",
+    "starter_code": "BLACK, RED = 0, 1\n\nclass RBNode:\n    def __init__(self, val, color=RED):\n        self.val=val; self.color=color; self.left=self.right=self.parent=None\n\ndef black_height(node):\n    \"\"\"\n    Return the black-height (# black nodes from node to any NIL leaf, not\n    counting node itself if it's red).\n    Raise ValueError if the tree violates the black-height property.\n    \"\"\"\n    if node is None:\n        return 1        # NIL sentinel counts as black\n    left_bh  = black_height(node.left)\n    right_bh = black_height(node.right)\n    if left_bh != right_bh:\n        raise ValueError(f'Black-height mismatch at node {node.val}: {left_bh} vs {right_bh}')\n    return left_bh + ___________  # add 1 if this node is black",
+    "solution": "(1 if node.color == BLACK else 0)",
+    "hints": [
+      "If the current node is black, add 1 to the black height returned by its children",
+      "If the current node is red, add 0 — red nodes don't count toward the black-height"
+    ],
+    "test_code": "# Build a valid RB tree manually: 2(B) -> 1(R), 3(R)\nroot = RBNode(2, BLACK)\nroot.left  = RBNode(1, RED)\nroot.right = RBNode(3, RED)\nassert black_height(root) == 2, 'Valid tree: bh=2 (root + NIL)'\n\n# Invalid tree: unequal black heights\nroot2 = RBNode(2, BLACK)\nroot2.left = RBNode(1, BLACK)  # adds extra black on left\nroot2.right = RBNode(3, RED)\ntry:\n    black_height(root2)\n    assert False, 'Should have raised ValueError'\nexcept ValueError:\n    pass\nprint('PASS')"
+  },
+  "related": ["avl-tree-01", "bst-operations-01", "skip-list-01"],
+  "tags": ["red-black-tree", "self-balancing", "BST", "coloring", "O(log-n)"]
+}

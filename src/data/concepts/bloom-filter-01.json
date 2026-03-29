@@ -1,0 +1,45 @@
+{
+  "id": "bloom-filter-01",
+  "slug": "bloom-filter",
+  "title": "Bloom Filter",
+  "domain": "DSA",
+  "category": "Hashing",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A bit array of m bits, all initialised to 0. To insert, set k hash-derived bit positions to 1. To query, check all k positions — if any is 0, the element is definitely absent; if all are 1, it's probably present (may be a false positive). False negatives are impossible.",
+    "analogy": "A porous net that catches fish: every real fish gets caught (no false negatives). But occasionally a clump of seaweed (non-fish) also happens to pass through the net's pattern and triggers all the same catches — a false positive.",
+    "time_complexity": "O(k) per insert and query (k = number of hash functions)",
+    "space_complexity": "O(m) bits — much smaller than a hash set",
+    "when_to_use": [
+      "Cache filtering (Google BigTable uses Bloom filters to avoid unnecessary disk lookups)",
+      "Web crawlers: quick check if a URL has been visited",
+      "Spell checkers, network routers — any case where false positives are tolerable but space is tight"
+    ],
+    "gotchas": [
+      "Bloom filters do NOT support deletion (bit clearing would create false negatives) — use counting Bloom filter for deletions",
+      "False positive rate ≈ (1 - e^(-kn/m))^k — minimised at k = (m/n) ln 2",
+      "Choosing m bits: for p% false positive rate with n items, m ≈ -n ln(p) / (ln 2)²"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "bloom-filter",
+      "show_bit_array": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a Bloom filter using k hash functions (simulated via salted hashing).",
+    "starter_code": "class BloomFilter:\n    def __init__(self, m=1000, k=3):\n        self.m    = m\n        self.k    = k\n        self.bits = [0] * m\n\n    def _positions(self, item):\n        return [(hash((item, i)) % self.m) for i in range(self.k)]\n\n    def add(self, item):\n        for pos in self._positions(item):\n            ___________   # set bit at pos to 1\n\n    def might_contain(self, item):\n        return all(self.bits[pos] == 1 for pos in ___________)",
+    "solution": "self.bits[pos] = 1\nself._positions(item)",
+    "hints": [
+      "add: set self.bits[pos] = 1 for each position from _positions(item)",
+      "might_contain: check all positions returned by _positions(item) — return True only if ALL are 1"
+    ],
+    "test_code": "bf = BloomFilter(m=500, k=3)\nfor word in ['apple','banana','cherry','date','elderberry']:\n    bf.add(word)\n# No false negatives\nfor word in ['apple','banana','cherry','date','elderberry']:\n    assert bf.might_contain(word), f'{word} should be present'\n# Most non-members should return False\nnon_members = ['fig','grape','honeydew','kiwi','lemon']\nfp = sum(bf.might_contain(w) for w in non_members)\nassert fp <= 2, f'Too many false positives: {fp}/{len(non_members)}'\nprint('PASS')"
+  },
+  "related": ["hash-table-internals-01", "rolling-hash-advanced-01", "consistent-hashing-01", "open-addressing-01"],
+  "tags": ["bloom-filter", "probabilistic", "false-positive", "bit-array", "space-efficient"]
+}

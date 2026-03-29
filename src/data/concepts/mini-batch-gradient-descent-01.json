@@ -1,0 +1,44 @@
+{
+  "id": "mini-batch-gradient-descent-01",
+  "slug": "mini-batch-gradient-descent",
+  "title": "Mini-Batch Gradient Descent",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Average the gradient over a small batch (32–512 samples). Less noisy than SGD (batch=1) so steps are more directional; much faster than full-batch GD. Modern GPUs process mini-batches in parallel — batch size is often a hardware efficiency choice as much as a hyperparameter.",
+    "analogy": "Taking a group poll instead of asking one person (SGD) or everyone (batch GD). A group of 32–256 people gives a reliable-enough signal quickly — individual quirks average out, but you don't need to wait for the entire population.",
+    "time_complexity": "O(B) per step for batch size B; O(n) per epoch",
+    "space_complexity": "O(B · d) to hold one batch in memory",
+    "when_to_use": [
+      "Standard training for most deep learning models",
+      "When GPU parallelism can fully utilise the batch size",
+      "Balancing between noisy SGD and slow full-batch GD"
+    ],
+    "gotchas": [
+      "Batch size affects convergence: large batches → sharp minima → worse generalisation (sometimes)",
+      "Shuffle data before each epoch to prevent the model from memorising batch order",
+      "Effective learning rate scales with batch size: doubling batch size may require doubling lr"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "mini-batch-gd",
+      "show_batch_variance": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement mini-batch gradient descent for linear regression.",
+    "starter_code": "import random\n\ndef mini_batch_gd(X, y, lr=0.01, batch_size=4, epochs=200, seed=0):\n    random.seed(seed)\n    n, d = len(X), len(X[0])\n    w = [0.0] * d\n\n    for _ in range(epochs):\n        indices = list(range(n))\n        random.shuffle(indices)\n        for start in range(0, n, batch_size):\n            batch = indices[start:start+batch_size]\n            grad  = [0.0] * d\n            for i in batch:\n                pred  = sum(w[j] * X[i][j] for j in range(d))\n                error = pred - y[i]\n                for j in range(d):\n                    grad[j] += error * X[i][j]\n            # Average gradient over batch and update\n            for j in range(d):\n                w[j] -= ___________\n    return w",
+    "solution": "lr * grad[j] / len(batch)",
+    "hints": [
+      "Divide the accumulated gradient by len(batch) to get the average, then scale by lr: lr * grad[j] / len(batch)"
+    ],
+    "test_code": "X = [[1,0],[0,1],[1,1],[2,1],[1,2],[2,2],[3,1],[1,3]]\ny = [2,3,5,7,8,10,9,11]\nw = mini_batch_gd(X, y, lr=0.05, batch_size=4, epochs=500)\nassert abs(w[0] - 2.0) < 0.5, f'w[0]={w[0]:.3f}'\nassert abs(w[1] - 3.0) < 0.5, f'w[1]={w[1]:.3f}'\nprint('PASS')"
+  },
+  "related": ["stochastic-gradient-descent-01", "gradient-descent-01", "learning-rate-scheduling-01", "loss-functions-01"],
+  "tags": ["mini-batch", "gradient-descent", "batch-size", "optimisation", "deep-learning"]
+}

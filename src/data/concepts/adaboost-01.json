@@ -1,0 +1,44 @@
+{
+  "id": "adaboost-01",
+  "slug": "adaboost",
+  "title": "AdaBoost",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Train a weak classifier (e.g., decision stump) on weighted samples, compute its error ε and weight α = ½·ln((1-ε)/ε). Increase weights of misclassified samples, decrease weights of correctly classified ones. The final prediction is a weighted vote of all weak classifiers.",
+    "analogy": "A quiz team where each new specialist focuses on the questions the team is currently getting wrong. Each specialist's vote in the final answer is weighted by how well they performed — the best performers have more say.",
+    "time_complexity": "O(T · n) for T boosting rounds",
+    "space_complexity": "O(T) for storing weak classifiers and their weights",
+    "when_to_use": [
+      "Binary classification with simple features",
+      "Historical baseline for boosting algorithms (preceded gradient boosting)",
+      "When interpretable weak classifiers (stumps) are desired"
+    ],
+    "gotchas": [
+      "AdaBoost is sensitive to noisy data and outliers — mislabelled points get exponentially increasing weight",
+      "α is undefined when ε = 0 (perfect weak learner) or ε = 0.5 (no better than random)",
+      "Gradient boosting is a generalisation of AdaBoost to arbitrary loss functions"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "adaboost",
+      "show_weights": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the AdaBoost weight update step.",
+    "starter_code": "import math\n\ndef adaboost_step(y_true, y_pred, weights):\n    \"\"\"\n    y_true, y_pred: lists of +1/-1 labels\n    weights: current sample weights (sum to 1)\n    Returns (alpha, new_weights) for this round.\n    \"\"\"\n    n   = len(y_true)\n    eps = sum(weights[i] for i in range(n) if y_pred[i] != y_true[i])\n    eps = max(eps, 1e-10)  # avoid log(0)\n    alpha = 0.5 * math.log((1 - eps) / eps)\n\n    # Update weights: increase for misclassified, decrease for correct\n    new_weights = [\n        weights[i] * math.exp(___________)\n        for i in range(n)\n    ]\n    # Normalise\n    Z = sum(new_weights)\n    new_weights = [w / Z for w in new_weights]\n    return alpha, new_weights",
+    "solution": "-alpha * y_true[i] * y_pred[i]",
+    "hints": [
+      "Weight update: w_i *= exp(-alpha * y_true[i] * y_pred[i]). When prediction is correct (y*ŷ=+1): multiply by exp(-alpha) < 1 (decrease). When wrong (y*ŷ=-1): multiply by exp(+alpha) > 1 (increase)."
+    ],
+    "test_code": "import math\ny_true  = [1, 1, -1, -1, 1]\ny_pred  = [1, -1, -1, 1, 1]  # errors at index 1 and 3\nweights = [0.2]*5\n\nalpha, new_w = adaboost_step(y_true, y_pred, weights)\nassert alpha > 0, 'Alpha should be positive (better than random)'\nassert abs(sum(new_w) - 1.0) < 1e-9, 'Weights should sum to 1'\n# Misclassified samples (indices 1, 3) should have higher weight\nassert new_w[1] > new_w[0], 'Misclassified sample should have higher weight'\nassert new_w[3] > new_w[2]\nprint('PASS')"
+  },
+  "related": ["gradient-boosting-01", "random-forest-01", "decision-tree-01", "bias-variance-tradeoff-01"],
+  "tags": ["AdaBoost", "boosting", "weak-learner", "sample-weights", "ensemble", "alpha"]
+}

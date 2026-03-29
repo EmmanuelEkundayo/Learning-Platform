@@ -1,0 +1,46 @@
+{
+  "id": "tree-diameter-01",
+  "slug": "tree-diameter",
+  "title": "Tree Diameter",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The diameter (longest path between any two nodes) passes through some node as the highest point — at that node, the diameter = depth of left subtree + depth of right subtree.",
+    "analogy": "Finding the longest route through a city where all roads branch outward from a centre. The longest route enters from one branch at maximum depth and exits via another — the junction is the highest node on the path.",
+    "time_complexity": "O(n) — single post-order DFS",
+    "space_complexity": "O(h) for the call stack",
+    "when_to_use": [
+      "Longest path in a tree (unweighted or weighted edges)",
+      "Finding the critical node in a network where the longest cable run passes through",
+      "As a subroutine for graph diameter on tree-structured graphs"
+    ],
+    "gotchas": [
+      "The diameter does NOT necessarily pass through the root — update a global/nonlocal max at every node",
+      "depth(node) = 1 + max(depth(left), depth(right)) — the +1 counts the edge to the child, not the child itself",
+      "For weighted trees, propagate edge weight + max child depth; the diameter still = max over all nodes of (left_depth + right_depth)"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "diameter",
+      "show_depths": true,
+      "highlight_path": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the diameter of a binary tree (number of edges in the longest path between any two nodes).",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef diameter(root):\n    best = [0]  # use list to allow mutation inside nested function\n\n    def depth(node):\n        if not node:\n            return 0\n        l = depth(node.left)\n        r = depth(node.right)\n        # Update global diameter at this node\n        best[0] = max(best[0], ___________)\n        # Return depth of this subtree\n        return ___________\n\n    depth(root)\n    return best[0]",
+    "solution": "best[0] = max(best[0], l + r)\nreturn 1 + max(l, r)",
+    "hints": [
+      "At each node, the path through it has l + r edges — update best[0] with this value",
+      "Return the depth of the current subtree: 1 + max(l, r) — the 1 counts the edge from this node to its taller child"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\n\nroot=TreeNode(1,TreeNode(2,TreeNode(4),TreeNode(5)),TreeNode(3))\nassert diameter(root) == 3, 'Path 4->2->1->3 or 5->2->1->3, length 3'\nassert diameter(TreeNode(1)) == 0, 'Single node'\nassert diameter(None) == 0, 'Empty'\nroot2=TreeNode(1,TreeNode(2,TreeNode(3,TreeNode(4))))\nassert diameter(root2) == 3, 'Left-skewed: path of 3 edges'\nprint('PASS')"
+  },
+  "related": ["lowest-common-ancestor-01", "dfs-postorder-01", "tree-dp-01"],
+  "tags": ["tree-diameter", "DFS", "longest-path", "post-order", "tree"]
+}

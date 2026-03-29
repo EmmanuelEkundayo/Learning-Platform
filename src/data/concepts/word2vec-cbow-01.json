@@ -1,0 +1,44 @@
+{
+  "id": "word2vec-cbow-01",
+  "slug": "word2vec-cbow",
+  "title": "Word2Vec & CBOW",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Learn dense word vectors by training a shallow network to predict a word from its context (CBOW) or context from a word (Skip-gram). CBOW: average context embeddings → predict centre word via softmax. The Distributional hypothesis: words appearing in similar contexts have similar meanings → king - man + woman ≈ queen in embedding space.",
+    "analogy": "Learning the meaning of a word from its neighbours: if you always see 'bank' next to 'river' and 'water', you infer its aquatic meaning — if instead near 'money' and 'loan', the financial meaning. Word2Vec automates this by adjusting vectors so context predicts word correctly.",
+    "time_complexity": "O(T · W · d) training (T tokens, W context window, d embedding dim)",
+    "space_complexity": "O(V · d) for vocabulary V, dimension d",
+    "when_to_use": [
+      "Learn semantic word representations from large unlabelled text corpora",
+      "Downstream NLP as initialisation (pre-BERT era, still useful for small corpora)",
+      "Analogy tasks: word arithmetic in embedding space"
+    ],
+    "gotchas": [
+      "Negative sampling essential for efficiency — full softmax over V is too slow",
+      "Rare words get poor embeddings — use subword embeddings (fastText) for morphologically rich languages",
+      "Static embeddings: one vector per word regardless of context — contextual embeddings (BERT) are superior"
+    ]
+  },
+  "visualization": {
+    "type": "vector-space",
+    "config": {
+      "mode": "word2vec",
+      "show_analogies": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the CBOW forward pass: average context embeddings to predict the centre word.",
+    "starter_code": "import math\n\ndef softmax(v):\n    m = max(v); e = [math.exp(x-m) for x in v]; s = sum(e)\n    return [x/s for x in e]\n\nclass CBOW:\n    def __init__(self, vocab_size, emb_dim):\n        import random; random.seed(0)\n        scale = 0.01\n        self.W_in  = [[random.gauss(0,scale) for _ in range(emb_dim)] for _ in range(vocab_size)]\n        self.W_out = [[random.gauss(0,scale) for _ in range(vocab_size)] for _ in range(emb_dim)]\n        self.V = vocab_size; self.d = emb_dim\n\n    def forward(self, context_ids):\n        \"\"\"\n        context_ids: list of context word indices\n        Returns (h, probs) where h is the averaged context vector.\n        \"\"\"\n        d = self.d\n        # Average context embeddings\n        h = [\n            sum(self.W_in[c][j] for c in context_ids) / len(context_ids)\n            for j in range(d)\n        ]\n        # Output scores: W_out^T h\n        scores = [\n            sum(___________  for j in range(d))\n            for v in range(self.V)\n        ]\n        return h, softmax(scores)",
+    "solution": "self.W_out[j][v] * h[j]",
+    "hints": [
+      "The output score for word v is the dot product of the averaged hidden vector h with the v-th column of W_out: Σⱼ W_out[j][v] · h[j]."
+    ],
+    "test_code": "import math\ncbow = CBOW(vocab_size=10, emb_dim=4)\n\n# Forward pass\nh, probs = cbow.forward([0, 2, 4])\nassert len(h) == 4\nassert len(probs) == 10\nassert abs(sum(probs) - 1.0) < 1e-9, 'Probs must sum to 1'\nassert all(p > 0 for p in probs)\n\n# Different contexts give different predictions\n_, p2 = cbow.forward([1, 3, 5])\nassert probs != p2\nprint('PASS')"
+  },
+  "related": ["attention-mechanism-01", "bert-01", "transfer-learning-01", "feature-scaling-01"],
+  "tags": ["word2vec", "CBOW", "skip-gram", "word-embeddings", "distributional-hypothesis", "NLP", "embeddings"]
+}

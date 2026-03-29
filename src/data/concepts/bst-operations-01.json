@@ -1,0 +1,46 @@
+{
+  "id": "bst-operations-01",
+  "slug": "bst-operations",
+  "title": "BST Insert, Search & Delete",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "At each node, go left if target < node, right if target > node — the BST invariant makes every operation a binary search on the tree structure.",
+    "analogy": "A library with numbered shelves: to find book 42, check the middle shelf; too high? Go left half; too low? Go right half. Inserting follows the same path until you find an empty slot.",
+    "time_complexity": "O(h) — O(log n) balanced, O(n) skewed (worst case)",
+    "space_complexity": "O(h) recursive; O(1) iterative",
+    "when_to_use": [
+      "Maintaining a dynamic sorted set with O(log n) insert, delete, and search",
+      "In-order traversal of a BST yields sorted output — use for sorted iteration",
+      "Finding floor/ceiling, predecessor/successor of a value",
+      "Base structure for AVL trees and Red-Black trees (balanced BST variants)"
+    ],
+    "gotchas": [
+      "BST delete has three cases: leaf (just remove), one child (bypass), two children (replace with in-order successor or predecessor)",
+      "For the two-children delete case, find the in-order successor (leftmost node in right subtree), copy its value, then delete the successor (which has at most one child)",
+      "An unbalanced BST degrades to O(n) on sorted inputs — always consider AVL or Red-Black for production use"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "bst",
+      "show_comparison": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete BST insertion. Recursively find the correct position and attach the new node.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef insert_bst(root, val):\n    if not root:\n        return TreeNode(val)    # found the empty slot\n    if val < root.val:\n        root.left  = ___________\n    else:\n        root.right = ___________\n    return root\n\ndef search_bst(root, val):\n    if not root or root.val == val:\n        return root\n    return search_bst(root.left if val < root.val else root.right, val)",
+    "solution": "root.left  = insert_bst(root.left,  val)\nroot.right = insert_bst(root.right, val)",
+    "hints": [
+      "If val < root.val, recurse into the left subtree: root.left = insert_bst(root.left, val)",
+      "If val >= root.val, recurse into the right subtree: root.right = insert_bst(root.right, val)"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\n\ndef inorder(r):\n    if not r: return []\n    return inorder(r.left)+[r.val]+inorder(r.right)\n\nroot = None\nfor v in [5,3,7,1,4,6,8]:\n    root = insert_bst(root, v)\nassert inorder(root) == [1,3,4,5,6,7,8], 'In-order must be sorted'\nassert search_bst(root, 4).val == 4, 'Found 4'\nassert search_bst(root, 9) is None, '9 not in tree'\nroot = insert_bst(root, 2)\nassert inorder(root) == [1,2,3,4,5,6,7,8], 'Insert 2'\nprint('PASS')"
+  },
+  "related": ["dfs-inorder-01", "avl-tree-01", "binary-search-01"],
+  "tags": ["BST", "binary-search-tree", "insert", "search", "delete", "O(log-n)"]
+}

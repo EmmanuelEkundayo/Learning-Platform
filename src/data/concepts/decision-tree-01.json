@@ -1,0 +1,48 @@
+{
+  "id": "decision-tree-01",
+  "slug": "decision-tree",
+  "title": "Decision Tree (CART)",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Recursively split the data on the feature and threshold that best separates the classes, until each leaf is pure or a stopping condition is met.",
+    "analogy": "A doctor's diagnostic flowchart: 'Is the patient's temperature above 38°C? Yes → check for other symptoms. No → likely healthy.' Each question partitions patients into more homogeneous groups.",
+    "time_complexity": "O(n × d × log n) to train (n samples, d features)",
+    "space_complexity": "O(n) for the tree (up to n leaf nodes in the worst case)",
+    "when_to_use": [
+      "You need a model that humans can read and audit",
+      "Features are a mix of numerical and categorical",
+      "As a building block inside Random Forest or Gradient Boosting"
+    ],
+    "gotchas": [
+      "Decision trees massively overfit without depth limits or pruning — always set max_depth",
+      "Sensitive to small data changes — a single different training sample can restructure the whole tree (high variance); Random Forest fixes this",
+      "Splits are axis-aligned — they struggle with diagonal decision boundaries"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "decision-tree",
+      "show_gini_impurity": true,
+      "show_sample_counts": true,
+      "highlight_split": true,
+      "step_annotations": true,
+      "allow_depth_control": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Gini impurity calculation used to evaluate splits in CART.",
+    "starter_code": "def gini_impurity(y):\n    \"\"\"\n    y: list/array of class labels for a node\n    Returns: Gini impurity in [0, 0.5]\n    \"\"\"\n    n = len(y)\n    if n == 0:\n        return 0.0\n    classes, counts = np.unique(y, return_counts=True)\n    probabilities = ___________\n    return 1 - ___________",
+    "solution": "probabilities = counts / n\n1 - np.sum(probabilities ** 2)",
+    "hints": [
+      "Gini impurity = 1 − Σ p_i². Compute the probability of each class as its count divided by total samples",
+      "A perfectly pure node (all one class) has Gini = 0; maximum impurity (50/50 binary) gives 0.5"
+    ],
+    "test_code": "import numpy as np\nassert abs(gini_impurity([0,0,0,0]) - 0.0) < 1e-9, 'Pure node -> Gini=0'\nassert abs(gini_impurity([0,1])     - 0.5) < 1e-9, '50/50 -> Gini=0.5'\ng3 = gini_impurity([0,0,1,1,1])\nexp = 1-(0.4**2+0.6**2)\nassert abs(g3-exp) < 1e-9, f'Expected {exp:.4f}, got {g3:.4f}'\nassert gini_impurity([]) == 0.0, 'Empty node -> 0'\nprint('PASS')"
+  },
+  "related": ["random-forest-01", "gradient-boosting-01", "information-gain-01"],
+  "tags": ["decision-tree", "CART", "Gini", "classification", "supervised", "interpretable"]
+}

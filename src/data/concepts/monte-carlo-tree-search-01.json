@@ -1,0 +1,44 @@
+{
+  "id": "monte-carlo-tree-search-01",
+  "slug": "monte-carlo-tree-search",
+  "title": "Monte Carlo Tree Search (MCTS)",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Four phases iterated: (1) Selection — traverse tree using UCB1: a = argmax[Q(s,a) + C·√(ln N(s)/N(s,a))]; (2) Expansion — add new child node; (3) Simulation — random rollout to terminal state; (4) Backpropagation — update visit counts and Q-values along the path. AlphaGo/AlphaZero replace random rollout with a neural network value estimate.",
+    "analogy": "Exploring a maze by sending out scouts: each scout follows the most promising path (selection), then wanders randomly from the frontier (simulation). If they find the exit, all scouts on that path get credit (backpropagation). Scouts balance between exploring new paths and exploiting known good ones (UCB1).",
+    "time_complexity": "O(n · T_sim) for n simulations each of depth T",
+    "space_complexity": "O(n · |A|) for the search tree",
+    "when_to_use": [
+      "Two-player games with perfect information (Go, Chess, Hex)",
+      "Planning under uncertainty when model of environment is available",
+      "Combined with neural value/policy networks in AlphaZero-style systems"
+    ],
+    "gotchas": [
+      "Exploration constant C is problem-dependent — needs tuning or adaptive scheduling",
+      "MCTS requires a simulator (model) — model-free RL if environment is a black box",
+      "Tree size grows exponentially with depth — use transposition tables to merge duplicate states"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "mcts",
+      "show_ucb": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the UCB1 selection score used in MCTS.",
+    "starter_code": "import math\n\ndef ucb1(q_value, n_parent, n_node, C=1.414):\n    \"\"\"\n    UCB1 score for a node.\n    q_value  : average reward Q(s,a) in [0,1]\n    n_parent : visit count of parent node N(s)\n    n_node   : visit count of this node N(s,a)\n    C        : exploration constant (sqrt(2) typical)\n    Returns UCB1 score (higher = more worth exploring).\n    \"\"\"\n    if n_node == 0:\n        return float('inf')   # unvisited: always expand first\n    return ___________",
+    "solution": "q_value + C * math.sqrt(math.log(n_parent) / n_node)",
+    "hints": [
+      "UCB1 = Q(s,a) + C · √(ln N(s) / N(s,a)). The first term is exploitation, the second encourages exploring less-visited nodes."
+    ],
+    "test_code": "import math\n\n# Unvisited node gets inf\nassert ucb1(0.5, 10, 0) == float('inf')\n\n# Heavily visited node with same Q has lower UCB than rarely visited\nscoreA = ucb1(0.5, 100, 50)   # visited 50 times\nscoreB = ucb1(0.5, 100, 5)    # visited 5 times\nassert scoreB > scoreA, 'Less visited node should have higher UCB'\n\n# Higher Q means higher UCB (all else equal)\nscoreC = ucb1(0.8, 100, 10)\nscoreD = ucb1(0.2, 100, 10)\nassert scoreC > scoreD\n\n# Sanity: known value for C=sqrt(2)\nexpected = 0.5 + math.sqrt(2) * math.sqrt(math.log(100)/10)\nassert abs(ucb1(0.5, 100, 10, C=math.sqrt(2)) - expected) < 1e-9\nprint('PASS')"
+  },
+  "related": ["markov-decision-process-01", "q-learning-01", "policy-gradient-01", "multi-armed-bandit-01"],
+  "tags": ["MCTS", "monte-carlo-tree-search", "UCB1", "tree-search", "AlphaGo", "planning", "exploration"]
+}

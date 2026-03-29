@@ -1,0 +1,44 @@
+{
+  "id": "fibonacci-heap-01",
+  "slug": "fibonacci-heap",
+  "title": "Fibonacci Heap",
+  "domain": "DSA",
+  "category": "Heaps",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A lazy heap of heap-ordered trees. Insert and decrease-key are O(1) amortised — work is deferred until extract-min, which consolidates trees so no two roots have the same degree. The Fibonacci sequence appears in the bound on tree degrees.",
+    "analogy": "A messy pile of sorted stacks: you lazily toss new items on top and defer reorganisation until you need the minimum. When you finally dig for the minimum, you reorganise into a clean set of stacks — but you've amortised the cleaning cost over many insertions.",
+    "time_complexity": "O(1) amortised insert, decrease-key, merge; O(log n) amortised extract-min",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Theoretically optimal Dijkstra: O(E + V log V) using Fibonacci heap decrease-key",
+      "Problems requiring many decrease-key operations relative to extract-min",
+      "MST algorithms (Prim's) achieving O(E + V log V)"
+    ],
+    "gotchas": [
+      "In practice, Fibonacci heaps are rarely used — large constants and pointer complexity outweigh theoretical advantages",
+      "Mark bits track whether a node has lost a child since last made a root (for cascading cut)",
+      "Consolidation ensures at most O(log n) distinct root degrees — uses Fibonacci number property"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "fibonacci-heap",
+      "show_degree": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a simplified Fibonacci heap: insert, find-min, and merge (union) operations.",
+    "starter_code": "class FibNode:\n    def __init__(self, key):\n        self.key    = key\n        self.degree = 0\n        self.marked = False\n        self.parent = None\n        self.child  = None\n        self.left   = self\n        self.right  = self\n\nclass FibHeap:\n    def __init__(self):\n        self.min_node = None\n        self.n        = 0\n\n    def insert(self, key):\n        node = FibNode(key)\n        self._add_to_root_list(node)\n        if self.min_node is None or node.key < self.min_node.key:\n            self.min_node = node\n        self.n += 1\n        return node\n\n    def find_min(self):\n        return self.min_node.key if self.min_node else None\n\n    def merge(self, other):\n        \"\"\"Merge two Fibonacci heaps, return combined heap.\"\"\"\n        if not self.min_node:\n            return other\n        if not other.min_node:\n            return self\n        # Concatenate root lists\n        self_last  = self.min_node.left\n        other_last = other.min_node.left\n        self_last.right  = other.min_node\n        other.min_node.left = self_last\n        other_last.right = self.min_node\n        self.min_node.left = other_last\n        # Update min\n        if other.min_node.key < self.min_node.key:\n            self.min_node = ___________\n        self.n += other.n\n        return self\n\n    def _add_to_root_list(self, node):\n        if self.min_node is None:\n            node.left = node.right = node\n        else:\n            node.right = self.min_node\n            node.left  = self.min_node.left\n            self.min_node.left.right = node\n            self.min_node.left = node",
+    "solution": "other.min_node",
+    "hints": [
+      "After merging the root lists, the new min is whichever heap had the smaller minimum — set self.min_node = other.min_node if other's minimum is smaller"
+    ],
+    "test_code": "h1 = FibHeap()\nh1.insert(5); h1.insert(3); h1.insert(8)\nassert h1.find_min() == 3\n\nh2 = FibHeap()\nh2.insert(1); h2.insert(7)\nassert h2.find_min() == 1\n\nmerged = h1.merge(h2)\nassert merged.find_min() == 1\nassert merged.n == 5\nprint('PASS')"
+  },
+  "related": ["max-min-heap-01", "heap-operations-01", "dijkstra-01", "prims-01"],
+  "tags": ["fibonacci-heap", "amortised", "decrease-key", "O(1)-insert", "lazy-heap"]
+}

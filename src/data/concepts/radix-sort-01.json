@@ -1,0 +1,44 @@
+{
+  "id": "radix-sort-01",
+  "slug": "radix-sort",
+  "title": "Radix Sort",
+  "domain": "DSA",
+  "category": "Sorting & Searching",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Sort integers digit by digit from least significant to most significant, using a stable sort (counting sort) at each digit position. Because each pass is stable, earlier-digit order is preserved — the result is fully sorted after d passes.",
+    "analogy": "Sorting a pile of filing cards: first sort by the last letter of the name, then by the second-to-last, and so on. Because each sort is stable, the final pile is fully alphabetical.",
+    "time_complexity": "O(d · (n + k)) where d = digit count, k = base (10 or 256)",
+    "space_complexity": "O(n + k)",
+    "when_to_use": [
+      "Sorting large arrays of integers with a bounded number of digits",
+      "Sorting strings of equal length lexicographically",
+      "When O(n log n) comparison sort is the bottleneck and radix sort's constants are acceptable"
+    ],
+    "gotchas": [
+      "Must use a STABLE sort at each digit position — otherwise earlier-pass ordering is destroyed",
+      "LSD (least-significant-digit) radix sort is more common; MSD is used for variable-length strings",
+      "For 32-bit integers with base 256: d = 4 passes, k = 256 — very cache-friendly"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "radix-sort",
+      "show_digit": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement LSD radix sort using counting sort as the stable subroutine.",
+    "starter_code": "def radix_sort(arr):\n    if not arr:\n        return arr\n    max_val = max(arr)\n\n    def counting_sort_by_digit(arr, exp):\n        n   = len(arr)\n        out = [0] * n\n        count = [0] * 10\n        for val in arr:\n            digit = (val // exp) % 10\n            count[digit] += 1\n        # Cumulative count (gives ending positions)\n        for i in range(1, 10):\n            count[i] += count[i - 1]\n        # Build output right-to-left for stability\n        for i in range(n - 1, -1, -1):\n            digit = ___________        # extract digit at this position\n            count[digit] -= 1\n            out[count[digit]] = arr[i]\n        return out\n\n    exp = 1\n    while max_val // exp > 0:\n        arr = counting_sort_by_digit(arr, exp)\n        exp *= 10\n    return arr",
+    "solution": "(arr[i] // exp) % 10",
+    "hints": [
+      "Extract the digit at position exp: (arr[i] // exp) % 10 — dividing by exp shifts the digit into the ones place, then % 10 extracts it"
+    ],
+    "test_code": "assert radix_sort([170,45,75,90,802,24,2,66]) == [2,24,45,66,75,90,170,802]\nassert radix_sort([1]) == [1]\nassert radix_sort([]) == []\nassert radix_sort([3,2,1,0]) == [0,1,2,3]\nassert radix_sort([100,10,1]) == [1,10,100]\nprint('PASS')"
+  },
+  "related": ["counting-sort-01", "bucket-sort-01", "prefix-sum-01", "quicksort-01"],
+  "tags": ["radix-sort", "LSD", "sorting", "non-comparison", "stable-sort", "digit-sort"]
+}

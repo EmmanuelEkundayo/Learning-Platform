@@ -1,0 +1,45 @@
+{
+  "id": "kosarajus-01",
+  "slug": "kosarajus",
+  "title": "Kosaraju's SCC",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Two-pass DFS: Pass 1 runs DFS on the original graph and records finish times; Pass 2 runs DFS on the transposed graph in decreasing finish-time order. Each DFS tree in Pass 2 is one SCC.",
+    "analogy": "If you can reach someone in a group AND they can reach you back (via the original roads), you're in the same strongly-connected town. Reversing all roads and exploring in 'last-finished-first' order ensures you stay within your own town.",
+    "time_complexity": "O(V + E) — two full DFS passes",
+    "space_complexity": "O(V + E) for the transposed graph",
+    "when_to_use": [
+      "Finding SCCs when you prefer two clear passes over Tarjan's single-pass complexity",
+      "When the transposed graph is easy to build (e.g., already have reverse edge lists)",
+      "Educational contexts — the two-pass intuition is often easier to explain"
+    ],
+    "gotchas": [
+      "Pass 1 uses the ORIGINAL graph; Pass 2 uses the TRANSPOSED (reversed-edge) graph",
+      "Process nodes in DECREASING finish order in Pass 2 — use a stack pushed on node finish",
+      "Both passes need a visited set — reset between passes"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "kosarajus",
+      "show_finish_order": true,
+      "show_transpose": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Kosaraju's two-pass SCC algorithm.",
+    "starter_code": "import sys\nsys.setrecursionlimit(10000)\n\ndef kosarajus_scc(n, adj):\n    \"\"\"\n    adj: dict {u: [v, ...]} (directed)\n    Returns list of SCCs (each a sorted list of nodes).\n    \"\"\"\n    # Build transpose\n    radj = {i: [] for i in range(n)}\n    for u in adj:\n        for v in adj[u]:\n            radj[v].append(u)\n\n    # Pass 1: DFS on original graph, push to stack on finish\n    visited = [False] * n\n    finish_stack = []\n\n    def dfs1(u):\n        visited[u] = True\n        for v in adj.get(u, []):\n            if not visited[v]:\n                dfs1(v)\n        finish_stack.append(u)  # push on FINISH\n\n    for u in range(n):\n        if not visited[u]:\n            dfs1(u)\n\n    # Pass 2: DFS on TRANSPOSE in reverse finish order\n    visited2 = [False] * n\n    sccs = []\n\n    def dfs2(u, component):\n        visited2[u] = True\n        component.append(u)\n        for v in ___________:   # use transposed graph\n            if not visited2[v]:\n                dfs2(v, component)\n\n    while finish_stack:\n        u = finish_stack.pop()\n        if not visited2[u]:\n            comp = []\n            dfs2(u, comp)\n            sccs.append(sorted(comp))\n    return sccs",
+    "solution": "radj[u]",
+    "hints": [
+      "Pass 2 explores the transposed graph (radj) — iterate over radj[u] to follow reversed edges"
+    ],
+    "test_code": "adj = {0:[1], 1:[2,3], 2:[0], 3:[]}\nsccs = kosarajus_scc(4, adj)\nassert len(sccs) == 2\nassert [0,1,2] in sccs\nassert [3] in sccs\n\nadj2 = {0:[1],1:[2],2:[]}\nsccs2 = kosarajus_scc(3, adj2)\nassert len(sccs2) == 3\nassert all(len(s)==1 for s in sccs2)\nprint('PASS')"
+  },
+  "related": ["tarjans-scc-01", "topological-sort-dfs-01", "dfs-graph-01", "cycle-detection-directed-01"],
+  "tags": ["kosarajus", "SCC", "strongly-connected-components", "two-pass-DFS", "transpose", "directed-graph"]
+}

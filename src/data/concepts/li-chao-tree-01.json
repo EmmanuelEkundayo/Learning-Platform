@@ -1,0 +1,45 @@
+{
+  "id": "li-chao-tree-01",
+  "slug": "li-chao-tree",
+  "title": "Li Chao Tree",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A segment tree over x-coordinates where each node stores the line that is dominant at the node's midpoint. Inserting a new line: compare at midpoint, keep the winner at this node, and recurse with the loser into the half where it might still win. Query at point x: check all O(log n) ancestors.",
+    "analogy": "A tournament bracket where lines compete at each round's midpoint: the winner of that round is recorded, but the loser gets another chance in a sub-bracket where they might dominate. The overall minimum at any x is the minimum among all recorded winners on the path to x.",
+    "time_complexity": "O(log C) per line insert; O(log C) per point query — C = coordinate range",
+    "space_complexity": "O(C) implicit tree or O(q log C) with dynamic nodes",
+    "when_to_use": [
+      "Convex hull trick when lines and queries arrive in arbitrary order (no monotonicity needed)",
+      "Range minimum of linear functions over a set of lines",
+      "DP with lines of arbitrary slope order"
+    ],
+    "gotchas": [
+      "Li Chao tree is built over x-coordinate range, not line count — size depends on query domain",
+      "Only stores ONE dominant line per node — but correctly handles queries via ancestor path",
+      "Supports only minimum (or maximum) queries — not arbitrary aggregates"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "li-chao",
+      "show_dominant_lines": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a Li Chao tree for minimum line queries over integer x-coordinates.",
+    "starter_code": "class LiChaoTree:\n    def __init__(self, lo, hi):\n        self.lo   = lo\n        self.hi   = hi\n        self.line = None   # dominant line at this node\n        self.left = None\n        self.right = None\n\n    def _eval(self, line, x):\n        return line[0] * x + line[1] if line else float('inf')\n\n    def add(self, line, lo=None, hi=None):\n        if lo is None: lo, hi = self.lo, self.hi\n        mid = (lo + hi) // 2\n        if self.line is None:\n            self.line = line; return\n        # Determine which line wins at midpoint and each endpoint\n        left_better  = self._eval(line, lo)  < self._eval(self.line, lo)\n        mid_better   = self._eval(line, mid) < self._eval(self.line, mid)\n        if mid_better:\n            self.line, line = line, self.line   # swap: keep winner at midpoint\n        if lo == hi: return\n        if left_better != mid_better:\n            if self.left  is None: self.left  = LiChaoTree(lo, mid)\n            self.left.add(___________)\n        else:\n            if self.right is None: self.right = LiChaoTree(mid+1, hi)\n            self.right.add(___________)\n\n    def query(self, x, lo=None, hi=None):\n        if lo is None: lo, hi = self.lo, self.hi\n        best = self._eval(self.line, x)\n        if lo == hi: return best\n        mid = (lo + hi) // 2\n        if x <= mid:\n            return min(best, self.left.query(x, lo, mid)  if self.left  else float('inf'))\n        else:\n            return min(best, self.right.query(x, mid+1, hi) if self.right else float('inf'))",
+    "solution": "line, lo, mid\nline, mid+1, hi",
+    "hints": [
+      "Recurse with the loser line into the left half if left_better != mid_better (loser might win on the left)",
+      "Otherwise recurse into the right half (loser might win on the right)"
+    ],
+    "test_code": "lct = LiChaoTree(0, 10)\nlct.add((2, 0))    # y = 2x\nlct.add((1, 3))    # y = x + 3\nlct.add((0, 10))   # y = 10\nassert lct.query(0) == 0    # y=2*0=0 wins\nassert lct.query(3) == 6    # y=2*3=6, y=1*3+3=6 tie\nassert lct.query(4) == 7    # y=1*4+3=7 wins over 2*4=8\nassert lct.query(8) == 10   # y=10 wins over 2*8=16, 1*8+3=11\nprint('PASS')"
+  },
+  "related": ["convex-hull-trick-01", "segment-tree-01", "divide-conquer-dp-01", "sparse-table-01"],
+  "tags": ["Li-Chao-tree", "CHT", "line-minimum", "segment-tree", "DP-optimisation"]
+}

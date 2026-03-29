@@ -1,0 +1,45 @@
+{
+  "id": "network-flow-ford-fulkerson-01",
+  "slug": "network-flow-ford-fulkerson",
+  "title": "Network Flow — Ford-Fulkerson / Edmonds-Karp",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Find augmenting paths from source to sink in the residual graph; push flow along each path; repeat until no augmenting path exists. Edmonds-Karp uses BFS for augmenting paths, guaranteeing O(VE²) termination even for irrational capacities.",
+    "analogy": "Water flowing through pipes: keep finding new routes from the reservoir to the drain, pumping water until every possible route is saturated. After each pump, reverse-capacity pipes (undo options) let the algorithm correct earlier choices.",
+    "time_complexity": "O(VE²) for Edmonds-Karp (BFS augmenting paths)",
+    "space_complexity": "O(V + E) for the residual graph",
+    "when_to_use": [
+      "Maximum flow / minimum cut problems",
+      "Bipartite matching via flow reduction",
+      "Circulation problems, project selection, airline scheduling"
+    ],
+    "gotchas": [
+      "Maintain a residual graph: for each edge (u,v,cap), also store a reverse edge (v,u,0) — augmenting flow reduces forward capacity and increases reverse capacity",
+      "BFS (Edmonds-Karp) is preferred over DFS (Ford-Fulkerson) — DFS can take O(max_flow) steps with integer capacities",
+      "Max-flow = Min-cut by the Max-flow Min-cut theorem — the saturated edges in the final residual graph form the min-cut"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "max-flow",
+      "show_residual": true,
+      "show_flow": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Edmonds-Karp (BFS-based Ford-Fulkerson) max flow.",
+    "starter_code": "from collections import defaultdict, deque\n\ndef max_flow(graph, source, sink):\n    \"\"\"\n    graph: dict of dicts {u: {v: capacity}}\n    Modifies graph in place (residual). Returns max flow value.\n    \"\"\"\n    def bfs():\n        visited = {source}\n        parent  = {source: None}\n        queue   = deque([source])\n        while queue:\n            u = queue.popleft()\n            for v, cap in graph[u].items():\n                if v not in visited and cap > 0:\n                    visited.add(v)\n                    parent[v] = u\n                    if v == sink:\n                        return parent\n                    queue.append(v)\n        return None\n\n    total = 0\n    while (parent := bfs()) is not None:\n        # Find bottleneck capacity along the path\n        path_flow = float('inf')\n        v = sink\n        while v != source:\n            u = parent[v]\n            path_flow = min(path_flow, graph[u][v])\n            v = u\n        # Augment along the path\n        v = sink\n        while v != source:\n            u = parent[v]\n            graph[u][v]           -= path_flow\n            graph[v][___________] += path_flow   # update reverse edge\n            v = u\n        total += path_flow\n    return total",
+    "solution": "u",
+    "hints": [
+      "The reverse edge goes from v back to u — graph[v][u] is the reverse capacity. Increase it by path_flow to allow future 'undo' of this flow."
+    ],
+    "test_code": "def make_graph(n, edges):\n    g = defaultdict(lambda: defaultdict(int))\n    for u,v,c in edges:\n        g[u][v] += c\n        g[v][u] += 0  # ensure reverse edge exists\n    return g\n\ng = make_graph(6, [\n    (0,1,16),(0,2,13),(1,2,10),(1,3,12),\n    (2,1,4),(2,4,14),(3,2,9),(3,5,20),(4,3,7),(4,5,4)\n])\nassert max_flow(g, 0, 5) == 23\n\n# Simple path\ng2 = make_graph(2, [(0,1,5)])\nassert max_flow(g2, 0, 1) == 5\nprint('PASS')"
+  },
+  "related": ["bipartite-matching-01", "dijkstra-01", "bfs-01", "bridges-articulation-points-01"],
+  "tags": ["max-flow", "ford-fulkerson", "edmonds-karp", "BFS", "residual-graph", "min-cut"]
+}

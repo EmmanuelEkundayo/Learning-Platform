@@ -1,0 +1,44 @@
+{
+  "id": "transformer-encoder-01",
+  "slug": "transformer-encoder",
+  "title": "Transformer Encoder",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Stack N identical layers, each with: (1) Multi-head self-attention — h heads each compute scaled dot-product attention in parallel on different projections, concatenated and projected back; (2) Position-wise FFN — two linear layers with ReLU in between. Both sublayers have residual connections and layer norm: output = LayerNorm(x + sublayer(x)). Positional encodings inject order information since attention is permutation-invariant.",
+    "analogy": "A panel of experts analysing the same document: each 'head' is an expert who attends to different relationships (syntax, semantics, co-reference). Their analyses are pooled, then each sentence is further processed by a specialist (FFN). Residual connections ensure no expert's contribution is lost.",
+    "time_complexity": "O(N · T² · d) for N layers, T tokens, d-dim model",
+    "space_complexity": "O(N · T² + N · T · d)",
+    "when_to_use": [
+      "Encoding sequences for downstream tasks (BERT-style)",
+      "Any bidirectional context needed: sentiment, NER, QA",
+      "Replace LSTM encoders — better parallelism and long-range modelling"
+    ],
+    "gotchas": [
+      "O(T²) attention is the bottleneck for long sequences — use Longformer/BigBird for T > 512",
+      "Positional encoding must be added before the first layer — sinusoidal or learned",
+      "Pre-norm (LayerNorm before sublayer) often trains more stably than post-norm"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "transformer-encoder",
+      "show_attention_heads": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement sinusoidal positional encoding.",
+    "starter_code": "import math\n\ndef positional_encoding(T, d_model):\n    \"\"\"\n    Returns PE matrix of shape (T, d_model).\n    PE[pos][2i]   = sin(pos / 10000^(2i/d_model))\n    PE[pos][2i+1] = cos(pos / 10000^(2i/d_model))\n    \"\"\"\n    PE = []\n    for pos in range(T):\n        row = []\n        for i in range(d_model // 2):\n            denom = 10000 ** (2 * i / d_model)\n            row.append(math.sin(pos / denom))\n            row.append(___________)\n        if d_model % 2 == 1:\n            row.append(math.sin(pos / (10000 ** (1.0))))\n        PE.append(row)\n    return PE",
+    "solution": "math.cos(pos / denom)",
+    "hints": [
+      "Even indices use sin, odd indices use cos — both with the same denominator 10000^(2i/d_model)."
+    ],
+    "test_code": "import math\nPE = positional_encoding(10, 8)\nassert len(PE) == 10 and len(PE[0]) == 8\n# PE[0][0] = sin(0) = 0\nassert abs(PE[0][0]) < 1e-9\n# PE[0][1] = cos(0) = 1\nassert abs(PE[0][1] - 1.0) < 1e-9\n# Values in [-1, 1]\nassert all(-1 <= PE[p][i] <= 1 for p in range(10) for i in range(8))\n# Different positions have different encodings\nassert PE[1] != PE[2]\nprint('PASS')"
+  },
+  "related": ["attention-mechanism-01", "transformer-decoder-01", "bert-01", "batch-normalization-01"],
+  "tags": ["transformer", "encoder", "multi-head-attention", "positional-encoding", "layer-norm", "BERT"]
+}

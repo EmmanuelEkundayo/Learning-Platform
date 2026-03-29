@@ -1,0 +1,44 @@
+{
+  "id": "vc-dimension-01",
+  "slug": "vc-dimension",
+  "title": "VC Dimension",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The VC dimension of a hypothesis class H is the largest set of points that H can shatter (classify correctly in all 2ⁿ possible labellings). Generalization bound: with probability ≥ 1−δ, R(h) ≤ R̂(h) + O(√(VCdim·log(n)/n + log(1/δ)/n)). Higher VC dim = more complex model = more data needed for good generalisation.",
+    "analogy": "A family of classifiers as cookie cutters: the VC dimension is the maximum number of cookies you can cut such that any subset can be marked differently by some cutter in the family. A line in 2D can shatter 3 points (any 3 labelling), so VC dim = 3. Circles can also shatter 3 but not 4 specific configurations.",
+    "time_complexity": "O(2^n) to check shattering for all labellings of n points",
+    "space_complexity": "O(n) for point labels",
+    "when_to_use": [
+      "Bounding generalisation error — higher VC dim requires more data",
+      "Comparing model complexity: linear classifier VC=d+1, k-NN VC=∞",
+      "Structural risk minimisation: choose model with best bias-variance tradeoff"
+    ],
+    "gotchas": [
+      "VC dimension is about worst-case shattering, not typical performance",
+      "Neural networks have finite but very large VC dimension — bounds are loose in practice",
+      "PAC learning requires VC dimension to be finite for distribution-free generalisation"
+    ]
+  },
+  "visualization": {
+    "type": "decision-boundary",
+    "config": {
+      "mode": "vc-dimension",
+      "show_shattering": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Check if a set of points can be shattered by axis-aligned rectangles in 2D.",
+    "starter_code": "def can_shatter_with_rectangle(points, labels):\n    \"\"\"\n    Check if there exists an axis-aligned rectangle that classifies\n    points with the given binary labels (1=inside, 0=outside).\n    points: list of (x,y)\n    labels: list of 0/1\n    \"\"\"\n    positives = [p for p, l in zip(points, labels) if l == 1]\n    negatives = [p for p, l in zip(points, labels) if l == 0]\n    if not positives:\n        return True   # empty rectangle works\n    # Tightest bounding box around positives\n    x_min = min(p[0] for p in positives)\n    x_max = max(p[0] for p in positives)\n    y_min = min(p[1] for p in positives)\n    y_max = max(p[1] for p in positives)\n    # Check no negative falls inside\n    for nx, ny in negatives:\n        if ___________:\n            return False\n    return True",
+    "solution": "x_min <= nx <= x_max and y_min <= ny <= y_max",
+    "hints": [
+      "A negative point invalidates the rectangle if it falls strictly inside the bounding box of all positive points."
+    ],
+    "test_code": "pts = [(0,0),(1,0),(0,1),(1,1)]  # 4 corners\n\n# Label corners {00,11}=1, {01,10}=0 (XOR — cannot shatter with rectangle)\nassert not can_shatter_with_rectangle(pts, [1,0,0,1])\n\n# Label top-right corner only = 1 (rectangle around one point)\nassert can_shatter_with_rectangle(pts, [0,0,0,1])\n\n# All positive: large bounding box\nassert can_shatter_with_rectangle(pts, [1,1,1,1])\n\n# All negative: empty rectangle\nassert can_shatter_with_rectangle(pts, [0,0,0,0])\nprint('PASS')"
+  },
+  "related": ["pac-learning-01", "no-free-lunch-theorem-01", "bias-variance-tradeoff-01", "svm-linear-01"],
+  "tags": ["VC-dimension", "shattering", "statistical-learning-theory", "generalisation", "complexity", "PAC-learning"]
+}

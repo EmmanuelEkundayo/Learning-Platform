@@ -1,0 +1,45 @@
+{
+  "id": "dutch-national-flag-01",
+  "slug": "dutch-national-flag",
+  "title": "Dutch National Flag",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Three pointers (lo, mid, hi) partition an array into three regions in a single pass: elements < pivot, = pivot, > pivot.",
+    "analogy": "Sorting a pile of red, white, and blue balls into three sections: one worker handles the left end, one the right, and one walks through the middle assigning each ball to its zone.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1) — in-place",
+    "when_to_use": [
+      "Sort an array of exactly 3 distinct values (e.g., 0/1/2, R/G/B) in one pass",
+      "Partition step for 3-way quicksort (handles duplicates efficiently — avoids O(n²) on all-equal arrays)",
+      "Any problem where you need to group elements around a pivot into <, =, > regions"
+    ],
+    "gotchas": [
+      "Only increment mid after a 0-swap (lo) and for equal-to-pivot — when swapping with hi, do NOT increment mid because the swapped element is unknown",
+      "Loop condition is mid <= hi (not mid < hi) — the element at mid is unclassified until processed",
+      "This is the key partition in Dijkstra's 3-way quicksort, which is O(n log n) even on nearly-duplicate arrays"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "three-pointers",
+      "show_lo_hi_mid": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Dutch National Flag sort to arrange an array of 0s, 1s, and 2s in place.",
+    "starter_code": "def sort_colors(nums):\n    lo, mid, hi = 0, 0, len(nums) - 1\n    while mid <= hi:\n        if nums[mid] == 0:\n            nums[lo], nums[mid] = nums[mid], nums[lo]\n            lo += 1\n            mid += 1\n        elif nums[mid] == 1:\n            mid += 1\n        else:  # nums[mid] == 2\n            nums[mid], nums[hi] = ___________\n            hi -= 1\n            # Do NOT increment mid — the swapped element is unknown\n    return nums",
+    "solution": "nums[hi], nums[mid]     # swap mid and hi (note: args reversed to match left side)",
+    "hints": [
+      "Swapping with hi brings an unknown element to mid — don't advance mid, let the next iteration classify it",
+      "The swap is: nums[mid], nums[hi] = nums[hi], nums[mid]"
+    ],
+    "test_code": "assert sort_colors([2,0,2,1,1,0]) == [0,0,1,1,2,2], 'Standard case'\nassert sort_colors([2,0,1])        == [0,1,2],       '3 elements'\nassert sort_colors([0])             == [0],            'Single 0'\nassert sort_colors([2,2,2])        == [2,2,2],        'All same'\nassert sort_colors([1,0,2,1,0])    == [0,0,1,1,2],   'Mixed'\nprint('PASS')"
+  },
+  "related": ["two-pointers-01", "quicksort-01", "boyer-moore-voting-01"],
+  "tags": ["dutch-national-flag", "three-pointers", "in-place", "partitioning", "sorting"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "convex-vs-nonconvex-01",
+  "slug": "convex-vs-nonconvex",
+  "title": "Convex vs Non-Convex Optimization",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A function is convex if f(λx+(1-λ)y) ≤ λf(x)+(1-λ)f(y) — any local minimum is the global minimum. Neural networks are non-convex: multiple local minima, saddle points, and flat regions. Surprisingly, in high dimensions, most local minima are nearly as good as the global minimum (flat loss landscape near optima). Saddle points (not minima) are the real challenge for gradient descent.",
+    "analogy": "Convex: a bowl — wherever you place a marble, it rolls to the same bottom. Non-convex: a mountain range — valleys can trap you, and most plateaus are flat saddle points rather than true minima. In high dimensions, most saddle points look like flat plains with an exit in at least one direction.",
+    "time_complexity": "Convex: O(1/ε) gradient steps to ε-optimality; Non-convex: no polynomial guarantee",
+    "space_complexity": "O(d) for gradient computation",
+    "when_to_use": [
+      "Convex guarantees apply to: linear/logistic regression, SVMs, Lasso, Ridge",
+      "Deep networks are non-convex but gradient descent works surprisingly well in practice",
+      "Identify convexity before choosing algorithm — guarantees change everything"
+    ],
+    "gotchas": [
+      "Checking convexity: positive semi-definite Hessian ↔ convex; all eigenvalues ≥ 0",
+      "Log-sum-exp is convex; softmax cross-entropy loss is convex in the linear output weights",
+      "Over-parameterised networks may have benign non-convexity — gradient descent finds good solutions"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "convex-nonconvex",
+      "show_landscape": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Check convexity of a 1D function using the second derivative test.",
+    "starter_code": "def is_convex_1d(f, a, b, n=200, eps=1e-5):\n    \"\"\"\n    Numerically check if f is convex on [a,b] by verifying\n    the midpoint condition: f((x+y)/2) <= (f(x)+f(y))/2\n    for n random pairs (x, y) in [a,b].\n    Returns True if all checks pass.\n    \"\"\"\n    import random; random.seed(0)\n    for _ in range(n):\n        x = random.uniform(a, b)\n        y = random.uniform(a, b)\n        mid = (x + y) / 2\n        if ___________:\n            return False\n    return True",
+    "solution": "f(mid) > (f(x) + f(y)) / 2 + eps",
+    "hints": [
+      "Convexity condition: f((x+y)/2) ≤ (f(x)+f(y))/2. If f(midpoint) exceeds the average of the endpoints by more than eps, the function is not convex."
+    ],
+    "test_code": "# Convex functions\nassert is_convex_1d(lambda x: x**2,     -5, 5)\nassert is_convex_1d(lambda x: abs(x),   -3, 3)\nassert is_convex_1d(lambda x: x,        -10, 10)  # linear\n\n# Non-convex functions\nimport math\nassert not is_convex_1d(lambda x: math.sin(x),  0, 4)\nassert not is_convex_1d(lambda x: -x**2,        -3, 3)\nassert not is_convex_1d(lambda x: x**3,         -2, 2)\nprint('PASS')"
+  },
+  "related": ["saddle-points-01", "vanishing-exploding-gradients-01", "adam-optimizer-01", "stochastic-gradient-descent-01"],
+  "tags": ["convex", "non-convex", "optimization", "local-minima", "saddle-points", "loss-landscape", "deep-learning"]
+}

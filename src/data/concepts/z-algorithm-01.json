@@ -1,0 +1,47 @@
+{
+  "id": "z-algorithm-01",
+  "slug": "z-algorithm",
+  "title": "Z-Algorithm",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "For each position i, compute the length of the longest substring starting at i that is also a prefix of the whole string — this Z-array enables O(n) pattern matching.",
+    "analogy": "You have a secret codeword and you're scanning a long message. At each position, you measure: 'how long does this segment match the beginning of my codeword?' The Z-array records those lengths.",
+    "time_complexity": "O(n) — the Z-box window [l, r] only ever moves right",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Pattern matching: search for pattern P in text T by running Z on P+'$'+T and finding Z[i] == len(P)",
+      "Finding all positions where a string is a rotation of another",
+      "Counting distinct substrings or checking period of a string",
+      "When you need the Z-array as a building block for suffix automaton construction"
+    ],
+    "gotchas": [
+      "Z[0] is defined as the length of the entire string (the whole string matches its own prefix) — some implementations set it to 0 conventionally",
+      "The Z-box [l, r] is the interval of the rightmost Z-box seen so far — when i falls inside it, z[i] ≥ min(r-i+1, z[i-l]) before extending",
+      "Use a separator character (e.g., '$') not appearing in either string when concatenating pattern and text for search"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "z-algorithm",
+      "show_z_values": true,
+      "show_window": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Z-function. For each index i, z[i] = length of the longest prefix of s that matches s[i:].",
+    "starter_code": "def z_function(s):\n    n = len(s)\n    z = [0] * n\n    z[0] = n          # the whole string matches its own prefix\n    l, r = 0, 0       # current Z-box [l, r)\n    for i in range(1, n):\n        if i < r:\n            z[i] = min(r - i, z[i - l])  # use previously computed info\n        # Extend naively beyond the known Z-box\n        while i + z[i] < n and s[z[i]] == s[i + z[i]]:\n            z[i] += 1\n        # Update Z-box if we extended past r\n        if i + z[i] > r:\n            l, r = ___________\n    return z",
+    "solution": "l, r = i, i + z[i]",
+    "hints": [
+      "When z[i] extends beyond the current right edge r, the new Z-box starts at i and ends at i + z[i]",
+      "Update l = i and r = i + z[i] — the right boundary is exclusive (one past the last matching character)"
+    ],
+    "test_code": "z = z_function('aabxaa')\nassert z[0] == 6,        'z[0] always equals len(s)'\nassert z[1] == 1,        'z[1]: \"abxaa\" matches \"a\" at start'\nassert z[2] == 0,        'z[2]: \"bxaa\" no prefix match'\nassert z[4] == 2,        'z[4]: \"aa\" matches prefix \"aa\"'\n\nz2 = z_function('aaaa')\nassert z2 == [4,3,2,1],  'All-same string: z[i] = n-i'\n\nz3 = z_function('abcabc')\nassert z3[3] == 3,       'z[3]: \"abc\" matches 3-char prefix'\nprint('PASS')"
+  },
+  "related": ["kmp-01", "rabin-karp-01", "string-hashing-01"],
+  "tags": ["z-algorithm", "z-function", "string-matching", "prefix", "O(n)"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "hierarchical-clustering-01",
+  "slug": "hierarchical-clustering",
+  "title": "Hierarchical Clustering",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Agglomerative (bottom-up): start with each point as its own cluster; repeatedly merge the two closest clusters until one remains. The result is a dendrogram — a tree of all merges. Cut the dendrogram at a height to get k clusters.",
+    "analogy": "Organising books by topic: start by grouping the two most similar books, then group the closest pairs of groups, continuing until everything is in one library. The merge history is the hierarchy — cut at any level to get a different number of groupings.",
+    "time_complexity": "O(n³) naïve; O(n² log n) with priority queue",
+    "space_complexity": "O(n²) for pairwise distance matrix",
+    "when_to_use": [
+      "When you want a hierarchy of clusters (not just a flat partition)",
+      "No need to specify k in advance — examine the dendrogram to choose",
+      "Phylogenetic trees, document clustering, gene expression analysis"
+    ],
+    "gotchas": [
+      "Linkage affects cluster shape: single (chaining effect), complete (compact spheres), average/Ward (most commonly used)",
+      "Does not scale to large n — pairwise distances require O(n²) space",
+      "Ward linkage minimises within-cluster variance — often the best choice for compact clusters"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "mode": "hierarchical",
+      "show_dendrogram": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement agglomerative hierarchical clustering with single linkage.",
+    "starter_code": "def single_linkage_clustering(X, n_clusters=2):\n    \"\"\"\n    X: list of points\n    Returns cluster labels for n_clusters.\n    \"\"\"\n    n    = len(X)\n    labels = list(range(n))  # each point is its own cluster\n\n    def dist(a, b):\n        return sum((ai-bi)**2 for ai,bi in zip(a,b))**0.5\n\n    def cluster_dist(c1, c2, points_in):\n        \"\"\"Single linkage: minimum distance between any two points in c1 and c2.\"\"\"\n        return min(\n            dist(X[i], X[j])\n            for i in points_in[c1]\n            for j in points_in[c2]\n        )\n\n    points_in = {i: [i] for i in range(n)}\n    clusters  = set(range(n))\n\n    while len(clusters) > n_clusters:\n        best_d = float('inf')\n        merge_a = merge_b = -1\n        cluster_list = sorted(clusters)\n        for i in range(len(cluster_list)):\n            for j in range(i+1, len(cluster_list)):\n                ca, cb = cluster_list[i], cluster_list[j]\n                d = cluster_dist(ca, cb, points_in)\n                if d < best_d:\n                    best_d, merge_a, merge_b = d, ca, cb\n        # Merge merge_b into merge_a\n        points_in[merge_a] += points_in.pop(merge_b)\n        clusters.remove(merge_b)\n        for p in ___________:\n            labels[p] = merge_a\n    # Remap labels to 0..n_clusters-1\n    mapping = {c: i for i, c in enumerate(sorted(clusters))}\n    return [mapping[labels[i]] for i in range(n)]",
+    "solution": "points_in[merge_a]",
+    "hints": [
+      "After merging merge_b into merge_a, update labels for all points that are now in merge_a's group: iterate over points_in[merge_a] (which now includes the merged points)"
+    ],
+    "test_code": "X = [[1,1],[1.2,0.8],[5,5],[5.2,4.8],[1,5],[1.2,4.8]]\nlabels = single_linkage_clustering(X, n_clusters=3)\n# Points 0,1 should be in one cluster; 2,3 in another; 4,5 in another\nassert labels[0] == labels[1], 'Points 0,1 should cluster together'\nassert labels[2] == labels[3], 'Points 2,3 should cluster together'\nassert labels[4] == labels[5], 'Points 4,5 should cluster together'\nassert len(set(labels)) == 3\nprint('PASS')"
+  },
+  "related": ["k-means-01", "dbscan-01", "knn-01", "feature-scaling-01"],
+  "tags": ["hierarchical-clustering", "agglomerative", "dendrogram", "single-linkage", "Ward", "unsupervised"]
+}

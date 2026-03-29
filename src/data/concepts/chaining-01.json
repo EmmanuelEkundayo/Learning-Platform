@@ -1,0 +1,44 @@
+{
+  "id": "chaining-01",
+  "slug": "chaining",
+  "title": "Separate Chaining",
+  "domain": "DSA",
+  "category": "Hashing",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Each hash table slot holds a linked list (or array) of all entries that hash to that slot. Insertion appends to the chain; lookup traverses it. With a good hash function and load factor α < 1, the expected chain length is O(α) ≈ O(1).",
+    "analogy": "A post office with numbered mailboxes: multiple letters can arrive for the same box number (collision), so each box holds a stack of letters. Finding your letter means checking your box number and scanning through the stack.",
+    "time_complexity": "O(1 + α) expected per operation where α = n/m is the load factor",
+    "space_complexity": "O(n + m) — n entries + m bucket pointers",
+    "when_to_use": [
+      "When load factor may exceed 1 (chaining handles it gracefully; open addressing cannot)",
+      "When deletions are frequent — no tombstone complexity",
+      "Java's HashMap, most textbook hash table implementations"
+    ],
+    "gotchas": [
+      "Chain length is O(n) worst case if all keys hash to the same bucket — use a good hash function",
+      "Java 8+ converts chains to red-black trees when chain length > 8 — O(log n) worst case",
+      "Pointer overhead makes chaining cache-unfriendly compared to open addressing"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "chaining",
+      "show_chains": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement delete for a separate-chaining hash table.",
+    "starter_code": "class ChainingTable:\n    def __init__(self, capacity=8):\n        self.cap     = capacity\n        self.buckets = [[] for _ in range(capacity)]\n\n    def _hash(self, key): return hash(key) % self.cap\n\n    def put(self, key, value):\n        chain = self.buckets[self._hash(key)]\n        for i, (k, v) in enumerate(chain):\n            if k == key:\n                chain[i] = (key, value); return\n        chain.append((key, value))\n\n    def get(self, key):\n        for k, v in self.buckets[self._hash(key)]:\n            if k == key: return v\n        raise KeyError(key)\n\n    def delete(self, key):\n        chain = self.buckets[self._hash(key)]\n        for i, (k, v) in enumerate(chain):\n            if k == key:\n                ___________   # remove entry from chain\n                return\n        raise KeyError(key)",
+    "solution": "chain.pop(i)",
+    "hints": [
+      "Once you find the entry at index i in the chain, remove it with chain.pop(i)"
+    ],
+    "test_code": "t = ChainingTable(4)\nt.put('a',1); t.put('b',2); t.put('c',3)\nassert t.get('a') == 1\nt.delete('b')\ntry: t.get('b'); assert False\nexcept KeyError: pass\nassert t.get('a') == 1  # others unaffected\nassert t.get('c') == 3\ntry: t.delete('missing'); assert False\nexcept KeyError: pass\nprint('PASS')"
+  },
+  "related": ["hash-table-internals-01", "open-addressing-01", "bloom-filter-01", "lru-cache-01"],
+  "tags": ["chaining", "separate-chaining", "hash-table", "collision-resolution", "linked-list"]
+}

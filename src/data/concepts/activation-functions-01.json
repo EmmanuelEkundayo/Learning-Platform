@@ -1,0 +1,45 @@
+{
+  "id": "activation-functions-01",
+  "slug": "activation-functions",
+  "title": "Activation Functions",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Activation functions introduce non-linearity — without them, stacking linear layers collapses to a single linear transformation. Key functions: Sigmoid σ(x)=1/(1+e⁻ˣ) ∈(0,1); Tanh ∈(-1,1); ReLU=max(0,x) (fast, sparse); Leaky ReLU fixes dead neurons; GELU used in transformers; Softmax converts logits to probabilities summing to 1.",
+    "analogy": "Switches in a circuit: a linear layer adds and scales signals (like resistors), but the activation (like a transistor) decides whether to pass the signal or block it. Without switches, the circuit can only do weighted sums — with them, it can compute anything.",
+    "time_complexity": "O(d) per layer — elementwise operations",
+    "space_complexity": "O(d) for the activation vector",
+    "when_to_use": [
+      "ReLU: default hidden layer activation — fast and avoids vanishing gradient",
+      "Sigmoid: binary output layer only (not hidden layers — vanishing gradient)",
+      "Softmax: multiclass output layer to produce class probabilities",
+      "GELU/SiLU: transformer and modern architectures"
+    ],
+    "gotchas": [
+      "ReLU dying neurons: if inputs always negative, gradient is zero — use Leaky ReLU or ELU",
+      "Sigmoid/Tanh saturate for large |x|, causing vanishing gradients in deep nets",
+      "Softmax numerical instability: subtract max(logits) before exponentiating"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "activation-functions",
+      "show_curves": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement numerically stable softmax.",
+    "starter_code": "import math\n\ndef relu(x):        return max(0.0, x)\ndef leaky_relu(x, alpha=0.01): return x if x > 0 else alpha * x\ndef sigmoid(x):     return 1.0 / (1.0 + math.exp(-max(-500, min(500, x))))\ndef tanh_act(x):    return math.tanh(x)\n\ndef softmax(logits):\n    \"\"\"\n    Numerically stable softmax: subtract max before exp.\n    Returns probabilities summing to 1.\n    \"\"\"\n    m = max(logits)\n    exps = [math.exp(___________) for z in logits]\n    s    = sum(exps)\n    return [e / s for e in exps]",
+    "solution": "z - m",
+    "hints": [
+      "Subtract the maximum logit before computing exp to prevent overflow: exp(z - max) is always ≤ 1."
+    ],
+    "test_code": "import math\n\n# Basic softmax\np = softmax([1.0, 2.0, 3.0])\nassert abs(sum(p) - 1.0) < 1e-9, 'Probabilities must sum to 1'\nassert p[2] > p[1] > p[0], 'Higher logit = higher probability'\n\n# Numerical stability: very large logits\np2 = softmax([1000.0, 1001.0, 1002.0])\nassert abs(sum(p2) - 1.0) < 1e-9\nassert all(0 <= pi <= 1 for pi in p2)\n\n# ReLU\nassert relu(-3.0) == 0.0\nassert relu(2.0)  == 2.0\n\n# Sigmoid range\nassert 0 < sigmoid(0) < 1\nassert sigmoid(0) == 0.5\nprint('PASS')"
+  },
+  "related": ["mlp-01", "batch-normalization-01", "vanishing-exploding-gradients-01", "perceptron-01"],
+  "tags": ["activation-functions", "ReLU", "sigmoid", "softmax", "GELU", "non-linearity", "deep-learning"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "umap-01",
+  "slug": "umap",
+  "title": "UMAP",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "UMAP (Uniform Manifold Approximation and Projection) models the high-d data as a weighted k-nearest-neighbour graph (fuzzy simplicial set), then optimises low-d embeddings to reproduce the same topology. High-d similarities: p_ij = fuzzy membership based on local radius ρᵢ (distance to nearest neighbour). Low-d repulsion/attraction: minimise cross-entropy between high-d and low-d graphs using SGD.",
+    "analogy": "Making a flat map of a globe: you can't perfectly flatten a sphere without distortion, but UMAP finds the flat layout that best preserves neighbourhood relationships. Points that are close together on the globe stay close on the map — UMAP preserves local structure globally much better than t-SNE.",
+    "time_complexity": "O(n · k · d) for kNN graph; O(n · epochs) for embedding optimisation",
+    "space_complexity": "O(n · k) for the kNN graph",
+    "when_to_use": [
+      "Visualising high-dimensional data (embeddings, single-cell RNA-seq) in 2D/3D",
+      "Dimensionality reduction as pre-processing for clustering or classification",
+      "Faster and more scalable than t-SNE; better global structure preservation"
+    ],
+    "gotchas": [
+      "n_neighbors controls local/global trade-off — small (5-15): tight local clusters; large (50-200): global structure",
+      "min_dist controls cluster compactness — 0 for tightest clusters, 0.5 for dispersed",
+      "UMAP is non-deterministic (random init) — set random_state for reproducibility"
+    ]
+  },
+  "visualization": {
+    "type": "vector-space",
+    "config": {
+      "mode": "umap",
+      "show_embedding": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the UMAP fuzzy membership function for a single point's neighbourhood.",
+    "starter_code": "import math\n\ndef umap_membership(distances, rho, sigma):\n    \"\"\"\n    Compute fuzzy membership values for a point's k neighbours.\n    UMAP high-d similarity: v_{ij} = exp(-(d_{ij} - rho) / sigma)\n    Clamped to [0, 1]; for the nearest neighbour (d=rho): v=1.\n    distances: sorted distances to k neighbours (ascending)\n    rho      : distance to the nearest neighbour (= distances[0])\n    sigma    : bandwidth parameter (solved via binary search in full UMAP)\n    Returns list of membership values.\n    \"\"\"\n    return [\n        ___________\n        for d in distances\n    ]",
+    "solution": "max(0.0, math.exp(-(d - rho) / sigma))",
+    "hints": [
+      "UMAP membership: exp(-(d - ρ) / σ), clamped to [0,1]. When d = ρ (nearest neighbour), the exponent is 0 so membership = 1."
+    ],
+    "test_code": "import math\n\ndists = [0.5, 0.8, 1.2, 2.0]  # sorted distances\nrho   = 0.5  # nearest neighbour distance\nsigma = 0.5\n\nmemberships = umap_membership(dists, rho, sigma)\n\n# Nearest neighbour: membership = 1\nassert abs(memberships[0] - 1.0) < 1e-9\n# Membership decreases with distance\nassert memberships[0] >= memberships[1] >= memberships[2] >= memberships[3]\n# All values in [0, 1]\nassert all(0 <= m <= 1 for m in memberships)\n# No negative values (clamp)\ndists2 = [0.1, 0.5]\nmemb2 = umap_membership(dists2, rho=0.5, sigma=0.3)\nassert memb2[0] == 0.0  # d < rho -> clamped to 0\nprint('PASS')"
+  },
+  "related": ["curse-of-dimensionality-01", "vector-embeddings-faiss-01", "dbscan-01", "word2vec-cbow-01"],
+  "tags": ["UMAP", "dimensionality-reduction", "manifold-learning", "fuzzy-simplicial-set", "kNN-graph", "t-SNE", "visualisation"]
+}

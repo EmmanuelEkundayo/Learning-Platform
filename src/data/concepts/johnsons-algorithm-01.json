@@ -1,0 +1,45 @@
+{
+  "id": "johnsons-algorithm-01",
+  "slug": "johnsons-algorithm",
+  "title": "Johnson's Algorithm",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Add a virtual source node connected to all vertices with weight 0; run Bellman-Ford to get potentials h[v]. Reweight each edge (u,v,w) to w + h[u] - h[v] ≥ 0, then run Dijkstra from every vertex. Final distances = Dijkstra result - h[u] + h[v].",
+    "analogy": "Converting foreign currency prices to USD before comparison: the conversion (reweighting) removes negative prices and makes all values non-negative, allowing standard comparison (Dijkstra). At the end, convert back to recover the original relative prices.",
+    "time_complexity": "O(VE + V(V+E) log V) = O(V² log V + VE)",
+    "space_complexity": "O(V²) to store all-pairs distances",
+    "when_to_use": [
+      "All-pairs shortest paths on sparse graphs with negative weights — faster than Floyd-Warshall for sparse graphs",
+      "When graph has negative edges but no negative cycles",
+      "Combining Bellman-Ford's negative-weight handling with Dijkstra's speed"
+    ],
+    "gotchas": [
+      "If Bellman-Ford detects a negative cycle in the preprocessing step, Johnson's must abort",
+      "Reweighted edge w'(u,v) = w(u,v) + h[u] - h[v] is always ≥ 0 for valid potentials h",
+      "After getting Dijkstra distance d'(s,t), recover original: dist(s,t) = d'(s,t) - h[s] + h[t]"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "johnsons",
+      "show_reweighting": true,
+      "show_potentials": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the reweighting step of Johnson's algorithm.",
+    "starter_code": "import heapq\n\ndef johnsons(n, edges):\n    \"\"\"\n    n     : vertices 0..n-1\n    edges : list of (u, v, w)\n    Returns all-pairs distance matrix, or None if negative cycle.\n    \"\"\"\n    # Step 1: Bellman-Ford from virtual source (index n)\n    dist_bf = [float('inf')] * (n + 1)\n    dist_bf[n] = 0\n    augmented = edges + [(n, v, 0) for v in range(n)]\n    for _ in range(n):\n        for u, v, w in augmented:\n            if dist_bf[u] + w < dist_bf[v]:\n                dist_bf[v] = dist_bf[u] + w\n    # Negative cycle check\n    for u, v, w in augmented:\n        if dist_bf[u] + w < dist_bf[v]:\n            return None\n    h = dist_bf[:n]  # potentials\n\n    # Step 2: Reweight edges\n    adj = {i: [] for i in range(n)}\n    for u, v, w in edges:\n        w_prime = ___________        # non-negative reweighted weight\n        adj[u].append((v, w_prime))\n\n    # Step 3: Dijkstra from every source\n    def dijkstra(src):\n        d = [float('inf')] * n; d[src] = 0\n        heap = [(0, src)]\n        while heap:\n            cost, u = heapq.heappop(heap)\n            if cost > d[u]: continue\n            for v, w in adj[u]:\n                if d[u] + w < d[v]:\n                    d[v] = d[u] + w\n                    heapq.heappush(heap, (d[v], v))\n        return d\n\n    result = []\n    for s in range(n):\n        d = dijkstra(s)\n        # Recover original distances\n        result.append([d[t] - h[s] + h[t] if d[t] < float('inf') else float('inf') for t in range(n)])\n    return result",
+    "solution": "w + h[u] - h[v]",
+    "hints": [
+      "The reweighted weight is w'(u,v) = w(u,v) + h[u] - h[v]. This is guaranteed ≥ 0 because h is a valid shortest-path potential from Bellman-Ford."
+    ],
+    "test_code": "edges = [(0,1,3),(0,3,7),(1,0,8),(1,2,2),(2,0,5),(2,3,1),(3,0,2)]\nresult = johnsons(4, edges)\nassert result is not None\nassert result[0][0] == 0\nassert result[0][2] == 5   # same as floyd-warshall result\nassert result[0][3] == 6\nassert result[3][0] == 2\n\n# Negative cycle -> None\nneg = [(0,1,1),(1,2,-2),(2,0,-1)]\nassert johnsons(3, neg) is None\nprint('PASS')"
+  },
+  "related": ["dijkstra-01", "bellman-ford-01", "floyd-warshall-01", "prims-01"],
+  "tags": ["johnsons", "all-pairs-shortest-paths", "reweighting", "potentials", "Dijkstra", "Bellman-Ford"]
+}

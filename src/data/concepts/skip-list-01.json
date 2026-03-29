@@ -1,0 +1,45 @@
+{
+  "id": "skip-list-01",
+  "slug": "skip-list",
+  "title": "Skip List",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Stack multiple sorted linked lists of decreasing density — the top level skips large blocks, lower levels refine — giving O(log n) search without the rebalancing complexity of a BST.",
+    "analogy": "An express train system: the express stops at major cities (top level), the regional at medium towns (middle level), and the local at every station (bottom level). You take express as far as possible, then switch down.",
+    "time_complexity": "O(log n) expected for search, insert, delete",
+    "space_complexity": "O(n log n) expected — each element appears in O(log n) levels on average",
+    "when_to_use": [
+      "Ordered key-value store where you need range queries in addition to point lookup (Redis sorted sets use skip lists)",
+      "When you want BST-like performance without rotations — skip lists are simpler to implement correctly",
+      "Concurrent data structures — skip lists admit lock-free implementations more easily than BSTs"
+    ],
+    "gotchas": [
+      "Level assignment must be random (coin-flip per level) — a deterministic height defeats the probabilistic balance guarantee",
+      "Maintain an update[] array during search to remember the rightmost node at each level that is less than the target — needed for O(log n) insertion",
+      "The header sentinel node has -inf key and max height — always present, never removed"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "skip-list",
+      "show_levels": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement skip list search. Traverse from the topmost level downward, moving right while the next node's key is smaller than the target.",
+    "starter_code": "import random\n\nMAX_LEVEL = 4\n\nclass SkipNode:\n    def __init__(self, key, val, level):\n        self.key  = key\n        self.val  = val\n        self.next = [None] * (level + 1)  # forward pointers per level\n\nclass SkipList:\n    def __init__(self):\n        self.head  = SkipNode(float('-inf'), None, MAX_LEVEL)\n        self.level = 0\n\n    def _random_level(self):\n        lvl = 0\n        while random.random() < 0.5 and lvl < MAX_LEVEL:\n            lvl += 1\n        return lvl\n\n    def search(self, target):\n        cur = self.head\n        for i in range(self.level, -1, -1):    # top level down to 0\n            while cur.next[i] and ___________: # advance while key < target\n                cur = cur.next[i]\n        cur = cur.next[0]                       # bottom level, one step right\n        return cur.val if cur and cur.key == target else -1",
+    "solution": "cur.next[i].key < target",
+    "hints": [
+      "At each level, advance right while the next node's key is strictly less than the target — stop when next would overshoot",
+      "After descending all levels, cur.next[0] is either the target node or the first node greater than target"
+    ],
+    "test_code": "random.seed(42)\nsl = SkipList()\n\ndef insert(sl, key, val):\n    update = [None] * (MAX_LEVEL + 1)\n    cur = sl.head\n    for i in range(sl.level, -1, -1):\n        while cur.next[i] and cur.next[i].key < key: cur = cur.next[i]\n        update[i] = cur\n    lvl = sl._random_level()\n    if lvl > sl.level:\n        for i in range(sl.level+1, lvl+1): update[i] = sl.head\n        sl.level = lvl\n    node = SkipNode(key, val, lvl)\n    for i in range(lvl+1): node.next[i]=update[i].next[i]; update[i].next[i]=node\n\ninsert(sl,1,'a'); insert(sl,3,'c'); insert(sl,5,'e'); insert(sl,7,'g')\nassert sl.search(1) == 'a', 'search(1)'\nassert sl.search(3) == 'c', 'search(3)'\nassert sl.search(5) == 'e', 'search(5)'\nassert sl.search(2) == -1, 'search(2) missing'\nassert sl.search(9) == -1, 'search(9) missing'\nprint('PASS')"
+  },
+  "related": ["doubly-linked-list-01", "bst-operations-01", "avl-tree-01"],
+  "tags": ["skip-list", "probabilistic", "ordered-map", "O(log-n)", "linked-list"]
+}

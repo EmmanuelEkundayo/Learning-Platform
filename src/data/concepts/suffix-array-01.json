@@ -1,0 +1,46 @@
+{
+  "id": "suffix-array-01",
+  "slug": "suffix-array",
+  "title": "Suffix Array",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Sort all suffixes of a string lexicographically — this sorted order enables binary search to find any substring in O(m log n), and combined with the LCP array unlocks O(n) solutions for many string problems.",
+    "analogy": "A book index: instead of searching every page, you have all page-starts sorted alphabetically so you can binary-search straight to any passage in log(pages) steps.",
+    "time_complexity": "O(n log² n) naive sort; O(n log n) with radix sort; O(n) with SA-IS algorithm",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Pattern search in O((m + count) log n) — faster than brute force for many small patterns",
+      "Longest repeated substring: find max value in the LCP array (built from the suffix array)",
+      "Number of distinct substrings: n(n+1)/2 − sum(LCP array)",
+      "Competitive programming problems involving substring comparison, palindromes, or suffix structures"
+    ],
+    "gotchas": [
+      "Append a sentinel character smaller than all others (e.g., '$' with value 0) before sorting to ensure suffixes don't share an ending",
+      "The suffix array gives ranks, not the suffixes themselves — suffix i starts at SA[i] in the original string",
+      "Building the LCP array (Kasai's algorithm) requires the inverse suffix array (rank array) — don't confuse SA and rank"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "suffix-array",
+      "show_sorted_suffixes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Build a suffix array by sorting all suffix start indices lexicographically by their suffix strings.",
+    "starter_code": "def build_suffix_array(s):\n    n = len(s)\n    # Create suffix array: list of start indices sorted by suffix\n    sa = sorted(range(n), key=lambda i: ___________)\n    return sa\n\ndef longest_common_prefix(s, sa):\n    \"\"\"Build LCP array: lcp[i] = length of common prefix of sa[i] and sa[i-1].\"\"\"\n    n = len(s)\n    rank = [0] * n\n    for i, idx in enumerate(sa):\n        rank[idx] = i\n    lcp = [0] * n\n    k = 0\n    for i in range(n):\n        if rank[i] == 0:\n            k = 0\n            continue\n        j = sa[rank[i] - 1]\n        while i + k < n and j + k < n and s[i + k] == s[j + k]:\n            k += 1\n        lcp[rank[i]] = k\n        if k: k -= 1\n    return lcp",
+    "solution": "sa = sorted(range(n), key=lambda i: s[i:])",
+    "hints": [
+      "Each element of the suffix array is a start index i; sort these indices using s[i:] (the suffix starting at i) as the sort key",
+      "Python's sort is lexicographic on strings by default, so key=lambda i: s[i:] gives correct alphabetical ordering"
+    ],
+    "test_code": "sa = build_suffix_array('banana')\n# Suffixes sorted: $a, $ana, $anana, $banana, $na, $nana (ignoring $)\n# Start indices:      5    3       1        0     4     2\nassert sa == [5,3,1,0,4,2], f'Expected [5,3,1,0,4,2], got {sa}'\n\nlcp = longest_common_prefix('banana', sa)\nassert lcp[0] == 0,  'First LCP is 0 by convention'\nassert lcp[1] == 1,  'LCP(\"a\", \"ana\") = 1'\nassert lcp[2] == 3,  'LCP(\"ana\", \"anana\") = 3'\nassert lcp[3] == 0,  'LCP(\"anana\", \"banana\") = 0'\nassert lcp[4] == 0,  'LCP(\"banana\", \"na\") = 0'\nassert lcp[5] == 2,  'LCP(\"na\", \"nana\") = 2'\nprint('PASS')"
+  },
+  "related": ["string-hashing-01", "trie-01", "z-algorithm-01", "manachers-01"],
+  "tags": ["suffix-array", "string", "sorting", "LCP", "substring-search", "advanced"]
+}

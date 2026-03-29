@@ -1,0 +1,44 @@
+{
+  "id": "deep-q-network-01",
+  "slug": "deep-q-network",
+  "title": "Deep Q-Network (DQN)",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Replace the Q-table with a neural network Q(s,a;θ). Two key stabilisation tricks: (1) Replay buffer — store (s,a,r,s') transitions, sample random mini-batches to break temporal correlations; (2) Target network — separate θ⁻ updated every C steps, used only for TD targets y = r + γ·max Q(s';θ⁻), preventing the 'chasing a moving target' instability.",
+    "analogy": "Learning to play video games from pixels: the neural network takes a screenshot (state) and outputs the value of every possible action. The replay buffer is a highlight reel that gets reviewed randomly — preventing the network from over-focusing on recent experience. The target network is a snapshot of your past self that provides stable teaching signals.",
+    "time_complexity": "O(b · d²) per gradient step (b=batch size, d=network width)",
+    "space_complexity": "O(N · d_state) replay buffer + O(d²) for two networks",
+    "when_to_use": [
+      "Large or continuous state spaces with discrete action spaces (Atari, board games)",
+      "When raw sensory input (pixels, lidar) is the state",
+      "Starting point before policy gradient methods for discrete action spaces"
+    ],
+    "gotchas": [
+      "Replay buffer must be large enough to cover diverse experiences (typically 10⁴–10⁶)",
+      "Target network lag C is a hyperparameter — too small causes instability, too large causes slow learning",
+      "Double DQN: use online network to select action, target network to evaluate — reduces overestimation"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "dqn-training",
+      "show_replay": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the DQN TD target computation.",
+    "starter_code": "def dqn_td_targets(batch, Q_online, Q_target, gamma, actions):\n    \"\"\"\n    Compute DQN TD targets for a batch of transitions.\n    batch   : list of (s, a, r, s_next, done) tuples\n    Q_online: callable s -> {action: q_value}  (online network)\n    Q_target: callable s -> {action: q_value}  (target network)\n    Returns list of (s, a, target) for loss computation.\n    \"\"\"\n    results = []\n    for s, a, r, s_next, done in batch:\n        if done:\n            target = r\n        else:\n            # Standard DQN: use target network for next-state value\n            best_next_q = max(Q_target(s_next)[a_] for a_ in actions)\n            target = ___________\n        results.append((s, a, target))\n    return results",
+    "solution": "r + gamma * best_next_q",
+    "hints": [
+      "TD target for non-terminal transitions: r + γ · max_{a'} Q_target(s', a'). For terminal states, there is no future, so target = r."
+    ],
+    "test_code": "def make_Q(val_map):\n    return lambda s: val_map.get(s, {'a': 0.0, 'b': 0.0})\n\nQ_t = make_Q({'s1': {'a': 3.0, 'b': 1.0}})\nQ_o = make_Q({'s1': {'a': 3.0, 'b': 1.0}})\nactions = ['a','b']\n\nbatch = [\n    ('s0','a', 1.0, 's1', False),   # non-terminal\n    ('s0','b', 5.0, 's1', True),    # terminal\n]\nresults = dqn_td_targets(batch, Q_o, Q_t, gamma=0.9, actions=actions)\n\n# Non-terminal: 1 + 0.9 * max(3,1) = 1 + 2.7 = 3.7\nassert abs(results[0][2] - 3.7) < 1e-9, f'Expected 3.7, got {results[0][2]}'\n# Terminal: just reward\nassert results[1][2] == 5.0\nprint('PASS')"
+  },
+  "related": ["q-learning-01", "bellman-equation-01", "policy-gradient-01", "actor-critic-01"],
+  "tags": ["DQN", "deep-Q-network", "replay-buffer", "target-network", "deep-RL", "Atari", "reinforcement-learning"]
+}

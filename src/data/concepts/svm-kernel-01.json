@@ -1,0 +1,44 @@
+{
+  "id": "svm-kernel-01",
+  "slug": "svm-kernel",
+  "title": "Kernel SVM",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The kernel trick replaces the dot product xᵢᵀxⱼ with a kernel function K(xᵢ,xⱼ) = φ(xᵢ)ᵀφ(xⱼ). This implicitly maps inputs to a high-dimensional (even infinite-dimensional) feature space without explicitly computing φ. RBF kernel: K(x,z) = exp(-γ||x-z||²).",
+    "analogy": "Instead of physically lifting a 2D scatter plot into 3D to find a separating plane, the kernel trick computes the 3D distances without ever leaving 2D — the math works out the same as if you had done the lifting.",
+    "time_complexity": "O(n²d) to compute kernel matrix; O(n²) per SMO iteration",
+    "space_complexity": "O(n²) for the kernel matrix",
+    "when_to_use": [
+      "Non-linearly separable data where linear SVM fails",
+      "Small to medium datasets (kernel matrix grows as n²)",
+      "Text classification with string kernels"
+    ],
+    "gotchas": [
+      "RBF kernel has hyperparameter γ: large γ = narrow Gaussian (complex boundary), small γ = wide Gaussian (smooth boundary)",
+      "Kernel SVM predictions at test time require computing K(x_test, x_sv) for all support vectors",
+      "Does not scale to large datasets — use approximate kernels (Nyström, random Fourier features) for n > 100k"
+    ]
+  },
+  "visualization": {
+    "type": "decision-boundary",
+    "config": {
+      "mode": "svm-kernel",
+      "show_rbf": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement RBF kernel and kernel SVM prediction using support vectors.",
+    "starter_code": "import math\n\ndef rbf_kernel(x, z, gamma=1.0):\n    \"\"\"K(x,z) = exp(-gamma * ||x-z||^2)\"\"\"\n    sq_dist = sum((xi - zi)**2 for xi, zi in zip(x, z))\n    return ___________\n\ndef kernel_svm_predict(X_test, support_vectors, alphas, y_sv, bias, gamma=1.0):\n    \"\"\"\n    Predict labels for X_test using trained kernel SVM.\n    support_vectors: list of support vector feature vectors\n    alphas: dual weights\n    y_sv  : labels of support vectors (+1 or -1)\n    bias  : SVM bias term b\n    \"\"\"\n    preds = []\n    for x in X_test:\n        decision = sum(\n            alphas[i] * y_sv[i] * rbf_kernel(support_vectors[i], x, gamma)\n            for i in range(len(support_vectors))\n        ) + bias\n        preds.append(1 if decision >= 0 else -1)\n    return preds",
+    "solution": "math.exp(-gamma * sq_dist)",
+    "hints": [
+      "RBF kernel = exp(-gamma * squared Euclidean distance) — as distance increases, similarity decreases toward 0"
+    ],
+    "test_code": "import math\n# RBF kernel properties\nassert rbf_kernel([0],[0]) == 1.0                         # K(x,x)=1\nassert rbf_kernel([0],[10]) < 1e-10                        # far apart -> ~0\nassert rbf_kernel([1],[2], gamma=0.1) > rbf_kernel([1],[2], gamma=10)  # small gamma = wider\n\n# Simple classification: XOR-like\n# Support vectors and weights from a pre-trained model\nsv = [[-1,-1],[1,1],[-1,1],[1,-1]]\nalphas = [0.5,0.5,0.5,0.5]\ny_sv = [1,1,-1,-1]\nbias = 0.0\nX_test = [[-1,-1],[1,1],[-1,1],[1,-1]]\npreds = kernel_svm_predict(X_test, sv, alphas, y_sv, bias, gamma=1.0)\nassert preds[:2] == [1,1]\nassert preds[2:] == [-1,-1]\nprint('PASS')"
+  },
+  "related": ["svm-linear-01", "feature-scaling-01", "knn-01", "logistic-regression-01"],
+  "tags": ["kernel-SVM", "RBF-kernel", "kernel-trick", "non-linear", "support-vectors", "dual-formulation"]
+}

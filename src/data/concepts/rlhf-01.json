@@ -1,0 +1,44 @@
+{
+  "id": "rlhf-01",
+  "slug": "rlhf",
+  "title": "RLHF — Reinforcement Learning from Human Feedback",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Three-stage pipeline: (1) SFT — supervised fine-tune LLM on demonstration data; (2) Reward Model — train a regressor on human preference pairs (y_w ≻ y_l) using the Bradley-Terry objective: L = -log σ(r(x,y_w) - r(x,y_l)); (3) RL fine-tuning — optimise LLM with PPO to maximise reward while penalising KL divergence from SFT: R = r(x,y) - β·KL(π_RL || π_SFT).",
+    "analogy": "Training a chef by hiring food critics: first teach basics via recipes (SFT), then ask critics to compare pairs of dishes (reward model), then let the chef iterate recipes to maximise critic scores while not straying too far from good cooking fundamentals (KL penalty). The KL penalty prevents cooking insane dishes that fool the critics but are inedible.",
+    "time_complexity": "O(3 × n × T × d²L) — three training phases, each expensive",
+    "space_complexity": "O(3 × model_size) — SFT, reward model, and RL model",
+    "when_to_use": [
+      "Aligning LLMs to be helpful, harmless, and honest",
+      "When the desired behaviour is hard to specify with a simple loss function",
+      "RLHF is standard in ChatGPT, Claude, Gemini training pipelines"
+    ],
+    "gotchas": [
+      "Reward hacking: model finds outputs that score high on reward model but are not actually good — needs KL penalty",
+      "Human labeller inconsistency: preference labels are noisy — need inter-annotator agreement filtering",
+      "DPO (Direct Preference Optimization) eliminates the RL step by optimising preference directly on the LLM"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "rlhf",
+      "show_pipeline": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the Bradley-Terry reward model loss from human preference pairs.",
+    "starter_code": "import math\n\ndef bradley_terry_loss(reward_win, reward_lose):\n    \"\"\"\n    Bradley-Terry loss for a single preference pair:\n    L = -log( sigma(r_win - r_lose) )\n    reward_win : scalar reward for the preferred response\n    reward_lose: scalar reward for the rejected response\n    \"\"\"\n    diff = reward_win - reward_lose\n    return ___________\n\ndef reward_model_loss(pairs):\n    \"\"\"\n    Average Bradley-Terry loss over a batch of (r_win, r_lose) pairs.\n    \"\"\"\n    return sum(bradley_terry_loss(rw, rl) for rw, rl in pairs) / len(pairs)",
+    "solution": "-math.log(1.0 / (1.0 + math.exp(-diff)))",
+    "hints": [
+      "Bradley-Terry: L = -log σ(r_win - r_lose) = -log(1/(1+exp(-(r_win - r_lose)))). Use math.log and math.exp."
+    ],
+    "test_code": "import math\n\n# Perfect separation: large positive diff -> low loss\nloss_easy = bradley_terry_loss(5.0, -5.0)\nassert loss_easy < 0.01, f'Loss with clear winner should be tiny: {loss_easy:.6f}'\n\n# No separation: loss = log(2) ≈ 0.693\nloss_tie = bradley_terry_loss(0.0, 0.0)\nassert abs(loss_tie - math.log(2)) < 1e-9\n\n# Wrong order: high loss\nloss_wrong = bradley_terry_loss(-3.0, 3.0)\nassert loss_wrong > 3.0\n\n# Batch loss\nbatch = [(2.0, 0.0), (1.0, -1.0), (3.0, 1.0)]\nbatch_loss = reward_model_loss(batch)\nassert 0 < batch_loss < 1.0\nprint('PASS')"
+  },
+  "related": ["ppo-01", "gpt-01", "finetuning-vs-prompting-01", "policy-gradient-01"],
+  "tags": ["RLHF", "reward-model", "Bradley-Terry", "PPO", "alignment", "LLM", "DPO", "human-feedback"]
+}

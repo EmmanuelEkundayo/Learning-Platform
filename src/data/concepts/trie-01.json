@@ -1,0 +1,47 @@
+{
+  "id": "trie-01",
+  "slug": "trie",
+  "title": "Trie (Prefix Tree)",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Store strings character-by-character in a tree where common prefixes share nodes — searching for a word takes time proportional to its length, not the dictionary size.",
+    "analogy": "A phone directory organized as a branching tree of letters: to look up 'Andrew', you follow A → N → D → R → E → W, sharing the 'A' branch with 'Alice' and 'Anna'.",
+    "time_complexity": "O(m) for insert/search/delete where m = word length",
+    "space_complexity": "O(ALPHABET_SIZE × N × M) worst case — O(total characters) with a hash map at each node",
+    "when_to_use": [
+      "Autocomplete / prefix search: find all words with a given prefix in O(prefix_len + results)",
+      "Word validation in a dictionary where prefix queries are needed",
+      "Longest common prefix of a set of strings",
+      "Building block for Aho-Corasick multi-pattern search"
+    ],
+    "gotchas": [
+      "Mark is_end (or store a count) at word endings — without it, you can't distinguish 'app' stored in a trie that also contains 'apple'",
+      "Deletion is tricky: only delete nodes if no other word passes through them — check child count before pruning",
+      "A hash map at each node (dict) is simpler and handles arbitrary alphabets; a fixed array of size 26 is faster but only for lowercase Latin"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "trie",
+      "show_is_end": true,
+      "show_edge_labels": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Trie insert method. Each character becomes a child node; mark the last node as a word ending.",
+    "starter_code": "class TrieNode:\n    def __init__(self):\n        self.children = {}\n        self.is_end = False\n\nclass Trie:\n    def __init__(self):\n        self.root = TrieNode()\n\n    def insert(self, word):\n        node = self.root\n        for ch in word:\n            if ch not in node.children:\n                node.children[ch] = ___________\n            node = node.children[ch]\n        ___________\n\n    def search(self, word):\n        node = self.root\n        for ch in word:\n            if ch not in node.children:\n                return False\n            node = node.children[ch]\n        return node.is_end\n\n    def starts_with(self, prefix):\n        node = self.root\n        for ch in prefix:\n            if ch not in node.children:\n                return False\n            node = node.children[ch]\n        return True",
+    "solution": "node.children[ch] = TrieNode()\nnode.is_end = True",
+    "hints": [
+      "When a character isn't in the current node's children, create a new TrieNode() and store it",
+      "After processing all characters in the word, set node.is_end = True to mark this as a complete word"
+    ],
+    "test_code": "t = Trie()\nt.insert('apple')\nt.insert('app')\nt.insert('apply')\nt.insert('banana')\nassert t.search('apple')  == True,  'apple was inserted'\nassert t.search('app')    == True,  'app was inserted'\nassert t.search('ap')     == False, 'ap was not inserted'\nassert t.search('appl')   == False, 'appl was not inserted'\nassert t.starts_with('app') == True,  'prefix app exists'\nassert t.starts_with('ban') == True,  'prefix ban exists'\nassert t.starts_with('xyz') == False, 'prefix xyz missing'\nassert t.search('banana') == True,  'banana was inserted'\nprint('PASS')"
+  },
+  "related": ["aho-corasick-01", "suffix-array-01", "string-hashing-01", "kmp-01"],
+  "tags": ["trie", "prefix-tree", "string", "autocomplete", "dictionary"]
+}

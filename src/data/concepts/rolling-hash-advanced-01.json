@@ -1,0 +1,44 @@
+{
+  "id": "rolling-hash-advanced-01",
+  "slug": "rolling-hash-advanced",
+  "title": "Rolling Hash — Advanced (Double Hashing & Anti-Hack)",
+  "domain": "DSA",
+  "category": "Hashing",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Single-modulus rolling hash is vulnerable to adversarial collision attacks. Double hashing (two independent hash functions, two moduli) reduces collision probability to ≈ 1/(MOD1 · MOD2) ≈ 10⁻¹⁸. Random base selection at runtime prevents pre-computed hack inputs.",
+    "analogy": "A vault with two independently keyed locks: even if an attacker crafts a key for one lock, they still need to crack the other independently. Using a random key each time prevents pre-computed master keys from working.",
+    "time_complexity": "O(n) to build; O(1) per substring hash query",
+    "space_complexity": "O(n) for prefix hash arrays",
+    "when_to_use": [
+      "String matching in competitive programming where single-hash solutions are hacked",
+      "Suffix arrays / palindrome checks where collision-free comparison is critical",
+      "Any application requiring high-confidence string equality without full comparison"
+    ],
+    "gotchas": [
+      "Choose large prime moduli (e.g., 10⁹+7 and 10⁹+9) and a random base to prevent anti-hash tests",
+      "Precompute power arrays for O(1) substring hash queries",
+      "Double hash still has collisions — just astronomically unlikely (≈10⁻¹⁸ per pair)"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "double-hash",
+      "show_hash_values": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement double hashing for O(1) substring hash queries.",
+    "starter_code": "import random\n\nclass DoubleHash:\n    MOD1, MOD2 = 10**9 + 7, 10**9 + 9\n\n    def __init__(self, s):\n        n = len(s)\n        BASE1 = random.randint(131, 137)\n        BASE2 = random.randint(139, 149)\n        self.h1 = [0] * (n + 1)\n        self.h2 = [0] * (n + 1)\n        self.p1 = [1] * (n + 1)\n        self.p2 = [1] * (n + 1)\n        for i, c in enumerate(s):\n            self.h1[i+1] = (self.h1[i] * BASE1 + ord(c)) % self.MOD1\n            self.h2[i+1] = (self.h2[i] * BASE2 + ord(c)) % self.MOD2\n            self.p1[i+1] = self.p1[i] * BASE1 % self.MOD1\n            self.p2[i+1] = self.p2[i] * BASE2 % self.MOD2\n\n    def get(self, l, r):\n        \"\"\"Hash of s[l..r] (0-indexed, inclusive) as a (h1, h2) tuple.\"\"\"\n        v1 = (self.h1[r+1] - self.h1[l] * self.p1[r-l+1]) % self.MOD1\n        v2 = ___________\n        return (v1, v2)",
+    "solution": "(self.h2[r+1] - self.h2[l] * self.p2[r-l+1]) % self.MOD2",
+    "hints": [
+      "Mirror the h1 formula for h2: v2 = (self.h2[r+1] - self.h2[l] * self.p2[r-l+1]) % self.MOD2"
+    ],
+    "test_code": "dh = DoubleHash('abcabc')\nassert dh.get(0,2) == dh.get(3,5), 'abc == abc'\nassert dh.get(0,0) == dh.get(3,3), 'a == a'\nassert dh.get(0,2) != dh.get(0,1), 'abc != ab (with overwhelming probability)'\n\n# Pattern matching: find all occurrences of 'ab' in 'ababab'\ntext = 'ababab'; pat = 'ab'\nth = DoubleHash(text); ph = DoubleHash(pat)\nph_hash = ph.get(0, len(pat)-1)\nmatches = [i for i in range(len(text)-len(pat)+1) if th.get(i, i+len(pat)-1) == ph_hash]\nassert matches == [0,2,4]\nprint('PASS')"
+  },
+  "related": ["rolling-hash-01", "rabin-karp-01", "string-hashing-01", "kmp-01"],
+  "tags": ["rolling-hash", "double-hash", "anti-hack", "string-hashing", "collision-resistance"]
+}

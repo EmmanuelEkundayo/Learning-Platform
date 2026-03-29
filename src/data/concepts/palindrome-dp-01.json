@@ -1,0 +1,44 @@
+{
+  "id": "palindrome-dp-01",
+  "slug": "palindrome-dp",
+  "title": "Palindrome DP",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "dp[i][j] = True if s[i..j] is a palindrome. Base: all single chars are palindromes (dp[i][i]=True), adjacent equal chars (dp[i][i+1] = s[i]==s[i+1]). Expansion: dp[i][j] = (s[i]==s[j]) and dp[i+1][j-1]. Fill by increasing substring length.",
+    "analogy": "Checking if a nested set of parentheses is balanced: once you confirm the inner brackets are balanced, you just check if the outer pair matches. Palindromes work the same way — check borders, then trust the inner result.",
+    "time_complexity": "O(n²) for the DP table; Manacher's is O(n) for all palindromic substrings",
+    "space_complexity": "O(n²) for dp table; O(n) for Manacher's",
+    "when_to_use": [
+      "Longest palindromic substring / subsequence",
+      "Minimum cuts to partition a string into palindromes",
+      "Count of palindromic substrings"
+    ],
+    "gotchas": [
+      "Fill the table by LENGTH of substring (len=1, then len=2, ...) not by row — dp[i+1][j-1] must be filled before dp[i][j]",
+      "Longest palindromic SUBSEQUENCE ≠ substring — subsequence uses LCS(s, reverse(s))",
+      "For minimum palindrome partition, use a second DP on top of the palindrome table"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-boolean",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the longest palindromic substring using DP.",
+    "starter_code": "def longest_palindrome(s):\n    n = len(s)\n    if n == 0: return ''\n    dp = [[False] * n for _ in range(n)]\n    start, max_len = 0, 1\n\n    # All substrings of length 1\n    for i in range(n):\n        dp[i][i] = True\n\n    # Substrings of length 2\n    for i in range(n - 1):\n        if s[i] == s[i+1]:\n            dp[i][i+1] = True\n            start, max_len = i, 2\n\n    # Substrings of length 3 and above\n    for length in range(3, n + 1):\n        for i in range(n - length + 1):\n            j = i + length - 1\n            if s[i] == s[j] and ___________:\n                dp[i][j] = True\n                if length > max_len:\n                    start, max_len = i, length\n    return s[start: start + max_len]",
+    "solution": "dp[i+1][j-1]",
+    "hints": [
+      "s[i..j] is a palindrome if s[i]==s[j] AND the inner substring s[i+1..j-1] is also a palindrome — check dp[i+1][j-1]"
+    ],
+    "test_code": "result = longest_palindrome('babad')\nassert result in ('bab', 'aba'), f'Got {result}'\nassert longest_palindrome('cbbd') == 'bb'\nassert longest_palindrome('a') == 'a'\nassert longest_palindrome('ac') in ('a','c')\nassert longest_palindrome('racecar') == 'racecar'\nprint('PASS')"
+  },
+  "related": ["longest-common-subsequence-01", "edit-distance-01", "manachers-01", "interval-dp-01"],
+  "tags": ["palindrome", "dynamic-programming", "longest-palindromic-substring", "string-dp", "O(n^2)"]
+}

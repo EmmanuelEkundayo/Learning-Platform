@@ -1,0 +1,44 @@
+{
+  "id": "k-way-merge-01",
+  "slug": "k-way-merge",
+  "title": "K-way Merge",
+  "domain": "DSA",
+  "category": "Heaps",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Merge k sorted lists into one using a min-heap. Push the first element of each list onto the heap. Repeatedly pop the minimum — which is the next element of the merged output — and push that list's next element. O(n log k) total.",
+    "analogy": "Merging k sorted leaderboards into one: put the current top player from each leaderboard in a tournament bracket. The overall winner (smallest) advances, and their replacement from the same leaderboard enters the bracket.",
+    "time_complexity": "O(n log k) where n = total elements, k = number of lists",
+    "space_complexity": "O(k) for the heap + O(n) for output",
+    "when_to_use": [
+      "Merging sorted files in external sort (tape sort)",
+      "Merge k sorted linked lists (LeetCode classic)",
+      "Stream aggregation from k sorted producers"
+    ],
+    "gotchas": [
+      "Store (value, list_index, element_index) in the heap — needed to fetch the next element from the right list",
+      "Handle empty lists before pushing to avoid IndexError",
+      "For k=2, a simple two-pointer merge is O(n) — heap is only better for k > 2"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "k-way-merge",
+      "show_heap_state": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement k-way merge using a min-heap.",
+    "starter_code": "import heapq\n\ndef k_way_merge(lists):\n    \"\"\"\n    lists: list of sorted lists\n    Returns a single sorted list containing all elements.\n    \"\"\"\n    heap   = []\n    result = []\n\n    # Seed the heap with the first element from each list\n    for i, lst in enumerate(lists):\n        if lst:\n            heapq.heappush(heap, (lst[0], i, 0))\n\n    while heap:\n        val, list_idx, elem_idx = heapq.heappop(heap)\n        result.append(val)\n        next_idx = elem_idx + 1\n        if next_idx < len(lists[list_idx]):\n            heapq.heappush(heap, (___________, list_idx, next_idx))\n    return result",
+    "solution": "lists[list_idx][next_idx]",
+    "hints": [
+      "Push the next element from the same list: (lists[list_idx][next_idx], list_idx, next_idx)"
+    ],
+    "test_code": "lists1 = [[1,4,7],[2,5,8],[3,6,9]]\nassert k_way_merge(lists1) == list(range(1,10))\n\nlists2 = [[1,3,5,7],[2,4,6,8]]\nassert k_way_merge(lists2) == list(range(1,9))\n\nassert k_way_merge([[],[1],[],[]]) == [1]\nassert k_way_merge([]) == []\nassert k_way_merge([[1]]) == [1]\nprint('PASS')"
+  },
+  "related": ["max-min-heap-01", "heap-operations-01", "merge-linked-lists-01", "heapify-01"],
+  "tags": ["k-way-merge", "heap", "external-sort", "sorted-merge", "O(n-log-k)"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "hash-table-internals-01",
+  "slug": "hash-table-internals",
+  "title": "Hash Table Internals",
+  "domain": "DSA",
+  "category": "Hashing",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A hash table maps keys to array indices via a hash function. Collisions (two keys mapping to the same index) are resolved by chaining (linked lists) or open addressing (probing). Load factor α = n/m controls resize: rehash when α > threshold.",
+    "analogy": "A cloakroom that assigns tickets by the first letter of your name. Many people share the same first letter (collision), so each slot holds a list of coats (chaining) or the attendant checks nearby hooks (open addressing).",
+    "time_complexity": "O(1) average for insert/search/delete; O(n) worst case with bad hash or many collisions",
+    "space_complexity": "O(n + m) where m = table size",
+    "when_to_use": [
+      "Fast key-value lookup with O(1) average access",
+      "Frequency counting, deduplication, set membership",
+      "Cache implementations (with eviction policies)"
+    ],
+    "gotchas": [
+      "A good hash function distributes keys uniformly — poor distribution degrades to O(n)",
+      "Load factor threshold: typically resize at α > 0.75 (Java HashMap) — rehashing is O(n) amortised",
+      "Python dict uses open addressing with pseudo-random probing; Java HashMap uses chaining"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "hash-table",
+      "show_buckets": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a simple hash table with chaining (separate chaining collision resolution).",
+    "starter_code": "class HashTable:\n    def __init__(self, capacity=8):\n        self.capacity = capacity\n        self.buckets  = [[] for _ in range(capacity)]\n        self.size     = 0\n\n    def _hash(self, key):\n        return hash(key) % self.capacity\n\n    def put(self, key, value):\n        idx = self._hash(key)\n        for i, (k, v) in enumerate(self.buckets[idx]):\n            if k == key:\n                self.buckets[idx][i] = (key, value)  # update\n                return\n        self.buckets[idx].append((key, value))\n        self.size += 1\n        if self.size / self.capacity > 0.75:\n            self._resize()\n\n    def get(self, key):\n        idx = self._hash(key)\n        for k, v in ___________:    # search the chain at this index\n            if k == key:\n                return v\n        raise KeyError(key)\n\n    def _resize(self):\n        old = self.buckets\n        self.capacity *= 2\n        self.buckets = [[] for _ in range(self.capacity)]\n        self.size = 0\n        for bucket in old:\n            for k, v in bucket:\n                self.put(k, v)",
+    "solution": "self.buckets[idx]",
+    "hints": [
+      "Iterate over self.buckets[idx] — the chain (list of (key, value) pairs) at the hashed index"
+    ],
+    "test_code": "ht = HashTable()\nht.put('a', 1); ht.put('b', 2); ht.put('c', 3)\nassert ht.get('a') == 1\nassert ht.get('b') == 2\nht.put('a', 99)           # update\nassert ht.get('a') == 99\n# Force resize by inserting many keys\nfor i in range(20): ht.put(i, i*2)\nfor i in range(20): assert ht.get(i) == i*2\ntry:\n    ht.get('missing')\n    assert False, 'Should raise'\nexcept KeyError:\n    pass\nprint('PASS')"
+  },
+  "related": ["open-addressing-01", "chaining-01", "rolling-hash-01", "consistent-hashing-01"],
+  "tags": ["hash-table", "chaining", "load-factor", "rehashing", "collision"]
+}

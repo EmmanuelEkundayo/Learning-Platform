@@ -1,0 +1,47 @@
+{
+  "id": "rolling-hash-01",
+  "slug": "rolling-hash",
+  "title": "Rolling Hash",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "When sliding a window of size m by one position, update the hash in O(1) by subtracting the contribution of the outgoing character and adding the incoming one.",
+    "analogy": "A taxi meter that updates the fare by subtracting the starting zone surcharge and adding the new zone rate as you cross a boundary — no need to recalculate the whole trip.",
+    "time_complexity": "O(1) per slide after O(m) initial build",
+    "space_complexity": "O(1) — just the current hash value and a precomputed power",
+    "when_to_use": [
+      "Sliding window of fixed size where equality checks between windows are needed",
+      "Rabin-Karp string search (rolling hash is its core primitive)",
+      "Comparing all substrings of length k: build once in O(n), slide in O(1) each step",
+      "2D rolling hash for grid pattern matching"
+    ],
+    "gotchas": [
+      "You must precompute BASE^(m-1) % MOD before starting to slide — it's the weight of the leftmost character being removed",
+      "Subtraction can produce negative values in modular arithmetic: always add MOD before taking % MOD after a subtraction",
+      "Rolling hash is probabilistic — a collision (two different strings with the same hash) is rare but possible; double-hash or verify on match"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rolling-hash",
+      "show_window": true,
+      "show_hash_value": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the rolling hash update: slide the window right by removing the leftmost character and adding the new rightmost character.",
+    "starter_code": "def all_window_hashes(s, m, base=131, mod=10**9 + 7):\n    \"\"\"Return a list of rolling hashes for every window of size m in s.\"\"\"\n    n = len(s)\n    if n < m:\n        return []\n\n    # Precompute base^(m-1) — weight of the character being removed\n    power = 1\n    for _ in range(m - 1):\n        power = (power * base) % mod\n\n    # Build initial window hash\n    h = 0\n    for i in range(m):\n        h = (h * base + ord(s[i])) % mod\n    hashes = [h]\n\n    # Slide the window\n    for i in range(1, n - m + 1):\n        # Remove outgoing char (leftmost of previous window)\n        h = (h - ord(s[i - 1]) * power % mod + mod) % mod\n        # Add incoming char (rightmost of new window)\n        h = ___________\n        hashes.append(h)\n    return hashes",
+    "solution": "h = (h * base + ord(s[i + m - 1])) % mod",
+    "hints": [
+      "After removing the leftmost character, the remaining hash needs to be shifted left (× base) and then the new rightmost character's value added",
+      "New hash = (current_hash × base + ord(new_char)) % mod — same polynomial recurrence used in the initial build, now applied to the shifted window"
+    ],
+    "test_code": "BASE, MOD = 131, 10**9 + 7\n\ndef manual_hash(s, base, mod):\n    h = 0\n    for c in s: h = (h * base + ord(c)) % mod\n    return h\n\nhashes = all_window_hashes('abcde', 3, BASE, MOD)\nassert len(hashes) == 3,                                    'n-m+1 = 3 windows'\nassert hashes[0] == manual_hash('abc', BASE, MOD),          'Window 0: \"abc\"'\nassert hashes[1] == manual_hash('bcd', BASE, MOD),          'Window 1: \"bcd\"'\nassert hashes[2] == manual_hash('cde', BASE, MOD),          'Window 2: \"cde\"'\n\nhashes2 = all_window_hashes('aaaa', 2, BASE, MOD)\nassert hashes2[0] == hashes2[1] == hashes2[2],              'All \"aa\" windows equal'\nprint('PASS')"
+  },
+  "related": ["rabin-karp-01", "string-hashing-01", "sliding-window-01"],
+  "tags": ["rolling-hash", "hashing", "sliding-window", "string", "O(1)-update"]
+}

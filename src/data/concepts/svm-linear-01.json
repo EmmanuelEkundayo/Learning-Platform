@@ -1,0 +1,45 @@
+{
+  "id": "svm-linear-01",
+  "slug": "svm-linear",
+  "title": "Linear SVM",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Find the hyperplane that separates classes with the maximum margin. The margin = 2/||w||. Soft-margin SVM allows slack variables (misclassifications) penalised by C. The decision boundary is wᵀx + b = 0; hinge loss = max(0, 1 - y·(wᵀx+b)).",
+    "analogy": "Drawing the widest possible road between two groups of people. A narrow road works but a wide one gives more safety margin. Support vectors are the people standing closest to the road's edges — they define the road width.",
+    "time_complexity": "O(n · d) per SGD step; O(n² · d) for kernel SVM with SMO",
+    "space_complexity": "O(d) for weights (linear SVM); O(n_sv) for kernel SVM (support vectors)",
+    "when_to_use": [
+      "High-dimensional data (text, gene expression) where a linear boundary often works well",
+      "When maximum margin is desirable for robust generalisation",
+      "As a baseline before trying kernel SVM or neural networks"
+    ],
+    "gotchas": [
+      "C controls the margin-accuracy tradeoff: large C = fewer misclassifications (narrow margin), small C = wide margin (more misclassifications allowed)",
+      "Scale features before SVM — the margin in pixel space ≠ in normalised space",
+      "SVM predicts labels, not probabilities — use Platt scaling to get probabilities"
+    ]
+  },
+  "visualization": {
+    "type": "decision-boundary",
+    "config": {
+      "mode": "svm-linear",
+      "show_margin": true,
+      "show_support_vectors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement linear SVM training using sub-gradient SGD on the hinge loss.",
+    "starter_code": "def linear_svm_sgd(X, y, C=1.0, lr=0.01, epochs=500, seed=0):\n    \"\"\"\n    X: feature matrix; y: labels in {-1, +1}\n    Returns weight vector w (no bias for simplicity).\n    \"\"\"\n    import random; random.seed(seed)\n    n, d = len(X), len(X[0])\n    w    = [0.0] * d\n\n    for epoch in range(1, epochs+1):\n        eta = lr / epoch  # decreasing learning rate\n        for i in range(n):\n            score = sum(w[j]*X[i][j] for j in range(d))\n            if y[i] * score < 1:  # inside or wrong side of margin\n                for j in range(d):\n                    w[j] = w[j] * (1 - eta) + ___________  # regularise + hinge gradient\n            else:\n                for j in range(d):\n                    w[j] *= (1 - eta)  # only regularise\n    return w\n\ndef predict_svm(X, w):\n    return [1 if sum(w[j]*x[j] for j in range(len(w))) >= 0 else -1 for x in X]",
+    "solution": "eta * C * y[i] * X[i][j]",
+    "hints": [
+      "When inside the margin (y*score < 1), the sub-gradient is -C*y*x. Update: w = w*(1-eta) + eta*C*y[i]*X[i][j]"
+    ],
+    "test_code": "# Linearly separable: y=+1 if x0>x1, y=-1 otherwise\nX = [[2,0],[3,1],[4,0],[0,2],[1,3],[0,4]]\ny = [1, 1, 1, -1, -1, -1]\nw = linear_svm_sgd(X, y, C=1.0, lr=0.1, epochs=200)\npreds = predict_svm(X, w)\nassert preds == y, f'Got {preds}'\nprint('PASS')"
+  },
+  "related": ["svm-kernel-01", "logistic-regression-01", "feature-scaling-01", "l1-l2-regularization-01"],
+  "tags": ["SVM", "linear-SVM", "hinge-loss", "max-margin", "support-vectors", "classification"]
+}

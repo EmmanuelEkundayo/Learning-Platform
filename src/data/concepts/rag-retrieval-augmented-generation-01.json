@@ -1,0 +1,44 @@
+{
+  "id": "rag-retrieval-augmented-generation-01",
+  "slug": "rag-retrieval-augmented-generation",
+  "title": "RAG — Retrieval-Augmented Generation",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "RAG addresses LLM hallucinations and knowledge cutoffs by grounding generation in retrieved documents. Pipeline: (1) Offline — chunk documents, embed with dense encoder, store in vector DB; (2) Online — embed query, retrieve top-k chunks by cosine similarity, concatenate retrieved context with query, pass to LLM. The LLM generates conditioned on both its parametric knowledge and the retrieved evidence.",
+    "analogy": "An open-book exam: instead of relying purely on memorised knowledge (LLM alone), the student can look up relevant passages in textbooks (retrieval) and incorporate them into the answer. The student still needs understanding to synthesise the retrieved information — pure copying fails.",
+    "time_complexity": "O(d · |corpus|) to build index; O(d · log|corpus|) to retrieve with HNSW",
+    "space_complexity": "O(|corpus| · d) for the vector index",
+    "when_to_use": [
+      "Knowledge-intensive QA over proprietary/updated documents",
+      "Reducing hallucinations when factual accuracy is critical",
+      "Cheaper than fine-tuning: update knowledge by updating the index, not the model"
+    ],
+    "gotchas": [
+      "Chunking strategy matters: chunks too small lose context, too large dilute relevance",
+      "Retrieval quality bottleneck: if retriever misses the right chunk, LLM cannot answer",
+      "Reranking: use a cross-encoder to rerank top-k retrieved chunks before passing to LLM"
+    ]
+  },
+  "visualization": {
+    "type": "vector-space",
+    "config": {
+      "mode": "rag",
+      "show_retrieval": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement cosine similarity retrieval for a RAG pipeline.",
+    "starter_code": "import math\n\ndef cosine_similarity(a, b):\n    dot   = sum(ai*bi for ai,bi in zip(a,b))\n    norm_a = math.sqrt(sum(x**2 for x in a))\n    norm_b = math.sqrt(sum(x**2 for x in b))\n    if norm_a == 0 or norm_b == 0: return 0.0\n    return dot / (norm_a * norm_b)\n\ndef retrieve_top_k(query_emb, doc_embs, docs, k):\n    \"\"\"\n    Retrieve the top-k documents by cosine similarity.\n    query_emb: embedding vector for the query\n    doc_embs : list of embedding vectors for each document\n    docs     : list of document strings\n    Returns list of (score, doc) tuples sorted by descending score.\n    \"\"\"\n    scored = [\n        (cosine_similarity(query_emb, doc_emb), doc)\n        for doc_emb, doc in zip(doc_embs, docs)\n    ]\n    return ___________",
+    "solution": "sorted(scored, key=lambda x: x[0], reverse=True)[:k]",
+    "hints": [
+      "Sort the scored list by cosine similarity in descending order and return the top k entries."
+    ],
+    "test_code": "import math\n# Embeddings in 3D\ndocs = ['cats and dogs', 'machine learning', 'neural networks']\ndoc_embs = [\n    [1.0, 0.0, 0.0],\n    [0.0, 1.0, 0.0],\n    [0.0, 0.9, 0.1]\n]\n\n# Query similar to 'machine learning'\nquery = [0.0, 1.0, 0.0]\nresults = retrieve_top_k(query, doc_embs, docs, k=2)\nassert len(results) == 2\nassert results[0][1] == 'machine learning', f'Top result: {results[0][1]}'\nassert results[0][0] >= results[1][0]  # sorted descending\nassert results[1][1] == 'neural networks'\n\n# Query similar to 'cats'\nresults2 = retrieve_top_k([1.0,0,0], doc_embs, docs, k=1)\nassert results2[0][1] == 'cats and dogs'\nprint('PASS')"
+  },
+  "related": ["vector-embeddings-faiss-01", "attention-mechanism-01", "bert-01", "finetuning-vs-prompting-01"],
+  "tags": ["RAG", "retrieval-augmented-generation", "vector-search", "cosine-similarity", "hallucination", "LLM", "knowledge-base"]
+}

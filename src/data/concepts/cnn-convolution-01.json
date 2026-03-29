@@ -1,0 +1,44 @@
+{
+  "id": "cnn-convolution-01",
+  "slug": "cnn-convolution",
+  "title": "CNN — Convolution Layer",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Slide a small learnable filter (kernel) across the input, computing dot products at each position: output[i][j] = Σ filter·patch + bias. Key properties: parameter sharing (same filter reused everywhere), local connectivity (each output sees a small receptive field), and translation equivariance. Output size = (H − K + 2P) / S + 1.",
+    "analogy": "Stamping a pattern-detector across a page: the stamp (filter) slides over every region and lights up when it finds its pattern (high dot product). The same stamp works everywhere on the page — a cat-detector in the corner detects cats anywhere else too.",
+    "time_complexity": "O(H · W · K² · C_in · C_out) per layer",
+    "space_complexity": "O(K² · C_in · C_out) for filter weights",
+    "when_to_use": [
+      "Image data where local spatial structure matters",
+      "Any signal with translation equivariance (audio spectrograms, 1D time series)",
+      "Early layers learn edges/textures; deeper layers learn semantic features"
+    ],
+    "gotchas": [
+      "Padding='same' preserves spatial dimensions; 'valid' reduces them by K-1",
+      "Stride > 1 downsamples the feature map — use for spatial compression",
+      "Receptive field grows slowly with depth — use dilated convolutions for larger fields"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "cnn-convolution",
+      "show_filter_slide": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement 2D convolution with valid padding.",
+    "starter_code": "def conv2d(X, K, stride=1):\n    \"\"\"\n    X: 2D input (H x W)\n    K: 2D kernel (kH x kW)\n    stride: step size\n    Returns output feature map (no padding).\n    \"\"\"\n    H,  W  = len(X),    len(X[0])\n    kH, kW = len(K),    len(K[0])\n    oH = (H - kH) // stride + 1\n    oW = (W - kW) // stride + 1\n    out = []\n    for i in range(oH):\n        row = []\n        for j in range(oW):\n            val = sum(\n                X[i*stride + di][j*stride + dj] * K[di][dj]\n                for di in range(kH)\n                for dj in range(kW)\n            )\n            row.append(___________)\n        out.append(row)\n    return out",
+    "solution": "val",
+    "hints": [
+      "Append the computed dot product val directly — it is already the convolution output at position (i,j)."
+    ],
+    "test_code": "# Identity kernel\nI = [[0,0,0,0,0],[0,1,0,0,0],[0,0,0,0,0],[0,0,0,0,0],[0,0,0,0,0]]\nK_id = [[1]]\nassert conv2d(I, K_id) == I\n\n# Edge detection (horizontal Sobel)\nimg = [[1,1,1,1],[1,1,1,1],[0,0,0,0],[0,0,0,0]]\nsobel = [[-1,-2,-1],[0,0,0],[1,2,1]]\nout = conv2d(img, sobel)\nassert out[0][0] == -4  # top edge: no change (all 1s)\nassert out[1][0] == -8  # crossing edge\n\n# Stride 2\nX5 = [[float(i*5+j) for j in range(5)] for i in range(5)]\nK3 = [[1,0,0],[0,1,0],[0,0,1]]\nout2 = conv2d(X5, K3, stride=2)\nassert len(out2) == 2 and len(out2[0]) == 2\nprint('PASS')"
+  },
+  "related": ["cnn-pooling-01", "mlp-01", "batch-normalization-01", "weight-initialization-01"],
+  "tags": ["CNN", "convolution", "filter", "feature-map", "parameter-sharing", "translation-equivariance"]
+}

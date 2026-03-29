@@ -1,0 +1,47 @@
+{
+  "id": "lowest-common-ancestor-01",
+  "slug": "lowest-common-ancestor",
+  "title": "Lowest Common Ancestor (LCA)",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The LCA of two nodes p and q is the deepest node that has both as descendants — once the recursion finds p or q, it reports upward; the first node that gets reports from both sides is the LCA.",
+    "analogy": "Two cousins tracing their family tree — they each walk up their lineage; the first common ancestor they reach (the deepest one) is their LCA.",
+    "time_complexity": "O(n) naive DFS; O(log n) per query with binary lifting preprocessing in O(n log n)",
+    "space_complexity": "O(n) for DFS stack; O(n log n) for binary lifting table",
+    "when_to_use": [
+      "Finding the nearest common ancestor of two nodes in a tree",
+      "Computing distances between two nodes: dist(u,v) = depth(u) + depth(v) - 2*depth(LCA(u,v))",
+      "Path queries on trees — the path from u to v goes through LCA(u,v)",
+      "Repeated LCA queries on the same tree (use binary lifting or Euler tour + RMQ)"
+    ],
+    "gotchas": [
+      "If one node is an ancestor of the other, that ancestor IS the LCA — the recursive solution handles this naturally by returning the found node immediately",
+      "The naive approach requires the tree to be rooted — an unrooted tree needs a root choice first",
+      "Binary lifting requires O(n log n) preprocessing but answers each query in O(log n) — worth it for many queries"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "lca",
+      "show_path": true,
+      "highlight_lca": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the LCA using a single post-order DFS. Return the LCA node.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef lca(root, p, q):\n    # Base case: empty subtree or found one of the targets\n    if not root or root is p or root is q:\n        return root\n    left  = lca(root.left,  p, q)\n    right = lca(root.right, p, q)\n    # Both subtrees found a target node — this is the LCA\n    if left and right:\n        return ___________\n    # Only one subtree found something — propagate it upward\n    return ___________",
+    "solution": "return root\nreturn left if left else right",
+    "hints": [
+      "When both left and right are non-None, the current node is the LCA — it has one target on each side",
+      "When only one is non-None, that subtree contains both targets (or found one) — propagate it up"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\n\nn3=TreeNode(3); n5=TreeNode(5); n1=TreeNode(1)\nn6=TreeNode(6); n2=TreeNode(2,TreeNode(7),TreeNode(4)); n0=TreeNode(0); n8=TreeNode(8)\nn5.left=n6; n5.right=n2; n1.left=n0; n1.right=n8\nn3.left=n5; n3.right=n1\n\nassert lca(n3,n5,n1).val == 3, 'LCA(5,1) = 3'\nassert lca(n3,n5,n4:=n2.right).val == 5, 'LCA(5,4) = 5  (5 is ancestor of 4)'\nassert lca(n3,n6,n4).val == 5, 'LCA(6,4) = 5'\nprint('PASS')"
+  },
+  "related": ["bfs-tree-01", "tree-diameter-01", "euler-tour-01", "dfs-postorder-01"],
+  "tags": ["LCA", "lowest-common-ancestor", "tree", "DFS", "binary-lifting"]
+}

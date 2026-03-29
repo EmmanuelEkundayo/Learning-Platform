@@ -1,0 +1,47 @@
+{
+  "id": "kadanes-algorithm-01",
+  "slug": "kadanes-algorithm",
+  "title": "Kadane's Algorithm",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "At every position, ask: is my current running sum better off extended, or should I start fresh here? Keep a global maximum as you go.",
+    "analogy": "Walking a path with hills and valleys, collecting coins — you keep your running total but restart whenever your accumulated debt (negative sum) makes starting over more profitable.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "Maximum sum contiguous subarray in a 1D array",
+      "Maximum sum subgrid in a 2D matrix (run Kadane on each column-compressed row range)",
+      "Circular maximum subarray (compare normal Kadane with total_sum − min_subarray_sum)",
+      "Any problem reducible to: 'best contiguous substructure ending at position i'"
+    ],
+    "gotchas": [
+      "Initialize cur_sum and max_sum to nums[0], not 0 — an all-negative array should return the least-negative element, not 0",
+      "The recurrence is cur_sum = max(num, cur_sum + num) — don't add num after taking the max",
+      "Kadane's gives the sum, not the indices — to recover the subarray, track lo/hi pointers separately"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "kadane",
+      "show_current_sum": true,
+      "show_max_sum": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete Kadane's algorithm to find the maximum sum of any contiguous subarray.",
+    "starter_code": "def max_subarray(nums):\n    # Initialize to first element, not 0, to handle all-negative arrays\n    cur_sum = nums[0]\n    max_sum = nums[0]\n    for num in nums[1:]:\n        # Extend current subarray or start a new one here\n        cur_sum = ___________\n        max_sum = ___________\n    return max_sum",
+    "solution": "cur_sum = max(num, cur_sum + num)\nmax_sum = max(max_sum, cur_sum)",
+    "hints": [
+      "cur_sum at position i is either: start fresh with just num, OR extend the previous subarray: cur_sum + num. Take the max.",
+      "After updating cur_sum, update max_sum if cur_sum beats the global best seen so far"
+    ],
+    "test_code": "assert max_subarray([-2,1,-3,4,-1,2,1,-5,4]) == 6,   'Classic: [4,-1,2,1] = 6'\nassert max_subarray([1])                          == 1,   'Single element'\nassert max_subarray([-1,-2,-3])                   == -1,  'All negative: return max element'\nassert max_subarray([5,4,-1,7,8])                 == 23,  'Whole array is optimal'\nassert max_subarray([-2,-1])                      == -1,  'Pick least negative'\nprint('PASS')"
+  },
+  "related": ["prefix-sum-01", "sliding-window-01", "dp-knapsack-01"],
+  "tags": ["kadane", "dynamic-programming", "arrays", "maximum-subarray", "O(n)"]
+}

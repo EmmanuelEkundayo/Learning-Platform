@@ -1,0 +1,44 @@
+{
+  "id": "ppo-01",
+  "slug": "ppo",
+  "title": "Proximal Policy Optimization (PPO)",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "PPO constrains policy updates to stay close to the old policy using a clipped objective: L_CLIP = E[min(rₜ·Â, clip(rₜ, 1−ε, 1+ε)·Â)] where rₜ = π(a|s;θ)/π_old(a|s;θ₀). The clip prevents large updates that destabilise training. Multiple gradient steps on the same trajectory (epochs) improve sample efficiency vs vanilla policy gradient.",
+    "analogy": "Adjusting a recipe cautiously: taste the dish, then make a small change (clip the update) rather than radically altering all ingredients at once. If a change would make the dish too different from the original recipe, cap it. Then you can safely iterate on the same dish multiple times before collecting new feedback.",
+    "time_complexity": "O(K · T · d) per update (K epochs, T rollout steps)",
+    "space_complexity": "O(T · d_state) for rollout buffer",
+    "when_to_use": [
+      "State-of-the-art for continuous control (MuJoCo, robotics)",
+      "Training LLMs via RLHF — PPO is the standard RL fine-tuning algorithm",
+      "More stable than TRPO with similar performance at lower complexity"
+    ],
+    "gotchas": [
+      "ε=0.1 to 0.2 typical clip range — larger allows bigger updates but risks instability",
+      "KL divergence early stopping: if KL > 1.5×target KL, stop gradient updates for that batch",
+      "Entropy bonus in objective encourages exploration: L = L_CLIP − c₁L_VF + c₂H[π]"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "ppo",
+      "show_clip": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the PPO clipped surrogate objective.",
+    "starter_code": "def ppo_clip_objective(log_probs_new, log_probs_old, advantages, epsilon=0.2):\n    \"\"\"\n    Compute PPO clipped objective (to be maximised).\n    log_probs_new: log π(a|s; θ_new)\n    log_probs_old: log π(a|s; θ_old)  (constant, from rollout)\n    advantages   : A_hat values\n    epsilon      : clip range\n    Returns mean clipped objective.\n    \"\"\"\n    import math\n    n = len(log_probs_new)\n    total = 0.0\n    for i in range(n):\n        ratio = math.exp(log_probs_new[i] - log_probs_old[i])  # π_new / π_old\n        unclipped = ratio * advantages[i]\n        clipped   = max(1 - epsilon, min(1 + epsilon, ratio)) * advantages[i]\n        total    += ___________\n    return total / n",
+    "solution": "min(unclipped, clipped)",
+    "hints": [
+      "Take the minimum of the unclipped and clipped objectives — this is a pessimistic bound that prevents over-large policy updates."
+    ],
+    "test_code": "import math\n\n# When ratio=1 (no change), objective equals advantage\nlog_p = [0.0, 0.0, 0.0]\nadvs  = [1.0, -1.0, 2.0]\nobj   = ppo_clip_objective(log_p, log_p, advs)\nassert abs(obj - sum(advs)/3) < 1e-9\n\n# Large positive ratio with positive advantage: clipped to (1+eps)*adv\nlnew = [math.log(2.0)]  # ratio=2\nlold = [0.0]\nadvs2 = [3.0]\nepsilon = 0.2\nobj2 = ppo_clip_objective(lnew, lold, advs2, epsilon)\nassert abs(obj2 - (1+epsilon)*3.0) < 1e-9, f'{obj2}'\n\n# Large negative advantage: large ratio is clipped -> penalty smaller\nadvs3 = [-3.0]\nobj3  = ppo_clip_objective(lnew, lold, advs3, epsilon)\nassert obj3 == (1+epsilon)*(-3.0)  # unclipped is smaller (more negative)\nprint('PASS')"
+  },
+  "related": ["actor-critic-01", "policy-gradient-01", "rlhf-01", "deep-q-network-01"],
+  "tags": ["PPO", "proximal-policy-optimization", "clipped-objective", "RLHF", "on-policy", "reinforcement-learning"]
+}

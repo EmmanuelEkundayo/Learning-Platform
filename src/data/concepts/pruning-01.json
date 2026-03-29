@@ -1,0 +1,44 @@
+{
+  "id": "pruning-01",
+  "slug": "pruning",
+  "title": "Neural Network Pruning",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Remove redundant weights to reduce model size and speed up inference. Magnitude pruning: zero out weights with |w| < threshold (unstructured) or entire neurons/filters (structured). Lottery Ticket Hypothesis: large random networks contain small sparse subnetworks ('winning tickets') that train to the same accuracy. Iterative pruning + retraining recovers most accuracy.",
+    "analogy": "Pruning a bonsai tree: cut branches that contribute little to the tree's shape (small weights) while preserving the essential structure. Doing this gradually (iterative pruning) with recovery time (retraining) gives a smaller tree that still achieves the original form.",
+    "time_complexity": "O(d) to prune weights; inference speedup depends on hardware support for sparsity",
+    "space_complexity": "O(d · (1−sparsity)) for non-zero weights",
+    "when_to_use": [
+      "Reducing model size for deployment with accuracy constraints",
+      "Structured pruning (filter pruning) for actual GPU speedup vs unstructured sparsity",
+      "Combined with quantization for maximum compression"
+    ],
+    "gotchas": [
+      "Unstructured sparsity is hard to accelerate without sparse tensor hardware support",
+      "Pruning too aggressively in one pass hurts accuracy more than iterative pruning",
+      "Structured pruning (removing whole neurons/heads/layers) is more hardware-friendly"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "pruning",
+      "show_sparsity": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement magnitude-based weight pruning.",
+    "starter_code": "def magnitude_prune(weights, sparsity):\n    \"\"\"\n    Prune the fraction 'sparsity' of weights with smallest absolute value.\n    weights : list of floats\n    sparsity: fraction to zero out (e.g. 0.5 = 50%)\n    Returns pruned weight list (zeros for removed weights) and mask.\n    \"\"\"\n    n = len(weights)\n    n_prune = int(n * sparsity)\n    if n_prune == 0:\n        return list(weights), [1] * n\n    # Find threshold: (n_prune)-th smallest absolute value\n    sorted_abs = sorted(abs(w) for w in weights)\n    threshold  = sorted_abs[n_prune - 1]\n    mask    = [1 if abs(w) > threshold else 0 for w in weights]\n    pruned  = [___________  for w, m in zip(weights, mask)]\n    return pruned, mask",
+    "solution": "w * m",
+    "hints": [
+      "Apply the mask: multiply each weight by its mask value — 0 zeroes out the weight, 1 keeps it."
+    ],
+    "test_code": "weights = [0.1, -0.5, 0.3, -0.02, 0.8, -0.15]\n\n# Prune 50% (3 smallest by magnitude)\npruned, mask = magnitude_prune(weights, sparsity=0.5)\nassert sum(m == 0 for m in mask) == 3\nassert pruned[4] == 0.8   # largest kept\nassert pruned[3] == 0.0   # smallest zeroed\nassert sum(m for m in mask) == 3  # 3 non-zero\n\n# Sparsity 0 -> no change\npruned0, mask0 = magnitude_prune(weights, sparsity=0)\nassert pruned0 == weights\nassert all(m == 1 for m in mask0)\n\n# Actual sparsity matches requested\nfor target_s in [0.0, 0.33, 0.5, 0.83]:\n    p, m = magnitude_prune(weights, sparsity=target_s)\n    zeros = sum(v == 0 for v in p)\n    assert zeros == int(len(weights)*target_s), f'target={target_s}, zeros={zeros}'\nprint('PASS')"
+  },
+  "related": ["quantization-01", "knowledge-distillation-01", "transfer-learning-01", "dropout-01"],
+  "tags": ["pruning", "magnitude-pruning", "sparsity", "model-compression", "lottery-ticket", "structured-pruning"]
+}

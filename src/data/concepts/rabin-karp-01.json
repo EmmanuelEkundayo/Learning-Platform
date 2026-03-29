@@ -1,0 +1,46 @@
+{
+  "id": "rabin-karp-01",
+  "slug": "rabin-karp",
+  "title": "Rabin-Karp String Search",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Hash the pattern and slide a same-size hash window over the text — only compare characters when hashes match, giving average-case O(n) instead of O(nm).",
+    "analogy": "Fingerprint-matching in a crowd: instead of checking every face feature-by-feature, you glance at a quick fingerprint sketch and only stop for a full comparison when the sketch matches.",
+    "time_complexity": "O(n + m) average, O(nm) worst case with hash collisions",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "Single-pattern search where average-case O(n) matters and worst case is acceptable",
+      "Multi-pattern search — hash all patterns into a set, slide one window over text (O(n + Σm))",
+      "Substring hashing questions where you need equality checks on arbitrary substrings"
+    ],
+    "gotchas": [
+      "A hash match is necessary but not sufficient — always verify character-by-character to rule out collisions",
+      "Rolling hash arithmetic must handle modular subtraction correctly: (a - b) % MOD can go negative in Python only if you use %, but add MOD before taking mod to be safe",
+      "Choose a large prime MOD (e.g., 10⁹+7) and a base larger than your alphabet size to minimize collisions"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rabin-karp",
+      "show_hash_values": true,
+      "show_window": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the rolling hash update inside Rabin-Karp. The old leftmost character leaves, the new character enters.",
+    "starter_code": "def rabin_karp(text, pattern):\n    n, m = len(text), len(pattern)\n    if m > n:\n        return -1\n    BASE, MOD = 131, 10**9 + 7\n\n    # Compute pattern hash + initial window hash + BASE^(m-1)\n    p_hash = t_hash = 0\n    power = 1\n    for i in range(m):\n        p_hash = (p_hash * BASE + ord(pattern[i])) % MOD\n        t_hash = (t_hash * BASE + ord(text[i]))    % MOD\n        if i < m - 1:\n            power = (power * BASE) % MOD\n\n    if p_hash == t_hash and text[:m] == pattern:\n        return 0\n\n    for i in range(1, n - m + 1):\n        # Roll: remove leftmost char, add new rightmost char\n        t_hash = (t_hash - ord(text[i - 1]) * power % MOD + MOD) % MOD\n        t_hash = ___________\n        if t_hash == p_hash and text[i:i + m] == pattern:\n            return i\n    return -1",
+    "solution": "t_hash = (t_hash * BASE + ord(text[i + m - 1])) % MOD",
+    "hints": [
+      "After removing the old character, the window shifts right — multiply the remaining hash by BASE (shift left in polynomial) then add the new character's value",
+      "New hash = (old_hash × BASE + ord(new_char)) % MOD — same recurrence used to build the hash initially"
+    ],
+    "test_code": "assert rabin_karp('abcdefg', 'cde')        == 2,  'Pattern at index 2'\nassert rabin_karp('hello world', 'world')  == 6,  'Pattern at index 6'\nassert rabin_karp('aaaa', 'aa')            == 0,  'Overlapping: first occurrence'\nassert rabin_karp('abc', 'xyz')            == -1, 'Pattern not found'\nassert rabin_karp('abc', 'abcd')           == -1, 'Pattern longer than text'\nassert rabin_karp('a', 'a')               == 0,  'Single char match'\nprint('PASS')"
+  },
+  "related": ["kmp-01", "z-algorithm-01", "rolling-hash-01", "string-hashing-01"],
+  "tags": ["rabin-karp", "rolling-hash", "string-search", "hashing", "pattern-matching"]
+}

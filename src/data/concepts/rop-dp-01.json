@@ -1,0 +1,44 @@
+{
+  "id": "rop-dp-01",
+  "slug": "rop-dp",
+  "title": "Rerooting DP",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Compute a DP for all possible roots in two DFS passes. Pass 1 (rooted at node 0): compute dp_down[u] = answer for subtree of u. Pass 2 (top-down): for each node u, combine dp_down of all children with dp_up[u] (the contribution from the 'virtual subtree above u') to get the global answer at root u.",
+    "analogy": "Computing the average commute time for every employee as if they were the manager: first measure distances to the office from everyone's house (down pass), then re-calculate for each potential manager by combining their employees' distances with their own commute up the chain (up pass).",
+    "time_complexity": "O(n) — two linear DFS passes",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Sum of distances to all nodes in a tree (classic rerooting problem)",
+      "Any tree DP where the answer at every node is needed, not just the root",
+      "Centroid-based problems that require answers for all subtrees"
+    ],
+    "gotchas": [
+      "Pass 2 must carefully subtract a child's contribution before combining with dp_up to avoid counting that child's subtree twice",
+      "For sum-of-distances: dp_up[u] = dp_up[parent] + (n - subtree_size[u]) — parent gains all non-u nodes",
+      "Rerooting is also called 'all-roots DP' — every node's rooted DP answer is computed in O(n) total"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "rerooting",
+      "show_dp_values": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Compute the sum of distances from every node to all other nodes using rerooting DP.",
+    "starter_code": "import sys\nsys.setrecursionlimit(10000)\n\ndef sum_of_distances(n, adj):\n    \"\"\"\n    Returns ans[u] = sum of dist(u, v) for all v, for every node u.\n    \"\"\"\n    size    = [1]  * n   # subtree sizes (rooted at 0)\n    dp_down = [0]  * n   # sum of distances to all nodes in subtree\n    ans     = [0]  * n\n\n    def dfs1(u, parent):\n        for v in adj[u]:\n            if v == parent: continue\n            dfs1(v, u)\n            size[u]    += size[v]\n            dp_down[u] += dp_down[v] + size[v]  # each node in v's subtree is 1 step further\n\n    def dfs2(u, parent):\n        for v in adj[u]:\n            if v == parent: continue\n            # ans[v] = distances within v's subtree + distances from v to all nodes outside\n            ans[v] = ans[u] - size[v] + ___________  # outside: n - size[v] nodes, each 1 closer\n            dfs2(v, u)\n\n    dfs1(0, -1)\n    ans[0] = dp_down[0]\n    dfs2(0, -1)\n    return ans",
+    "solution": "(n - size[v])",
+    "hints": [
+      "When re-rooting from u to child v: the n - size[v] nodes outside v's subtree are each 1 step closer to v than to u — add (n - size[v]) to ans[u] after subtracting size[v]"
+    ],
+    "test_code": "# Star graph: 0 connected to 1,2,3,4\nadj = [[] for _ in range(5)]\nfor i in range(1, 5):\n    adj[0].append(i); adj[i].append(0)\nans = sum_of_distances(5, adj)\nassert ans[0] == 4   # 4 leaves each dist 1\nassert ans[1] == 7   # dist to 0=1, dist to 2,3,4=2 each -> 1+6=7\nassert all(ans[i] == 7 for i in range(1,5))  # all leaves symmetric\n\n# Path: 0-1-2-3-4\nadj2 = [[] for _ in range(5)]\nfor i in range(4):\n    adj2[i].append(i+1); adj2[i+1].append(i)\nans2 = sum_of_distances(5, adj2)\nassert ans2[2] == 6  # middle node: 2+1+0+1+2=6\nprint('PASS')"
+  },
+  "related": ["tree-dp-01", "euler-tour-01", "lowest-common-ancestor-01", "dfs-postorder-01"],
+  "tags": ["rerooting-dp", "all-roots-dp", "sum-of-distances", "tree-dp", "two-pass-DFS"]
+}

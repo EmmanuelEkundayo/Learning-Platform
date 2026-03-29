@@ -1,0 +1,44 @@
+{
+  "id": "perceptron-01",
+  "slug": "perceptron",
+  "title": "Perceptron",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "The simplest neural unit: compute a weighted sum of inputs, add a bias, then apply a step activation. The perceptron learning rule updates weights by w += η·(y - ŷ)·x — nudging weights toward correct classification. Converges iff data is linearly separable (Novikoff's theorem).",
+    "analogy": "A single vote in a committee: each input feature casts a weighted vote, the bias sets the quorum threshold, and the step function declares majority rule. If the committee keeps getting votes wrong, members adjust their conviction (weights) after each mistake.",
+    "time_complexity": "O(n · d) per epoch",
+    "space_complexity": "O(d) for weights",
+    "when_to_use": [
+      "Binary linearly separable classification as a building block",
+      "Teaching foundational neural network concepts",
+      "Online learning when data arrives one sample at a time"
+    ],
+    "gotchas": [
+      "Fails on XOR and any non-linearly separable problem — the classic limitation",
+      "Does not converge if data is not linearly separable — training loops forever",
+      "Step activation is non-differentiable — cannot use gradient descent; uses the perceptron update rule instead"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "perceptron",
+      "show_weights": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the perceptron learning rule.",
+    "starter_code": "class Perceptron:\n    def __init__(self, n_features, lr=0.1):\n        self.w  = [0.0] * n_features\n        self.b  = 0.0\n        self.lr = lr\n\n    def predict_one(self, x):\n        return 1 if sum(wi*xi for wi,xi in zip(self.w, x)) + self.b >= 0 else 0\n\n    def fit(self, X, y, epochs=50):\n        for _ in range(epochs):\n            for x, yt in zip(X, y):\n                yp  = self.predict_one(x)\n                err = yt - yp\n                # Update rule: w += lr * err * x,  b += lr * err\n                self.w = [wi + ___________  for wi, xi in zip(self.w, x)]\n                self.b += self.lr * err\n        return self\n\n    def predict(self, X):\n        return [self.predict_one(x) for x in X]",
+    "solution": "self.lr * err * xi",
+    "hints": [
+      "The perceptron update rule: Δwᵢ = η·(y−ŷ)·xᵢ. Multiply learning rate, error, and the feature value together."
+    ],
+    "test_code": "# AND gate — linearly separable\nX = [[0,0],[0,1],[1,0],[1,1]]\ny = [0,0,0,1]\np = Perceptron(2, lr=0.1).fit(X, y, epochs=100)\nassert p.predict(X) == y, f'AND gate failed: {p.predict(X)}'\n\n# OR gate\ny2 = [0,1,1,1]\np2 = Perceptron(2, lr=0.1).fit(X, y2, epochs=100)\nassert p2.predict(X) == y2, f'OR gate failed: {p2.predict(X)}'\nprint('PASS')"
+  },
+  "related": ["mlp-01", "logistic-regression-01", "activation-functions-01", "weight-initialization-01"],
+  "tags": ["perceptron", "linear-classifier", "online-learning", "step-function", "neural-network-basics"]
+}

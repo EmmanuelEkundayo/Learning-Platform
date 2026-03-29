@@ -1,0 +1,44 @@
+{
+  "id": "few-shot-vs-zero-shot-01",
+  "slug": "few-shot-vs-zero-shot",
+  "title": "Few-Shot vs Zero-Shot Learning",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Zero-shot: classify/generate without any task examples — relies purely on pre-trained knowledge and instruction understanding. Few-shot (k-shot): provide k labelled examples in the prompt (in-context learning) — model infers the pattern. Meta-learning / Prototypical Networks: explicitly train for few-shot generalisation by learning from many episodes, each simulating a k-shot classification task.",
+    "analogy": "A polyglot hired as a translator: zero-shot is asking them to translate a language they've never heard of based only on the language name; few-shot is showing them 3 example sentence pairs and letting them infer the pattern. The polyglot's broad language knowledge (pre-training) makes both possible.",
+    "time_complexity": "In-context: O(T · d²L) per query (T = total context length); Prototypical: O(k · d) to compute prototypes",
+    "space_complexity": "O(k · d) for k example embeddings at inference",
+    "when_to_use": [
+      "Zero-shot: instruction-following tasks, zero annotation budget",
+      "Few-shot: when a handful of labelled examples are available and fine-tuning is too costly",
+      "Prototypical Networks: when examples change frequently (e.g., new product classes appear daily)"
+    ],
+    "gotchas": [
+      "In-context example order matters — performance can vary by up to 30% across orderings",
+      "Few-shot performance is sensitive to example quality — use diverse, representative examples",
+      "Long few-shot prompts increase cost and latency quadratically (attention is O(T²))"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "few-shot",
+      "show_prototypes": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement prototypical network classification: classify by nearest class prototype.",
+    "starter_code": "import math\n\ndef euclidean_sq(a, b):\n    return sum((ai-bi)**2 for ai,bi in zip(a,b))\n\ndef prototypical_classify(support_embeddings, support_labels, query_embeddings):\n    \"\"\"\n    support_embeddings: list of embeddings for support set (k * n_classes)\n    support_labels    : list of class labels for each support embedding\n    query_embeddings  : list of query embeddings to classify\n    Returns list of predicted labels.\n    \"\"\"\n    # Compute per-class prototypes (mean embedding)\n    classes   = list(set(support_labels))\n    prototypes = {}\n    for c in classes:\n        class_embs = [e for e, l in zip(support_embeddings, support_labels) if l == c]\n        d = len(class_embs[0])\n        prototypes[c] = [\n            sum(e[j] for e in class_embs) / len(class_embs)\n            for j in range(d)\n        ]\n    # Classify each query as the nearest prototype\n    preds = []\n    for q in query_embeddings:\n        nearest = ___________\n        preds.append(nearest)\n    return preds",
+    "solution": "min(classes, key=lambda c: euclidean_sq(q, prototypes[c]))",
+    "hints": [
+      "Classify by finding the class whose prototype has the smallest squared Euclidean distance to the query embedding."
+    ],
+    "test_code": "# 2 classes, 2D embeddings\nsupport_embs = [[0.0,0.0],[0.1,0.1],[5.0,5.0],[4.9,5.1]]\nsupport_lbls = ['cat','cat','dog','dog']\n\n# Query near class 'cat'\nq1 = [[0.2, 0.0]]\npreds1 = prototypical_classify(support_embs, support_lbls, q1)\nassert preds1 == ['cat'], f'Expected cat, got {preds1}'\n\n# Query near class 'dog'\nq2 = [[4.8, 5.0]]\npreds2 = prototypical_classify(support_embs, support_lbls, q2)\nassert preds2 == ['dog']\n\n# Multiple queries\nqueries = [[0.0,0.0],[5.0,5.0]]\npreds3 = prototypical_classify(support_embs, support_lbls, queries)\nassert preds3 == ['cat','dog']\nprint('PASS')"
+  },
+  "related": ["transfer-learning-01", "finetuning-vs-prompting-01", "knn-01", "word2vec-cbow-01"],
+  "tags": ["few-shot", "zero-shot", "prototypical-networks", "meta-learning", "in-context-learning", "LLM"]
+}

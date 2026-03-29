@@ -1,0 +1,44 @@
+{
+  "id": "one-class-svm-01",
+  "slug": "one-class-svm",
+  "title": "One-Class SVM",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Find a hyperplane that separates all training points from the origin with maximum margin in kernel feature space. Equivalently, find the tightest hypersphere enclosing the data (SVDD). The decision function f(x) = sign(∑αᵢK(xᵢ,x) − ρ) is positive for inliers and negative for anomalies. ν ∈ (0,1] controls the upper bound on the fraction of outliers and lower bound on support vectors.",
+    "analogy": "Drawing the tightest possible fence around all your livestock: anything inside the fence is normal; anything outside is an intruder. The SVM finds this fence in a transformed high-dimensional space where the fence can be a hyperplane, enabling it to capture non-convex regions in the original space.",
+    "time_complexity": "O(n² · d) to O(n³) to train (kernel matrix); O(n_sv · d) per prediction",
+    "space_complexity": "O(n²) for kernel matrix; O(n_sv) for support vectors at inference",
+    "when_to_use": [
+      "Novelty detection: train only on normal data, flag deviations at inference",
+      "When labelled anomaly data is unavailable",
+      "Captures non-linear decision boundaries via RBF or polynomial kernels"
+    ],
+    "gotchas": [
+      "ν sets the expected outlier fraction — mismatch causes too tight or too loose boundary",
+      "Kernel choice and γ heavily influence boundary shape — cross-validate on held-out normals",
+      "Does not scale to large n — use SGD-based approximation (sklearn SGDOneClassSVM) for big data"
+    ]
+  },
+  "visualization": {
+    "type": "decision-boundary",
+    "config": {
+      "mode": "one-class-svm",
+      "show_support_vectors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a linear One-Class SVM decision function and predict inlier/outlier labels.",
+    "starter_code": "def rbf_kernel(x, y, gamma=0.5):\n    sq_dist = sum((xi-yi)**2 for xi,yi in zip(x,y))\n    return __import__('math').exp(-gamma * sq_dist)\n\nclass OneClassSVM:\n    \"\"\"\n    Simplified One-Class SVM using SMO-style iterative updates.\n    For illustration: we use a pre-solved dual representation.\n    \"\"\"\n    def __init__(self, nu=0.1, gamma=0.5, max_iter=200):\n        self.nu      = nu\n        self.gamma   = gamma\n        self.max_iter = max_iter\n        self.alphas  = None\n        self.X_sv    = None\n        self.rho     = 0.0\n\n    def fit(self, X):\n        n = len(X)\n        # Build kernel matrix\n        K = [[rbf_kernel(X[i], X[j], self.gamma) for j in range(n)] for i in range(n)]\n        # Initialise uniform alphas respecting sum = 1, each <= 1/(nu*n)\n        cap = 1.0 / (self.nu * n)\n        alphas = [min(cap, 1.0/n)] * n\n        # Simplified projected gradient iterations\n        lr = 0.01\n        for _ in range(self.max_iter):\n            for i in range(n):\n                grad_i = -sum(alphas[j] * K[i][j] for j in range(n))\n                alphas[i] -= lr * grad_i\n                alphas[i] = max(0.0, min(cap, alphas[i]))\n            # Re-normalise to sum = 1\n            s = sum(alphas)\n            if s > 0:\n                alphas = [a/s for a in alphas]\n        self.alphas = alphas\n        self.X_sv   = X\n        # rho = mean decision value over likely-inlier support vectors\n        svs = [i for i in range(n) if alphas[i] > 1e-6]\n        if svs:\n            self.rho = sum(\n                sum(self.alphas[j] * K[i][j] for j in range(n))\n                for i in svs\n            ) / len(svs)\n        return self\n\n    def decision_function(self, X):\n        scores = []\n        for x in X:\n            s = sum(\n                self.alphas[j] * rbf_kernel(x, self.X_sv[j], self.gamma)\n                for j in range(len(self.X_sv))\n            )\n            scores.append(___________)\n        return scores\n\n    def predict(self, X):\n        \"\"\"Returns +1 for inliers, -1 for outliers.\"\"\"\n        return [1 if v >= 0 else -1 for v in self.decision_function(X)]",
+    "solution": "s - self.rho",
+    "hints": [
+      "The decision function is the kernel expansion minus the bias ρ: f(x) = Σ αⱼK(x,xⱼ) − ρ. Positive means inside the boundary (inlier), negative means outside (outlier)."
+    ],
+    "test_code": "import math, random\nrandom.seed(0)\n# Tight normal cluster\nX_train = [[random.gauss(0,0.5), random.gauss(0,0.5)] for _ in range(60)]\noc = OneClassSVM(nu=0.05, gamma=1.0, max_iter=300).fit(X_train)\n\n# Inliers near origin\ninlier_preds = oc.predict([[0,0],[0.2,-0.1],[-0.3,0.2]])\n# Outliers far away\noutlier_preds = oc.predict([[5,5],[-5,5],[5,-5]])\n\nassert all(p == 1  for p in inlier_preds),  f'Expected inliers +1, got {inlier_preds}'\nassert all(p == -1 for p in outlier_preds), f'Expected outliers -1, got {outlier_preds}'\nassert oc.rho != 0.0, 'rho should be fitted'\nprint('PASS')"
+  },
+  "related": ["svm-kernel-01", "isolation-forest-01", "gmm-em-01", "svm-linear-01"],
+  "tags": ["one-class-svm", "SVDD", "novelty-detection", "anomaly-detection", "kernel", "nu-SVM"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "max-min-heap-01",
+  "slug": "max-min-heap",
+  "title": "Min-Heap & Max-Heap",
+  "domain": "DSA",
+  "category": "Heaps",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A heap is a complete binary tree stored as an array. Min-heap invariant: every parent ≤ its children (root = minimum). Max-heap: every parent ≥ children (root = maximum). Parent of i is at (i-1)//2; children of i are at 2i+1 and 2i+2.",
+    "analogy": "A corporate hierarchy where every manager earns less (min-heap) or more (max-heap) than their direct reports. The CEO (root) is always the extreme. New hires bubble up if they break the pay rule.",
+    "time_complexity": "O(log n) push and pop; O(1) peek at root",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Priority queues — always need the minimum or maximum element",
+      "Heapsort — in-place O(n log n) sort",
+      "k-th largest/smallest element; median maintenance with two heaps"
+    ],
+    "gotchas": [
+      "Python's heapq is a MIN-heap — negate values for max-heap behaviour: push(-val)",
+      "Array is 0-indexed: parent = (i-1)//2, left = 2i+1, right = 2i+2",
+      "After arbitrary element change (decrease-key / increase-key), sift up or sift down to restore invariant"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "heap",
+      "show_tree_view": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement sift-up (bubble up) for a min-heap after inserting a new element at the end.",
+    "starter_code": "class MinHeap:\n    def __init__(self):\n        self.heap = []\n\n    def push(self, val):\n        self.heap.append(val)\n        self._sift_up(len(self.heap) - 1)\n\n    def pop(self):\n        if len(self.heap) == 1:\n            return self.heap.pop()\n        root = self.heap[0]\n        self.heap[0] = self.heap.pop()   # move last to root\n        self._sift_down(0)\n        return root\n\n    def peek(self): return self.heap[0]\n\n    def _sift_up(self, i):\n        while i > 0:\n            parent = ___________          # parent index\n            if self.heap[parent] > self.heap[i]:\n                self.heap[parent], self.heap[i] = self.heap[i], self.heap[parent]\n                i = parent\n            else:\n                break\n\n    def _sift_down(self, i):\n        n = len(self.heap)\n        while True:\n            smallest = i\n            l, r = 2*i+1, 2*i+2\n            if l < n and self.heap[l] < self.heap[smallest]: smallest = l\n            if r < n and self.heap[r] < self.heap[smallest]: smallest = r\n            if smallest == i: break\n            self.heap[i], self.heap[smallest] = self.heap[smallest], self.heap[i]\n            i = smallest",
+    "solution": "(i - 1) // 2",
+    "hints": [
+      "Parent of node at index i is at index (i-1)//2 in 0-indexed array representation"
+    ],
+    "test_code": "import heapq, random\nheap = MinHeap()\nvals = [5,3,8,1,9,2,7,4,6]\nfor v in vals:\n    heap.push(v)\nassert heap.peek() == 1\nresult = [heap.pop() for _ in range(len(vals))]\nassert result == sorted(vals)\n\n# Compare with Python heapq\npq = vals[:]\nheapq.heapify(pq)\npy_result = [heapq.heappop(pq) for _ in range(len(vals))]\nassert result == py_result\nprint('PASS')"
+  },
+  "related": ["heap-operations-01", "heapify-01", "priority-queue-01", "k-way-merge-01"],
+  "tags": ["min-heap", "max-heap", "priority-queue", "sift-up", "sift-down", "array-tree"]
+}

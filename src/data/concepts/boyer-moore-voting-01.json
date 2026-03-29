@@ -1,0 +1,46 @@
+{
+  "id": "boyer-moore-voting-01",
+  "slug": "boyer-moore-voting",
+  "title": "Boyer-Moore Voting Algorithm",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Pairs of different elements cancel each other out — the majority element (appearing > n/2 times) always survives.",
+    "analogy": "A vote-counting battle: every voter who disagrees with the current front-runner cancels one of their votes. If someone appears more than half the time, they can't be fully cancelled.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "Find an element appearing more than n/2 times (majority element) in O(1) space",
+      "Online/streaming majority detection — processes each element once in a single pass",
+      "Variation: k candidates for elements appearing > n/k times (use k-1 counters)"
+    ],
+    "gotchas": [
+      "The algorithm only FINDS a candidate — if no majority is guaranteed, do a second pass to verify the candidate actually appears > n/2 times",
+      "Reset the count to 1 (not 0) when adopting a new candidate, because the new element IS your first vote for it",
+      "Does not work for 'most frequent' in general — only for the strict majority (> n/2) guarantee"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "voting",
+      "show_candidate": true,
+      "show_count": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete Boyer-Moore voting. The majority element is guaranteed to appear more than n/2 times.",
+    "starter_code": "def majority_element(nums):\n    candidate, count = None, 0\n    for num in nums:\n        if count == 0:\n            candidate = num\n            count = 1\n        elif num == candidate:\n            count += 1\n        else:\n            count = ___________\n    return candidate",
+    "solution": "count = count - 1",
+    "hints": [
+      "When num differs from the current candidate, they cancel out — decrement the count by 1",
+      "When count drops to 0, the next element becomes the new candidate with count=1 (handled by the first if-branch)"
+    ],
+    "test_code": "assert majority_element([3,2,3])              == 3, '[3,2,3] → 3'\nassert majority_element([2,2,1,1,1,2,2])      == 2, 'Majority is 2'\nassert majority_element([1])                   == 1, 'Single element'\nassert majority_element([6,5,5])               == 5, 'Majority 5'\nassert majority_element([1,1,2,1,3,1,1])      == 1, '5 out of 7 are 1'\nprint('PASS')"
+  },
+  "related": ["two-pointers-01", "prefix-sum-01", "dutch-national-flag-01"],
+  "tags": ["boyer-moore", "voting", "majority-element", "arrays", "O(1)-space", "streaming"]
+}

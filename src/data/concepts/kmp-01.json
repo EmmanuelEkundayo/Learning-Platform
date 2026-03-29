@@ -1,0 +1,47 @@
+{
+  "id": "kmp-01",
+  "slug": "kmp",
+  "title": "KMP (Knuth-Morris-Pratt)",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "When a mismatch occurs during string matching, don't start over — use the failure function to jump back only as far as needed based on the overlapping prefix-suffix structure already matched.",
+    "analogy": "You're typing a password and mistype the last character. Instead of clearing the whole field, you know the prefix you typed is still a valid suffix of the pattern — jump back to the latest safe restart point.",
+    "time_complexity": "O(n + m) — O(m) to build failure function, O(n) to search",
+    "space_complexity": "O(m) for the failure function",
+    "when_to_use": [
+      "Guaranteed O(n + m) single-pattern search (vs Rabin-Karp's O(nm) worst case)",
+      "When you need to count all non-overlapping or overlapping occurrences of a pattern",
+      "Checking if a string is a rotation of another (search in doubled string)",
+      "Finding the shortest period of a string: period = m - lps[m-1]"
+    ],
+    "gotchas": [
+      "The failure function (LPS array) encodes the length of the longest proper prefix that is also a suffix at each position — build it carefully before searching",
+      "When a mismatch occurs at pattern[j], set j = lps[j-1] (not j-1 and not j) — this is the critical non-obvious step",
+      "Overlapping matches: after a match, set j = lps[j-1] instead of 0 to allow the next match to reuse the suffix"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "kmp",
+      "show_lps_array": true,
+      "show_matching_state": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Build the KMP failure function (LPS array): lps[i] = length of longest proper prefix of pattern[0..i] that is also a suffix.",
+    "starter_code": "def compute_lps(pattern):\n    m = len(pattern)\n    lps = [0] * m\n    length = 0   # length of previous longest prefix-suffix\n    i = 1\n    while i < m:\n        if pattern[i] == pattern[length]:\n            length += 1\n            lps[i] = length\n            i += 1\n        else:\n            if length != 0:\n                # Don't increment i — try shorter prefix\n                length = ___________\n            else:\n                lps[i] = 0\n                i += 1\n    return lps",
+    "solution": "length = lps[length - 1]",
+    "hints": [
+      "When there's a mismatch and length > 0, fall back to lps[length - 1] — this is the longest prefix-suffix of the prefix-suffix we were trying to extend",
+      "Do NOT decrement i here — we're trying to match pattern[i] against a shorter prefix of pattern, so keep i fixed and try a smaller length"
+    ],
+    "test_code": "assert compute_lps('abcabc')    == [0,0,0,1,2,3], 'abcabc LPS'\nassert compute_lps('aabaaab')   == [0,1,0,1,2,2,3], 'aabaaab LPS'\nassert compute_lps('aaaa')      == [0,1,2,3],        'All same'\nassert compute_lps('abcde')     == [0,0,0,0,0],      'No repeats'\nassert compute_lps('aabaa')     == [0,1,0,1,2],      'aabaa LPS'\nassert compute_lps('a')         == [0],               'Single char'\nprint('PASS')"
+  },
+  "related": ["z-algorithm-01", "rabin-karp-01", "aho-corasick-01"],
+  "tags": ["KMP", "string-matching", "failure-function", "LPS", "prefix-suffix", "O(n)"]
+}

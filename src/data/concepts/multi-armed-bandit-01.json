@@ -1,0 +1,44 @@
+{
+  "id": "multi-armed-bandit-01",
+  "slug": "multi-armed-bandit",
+  "title": "Multi-Armed Bandit",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "k slot machines (arms) with unknown reward distributions. Goal: maximise cumulative reward by balancing exploration (trying new arms) vs exploitation (pulling the best-known arm). UCB1: pull arm i* = argmax[Q̄ᵢ + √(2·ln t / nᵢ)]. Regret = T·μ* − Σ rewards; UCB1 achieves O(k·log T) regret — logarithmic, nearly optimal.",
+    "analogy": "Testing k restaurants in a new city: you could always go to your current favourite (exploit) or try a place you haven't visited much (explore). UCB1 adds a 'curiosity bonus' — the less you've tried a restaurant, the more bonus it gets — ensuring you adequately explore before committing.",
+    "time_complexity": "O(k) per round to compute UCB scores",
+    "space_complexity": "O(k) for counts and estimates",
+    "when_to_use": [
+      "Online A/B testing: which variant to serve each user",
+      "Clinical trials: adaptive allocation to better treatments",
+      "Ad selection, recommendation systems, hyperparameter search"
+    ],
+    "gotchas": [
+      "Assumes stationary reward distributions — use sliding window or discounted UCB for non-stationary",
+      "ε-greedy is simpler but has O(k·T) regret vs UCB's O(k·log T)",
+      "Thompson sampling (Bayesian) often outperforms UCB empirically despite similar theoretical guarantees"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "bandit",
+      "show_regret": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the UCB1 bandit algorithm.",
+    "starter_code": "import math\n\nclass UCB1Bandit:\n    def __init__(self, k):\n        self.k      = k\n        self.counts = [0] * k      # number of times each arm pulled\n        self.values = [0.0] * k    # estimated mean reward per arm\n        self.t      = 0            # total rounds\n\n    def select(self):\n        \"\"\"Return arm index with highest UCB score.\"\"\"\n        self.t += 1\n        # Pull any unvisited arm first\n        for i in range(self.k):\n            if self.counts[i] == 0:\n                return i\n        # UCB1 score for each arm\n        scores = [\n            self.values[i] + math.sqrt(2 * math.log(self.t) / self.counts[i])\n            for i in range(self.k)\n        ]\n        return ___________\n\n    def update(self, arm, reward):\n        \"\"\"Update estimates after observing reward.\"\"\"\n        self.counts[arm] += 1\n        n = self.counts[arm]\n        self.values[arm] += (reward - self.values[arm]) / n",
+    "solution": "max(range(self.k), key=lambda i: scores[i])",
+    "hints": [
+      "Select the arm with the highest UCB score using argmax over the scores list."
+    ],
+    "test_code": "import random\nrandom.seed(42)\n\n# Arm 2 has best mean reward=0.9, others 0.1\nmeans = [0.1, 0.1, 0.9]\nbandit = UCB1Bandit(k=3)\n\nfor _ in range(500):\n    arm = bandit.select()\n    reward = random.gauss(means[arm], 0.1)\n    bandit.update(arm, reward)\n\n# Best arm should be pulled the most\nassert bandit.counts[2] > bandit.counts[0]\nassert bandit.counts[2] > bandit.counts[1]\nassert bandit.values[2] > 0.7, f'Best arm value: {bandit.values[2]:.3f}'\nprint('PASS')"
+  },
+  "related": ["monte-carlo-tree-search-01", "thompson-sampling-01", "q-learning-01", "markov-decision-process-01"],
+  "tags": ["multi-armed-bandit", "UCB1", "exploration-exploitation", "regret", "online-learning", "reinforcement-learning"]
+}

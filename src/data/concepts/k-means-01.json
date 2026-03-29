@@ -1,0 +1,49 @@
+{
+  "id": "k-means-01",
+  "slug": "k-means",
+  "title": "K-Means Clustering",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Assign every point to its nearest centroid, then move each centroid to the average of its assigned points — repeat until nothing moves.",
+    "analogy": "Dividing a city into k fire station zones: each station claims the nearest houses, then relocates to the center of its zone, then re-claims — repeat until the zones stabilize.",
+    "time_complexity": "O(n × k × i × d) — n points, k clusters, i iterations, d dimensions",
+    "space_complexity": "O(n + k × d)",
+    "when_to_use": [
+      "You know (or can estimate) the number of clusters k",
+      "Clusters are roughly spherical and similarly sized",
+      "Fast exploratory clustering on large datasets"
+    ],
+    "gotchas": [
+      "Sensitive to initialization — bad starting centroids cause poor convergence; use k-means++ to mitigate",
+      "k must be chosen in advance — use the elbow method or silhouette score to pick k",
+      "Fails on non-convex or unequal-density clusters — use DBSCAN or GMM instead"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "n_points": 60,
+      "k": 3,
+      "show_centroids": true,
+      "show_assignment_lines": false,
+      "show_iteration_counter": true,
+      "step_annotations": true,
+      "allow_custom_k": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the assignment step of k-means: assign each point to the nearest centroid.",
+    "starter_code": "import numpy as np\n\ndef assign_clusters(X, centroids):\n    \"\"\"\n    X: (n, d) array of points\n    centroids: (k, d) array of centroid positions\n    Returns: (n,) array of cluster indices\n    \"\"\"\n    distances = np.linalg.norm(\n        X[:, np.newaxis, :] - ___________,\n        axis=2\n    )  # shape (n, k)\n    return ___________",
+    "solution": "centroids[np.newaxis, :, :]  # broadcast centroids across all points\nnp.argmin(distances, axis=1)  # index of nearest centroid for each point",
+    "hints": [
+      "You need the distance from every point to every centroid — broadcasting X (n,1,d) against centroids (1,k,d) gives a (n,k,d) tensor",
+      "After computing the (n,k) distance matrix, argmin along axis=1 gives the nearest centroid index for each point"
+    ],
+    "test_code": "import numpy as np\nX = np.array([[1.,0.],[0.,1.],[10.,0.],[10.,1.]])\nc = np.array([[0.,0.],[10.,0.]])\nL = assign_clusters(X,c)\nassert L.shape == (4,), f'Shape must be (4,): {L.shape}'\nassert L[0]==0, f'[1,0]->c0, got {L[0]}'\nassert L[1]==0, f'[0,1]->c0, got {L[1]}'\nassert L[2]==1, f'[10,0]->c1, got {L[2]}'\nassert L[3]==1, f'[10,1]->c1, got {L[3]}'\nprint('PASS')"
+  },
+  "related": ["dbscan-01", "gmm-01", "pca-01"],
+  "tags": ["clustering", "unsupervised", "k-means", "centroid", "EM"]
+}

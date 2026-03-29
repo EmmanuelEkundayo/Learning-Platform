@@ -1,0 +1,50 @@
+{
+  "id": "transformer-attention-01",
+  "slug": "transformer-attention",
+  "title": "Transformer Self-Attention",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Every token looks at every other token and decides how much to 'attend' to each one — producing a context-aware representation that captures long-range dependencies in a single layer.",
+    "analogy": "In a meeting, before you answer a question, you briefly glance at everyone in the room and decide whose earlier comment is most relevant to your reply — and you do this simultaneously for every participant.",
+    "time_complexity": "O(n² × d) — quadratic in sequence length n, linear in dimension d",
+    "space_complexity": "O(n² + n × d) for attention scores and output",
+    "when_to_use": [
+      "Processing sequences where long-range context matters (language, code, DNA)",
+      "When you need parallelizable training (unlike RNNs, attention has no sequential dependency)",
+      "As the core building block of any Transformer-based model (BERT, GPT, T5, etc.)"
+    ],
+    "gotchas": [
+      "Quadratic cost in sequence length: attention on a 10k-token sequence is 100× more expensive than on a 1k-token one — this is why context windows were limited for years",
+      "Attention alone has no notion of token order — positional encodings must be added explicitly",
+      "In decoder (causal) attention, future tokens must be masked — forgetting this leaks future information during training"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "attention-weights",
+      "show_qkv_matrices": true,
+      "show_softmax_step": true,
+      "show_output_combination": true,
+      "sequence_length": 6,
+      "step_annotations": true,
+      "allow_custom_input": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the scaled dot-product attention function — the core operation inside every Transformer layer.",
+    "starter_code": "import numpy as np\n\ndef scaled_dot_product_attention(Q, K, V, mask=None):\n    \"\"\"\n    Q, K, V: (seq_len, d_k) matrices\n    Returns: (seq_len, d_k) attended output\n    \"\"\"\n    d_k = Q.shape[-1]\n\n    # Step 1: compute raw attention scores\n    scores = ___________          # (seq_len, seq_len)\n\n    # Step 2: scale to prevent softmax saturation\n    scores = scores / ___________\n\n    # Step 3: apply mask (set masked positions to -inf)\n    if mask is not None:\n        scores = scores.masked_fill(mask == 0, float('-inf'))\n\n    # Step 4: softmax over key dimension\n    weights = np.exp(scores) / np.exp(scores).sum(axis=-1, keepdims=True)\n\n    # Step 5: weighted sum of values\n    return ___________",
+    "solution": "scores = Q @ K.T          # dot product of queries with all keys\nscores / np.sqrt(d_k)     # scale by sqrt(d_k)\nweights @ V               # weighted sum of value vectors",
+    "hints": [
+      "Attention scores = Q · Kᵀ. Each query 'asks a question' and each key 'offers an answer' — the dot product measures compatibility",
+      "Scale by √d_k because large d_k makes dot products grow large, pushing softmax into near-zero gradient regions",
+      "The output is a weighted sum of Value vectors — high-attention tokens contribute more to the final representation"
+    ],
+    "test_code": "import numpy as np\nnp.random.seed(0)\nseq,dk = 4,8\nQ=np.random.randn(seq,dk); K=np.random.randn(seq,dk); V=np.random.randn(seq,dk)\nout = scaled_dot_product_attention(Q,K,V)\nassert out.shape==(seq,dk), f'Expected ({seq},{dk}), got {out.shape}'\nassert not np.any(np.isnan(out)), 'Output has NaN'\nassert not np.any(np.isinf(out)), 'Output has Inf'\nprint('PASS')"
+  },
+  "related": ["backpropagation-01", "transformer-positional-encoding-01", "bert-01"],
+  "tags": ["transformer", "attention", "self-attention", "QKV", "NLP", "deep-learning"]
+}

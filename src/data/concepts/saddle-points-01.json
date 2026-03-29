@@ -1,0 +1,44 @@
+{
+  "id": "saddle-points-01",
+  "slug": "saddle-points",
+  "title": "Saddle Points in Neural Network Optimization",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A saddle point has zero gradient but is neither a local min nor max — it's a minimum in some directions and a maximum in others. In d dimensions, a random critical point has expected fraction min(1, i/d) directions pointing upward where i negative Hessian eigenvalues exist. High-d networks have exponentially many saddle points; the good news: saddle points near good loss values have escape directions — SGD noise helps escape them.",
+    "analogy": "Standing on a mountain pass: you're at the lowest point between two peaks (min in one direction) but the highest point on the path between two valleys (max in another). Gradient descent stalls here because the gradient is zero — you need a perturbation (SGD noise, momentum) to slip into a descending valley.",
+    "time_complexity": "O(d²) to compute Hessian; O(d) to apply gradient descent step",
+    "space_complexity": "O(d²) for Hessian if computed exactly",
+    "when_to_use": [
+      "Understanding why deep networks train despite non-convexity",
+      "Diagnosing slow convergence: check gradient norms vs loss plateau",
+      "Motivating momentum, learning rate schedules, and noise injection"
+    ],
+    "gotchas": [
+      "Near-saddle plateaus: gradient is not zero but very small — looks like convergence but isn't",
+      "Hessian saddle detection requires computing eigenvalues — impractical for large networks",
+      "Batch noise in SGD naturally perturbs around saddle points — pure GD can get stuck"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "saddle-points",
+      "show_hessian": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Classify a critical point as minimum, maximum, or saddle using the Hessian.",
+    "starter_code": "def classify_critical_point_2d(H):\n    \"\"\"\n    H: 2x2 Hessian matrix [[h00,h01],[h10,h11]] at a critical point.\n    Returns 'minimum', 'maximum', or 'saddle' based on eigenvalue signs.\n    For 2x2: det(H) = h00*h11 - h01*h10, trace(H) = h00 + h11.\n    \"\"\"\n    det   = H[0][0]*H[1][1] - H[0][1]*H[1][0]\n    trace = H[0][0] + H[1][1]\n    if det < 0:\n        return ___________\n    elif det > 0 and trace > 0:\n        return 'minimum'\n    elif det > 0 and trace < 0:\n        return 'maximum'\n    else:\n        return 'degenerate'",
+    "solution": "'saddle'",
+    "hints": [
+      "When det(H) < 0, the two eigenvalues have opposite signs — one positive (upward curve) and one negative (downward curve) — meaning the point is a saddle."
+    ],
+    "test_code": "# f(x,y)=x^2+y^2: H=[[2,0],[0,2]], det=4>0, trace=4>0 -> min\nassert classify_critical_point_2d([[2,0],[0,2]]) == 'minimum'\n\n# f(x,y)=-x^2-y^2: H=[[-2,0],[0,-2]], det=4>0, trace=-4<0 -> max\nassert classify_critical_point_2d([[-2,0],[0,-2]]) == 'maximum'\n\n# f(x,y)=x^2-y^2: H=[[2,0],[0,-2]], det=-4<0 -> saddle\nassert classify_critical_point_2d([[2,0],[0,-2]]) == 'saddle'\n\n# xy: H=[[0,1],[1,0]], det=-1<0 -> saddle\nassert classify_critical_point_2d([[0,1],[1,0]]) == 'saddle'\nprint('PASS')"
+  },
+  "related": ["convex-vs-nonconvex-01", "vanishing-exploding-gradients-01", "adam-optimizer-01", "stochastic-gradient-descent-01"],
+  "tags": ["saddle-points", "Hessian", "critical-points", "non-convex", "loss-landscape", "eigenvalues", "optimization"]
+}

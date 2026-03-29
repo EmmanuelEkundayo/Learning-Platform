@@ -1,0 +1,46 @@
+{
+  "id": "monotonic-stack-01",
+  "slug": "monotonic-stack",
+  "title": "Monotonic Stack",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Maintain a stack that is always sorted (increasing or decreasing) — when a new element would violate the order, pop elements until the stack is valid again, processing each popped element at that moment.",
+    "analogy": "A stack of plates ordered by size — when you add a larger plate, you remove all smaller ones first. Each removed plate gets processed (its relationship to the new plate is now known).",
+    "time_complexity": "O(n) — each element is pushed and popped at most once",
+    "space_complexity": "O(n) for the stack",
+    "when_to_use": [
+      "Next Greater Element (NGE): first element to the right that is larger",
+      "Largest rectangle in a histogram — pop when a bar shorter than the top is encountered",
+      "Daily temperatures, stock span, trapping rainwater",
+      "Any problem asking: for each element, what is the nearest larger/smaller element to its left or right?"
+    ],
+    "gotchas": [
+      "Decide whether your stack is monotonically increasing (pop when new > top, gives previous smaller element on pop) or decreasing (pop when new < top, gives NGE on pop)",
+      "Store indices, not values, in the stack — you need the index to compute distances and to write results",
+      "After the main loop, elements still in the stack have no next greater element — handle them explicitly"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "monotonic-stack",
+      "show_stack": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Use a monotonic stack to find the Next Greater Element for each position. Return -1 if none exists.",
+    "starter_code": "def next_greater_element(nums):\n    n      = len(nums)\n    result = [-1] * n\n    stack  = []          # monotonically decreasing stack of indices\n    for i in range(n):\n        # Pop indices whose element is smaller than nums[i]\n        while stack and nums[stack[-1]] < nums[i]:\n            idx          = stack.pop()\n            result[idx]  = ___________   # nums[i] is the NGE for idx\n        stack.append(i)\n    return result",
+    "solution": "result[idx] = nums[i]",
+    "hints": [
+      "When nums[i] is greater than the element at the top of the stack, nums[i] is the Next Greater Element for that top index",
+      "Pop the index, write nums[i] into result at that index, then continue popping while the condition holds"
+    ],
+    "test_code": "assert next_greater_element([2,1,2])        == [  -1, 2,-1], '[2,1,2]'\nassert next_greater_element([4,1,2])        == [  -1, 2,-1], '[4,1,2]'\nassert next_greater_element([1,3,2,4])      == [3,4,4,-1],   '[1,3,2,4]'\nassert next_greater_element([1,2,3,4])      == [2,3,4,-1],   'ascending'\nassert next_greater_element([4,3,2,1])      == [-1,-1,-1,-1],'descending'\nassert next_greater_element([1])            == [-1],          'single'\nprint('PASS')"
+  },
+  "related": ["next-greater-element-01", "monotonic-queue-01", "sliding-window-max-01"],
+  "tags": ["monotonic-stack", "stack", "next-greater", "O(n)", "histogram"]
+}

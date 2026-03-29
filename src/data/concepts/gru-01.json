@@ -1,0 +1,44 @@
+{
+  "id": "gru-01",
+  "slug": "gru",
+  "title": "Gated Recurrent Unit (GRU)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "GRU simplifies LSTM with two gates instead of three: reset gate rₜ = σ(Wr·[hₜ₋₁,xₜ]) controls how much past state to use when computing a candidate; update gate zₜ = σ(Wz·[hₜ₋₁,xₜ]) blends the old state with the candidate: hₜ = (1−zₜ)⊙hₜ₋₁ + zₜ⊙h̃ₜ. No separate cell state — the hidden state carries everything.",
+    "analogy": "A news editor with a selective memory: the reset gate decides how much yesterday's summary to use when drafting today's (reset = 0 means start fresh), and the update gate decides how much to replace yesterday's summary with today's new draft. Simpler than LSTM but nearly as capable.",
+    "time_complexity": "O(T · d²) — 3 gate matrices vs LSTM's 4",
+    "space_complexity": "O(T · d) for hidden states",
+    "when_to_use": [
+      "Prefer over LSTM when compute budget is tight — comparable performance with fewer parameters",
+      "Smaller datasets where GRU's regularisation via fewer params helps",
+      "Sequence labelling, time-series, language modelling"
+    ],
+    "gotchas": [
+      "Update gate at 0 means 'copy previous state completely' — useful for skipping irrelevant time steps",
+      "Update gate at 1 means 'fully replace' — use for strong inputs",
+      "Still struggles with very long-range dependencies; transformers are preferred for T > 512"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "gru-unrolled",
+      "show_gates": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a single GRU cell step.",
+    "starter_code": "import math\n\ndef sigmoid(x): return 1.0 / (1.0 + math.exp(-max(-30, min(30, x))))\ndef tanh_(x):   return math.tanh(x)\n\ndef gru_cell(x, h_prev, Wz, Wr, Wh, bz, br, bh):\n    \"\"\"\n    One GRU step.\n    x, h_prev: input and previous hidden (same dim or compatible)\n    Wz, Wr, Wh: weight matrices shape (d_h, d_in + d_h)\n    Returns h_next (d_h,).\n    \"\"\"\n    xh = x + h_prev  # concatenate\n    def gate(W, b, act):\n        return [act(sum(W[i][j]*xh[j] for j in range(len(xh))) + b[i])\n                for i in range(len(b))]\n\n    z = gate(Wz, bz, sigmoid)   # update gate\n    r = gate(Wr, br, sigmoid)   # reset gate\n\n    # Candidate: use reset gate on h_prev\n    xrh   = x + [r[k]*h_prev[k] for k in range(len(h_prev))]\n    h_cand = [tanh_(sum(Wh[i][j]*xrh[j] for j in range(len(xrh))) + bh[i])\n               for i in range(len(bh))]\n\n    h_next = [___________  for k in range(len(z))]\n    return h_next",
+    "solution": "(1 - z[k]) * h_prev[k] + z[k] * h_cand[k]",
+    "hints": [
+      "The GRU update: hₜ = (1−zₜ)⊙hₜ₋₁ + zₜ⊙h̃ₜ. Interpolate between old state and candidate using the update gate."
+    ],
+    "test_code": "import math\nd_h, d_in = 2, 2\ndim = d_h + d_in\ndef zeros(r,c): return [[0.0]*c for _ in range(r)]\n\nh0 = [0.0, 0.0]\nx  = [1.0, 0.0]\nWz = Wr = Wh = zeros(d_h, dim)\nbz = br = bh = [0.0]*d_h\n\nh1 = gru_cell(x, h0, Wz,Wr,Wh, bz,br,bh)\nassert len(h1) == d_h\nassert all(-1 <= v <= 1 for v in h1)\n# With all-zero weights: z=0.5, r=0.5, h_cand=tanh(0)=0\n# h_next = (1-0.5)*0 + 0.5*0 = 0\nassert all(abs(v) < 1e-9 for v in h1)\nprint('PASS')"
+  },
+  "related": ["lstm-01", "rnn-01", "seq2seq-01", "vanishing-exploding-gradients-01"],
+  "tags": ["GRU", "gated-recurrent-unit", "update-gate", "reset-gate", "sequence-modeling", "recurrent"]
+}

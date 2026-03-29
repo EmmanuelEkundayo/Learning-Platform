@@ -1,0 +1,46 @@
+{
+  "id": "avl-tree-01",
+  "slug": "avl-tree",
+  "title": "AVL Tree",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A self-balancing BST where every node's left and right subtree heights differ by at most 1 — maintained via rotations after each insert or delete.",
+    "analogy": "A librarian who, every time they add or remove a book, checks the nearest shelves are not too lopsided and immediately reshuffles a small section to restore balance — the whole library never becomes unwieldy.",
+    "time_complexity": "O(log n) guaranteed for search, insert, delete — no worst-case degradation",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Frequent lookups in a dynamic sorted set where O(log n) worst case is required",
+      "Building ordered statistics structures (rank, select queries)",
+      "When Red-Black trees are considered too complex but guaranteed O(log n) is needed"
+    ],
+    "gotchas": [
+      "Balance factor = height(left) − height(right); rebalance when |bf| > 1",
+      "Four rotation cases: LL (right rotation), RR (left rotation), LR (left-right = left rotate child then right rotate node), RL (right-left = right rotate child then left rotate node)",
+      "After every insertion or deletion, update heights bottom-up and check balance factor at each ancestor"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "avl",
+      "show_balance_factor": true,
+      "show_rotations": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the AVL left-rotation. After rotating, update heights of the swapped nodes.",
+    "starter_code": "class AVLNode:\n    def __init__(self, val):\n        self.val = val; self.left = self.right = None; self.height = 1\n\ndef height(n): return n.height if n else 0\n\ndef update_height(n):\n    n.height = 1 + max(height(n.left), height(n.right))\n\ndef balance_factor(n): return height(n.left) - height(n.right)\n\ndef rotate_left(z):\n    \"\"\"Left rotation: z's right child (y) becomes the new root.\"\"\"\n    y       = z.right\n    T2      = y.left          # T2 moves from y's left to z's right\n    y.left  = z\n    z.right = ___________     # attach T2\n    update_height(___________) # update z first (it's now lower)\n    update_height(y)           # then y\n    return y                   # y is the new subtree root",
+    "solution": "z.right = T2\nupdate_height(z)",
+    "hints": [
+      "z.right = T2 — the subtree T2 (which was y's left child) becomes z's new right child after y takes z's place",
+      "Update z's height first (z is now a child of y), then update y's height — order matters because y's height depends on z's"
+    ],
+    "test_code": "def rotate_right(y):\n    x=y.left; T2=x.right; x.right=y; y.left=T2\n    update_height(y); update_height(x); return x\n\ndef insert_avl(root, val):\n    if not root: return AVLNode(val)\n    if val < root.val: root.left = insert_avl(root.left, val)\n    else: root.right = insert_avl(root.right, val)\n    update_height(root)\n    bf = balance_factor(root)\n    if bf > 1 and val < root.left.val:   return rotate_right(root)\n    if bf < -1 and val > root.right.val: return rotate_left(root)\n    if bf > 1 and val > root.left.val:   root.left=rotate_left(root.left); return rotate_right(root)\n    if bf < -1 and val < root.right.val: root.right=rotate_right(root.right); return rotate_left(root)\n    return root\n\ndef inorder(r):\n    if not r: return []\n    return inorder(r.left)+[r.val]+inorder(r.right)\n\nroot=None\nfor v in [30,20,10,25,40,50]: root=insert_avl(root,v)\nassert inorder(root)==[10,20,25,30,40,50],'In-order sorted'\nassert abs(balance_factor(root))<=1,'Root balanced'\nprint('PASS')"
+  },
+  "related": ["bst-operations-01", "red-black-tree-01", "segment-tree-01"],
+  "tags": ["AVL-tree", "self-balancing", "BST", "rotations", "O(log-n)"]
+}

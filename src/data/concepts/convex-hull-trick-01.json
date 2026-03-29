@@ -1,0 +1,44 @@
+{
+  "id": "convex-hull-trick-01",
+  "slug": "convex-hull-trick",
+  "title": "Convex Hull Trick",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "For DP recurrences of the form dp[i] = min over j < i of (m[j] * x[i] + b[j]), each candidate j defines a line y = m[j]*x + b[j]. The minimum at query x[i] is the lower envelope of all lines — maintained as a convex hull. Adding/querying takes amortised O(1) when queries are monotone.",
+    "analogy": "Finding the cheapest supplier as your order size grows: each supplier quotes a different base price and per-unit cost. For any given order size, the cheapest is on the 'lower convex hull' of all supplier cost lines — and as order size increases, the optimal supplier only changes in one direction.",
+    "time_complexity": "O(n) when lines and queries are both monotone; O(n log n) with Li Chao tree for arbitrary order",
+    "space_complexity": "O(n) for the hull",
+    "when_to_use": [
+      "DP recurrences dp[i] = min(m[j]*x[i] + b[j]) over j — linear function minimisation",
+      "Slope trick (special case of CHT)",
+      "Whenever a naive O(n²) DP has cost function decomposable into lines"
+    ],
+    "gotchas": [
+      "Monotone CHT only works when lines are added in order of slope AND queries are monotone",
+      "For general order, use a Li Chao tree (O(n log C) per operation)",
+      "The 'bad line' condition: line l2 is made obsolete by l1 and l3 if their intersection x(l1,l3) ≤ x(l1,l2)"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-table",
+      "show_envelope": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement monotone CHT (deque-based) for DP with lines in decreasing slope order and increasing queries.",
+    "starter_code": "from collections import deque\n\nclass MonotoneCHT:\n    \"\"\"\n    Maintains lower convex hull for lines y = m*x + b.\n    Assumes lines added in DECREASING slope order.\n    Assumes queries made in INCREASING x order.\n    \"\"\"\n    def __init__(self):\n        self.hull = deque()  # each entry: (m, b)\n\n    def _bad(self, l1, l2, l3):\n        # l2 is never the minimum if l1 and l3 intersect at x <= l1,l2 intersection\n        m1,b1 = l1; m2,b2 = l2; m3,b3 = l3\n        return (b3 - b1) * (m1 - m2) <= (b2 - b1) * (m1 - m3)\n\n    def add_line(self, m, b):\n        new_line = (m, b)\n        while len(self.hull) >= 2 and self._bad(self.hull[-2], self.hull[-1], new_line):\n            self.hull.pop()\n        self.hull.append(new_line)\n\n    def query(self, x):\n        # Pop front while next line is better (monotone increasing x)\n        while len(self.hull) >= 2:\n            m1,b1 = self.hull[0]; m2,b2 = self.hull[1]\n            if m1*x + b1 >= m2*x + b2:\n                self.hull.popleft()\n            else:\n                break\n        m, b = ___________\n        return m * x + b",
+    "solution": "self.hull[0]",
+    "hints": [
+      "After popping dominated lines, the best line is at the front of the deque: self.hull[0]"
+    ],
+    "test_code": "# dp[i] = min over j<i of (dp[j] + cost), with lines having slope=2*j, intercept=dp[j]+j^2\n# Simple test: lines y=2x+0, y=x+3, y=0x+10\ncht = MonotoneCHT()\ncht.add_line(2, 0)   # y = 2x\ncht.add_line(1, 3)   # y = x+3\ncht.add_line(0, 10)  # y = 10\nassert cht.query(0) == 0   # 2*0=0 wins\nassert cht.query(3) == 6   # 2*3=6, 1*3+3=6 (tie), 10 -> 6\nassert cht.query(4) == 7   # 2*4=8, 1*4+3=7 wins\nassert cht.query(8) == 10  # 2*8=16, 1*8+3=11, 10 wins\nprint('PASS')"
+  },
+  "related": ["divide-conquer-dp-01", "interval-dp-01", "segment-tree-01", "memoization-vs-tabulation-01"],
+  "tags": ["convex-hull-trick", "CHT", "DP-optimisation", "lower-envelope", "monotone", "advanced-dp"]
+}

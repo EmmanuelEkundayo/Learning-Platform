@@ -1,0 +1,44 @@
+{
+  "id": "centroid-decomposition-01",
+  "slug": "centroid-decomposition",
+  "title": "Centroid Decomposition",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "The centroid of a tree is the node whose removal leaves no subtree larger than n/2. Removing centroids recursively produces a decomposition tree of depth O(log n) — every path in the original tree passes through exactly one centroid of every level, enabling divide-and-conquer on trees.",
+    "analogy": "Bisecting a map by finding the 'balance point' city — removing it splits the country into regions each at most half the original size. Solve problems city by city at each level; the depth guarantee means you only need O(log n) levels.",
+    "time_complexity": "O(n log n) for decomposition; problems solved in O(n log n) or O(n log² n) depending on per-centroid work",
+    "space_complexity": "O(n log n) for centroid tree",
+    "when_to_use": [
+      "Count paths with a given sum or length in a tree",
+      "Closest pair of nodes satisfying some property",
+      "Distance queries where brute force would be O(n²)"
+    ],
+    "gotchas": [
+      "After finding the centroid, mark it as removed before recursing — otherwise it may be selected again",
+      "The centroid of a subtree may not be the centroid of the whole tree — always compute sizes relative to the current component",
+      "Store the centroid parent[] array to climb the centroid tree during queries"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "centroid",
+      "show_centroid_tree": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the centroid of a tree: the node whose removal leaves all components of size ≤ n/2.",
+    "starter_code": "import sys\nsys.setrecursionlimit(10000)\n\ndef find_centroid(adj, n):\n    removed = [False] * n\n    subtree  = [0] * n\n\n    def calc_size(u, parent):\n        subtree[u] = 1\n        for v in adj[u]:\n            if v != parent and not removed[v]:\n                calc_size(v, u)\n                subtree[u] += subtree[v]\n\n    def get_centroid(u, parent, tree_size):\n        for v in adj[u]:\n            if v != parent and not removed[v]:\n                # If child's subtree > half the component, centroid is deeper\n                if subtree[v] > tree_size // 2:\n                    return get_centroid(v, u, tree_size)\n        # No child exceeds half — check the 'upward' component too\n        # upward size = tree_size - subtree[u]\n        if ___________:         # if upward component also <= half\n            return u\n        # Otherwise centroid must be above us — caller handles this\n        return get_centroid(parent, u, tree_size)  # backtrack\n\n    calc_size(0, -1)\n    return get_centroid(0, -1, subtree[0])",
+    "solution": "tree_size - subtree[u] <= tree_size // 2",
+    "hints": [
+      "The upward component has size tree_size - subtree[u]. The node is the centroid iff no child subtree AND the upward component both exceed tree_size // 2"
+    ],
+    "test_code": "# Path graph: 0-1-2-3-4 (centroid = 2)\nadj1 = [[] for _ in range(5)]\nfor u,v in [(0,1),(1,2),(2,3),(3,4)]:\n    adj1[u].append(v); adj1[v].append(u)\nassert find_centroid(adj1, 5) == 2, 'Path of 5: centroid is index 2'\n\n# Star graph: 0 connected to 1,2,3,4,5 (centroid = 0)\nadj2 = [[] for _ in range(6)]\nfor v in range(1,6):\n    adj2[0].append(v); adj2[v].append(0)\nassert find_centroid(adj2, 6) == 0, 'Star: centre node is centroid'\nprint('PASS')"
+  },
+  "related": ["heavy-light-decomposition-01", "dfs-postorder-01", "tree-dp-01", "lowest-common-ancestor-01"],
+  "tags": ["centroid-decomposition", "divide-and-conquer", "tree", "centroid", "O(n-log-n)"]
+}

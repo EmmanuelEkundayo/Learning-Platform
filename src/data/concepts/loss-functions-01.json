@@ -1,0 +1,44 @@
+{
+  "id": "loss-functions-01",
+  "slug": "loss-functions",
+  "title": "Loss Functions",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A loss function measures the gap between predictions and ground truth — it's the signal the model minimises. MSE penalises large errors quadratically (sensitive to outliers). MAE is linear (more robust). Cross-entropy penalises confident wrong predictions exponentially.",
+    "analogy": "Scoring a prediction game: MSE is like squaring the miss distance (big misses are very costly), MAE measures exact miss distance, and cross-entropy is like a sports commentator who harshly penalises a team that predicted a 99% win before losing.",
+    "time_complexity": "O(n) to compute over n samples",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "MSE: regression tasks, assuming Gaussian noise on outputs",
+      "Cross-entropy: classification, assuming categorical distribution",
+      "Huber loss: regression with outliers — quadratic near zero, linear in the tails"
+    ],
+    "gotchas": [
+      "Cross-entropy requires predictions to be valid probabilities (apply softmax before computing)",
+      "MSE is sensitive to outliers — a few large errors dominate the gradient",
+      "For multi-class, use categorical cross-entropy (one label per sample) vs binary cross-entropy (multi-label)"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "loss-comparison",
+      "show_curves": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement MSE, MAE, and binary cross-entropy loss functions.",
+    "starter_code": "import math\n\ndef mse(y_true, y_pred):\n    \"\"\"Mean Squared Error.\"\"\"\n    n = len(y_true)\n    return sum(___________  for yt, yp in zip(y_true, y_pred)) / n\n\ndef mae(y_true, y_pred):\n    \"\"\"Mean Absolute Error.\"\"\"\n    n = len(y_true)\n    return sum(abs(yt - yp) for yt, yp in zip(y_true, y_pred)) / n\n\ndef binary_cross_entropy(y_true, y_pred, eps=1e-12):\n    \"\"\"Binary cross-entropy. y_pred must be in (0,1).\"\"\"\n    n = len(y_true)\n    return -sum(\n        yt * math.log(max(yp, eps)) + (1 - yt) * math.log(max(1 - yp, eps))\n        for yt, yp in zip(y_true, y_pred)\n    ) / n",
+    "solution": "(yt - yp) ** 2",
+    "hints": [
+      "MSE sums the squared differences: (y_true - y_pred)^2 for each pair, then divides by n"
+    ],
+    "test_code": "import math\ny_true = [1, 2, 3, 4, 5]\ny_pred = [1.1, 2.2, 2.8, 3.9, 5.3]\nassert math.isclose(mse(y_true, y_pred), 0.038, abs_tol=0.005)\nassert math.isclose(mae(y_true, y_pred), 0.18,  abs_tol=0.02)\n\n# BCE\ny_bin  = [1, 0, 1, 0]\ny_prob = [0.9, 0.1, 0.8, 0.2]\nbce = binary_cross_entropy(y_bin, y_prob)\nassert bce < 0.3, f'BCE too high: {bce}'  # good predictions -> low loss\n\n# Perfect prediction\ny_perf = [0.9999, 0.9999]\nassert binary_cross_entropy([1,1], y_perf) < 0.01\nprint('PASS')"
+  },
+  "related": ["gradient-descent-01", "l1-l2-regularization-01", "bias-variance-tradeoff-01", "logistic-regression-01"],
+  "tags": ["loss-functions", "MSE", "MAE", "cross-entropy", "regression", "classification"]
+}

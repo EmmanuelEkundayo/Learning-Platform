@@ -1,0 +1,45 @@
+{
+  "id": "dijkstra-01",
+  "slug": "dijkstra",
+  "title": "Dijkstra's Algorithm",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Greedily settle the closest unsettled vertex at each step. Use a min-heap to always pick the minimum distance vertex efficiently. Only works with non-negative edge weights — a negative edge could make a 'settled' vertex cheaper via a later path.",
+    "analogy": "Finding the fastest route on a road map by expanding outward like a ripple from the source — always following the next closest city. Once a city is reached, its shortest route is final.",
+    "time_complexity": "O((V + E) log V) with a binary heap",
+    "space_complexity": "O(V + E)",
+    "when_to_use": [
+      "Single-source shortest paths on graphs with non-negative edge weights",
+      "GPS navigation, network routing protocols (OSPF)",
+      "As a subroutine in A*, Johnson's algorithm, and MST algorithms"
+    ],
+    "gotchas": [
+      "Does NOT work with negative weights — use Bellman-Ford instead",
+      "Lazy deletion: push (new_dist, node) to heap; skip when popped if dist[node] is already better",
+      "For dense graphs, an adjacency matrix + linear scan (O(V²)) can beat the heap approach"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "dijkstra",
+      "show_distances": true,
+      "show_heap": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Dijkstra's algorithm returning shortest distances from start to all vertices.",
+    "starter_code": "import heapq\n\ndef dijkstra(graph, start):\n    \"\"\"\n    graph: {node: [(neighbour, weight), ...]}\n    Returns dist dict: shortest distance from start to each node.\n    \"\"\"\n    dist = {node: float('inf') for node in graph}\n    dist[start] = 0\n    heap = [(0, start)]   # (distance, node)\n\n    while heap:\n        d, u = heapq.heappop(heap)\n        if d > dist[u]:           # stale entry — skip\n            continue\n        for v, w in graph[u]:\n            new_dist = d + w\n            if new_dist < ___________:\n                dist[v] = new_dist\n                heapq.heappush(heap, (new_dist, v))\n    return dist",
+    "solution": "dist[v]",
+    "hints": [
+      "Only relax an edge (u→v) when d + w < dist[v] — if the new distance is better, update dist[v] and push the new entry onto the heap"
+    ],
+    "test_code": "g = {\n    0: [(1,4),(2,1)],\n    1: [(3,1)],\n    2: [(1,2),(3,5)],\n    3: []\n}\nd = dijkstra(g, 0)\nassert d[0] == 0\nassert d[1] == 3   # 0->2->1 = 1+2\nassert d[2] == 1   # 0->2\nassert d[3] == 4   # 0->2->1->3 = 1+2+1\n\n# Single node\ng2 = {0: []}\nassert dijkstra(g2, 0) == {0: 0}\nprint('PASS')"
+  },
+  "related": ["bellman-ford-01", "astar-01", "prims-01", "johnsons-algorithm-01"],
+  "tags": ["dijkstra", "shortest-path", "greedy", "heap", "graph"]
+}

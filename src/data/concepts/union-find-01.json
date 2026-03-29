@@ -1,0 +1,50 @@
+{
+  "id": "union-find-01",
+  "slug": "union-find",
+  "title": "Union-Find (DSU)",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Track which elements belong to the same group by linking them into trees — find the root to identify the group, union to merge two groups.",
+    "analogy": "Social circles: each person knows their group leader. To check if two people share a circle, trace both to their leaders. To merge two circles, make one leader report to the other.",
+    "time_complexity": "O(α(n)) per operation (inverse Ackermann — effectively O(1))",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Detecting cycles in an undirected graph",
+      "Kruskal's MST algorithm (merge components edge-by-edge)",
+      "Checking connectivity between nodes dynamically",
+      "Counting connected components"
+    ],
+    "gotchas": [
+      "Without path compression and union by rank, each operation degrades to O(n) — always use both optimizations",
+      "Union-Find does not support split/disconnect operations — it's union-only",
+      "For directed graphs, connected components require Tarjan's or Kosaraju's, not Union-Find"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "nodes": 8,
+      "directed": false,
+      "weighted": false,
+      "show_parent_array": true,
+      "show_rank_array": true,
+      "step_annotations": true,
+      "mode": "union-find"
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Union-Find with path compression and union by rank.",
+    "starter_code": "class UnionFind:\n    def __init__(self, n):\n        self.parent = list(range(n))\n        self.rank = [0] * n\n\n    def find(self, x):\n        if self.parent[x] != x:\n            self.parent[x] = ___________  # path compression\n        return self.parent[x]\n\n    def union(self, x, y):\n        px, py = self.find(x), self.find(y)\n        if px == py:\n            return False\n        if self.rank[px] < self.rank[py]:\n            px, py = py, px\n        self.parent[py] = px\n        if self.rank[px] == self.rank[py]:\n            ___________\n        return True",
+    "solution": "self.parent[x] = self.find(self.parent[x])  # path compression\nself.rank[px] += 1  # increase rank only when both had same rank",
+    "hints": [
+      "Path compression: when finding root, make every node on the path point directly to the root (recursive find handles this naturally)",
+      "Only increment rank when both roots had equal rank — attaching a smaller tree under a taller one doesn't change height"
+    ],
+    "test_code": "uf = UnionFind(5)\nassert uf.find(0) != uf.find(1), '0 and 1 start separate'\nuf.union(0,1)\nassert uf.find(0) == uf.find(1), 'After union(0,1) same root'\nuf.union(1,2)\nassert uf.find(0) == uf.find(2), 'Transitivity: 0 and 2 share root'\nassert uf.find(3) != uf.find(0), '3 still isolated'\nassert uf.union(0,2) == False, 'union of already-connected nodes returns False'\nuf.union(3,4)\nassert uf.find(3) == uf.find(4), 'After union(3,4) same root'\nprint('PASS')"
+  },
+  "related": ["bfs-01", "kruskal-01", "cycle-detection-undirected-01"],
+  "tags": ["graph", "disjoint-set", "union-find", "DSU", "connected-components", "MST"]
+}

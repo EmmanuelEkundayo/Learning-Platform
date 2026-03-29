@@ -1,0 +1,44 @@
+{
+  "id": "batch-normalization-01",
+  "slug": "batch-normalization",
+  "title": "Batch Normalization",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Normalise each feature across the mini-batch: x̂ = (x − μ_B) / √(σ²_B + ε), then scale and shift: y = γx̂ + β where γ,β are learned. This stabilises the distribution of activations (reduces internal covariate shift), allows higher learning rates, and acts as a regulariser. At inference, use running mean/variance accumulated during training.",
+    "analogy": "Standardising exam scores across different classes before comparing: raw scores differ because each class has different averages (covariate shift). Normalising to mean=0, std=1 then applying a learned scaling makes all classes comparable — and γ,β let the network restore any useful scale it needs.",
+    "time_complexity": "O(n · d) per forward pass (n = batch size, d = features)",
+    "space_complexity": "O(d) for γ, β, running stats",
+    "when_to_use": [
+      "Deep networks with many layers — prevents activation drift",
+      "High learning rates — BatchNorm smoothes the loss landscape",
+      "Especially beneficial before ReLU layers in CNNs and MLPs"
+    ],
+    "gotchas": [
+      "Batch size matters: too small (< 8) makes batch statistics noisy — use Layer Norm instead",
+      "Train/inference mismatch: must switch to running stats at inference (model.eval() in PyTorch)",
+      "Does not work well with RNNs (variable-length sequences) — use Layer Norm"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "batch-normalization",
+      "show_distributions": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the batch normalization forward pass.",
+    "starter_code": "def batch_norm_forward(X, gamma, beta, eps=1e-5):\n    \"\"\"\n    X    : list of n vectors each of dimension d (n x d batch)\n    gamma: scale parameters, length d\n    beta : shift parameters, length d\n    Returns normalised output Y (n x d).\n    \"\"\"\n    n = len(X)\n    d = len(X[0])\n    # 1. Compute per-feature mean\n    mean = [sum(X[i][j] for i in range(n)) / n for j in range(d)]\n    # 2. Compute per-feature variance\n    var  = [sum((X[i][j] - mean[j])**2 for i in range(n)) / n for j in range(d)]\n    # 3. Normalise\n    X_hat = [\n        [(X[i][j] - mean[j]) / (var[j] + eps)**0.5 for j in range(d)]\n        for i in range(n)\n    ]\n    # 4. Scale and shift\n    Y = [\n        [___________  for j in range(d)]\n        for i in range(n)\n    ]\n    return Y, mean, var",
+    "solution": "gamma[j] * X_hat[i][j] + beta[j]",
+    "hints": [
+      "Apply the learned affine transform: y = γ·x̂ + β elementwise per feature j."
+    ],
+    "test_code": "X     = [[1.0,2.0],[3.0,4.0],[5.0,6.0],[7.0,8.0]]  # 4x2 batch\ngamma = [1.0, 1.0]\nbeta  = [0.0, 0.0]\nY, mean_, var_ = batch_norm_forward(X, gamma, beta)\n\n# With gamma=1, beta=0: output should be standardised\ncol0 = [Y[i][0] for i in range(4)]\ncol1 = [Y[i][1] for i in range(4)]\nmean_out0 = sum(col0)/4\nmean_out1 = sum(col1)/4\nassert abs(mean_out0) < 1e-5, f'Mean col0 should be ~0: {mean_out0}'\nassert abs(mean_out1) < 1e-5, f'Mean col1 should be ~0: {mean_out1}'\n\n# With learned gamma/beta\ngamma2 = [2.0, 0.5]; beta2 = [1.0, -1.0]\nY2, _, _ = batch_norm_forward(X, gamma2, beta2)\nassert abs(sum(Y2[i][0] for i in range(4))/4 - 1.0) < 1e-5  # mean = beta2[0]\nprint('PASS')"
+  },
+  "related": ["mlp-01", "dropout-01", "weight-initialization-01", "vanishing-exploding-gradients-01"],
+  "tags": ["batch-normalization", "internal-covariate-shift", "normalisation", "gamma-beta", "deep-learning"]
+}

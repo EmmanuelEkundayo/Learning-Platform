@@ -1,0 +1,47 @@
+{
+  "id": "string-hashing-01",
+  "slug": "string-hashing",
+  "title": "Polynomial String Hashing",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Represent a string as a single integer via a polynomial in a base — then compare substrings in O(1) by subtracting prefix hashes, no character scanning needed.",
+    "analogy": "Assigning a unique ISBN to every book: instead of reading two books cover-to-cover to check if they're identical, compare their ISBNs in a millisecond. The hash is a compact fingerprint.",
+    "time_complexity": "O(n) build, O(1) per substring equality check",
+    "space_complexity": "O(n) for prefix hash array and power array",
+    "when_to_use": [
+      "Checking if two substrings are equal in O(1) after O(n) preprocessing",
+      "Finding duplicate substrings (e.g., longest duplicate substring via binary search + hash set)",
+      "Rolling hash as the backbone of Rabin-Karp and suffix array construction",
+      "Hashing 2D submatrices by hashing rows then columns"
+    ],
+    "gotchas": [
+      "Single hash has birthday-paradox collision probability ~1/MOD — use double hashing (two different bases/mods) for safety in competitive programming",
+      "The substring hash formula is: hash(l, r) = (h[r+1] - h[l] * pow[r-l+1]) % MOD — the pow[r-l+1] factor shifts the prefix hash into alignment",
+      "Use an odd base (e.g., 131) larger than the alphabet size to avoid clustering and minimize collisions"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "string-hashing",
+      "show_hash_computation": true,
+      "show_power_array": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Build the prefix hash and power arrays, then implement an O(1) substring hash query.",
+    "starter_code": "def build_hash(s, base=131, mod=10**9 + 7):\n    n = len(s)\n    h  = [0] * (n + 1)   # h[i] = hash of s[0..i-1]\n    pw = [1] * (n + 1)   # pw[i] = base^i % mod\n    for i in range(n):\n        h[i + 1]  = (h[i] * base + ord(s[i])) % mod\n        pw[i + 1] = ___________\n    \n    def get_hash(l, r):   # hash of s[l..r] inclusive\n        return ___________\n    \n    return get_hash\n\n# Usage\nget_hash = build_hash('abcabc')\nassert get_hash(0, 2) == get_hash(3, 5)  # 'abc' == 'abc'",
+    "solution": "pw[i + 1] = (pw[i] * base) % mod\nreturn (h[r + 1] - h[l] * pw[r - l + 1] % mod + mod) % mod",
+    "hints": [
+      "pw[i+1] = pw[i] * base % mod — just multiply the previous power by base",
+      "Substring hash: (h[r+1] - h[l] * pw[r-l+1]) % mod. The pw term un-shifts the prefix hash so both windows start at the same polynomial position. Add mod before % to prevent negative results."
+    ],
+    "test_code": "BASE, MOD = 131, 10**9 + 7\nget = build_hash('abcabc', BASE, MOD)\nassert get(0, 2) == get(3, 5),  '\"abc\" == \"abc\" at positions 0-2 and 3-5'\nassert get(0, 0) != get(1, 1),  '\"a\" != \"b\"'\nassert get(0, 5) == get(0, 5),  'Same range returns same hash'\n\nget2 = build_hash('aaaa', BASE, MOD)\nassert get2(0, 1) == get2(1, 2) == get2(2, 3), 'All substrings of length 2 equal in \"aaaa\"'\nprint('PASS')"
+  },
+  "related": ["rabin-karp-01", "rolling-hash-01", "z-algorithm-01", "suffix-array-01"],
+  "tags": ["string-hashing", "polynomial-hash", "rolling-hash", "substring-equality", "fingerprinting"]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "priority-queue-01",
+  "slug": "priority-queue",
+  "title": "Priority Queue (Binary Heap)",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A complete binary tree stored as an array where every parent is smaller (min-heap) or larger (max-heap) than its children — the extreme element is always at index 0.",
+    "analogy": "A hospital emergency room where each new patient is triaged and placed according to urgency. The most critical patient is always treated next, regardless of arrival order.",
+    "time_complexity": "O(log n) push/pop; O(1) peek; O(n) build from array (heapify)",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Always-get-the-minimum (or maximum) element efficiently: Dijkstra's, Prim's, A*",
+      "Top-k elements, k-th largest/smallest",
+      "Merging k sorted lists — push first element of each list, pop min, push its successor",
+      "Scheduling tasks by priority, event-driven simulation"
+    ],
+    "gotchas": [
+      "Python's heapq is a min-heap only — for a max-heap, negate all values before pushing and negate again after popping",
+      "heapify() runs in O(n), not O(n log n) — building from an existing list is faster than n individual pushes",
+      "Heap does NOT support O(log n) arbitrary deletion — for that, use a lazy-deletion pattern (mark elements as deleted, skip them on pop)"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "heap",
+      "show_tree_structure": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the min-heap sift-up operation used after inserting a new element at the end.",
+    "starter_code": "def sift_up(heap, i):\n    \"\"\"Bubble element at index i upward until heap property is restored.\"\"\"\n    while i > 0:\n        parent = (i - 1) // 2\n        if heap[parent] > heap[i]:\n            heap[parent], heap[i] = ___________\n            i = parent\n        else:\n            break\n\ndef heap_push(heap, val):\n    heap.append(val)\n    sift_up(heap, len(heap) - 1)\n    return heap",
+    "solution": "heap[i], heap[parent]    # swap child with parent",
+    "hints": [
+      "Swap the element at i with its parent to move it upward: heap[parent], heap[i] = heap[i], heap[parent]",
+      "After swapping, set i = parent and continue checking — the element may still need to bubble up further"
+    ],
+    "test_code": "import heapq\n\nh = []\nheap_push(h, 5); heap_push(h, 3); heap_push(h, 8); heap_push(h, 1); heap_push(h, 4)\nassert h[0] == 1, f'Min-heap root must be 1, got {h[0]}'\n\n# Verify heap property: every parent <= its children\nfor i in range(1, len(h)):\n    parent = (i-1)//2\n    assert h[parent] <= h[i], f'Heap violated at i={i}: h[{parent}]={h[parent]} > h[{i}]={h[i]}'\n\n# Compare with stdlib heapq\nfor v in [5,3,8,1,4]:\n    import heapq\nref = [5,3,8,1,4]; heapq.heapify(ref)\nassert sorted(h) == sorted(ref), 'Must contain same elements'\nprint('PASS')"
+  },
+  "related": ["monotonic-queue-01", "min-stack-01", "merge-linked-lists-01"],
+  "tags": ["priority-queue", "heap", "min-heap", "max-heap", "heapify", "O(log-n)"]
+}

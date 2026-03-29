@@ -1,0 +1,44 @@
+{
+  "id": "actor-critic-01",
+  "slug": "actor-critic",
+  "title": "Actor-Critic",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Combines policy gradient (actor) and value function (critic). The critic learns V(s;w) to estimate returns; the actor uses the TD advantage A(s,a) = r + γV(s') − V(s) instead of the noisy full return G_t — dramatically reducing variance. Actor update: θ ← θ + α_π·∇log π(a|s;θ)·A(s,a). Critic update: minimise (r + γV(s') − V(s;w))².",
+    "analogy": "A performer (actor) and a coach (critic): the performer tries different moves, the coach immediately rates each move relative to expected performance (advantage), and the performer adjusts based on the coach's feedback. Unlike REINFORCE which waits until the end of the episode, this is online and step-by-step.",
+    "time_complexity": "O(d_actor + d_critic) per step",
+    "space_complexity": "O(d_actor + d_critic) for two networks",
+    "when_to_use": [
+      "Lower variance than REINFORCE, more sample efficient",
+      "Online learning — no need to wait for episode end",
+      "Foundation for A3C, A2C, PPO, SAC"
+    ],
+    "gotchas": [
+      "Bias-variance trade-off: actor-critic is lower variance than MC policy gradient but introduces critic bias",
+      "Two-timescale learning: actor should update slower than critic (α_π < α_V) for stability",
+      "Advantage normalisation (zero mean, unit std per batch) stabilises training"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "actor-critic",
+      "show_advantage": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Compute the TD advantage estimate for actor-critic.",
+    "starter_code": "def td_advantage(rewards, values, gamma):\n    \"\"\"\n    Compute one-step TD advantages for a trajectory.\n    A(s_t, a_t) = r_t + gamma * V(s_{t+1}) - V(s_t)\n    rewards: list of T rewards\n    values : list of T+1 value estimates (last entry = V(s_T) = 0 if terminal)\n    Returns list of T advantages.\n    \"\"\"\n    T = len(rewards)\n    advantages = []\n    for t in range(T):\n        adv = ___________\n        advantages.append(adv)\n    return advantages",
+    "solution": "rewards[t] + gamma * values[t+1] - values[t]",
+    "hints": [
+      "One-step TD advantage: A_t = r_t + γ·V(s_{t+1}) − V(s_t). Use values[t+1] as the bootstrap estimate of the next state's value."
+    ],
+    "test_code": "rewards = [1.0, 2.0, 3.0]\n# V estimates; values[3]=0 (terminal)\nvalues  = [5.0, 4.0, 3.0, 0.0]\ngamma   = 0.9\n\nadv = td_advantage(rewards, values, gamma)\n# A[0] = 1 + 0.9*4 - 5 = 1 + 3.6 - 5 = -0.4\nassert abs(adv[0] - (-0.4)) < 1e-9, f'A[0]={adv[0]}'\n# A[1] = 2 + 0.9*3 - 4 = 2 + 2.7 - 4 = 0.7\nassert abs(adv[1] - 0.7) < 1e-9\n# A[2] = 3 + 0.9*0 - 3 = 0\nassert abs(adv[2] - 0.0) < 1e-9\nprint('PASS')"
+  },
+  "related": ["policy-gradient-01", "ppo-01", "deep-q-network-01", "bellman-equation-01"],
+  "tags": ["actor-critic", "advantage", "TD-error", "value-function", "A2C", "A3C", "reinforcement-learning"]
+}

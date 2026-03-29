@@ -1,0 +1,44 @@
+{
+  "id": "transfer-learning-01",
+  "slug": "transfer-learning",
+  "title": "Transfer Learning",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Pre-train on a large source task, then fine-tune on a smaller target task. Feature transfer: freeze the backbone and train only the head — fast but less accurate. Full fine-tuning: update all weights — best accuracy but requires careful learning rate scheduling. Gradual unfreezing: unfreeze layers from top to bottom during fine-tuning — balances stability and adaptation.",
+    "analogy": "Learning a second language as a native English speaker: your knowledge of grammar structure (pre-trained features) transfers — you don't learn language from scratch. You only need targeted practice (fine-tuning) on the new language's specific vocabulary and exceptions.",
+    "time_complexity": "Pre-training: O(large data); Fine-tuning: O(small data × epochs)",
+    "space_complexity": "O(model_size) — same as the base model",
+    "when_to_use": [
+      "Small target dataset where training from scratch would overfit",
+      "Domain-specific tasks: medical imaging with ImageNet pre-trained backbone",
+      "NLP: pre-trained BERT/GPT as backbone for downstream classification"
+    ],
+    "gotchas": [
+      "Negative transfer: source and target domains too different — low-level features may not help",
+      "Use smaller learning rates when fine-tuning (1e-5 to 1e-4) to not destroy pre-trained features",
+      "Layer-wise learning rate decay: lr × 0.9^layer_from_top — lower layers get smaller lr"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "transfer-learning",
+      "show_frozen_layers": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement layer-wise learning rate decay for fine-tuning.",
+    "starter_code": "def layer_wise_lr(base_lr, n_layers, decay=0.9):\n    \"\"\"\n    Compute per-layer learning rates with decay from top to bottom.\n    Layer n_layers-1 (output/top) gets base_lr.\n    Layer 0 (input/bottom) gets the smallest rate.\n    Returns list of learning rates [lr_layer_0, lr_layer_1, ..., lr_layer_n-1].\n    \"\"\"\n    lrs = []\n    for layer_idx in range(n_layers):\n        # Distance from the top layer\n        depth_from_top = (n_layers - 1) - layer_idx\n        lr = ___________\n        lrs.append(lr)\n    return lrs",
+    "solution": "base_lr * (decay ** depth_from_top)",
+    "hints": [
+      "Layer-wise decay: lr = base_lr × decay^(distance_from_top). The top layer gets base_lr × decay^0 = base_lr; bottom layers get exponentially smaller rates."
+    ],
+    "test_code": "lrs = layer_wise_lr(base_lr=1e-3, n_layers=4, decay=0.9)\nassert len(lrs) == 4\n# Top layer (index 3) gets base_lr\nassert abs(lrs[3] - 1e-3) < 1e-9\n# Layer 2 gets base_lr * 0.9\nassert abs(lrs[2] - 1e-3*0.9) < 1e-12\n# Layer 1\nassert abs(lrs[1] - 1e-3*0.81) < 1e-12\n# Layer 0 gets smallest\nassert lrs[0] < lrs[1] < lrs[2] < lrs[3]\n# decay=1: all same\nlrs_flat = layer_wise_lr(1e-3, 4, decay=1.0)\nassert all(abs(lr - 1e-3) < 1e-12 for lr in lrs_flat)\nprint('PASS')"
+  },
+  "related": ["finetuning-vs-prompting-01", "knowledge-distillation-01", "few-shot-vs-zero-shot-01", "bert-01"],
+  "tags": ["transfer-learning", "fine-tuning", "pre-training", "frozen-layers", "layer-wise-lr", "domain-adaptation"]
+}

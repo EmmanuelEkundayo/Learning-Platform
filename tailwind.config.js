@@ -1,0 +1,40 @@
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    './index.html',
+    './src/**/*.{js,jsx}',
+  ],
+  theme: {
+    extend: {
+      colors: {
+        // DSA accent: blue
+        dsa: {
+          50:  '#eff6ff',
+          400: '#60a5fa',
+          500: '#3b82f6',
+          600: '#2563eb',
+        },
+        // ML accent: amber
+        ml: {
+          50:  '#fffbeb',
+          400: '#fbbf24',
+          500: '#f59e0b',
+          600: '#d97706',
+        },
+        // Dark theme surface colors
+        surface: {
+          900: '#0d0d0f',
+          800: '#141418',
+          700: '#1c1c22',
+          600: '#26262e',
+          500: '#32323c',
+        },
+      },
+      fontFamily: {
+        mono: ['JetBrains Mono', 'Fira Code', 'Cascadia Code', 'monospace'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
+      },
+    },
+  },
+  plugins: [],
+}
