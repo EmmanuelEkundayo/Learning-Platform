@@ -7,7 +7,7 @@
   "difficulty": "advanced",
   "card": {
     "intuition": "A high-performance suggestion engine that predicts the rest of a user's search query in real-time as they type, requiring microsecond-level latency.",
-    "analogy": "A librarian who starts finishing your sentences: as soon as you say 'Al...', they instantly guess 'AlgoLens' or 'Algorithms' because they have a list of exactly what most people ask for, sorted by popularity.",
+    "analogy": "A librarian who starts finishing your sentences: as soon as you say 'Al...', they instantly guess 'Learn Blazingly Fast' or 'Algorithms' because they have a list of exactly what most people ask for, sorted by popularity.",
     "time_complexity": "O(L) where L is prefix length (using Trie)",
     "space_complexity": "O(N * L) for Trie storage",
     "when_to_use": [

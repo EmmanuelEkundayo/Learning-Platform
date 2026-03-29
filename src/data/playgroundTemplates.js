@@ -535,7 +535,7 @@ setInterval(log, 100); // Logs every 1000ms`
 
 const em = new EventEmitter();
 em.on('greet', (name) => console.log('Hello', name));
-em.emit('greet', 'AlgoLens Layer');`
+em.emit('greet', 'Learn Blazingly Fast Layer');`
       },
       {
         id: "lru-js",

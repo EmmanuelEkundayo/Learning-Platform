@@ -46,8 +46,8 @@ const LANGUAGES = [
 const FONT_SIZES = [12, 14, 16, 18];
 
 const DEFAULT_TEMPLATES = {
-  python: 'print("Hello, AlgoLens World!")',
-  javascript: 'console.log("Hello, AlgoLens World!");',
+  python: 'print("Hello, Learn Blazingly Fast World!")',
+  javascript: 'console.log("Hello, Learn Blazingly Fast World!");',
   java: 'public class Main {\n  public static void main(String[] args) {\n    System.out.println("Hello World");\n  }\n}',
   cpp: '#include <iostream>\n\nint main() {\n    std::cout << "Hello World" << std::endl;\n    return 0;\n}'
 };
