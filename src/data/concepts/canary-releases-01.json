@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A release strategy where you roll out a new feature to a tiny subset of users first (the 'canaries') before rolling it out to the whole population.",
     "analogy": "A canary in a coal mine: miners used to take a bird into the mine. If there was dangerous gas, the bird would get sick first, warning the miners to get out. In software, if 1% of users get errors, you stop the release before 100% of users are affected.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per traffic split decision",
+    "space_complexity": "O(I) instances",
     "when_to_use": [
       "Testing new, complex code under real-world traffic patterns",
       "Gathering feedback from a small group of beta testers",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"incre\" in ans.lower() or \"step\" in ans.lower()\nassert check(\"incremental\")\nprint(\"PASS\")"
   },
-  "related": ["blue-green-deployment-01", "observability-logs-metrics-traces-01", "service-mesh-01"],
-  "tags": ["devops", "deployment", "canary", "risk-mitigation", "monitoring", "software-engineering"]
+  "related": [
+    "blue-green-deployment-01",
+    "observability-logs-metrics-traces-01",
+    "service-mesh-01"
+  ],
+  "tags": [
+    "devops",
+    "deployment",
+    "canary",
+    "risk-mitigation",
+    "monitoring",
+    "software-engineering"
+  ]
 }

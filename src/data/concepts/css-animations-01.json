@@ -9,7 +9,7 @@
     "intuition": "Transitions allow property changes to happen smoothly over time, while Animations (@keyframes) allow for complex, multi-step motion sequences that can happen automatically.",
     "analogy": "Transitions are like a slide: you start at the top (state A) and glide smoothly to the bottom (state B). Animations are like a choreographed dance: you follow a set of instructions ('at 50%, jump') and can repeat the dance forever.",
     "time_complexity": "Hardware accelerated (GPU)",
-    "space_complexity": "N/A",
+    "space_complexity": "O(A) active animations",
     "when_to_use": [
       "Smoothing out hover effects (Transitions)",
       "Creating loading spinners (Animations)",
@@ -24,7 +24,12 @@
     "type": "timeline-step",
     "config": {
       "mode": "keyframe-timeline-preview",
-      "show_easing_curves": ["linear", "ease-in", "ease-out", "cubic-bezier"],
+      "show_easing_curves": [
+        "linear",
+        "ease-in",
+        "ease-out",
+        "cubic-bezier"
+      ],
       "show_gpu_acceleration_status": true,
       "step_annotations": true
     }
@@ -39,6 +44,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"keyframes\"\nassert check(\"keyframes\")\nprint(\"PASS\")"
   },
-  "related": ["render-pipeline-01", "reflow-vs-repaint-01", "request-animation-frame-01"],
-  "tags": ["css", "animations", "transitions", "keyframes", "performance", "frontend"]
+  "related": [
+    "render-pipeline-01",
+    "reflow-vs-repaint-01",
+    "request-animation-frame-01"
+  ],
+  "tags": [
+    "css",
+    "animations",
+    "transitions",
+    "keyframes",
+    "performance",
+    "frontend"
+  ]
 }

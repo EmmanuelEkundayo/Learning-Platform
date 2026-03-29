@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An approach to web design that makes web pages render well on a variety of devices and window or screen sizes from minimum to maximum display size.",
     "analogy": "Water in a container: on a narrow phone, the content (water) flows into a tall, thin shape. On a wide desktop, it flows into a flat, wide shape. The content is the same, but the 'container' (viewport) forces it to rearrange.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(B) breakpoints evaluated",
+    "space_complexity": "O(R) rule sets",
     "when_to_use": [
       "Making a website usable on Mobile, Tablet, and Desktop",
       "Hiding non-essential sidebar content on smaller screens",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"media\"\nassert check(\"media\")\nprint(\"PASS\")"
   },
-  "related": ["container-queries-01", "flexbox-algorithm-01", "css-grid-01"],
-  "tags": ["css", "responsive", "mobile-first", "media-queries", "breakpoints", "frontend"]
+  "related": [
+    "container-queries-01",
+    "flexbox-algorithm-01",
+    "css-grid-01"
+  ],
+  "tags": [
+    "css",
+    "responsive",
+    "mobile-first",
+    "media-queries",
+    "breakpoints",
+    "frontend"
+  ]
 }

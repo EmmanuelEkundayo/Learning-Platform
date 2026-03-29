@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A specific type of message queue used to distribute unit-of-work 'jobs' across multiple worker processes to be executed in the background.",
     "analogy": "A kitchen ticket rail: the server (Producer) clips a ticket ('Order: 2 Burgers') to the rail. The line cooks (Workers) each grab one ticket at a time, finish the job, and then take the next one.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(J) jobs processed per tick",
     "space_complexity": "O(N) jobs",
     "when_to_use": [
       "Sending emails or SMS notifications",
@@ -24,7 +24,11 @@
     "type": "architecture-diagram",
     "config": {
       "mode": "worker-pool-distribution",
-      "show_task_status": ["Pending", "Processing", "Completed"],
+      "show_task_status": [
+        "Pending",
+        "Processing",
+        "Completed"
+      ],
       "show_concurrency_scaling": true,
       "step_annotations": true
     }
@@ -40,6 +44,16 @@
     ],
     "test_code": "assert libraries[\"Python\"].lower() == \"celery\"\nassert libraries[\"JavaScript/Node\"].lower() in [\"bull\", \"bullmq\"]\nprint(\"PASS\")"
   },
-  "related": ["message-queue-concepts-01", "worker-threads-01", "retry-and-backoff-01"],
-  "tags": ["job-queue", "tasks", "asynchronous", "background-jobs", "backend"]
+  "related": [
+    "message-queue-concepts-01",
+    "worker-threads-01",
+    "retry-and-backoff-01"
+  ],
+  "tags": [
+    "job-queue",
+    "tasks",
+    "asynchronous",
+    "background-jobs",
+    "backend"
+  ]
 }

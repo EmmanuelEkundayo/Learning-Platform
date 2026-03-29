@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A service that doesn't remember anything about previous requests. Every request must contain all the information needed for processing, allowing any server to handle any request.",
     "analogy": "A vending machine vs a bartender: a **Bartender** (Stateful) remembers you ordered 'the usual'. A **Vending Machine** (Stateless) doesn't care who you are; you put in a coin and a code, and you get a soda. You can go to any vending machine in the world and it works the same.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per request (no session load)",
+    "space_complexity": "O(1) — no instance state",
     "when_to_use": [
       "Enabling easy horizontal scaling (any server can handle the next click)",
       "Building RESTful APIs that are easy to cache and load-balance",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"db\" in ans.lower() or \"database\" in ans.lower()\nassert check(\"database\")\nprint(\"PASS\")"
   },
-  "related": ["horizontal-vs-vertical-scaling-01", "session-authentication-01", "redis-data-structures-01"],
-  "tags": ["architecture", "stateless", "scaling", "rest", "cloud", "software-engineering"]
+  "related": [
+    "horizontal-vs-vertical-scaling-01",
+    "session-authentication-01",
+    "redis-data-structures-01"
+  ],
+  "tags": [
+    "architecture",
+    "stateless",
+    "scaling",
+    "rest",
+    "cloud",
+    "software-engineering"
+  ]
 }

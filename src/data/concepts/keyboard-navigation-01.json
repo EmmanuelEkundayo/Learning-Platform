@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Ensuring that a website can be fully operated using only a keyboard, which is essential for users with motor disabilities and for power users.",
     "analogy": "A physical building without stairs: if you only have an elevator (Mouse), someone whose elevator is broken (Mouse broken or can't use it) can't get to the second floor. Keyboard navigation (The Stairs) ensures everyone has an alternative way to reach every 'room' in the app.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) focusable elements",
+    "space_complexity": "O(N) focus ring states",
     "when_to_use": [
       "Building accessible forms and navigation menus",
       "Implementing 'Skip to Content' links for screen reader users",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"tabindex\"\nassert check(\"tabindex\")\nprint(\"PASS\")"
   },
-  "related": ["aria-roles-01", "screen-reader-compatibility-01", "color-contrast-wcag-01"],
-  "tags": ["accessibility", "a11y", "keyboard", "focus", "ux", "frontend"]
+  "related": [
+    "aria-roles-01",
+    "screen-reader-compatibility-01",
+    "color-contrast-wcag-01"
+  ],
+  "tags": [
+    "accessibility",
+    "a11y",
+    "keyboard",
+    "focus",
+    "ux",
+    "frontend"
+  ]
 }

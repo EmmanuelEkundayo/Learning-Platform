@@ -9,7 +9,7 @@
     "intuition": "A creational pattern that provides an interface for creating objects in a superclass, but allows subclasses to alter the type of objects that will be created.",
     "analogy": "A pizza shop: you order a 'Pepperoni' or 'Veggie'. You don't know how the dough is kneaded or where the cheese comes from. You just tell the 'Factory' (The Shop) what you want, and it hands you the correct 'Pizza Object'.",
     "time_complexity": "O(1) creation",
-    "space_complexity": "N/A",
+    "space_complexity": "O(T) registered types",
     "when_to_use": [
       "Decoupling the 'Client' code from the specific classes it needs to instantiate",
       "Handling complex object creation that requires setting up many parameters",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"decoup\" in ans.lower()\nassert check(\"decoupling\")\nprint(\"PASS\")"
   },
-  "related": ["singleton-pattern-01", "solid-principles-01", "adapter-pattern-01"],
-  "tags": ["design-patterns", "creational", "factory", "oop", "software-engineering"]
+  "related": [
+    "singleton-pattern-01",
+    "solid-principles-01",
+    "adapter-pattern-01"
+  ],
+  "tags": [
+    "design-patterns",
+    "creational",
+    "factory",
+    "oop",
+    "software-engineering"
+  ]
 }

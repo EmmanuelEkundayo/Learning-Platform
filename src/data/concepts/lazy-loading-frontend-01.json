@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Delaying the loading of non-critical resources (like images or off-screen components) until they are actually needed by the user.",
     "analogy": "An 'Infinity Buffet': the kitchen doesn't bring out every single dish at once. They only bring out the salad when you sit down, and they only bring the dessert once you've finished your main course and 'scroll' over to the dessert table.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(V) visible items loaded",
+    "space_complexity": "O(V) loaded items",
     "when_to_use": [
       "Optimizing long pages with many images",
       "Improving initial page load time (First Contentful Paint)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"loading\"\nassert check(\"loading\")\nprint(\"PASS\")"
   },
-  "related": ["image-optimization-01", "core-web-vitals-01", "prefetching-preloading-01"],
-  "tags": ["performance", "lazy-loading", "optimization", "images", "ux", "frontend"]
+  "related": [
+    "image-optimization-01",
+    "core-web-vitals-01",
+    "prefetching-preloading-01"
+  ],
+  "tags": [
+    "performance",
+    "lazy-loading",
+    "optimization",
+    "images",
+    "ux",
+    "frontend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A standard way for servers to push data to the browser over a single, long-lived HTTP connection — one-way only.",
     "analogy": "A radio station: the DJ (server) broadcasts music to your radio (browser) continuously, but you can't talk back through the radio.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per event push",
+    "space_complexity": "O(C) open connections",
     "when_to_use": [
       "Progress bars for long-running server tasks",
       "Social media feeds / notifications where the user doesn't need to respond instantly",
@@ -40,6 +40,16 @@
     ],
     "test_code": "def check_sse(ctype, msg):\n    return \"event-stream\" in ctype and msg.startswith(\"data:\")\n\nassert check_sse(\"text/event-stream\", \"data: hello\")\nprint(\"PASS\")"
   },
-  "related": ["websockets-01", "http-versions-01", "rest-principles-01"],
-  "tags": ["sse", "real-time", "push-notifications", "http", "backend"]
+  "related": [
+    "websockets-01",
+    "http-versions-01",
+    "rest-principles-01"
+  ],
+  "tags": [
+    "sse",
+    "real-time",
+    "push-notifications",
+    "http",
+    "backend"
+  ]
 }

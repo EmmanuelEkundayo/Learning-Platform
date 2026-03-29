@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A process is a standalone 'box' with its own memory; a thread is a lightweight 'worker' inside that box that shares memory with other threads.",
     "analogy": "A restaurant: a Process is the entire restaurant building. The Threads are the individual chefs in the kitchen sharing the same fridge and stove.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(T) thread context switches",
     "space_complexity": "O(N) for memory allocation per process",
     "when_to_use": [
       "Processes: For isolation (if one crashes, the others live) and utilizing multiple CPU cores in Python",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"Process\" in characteristics[\"Own memory space, high isolation\"]\nassert \"Thread\" in characteristics[\"Shared memory space, low overhead\"]\nprint(\"PASS\")"
   },
-  "related": ["worker-threads-01", "async-await-internals-01", "event-loop-nodejs-01"],
-  "tags": ["concurrency", "operating-systems", "threads", "processes", "parallelism", "backend"]
+  "related": [
+    "worker-threads-01",
+    "async-await-internals-01",
+    "event-loop-nodejs-01"
+  ],
+  "tags": [
+    "concurrency",
+    "operating-systems",
+    "threads",
+    "processes",
+    "parallelism",
+    "backend"
+  ]
 }

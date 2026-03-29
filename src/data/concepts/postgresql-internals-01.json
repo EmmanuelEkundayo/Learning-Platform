@@ -8,8 +8,8 @@
   "card": {
     "intuition": "How Postgres handles concurrent access using Multi-Version Concurrency Control — instead of locking rows, it creates 'versions' of rows so readers don't block writers.",
     "analogy": "Editing a collaborative document where every time you hit save, it creates a new draft (v1, v2, v3). People can keep reading the old 'v2' while you are busy writing 'v3' in the background.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(log N) B-tree index lookup",
+    "space_complexity": "O(B) buffer pool pages",
     "when_to_use": [
       "Optimizing database performance for high-concurrency read/write workloads",
       "Understanding why 'VACUUM' is necessary to clean up old row versions (bloat)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"VACUUM\"\nassert check(\"VACUUM\")\nprint(\"PASS\")"
   },
-  "related": ["database-transactions-01", "acid-properties-01", "query-optimization-01"],
-  "tags": ["postgresql", "database-internals", "mvcc", "vacuum", "concurrency", "backend"]
+  "related": [
+    "database-transactions-01",
+    "acid-properties-01",
+    "query-optimization-01"
+  ],
+  "tags": [
+    "postgresql",
+    "database-internals",
+    "mvcc",
+    "vacuum",
+    "concurrency",
+    "backend"
+  ]
 }

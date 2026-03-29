@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The series of stages a React component goes through from the moment it's created and added to the page until it's removed.",
     "analogy": "A theatrical play: the actors arrive and get into costume (Mounting), they perform and react to the audience (Updating), and finally the curtain closes and they leave the stage (Unmounting).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(R) re-renders triggered",
+    "space_complexity": "O(E) effect closures",
     "when_to_use": [
       "Fetching data when a page loads (Mount)",
       "Cleaning up interval timers or event listeners (Unmount)",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"[]\" in stages.values()\nassert \"id\" in stages.values()\nprint(\"PASS\")"
   },
-  "related": ["useeffect-internals-01", "usestate-internals-01", "virtual-dom-reconciliation-01"],
-  "tags": ["react", "lifecycle", "mount", "unmount", "hooks", "frontend"]
+  "related": [
+    "useeffect-internals-01",
+    "usestate-internals-01",
+    "virtual-dom-reconciliation-01"
+  ],
+  "tags": [
+    "react",
+    "lifecycle",
+    "mount",
+    "unmount",
+    "hooks",
+    "frontend"
+  ]
 }

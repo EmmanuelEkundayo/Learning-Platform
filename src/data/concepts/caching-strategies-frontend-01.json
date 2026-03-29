@@ -9,7 +9,7 @@
     "intuition": "Different patterns used by Service Workers to decide whether to get data from the Cache or the Network.",
     "analogy": "Eating food: 'Cache First' is like looking in your fridge first. 'Network First' is like always checking the grocery store first to see if they have fresh milk, and only using the old fridge milk if the store is closed.",
     "time_complexity": "O(1) for cache; O(N) for network",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) cached entries",
     "when_to_use": [
       "Cache-First: For static assets like CSS and JS that don't change often",
       "Network-First: For dynamic data like a user's bank balance or latest news",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"stale\" in ans.lower() and \"revalidate\" in ans.lower()\nassert check(\"Stale while Revalidate\")\nprint(\"PASS\")"
   },
-  "related": ["service-workers-01", "browser-caching-01", "pwa-basics-01"],
-  "tags": ["caching", "performance", "swr", "pwa", "offline", "frontend"]
+  "related": [
+    "service-workers-01",
+    "browser-caching-01",
+    "pwa-basics-01"
+  ],
+  "tags": [
+    "caching",
+    "performance",
+    "swr",
+    "pwa",
+    "offline",
+    "frontend"
+  ]
 }

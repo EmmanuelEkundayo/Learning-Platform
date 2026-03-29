@@ -9,7 +9,7 @@
     "intuition": "A server that sits in front of one or more backend applications and forwards client requests to them, hiding the identity and complexity of the internal systems.",
     "analogy": "A restaurant waiter: you talk to the waiter (Reverse Proxy). You don't know who is in the kitchen or how many chefs there are. The waiter takes your order, brings it to the kitchen, and brings you the food back.",
     "time_complexity": "O(1) overhead",
-    "space_complexity": "N/A",
+    "space_complexity": "O(C) concurrent connections",
     "when_to_use": [
       "Adding a layer of security by hiding your real server IPs",
       "Performing SSL termination (handling HTTPS for an HTTP-only app)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"back\" in ans.lower()\nassert check(\"backend\")\nprint(\"PASS\")"
   },
-  "related": ["nginx-config-01", "load-balancer-internals-01", "ssl-termination-01"],
-  "tags": ["proxy", "networking", "security", "devops", "nginx", "software-engineering"]
+  "related": [
+    "nginx-config-01",
+    "load-balancer-internals-01",
+    "ssl-termination-01"
+  ],
+  "tags": [
+    "proxy",
+    "networking",
+    "security",
+    "devops",
+    "nginx",
+    "software-engineering"
+  ]
 }

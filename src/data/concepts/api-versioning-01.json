@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Managing changes to your API so that existing clients don't break when you introduce brand-new features or structural changes.",
     "analogy": "A physical library: instead of rearranging all the books every time a new category is added, you build an 'Extension' (v2) and keep the old rooms (v1) exactly as they are so regular visitors don't get lost.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per version lookup",
+    "space_complexity": "O(V) version handlers",
     "when_to_use": [
       "When making 'breaking changes' (removing fields, changing data types, changing endpoints)",
       "Maintaining legacy support for old mobile app versions that can't be updated instantly",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert \"v1\" in versioning_methods[0]\nassert \"Header\" in versioning_methods[2]\nprint(\"PASS\")"
   },
-  "related": ["rest-api-design-01", "rest-principles-01", "idempotency-01"],
-  "tags": ["api", "versioning", "maintenance", "rest", "backend"]
+  "related": [
+    "rest-api-design-01",
+    "rest-principles-01",
+    "idempotency-01"
+  ],
+  "tags": [
+    "api",
+    "versioning",
+    "maintenance",
+    "rest",
+    "backend"
+  ]
 }

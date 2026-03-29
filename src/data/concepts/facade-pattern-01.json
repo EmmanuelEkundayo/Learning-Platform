@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A structural pattern that provides a simplified, higher-level interface to a larger body of code or a complex subsystem.",
     "analogy": "A car dashboard: you just turn a key (the Facade method). Under the hood, a thousand complex things happen (fuel injection, spark ignition, battery check, etc.). You don't need to be an engineer to drive; you just use the 'Face' (Facade) provided to you.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per facade call",
+    "space_complexity": "O(1) — delegates to subsystem",
     "when_to_use": [
       "Hiding a messy third-party library behind a clean, simple API",
       "Reducing dependencies between a client and a complex subsystem",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"simpl\" in ans.lower()\nassert check(\"simplified\")\nprint(\"PASS\")"
   },
-  "related": ["adapter-pattern-01", "proxy-pattern-01", "singleton-pattern-01"],
-  "tags": ["design-patterns", "structural", "facade", "simplicity", "encapsulation", "software-engineering"]
+  "related": [
+    "adapter-pattern-01",
+    "proxy-pattern-01",
+    "singleton-pattern-01"
+  ],
+  "tags": [
+    "design-patterns",
+    "structural",
+    "facade",
+    "simplicity",
+    "encapsulation",
+    "software-engineering"
+  ]
 }

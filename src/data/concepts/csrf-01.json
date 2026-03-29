@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An attack that tricks a logged-in user into submitting a malicious request to a web application where they are authenticated.",
     "analogy": "Forging a signature on a check: if a bank (web app) trusts a signature (session cookie) regardless of who actually handed the check to the teller, an attacker can trick you into 'signing' a transfer by hiding the check inside a 'Free Kittens!' flyer you clicked on.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per token validation",
+    "space_complexity": "O(1) token per session",
     "when_to_use": [
       "Securing state-changing operations (Delete Account, Transfer Money, Change Password)",
       "Protecting applications that use Cookie-based session authentication",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"csrf\"\nassert check(\"csrf\")\nprint(\"PASS\")"
   },
-  "related": ["xss-cross-site-scripting-01", "session-authentication-01", "owasp-top-10-01"],
-  "tags": ["security", "csrf", "tokens", "vulnerability", "authentication", "backend"]
+  "related": [
+    "xss-cross-site-scripting-01",
+    "session-authentication-01",
+    "owasp-top-10-01"
+  ],
+  "tags": [
+    "security",
+    "csrf",
+    "tokens",
+    "vulnerability",
+    "authentication",
+    "backend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An automated tool for improving the quality of web pages, providing scores across Performance, Accessibility, Best Practices, and SEO.",
     "analogy": "A school report card for your website: it gives you an overall GPA (the 0-100 score) and then breaks it down by subject (Performance, SEO, etc.), telling you exactly where you need to study more.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(A) audits run",
+    "space_complexity": "O(A) audit results",
     "when_to_use": [
       "Auditing a website's performance during development",
       "Identifying accessibility failures (missing alt tags, low contrast)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"Performance\" in categories[0]\nassert \"Accessibility\" in categories[1]\nprint(\"PASS\")"
   },
-  "related": ["core-web-vitals-01", "bundle-analysis-01", "image-optimization-01"],
-  "tags": ["performance", "lighthouse", "audit", "metrics", "seo", "frontend"]
+  "related": [
+    "core-web-vitals-01",
+    "bundle-analysis-01",
+    "image-optimization-01"
+  ],
+  "tags": [
+    "performance",
+    "lighthouse",
+    "audit",
+    "metrics",
+    "seo",
+    "frontend"
+  ]
 }

@@ -9,7 +9,7 @@
     "intuition": "Continuous Integration (CI) is the practice of automatically testing every code change, while Continuous Deployment (CD) is automatically shipping those changes to production.",
     "analogy": "An automated assembly line: every time a worker adds a part (Code Commit), a robot instantly checks if it's the right size (Unit Tests). If it is, the belt moves it forward, eventually painting it and putting it on the truck (Deployment) without anyone touching it.",
     "time_complexity": "O(N) pipeline stages",
-    "space_complexity": "N/A",
+    "space_complexity": "O(A) artifacts stored",
     "when_to_use": [
       "Every professional software project! It ensures quality and speed",
       "Catching bugs early before they reach the main branch",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"deploy\" in ans.lower()\nassert check(\"Deployment\")\nprint(\"PASS\")"
   },
-  "related": ["github-actions-01", "docker-internals-01", "testing-pyramid-frontend-01"],
-  "tags": ["devops", "ci-cd", "automation", "testing", "deployment", "software-engineering"]
+  "related": [
+    "github-actions-01",
+    "docker-internals-01",
+    "testing-pyramid-frontend-01"
+  ],
+  "tags": [
+    "devops",
+    "ci-cd",
+    "automation",
+    "testing",
+    "deployment",
+    "software-engineering"
+  ]
 }

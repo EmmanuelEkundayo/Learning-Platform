@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The mechanism that allows JavaScript to perform non-blocking I/O operations despite being single-threaded, by offloading tasks to the browser APIs and coordinating their execution via a queue.",
     "analogy": "A fast-food manager (the Event Loop) who takes your order (Call Stack), gives it to the kitchen (Browser APIs), and then moves to the next customer. When the burger is ready (Task Queue), the manager only hands it to you when they are not busy talking to another customer.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(T) tasks in queue",
+    "space_complexity": "O(T) task queue depth",
     "when_to_use": [
       "Understanding why `setTimeout` isn't always accurate",
       "Debugging UI freezes caused by long-running calculations",
@@ -41,6 +41,17 @@
     ],
     "test_code": "assert \"Stack\" in components[0]\nassert \"APIs\" in components[1]\nassert \"Queue\" in components[2]\nprint(\"PASS\")"
   },
-  "related": ["microtasks-vs-macrotasks-01", "promises-internals-01", "web-workers-01"],
-  "tags": ["event-loop", "javascript", "async", "concurrency", "browser", "frontend"]
+  "related": [
+    "microtasks-vs-macrotasks-01",
+    "promises-internals-01",
+    "web-workers-01"
+  ],
+  "tags": [
+    "event-loop",
+    "javascript",
+    "async",
+    "concurrency",
+    "browser",
+    "frontend"
+  ]
 }

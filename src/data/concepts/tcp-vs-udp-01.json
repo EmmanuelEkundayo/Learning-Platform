@@ -8,8 +8,8 @@
   "card": {
     "intuition": "TCP is a reliable, ordered handshake-based conversation; UDP is a fast, fire-and-forget message delivery.",
     "analogy": "TCP is like a recorded delivery letter that requires a signature; UDP is like regular mail or shout-broadcasting where you don't check if everyone heard you.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per TCP handshake",
+    "space_complexity": "O(W) TCP window buffers",
     "when_to_use": [
       "Use TCP for file transfers, emails, and web browsing where data integrity matters",
       "Use UDP for live video streaming, online gaming, and VoIP where speed is more important than occasional lost packets"
@@ -39,6 +39,16 @@
     ],
     "test_code": "assert select_protocol(\"file_transfer\") == \"TCP\", \"File transfer needs reliability\"\nassert select_protocol(\"video_stream\") == \"UDP\", \"Real-time video needs speed\"\nprint(\"PASS\")"
   },
-  "related": ["http-versions-01", "dns-resolution-01", "tls-ssl-handshake-01"],
-  "tags": ["networking", "tcp", "udp", "protocol", "backend"]
+  "related": [
+    "http-versions-01",
+    "dns-resolution-01",
+    "tls-ssl-handshake-01"
+  ],
+  "tags": [
+    "networking",
+    "tcp",
+    "udp",
+    "protocol",
+    "backend"
+  ]
 }

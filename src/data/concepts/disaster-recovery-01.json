@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The set of policies and tools to enable the recovery or continuation of vital infrastructure and systems following a natural or human-induced disaster.",
     "analogy": "An airplane's redundant engines and emergency parachute: usually, the engines work fine. But if a bird flies into one engine (A Data Center fire), the pilot must have a plan to land safely or switch to the other engine immediately.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) dependent services restored",
+    "space_complexity": "O(S) system state",
     "when_to_use": [
       "Protecting against cloud regional outages (e.g., AWS US-East-1 goes down)",
       "Recovering from a catastrophic database deletion or ransomware attack",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"RTO\"\nassert check(\"RTO\")\nprint(\"PASS\")"
   },
-  "related": ["backup-strategies-01", "sla-design-01", "chaos-engineering-01"],
-  "tags": ["reliability", "dr", "continuity", "cloud", "backup", "software-engineering"]
+  "related": [
+    "backup-strategies-01",
+    "sla-design-01",
+    "chaos-engineering-01"
+  ],
+  "tags": [
+    "reliability",
+    "dr",
+    "continuity",
+    "cloud",
+    "backup",
+    "software-engineering"
+  ]
 }

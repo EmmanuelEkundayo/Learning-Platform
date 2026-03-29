@@ -100,6 +100,6 @@ export const useProgressStore = create(
         return summary
       },
     }),
-    { name: 'algolens-progress' }
+    { name: 'techcheats-progress' }
   )
 )

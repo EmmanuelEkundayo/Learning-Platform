@@ -9,7 +9,7 @@
     "intuition": "Two types of page updates: Reflow (Layout) recalculates the position and size of elements; Repaint simply updates the look of elements without changing their space.",
     "analogy": "Renovating a house: Reflow is like moving a wall (everything around it must shift). Repaint is like painting a wall a different color (the furniture stays exactly where it is).",
     "time_complexity": "O(N) for Reflow; O(M) for Repaint (where M < N typically)",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) style recalculations",
     "when_to_use": [
       "Optimizing CSS for smooth animations",
       "Debugging 'Jank' or stuttering on scroll",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert actions[\"Changing background-color\"].lower() == \"repaint\"\nassert actions[\"Changing width\"].lower() == \"reflow\"\nprint(\"PASS\")"
   },
-  "related": ["render-pipeline-01", "dom-internals-01", "request-animation-frame-01"],
-  "tags": ["performance", "rendering", "css", "layout", "optimization", "frontend"]
+  "related": [
+    "render-pipeline-01",
+    "dom-internals-01",
+    "request-animation-frame-01"
+  ],
+  "tags": [
+    "performance",
+    "rendering",
+    "css",
+    "layout",
+    "optimization",
+    "frontend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A browser security mechanism that allows or blocks a frontend app on one domain from accessing resources on a different domain.",
     "analogy": "A school dance where only students from that school are allowed in, unless the principal (the server) explicitly adds an guest list (CORS headers) allowing students from the rival school.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per header check",
+    "space_complexity": "O(H) allowed origins",
     "when_to_use": [
       "When your frontend (e.g., app.com) needs to fetch data from your API (e.g., api.app.com)",
       "Allowing third-party widgets or scripts to access your public data",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert response_headers[\"Access-Control-Allow-Origin\"] == \"https://myapp.com\"\nassert \"Headers\" in [k.split(\"-\")[-1] for k in response_headers.keys()]\nprint(\"PASS\")"
   },
-  "related": ["http-versions-01", "tls-ssl-handshake-01", "rest-principles-01"],
-  "tags": ["cors", "security", "browser", "headers", "backend"]
+  "related": [
+    "http-versions-01",
+    "tls-ssl-handshake-01",
+    "rest-principles-01"
+  ],
+  "tags": [
+    "cors",
+    "security",
+    "browser",
+    "headers",
+    "backend"
+  ]
 }

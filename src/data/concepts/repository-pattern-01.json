@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An abstraction layer between the domain logic and the data source, helping you treat your database like a simple in-memory collection.",
     "analogy": "A restaurant waiter: you ask for a 'Chef's Salad' (UserRepository.getById). You don't care if they get the lettuce from the fridge or if they go out to the garden — you just get the salad.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(Q) query complexity",
+    "space_complexity": "O(C) cached query results",
     "when_to_use": [
       "Decoupling your application from a specific database technology (e.g., swapping SQL for NoSQL later)",
       "Centralizing data access logic so it's not scattered across controllers",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"repository\"\nassert check(\"repository\")\nprint(\"PASS\")"
   },
-  "related": ["dependency-injection-01", "orm-patterns-01", "cqrs-01"],
-  "tags": ["repository-pattern", "design-patterns", "abstraction", "database", "backend"]
+  "related": [
+    "dependency-injection-01",
+    "orm-patterns-01",
+    "cqrs-01"
+  ],
+  "tags": [
+    "repository-pattern",
+    "design-patterns",
+    "abstraction",
+    "database",
+    "backend"
+  ]
 }

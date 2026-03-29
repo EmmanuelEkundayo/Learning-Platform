@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A high-performance Remote Procedure Call (RPC) framework that allows a client to call methods on a server as if it were a local object.",
     "analogy": "A dedicated tunnel between two specialized workstations where instructions are passed in a private, highly optimized code rather than shouting through the public lobby in plain English.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per RPC call (binary)",
+    "space_complexity": "O(S) stream buffers",
     "when_to_use": [
       "Internal microservice-to-microservice communication where speed is critical",
       "Connecting Polyglot systems (services written in different languages using the same .proto file)",
@@ -40,6 +40,16 @@
     ],
     "test_code": "proto = \"\"\"\nmessage HelloReply { string message = 1; }\nservice Greeter { rpc SayHello (HelloRequest) returns (HelloReply) {} }\n\"\"\"\nassert \"HelloReply\" in proto\nassert \"service Greeter\" in proto\nprint(\"PASS\")"
   },
-  "related": ["rest-principles-01", "graphql-basics-01", "http-versions-01"],
-  "tags": ["grpc", "rpc", "protobuf", "microservices", "backend"]
+  "related": [
+    "rest-principles-01",
+    "graphql-basics-01",
+    "http-versions-01"
+  ],
+  "tags": [
+    "grpc",
+    "rpc",
+    "protobuf",
+    "microservices",
+    "backend"
+  ]
 }

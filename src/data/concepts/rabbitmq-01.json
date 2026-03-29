@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A traditional message broker that excels at complex routing, using 'Exchanges' to decide which queues a message should go to.",
     "analogy": "A sophisticated post office sorting room: letters arrive at the 'Exchange' with different stamps. Based on the stamp (Routing Key), the mailroom sends the letter to one or many specific local mailboxes (Queues).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) publish; O(C) consumer fan-out",
+    "space_complexity": "O(M) queued messages",
     "when_to_use": [
       "Complex routing (e.g., 'send this message to the Email queue AND the Logging queue')",
       "Background task processing with reliable task acknowledgement",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"exchange\"\nassert check(\"Exchange\")\nprint(\"PASS\")"
   },
-  "related": ["message-queue-concepts-01", "pubsub-pattern-01", "dead-letter-queues-01"],
-  "tags": ["rabbitmq", "amqp", "messaging", "broker", "routing", "backend"]
+  "related": [
+    "message-queue-concepts-01",
+    "pubsub-pattern-01",
+    "dead-letter-queues-01"
+  ],
+  "tags": [
+    "rabbitmq",
+    "amqp",
+    "messaging",
+    "broker",
+    "routing",
+    "backend"
+  ]
 }

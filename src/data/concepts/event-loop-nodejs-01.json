@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The heart of Node.js that enables non-blocking I/O by offloading tasks to the system kernel whenever possible, then running callbacks when the results arrive.",
     "analogy": "A spinning carnival wheel with different sections for different types of prizes. The wheel (loop) keeps spinning, and whenever it passes the 'Timer' section or the 'I/O' section, it hands out any prizes (callbacks) that are ready.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(P) pending I/O operations",
+    "space_complexity": "O(P) callback queue",
     "when_to_use": [
       "Optimizing Node.js applications for maximum throughput",
       "Understanding the difference between setImmediate, setTimeout, and process.nextTick",
@@ -41,6 +41,17 @@
     ],
     "test_code": "assert \"nextTick\" in execution_order[0]\nassert \"setTimeout\" in execution_order[2]\nassert \"Immediate\" in execution_order[3]\nprint(\"PASS\")"
   },
-  "related": ["async-await-internals-01", "worker-threads-01", "threads-vs-processes-01"],
-  "tags": ["node.js", "event-loop", "javascript", "concurrency", "non-blocking", "backend"]
+  "related": [
+    "async-await-internals-01",
+    "worker-threads-01",
+    "threads-vs-processes-01"
+  ],
+  "tags": [
+    "node.js",
+    "event-loop",
+    "javascript",
+    "concurrency",
+    "non-blocking",
+    "backend"
+  ]
 }

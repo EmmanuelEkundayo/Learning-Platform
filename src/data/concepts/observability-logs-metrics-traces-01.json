@@ -8,7 +8,7 @@
   "card": {
     "intuition": "Observability is the ability to understand what is happening inside your system by looking at the external data it produces: Logs (Events), Metrics (Aggregates), and Traces (Journeys).",
     "analogy": "A hospital patient: **Metrics** are their heart rate and temperature (numbers over time). **Logs** are the doctor's notes ('Patient complained of headache at 2 PM'). **Traces** are the record of the patient moving from Triage to X-Ray to Surgery.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(R) requests traced",
     "space_complexity": "O(N) data volume (heavy!)",
     "when_to_use": [
       "Debugging performance bottlenecks in production",
@@ -39,6 +39,18 @@
     ],
     "test_code": "assert \"logs\" in solution.lower()\nassert \"metrics\" in solution.lower()\nprint(\"PASS\")"
   },
-  "related": ["distributed-tracing-01", "system-design-notifications-01", "canary-releases-01"],
-  "tags": ["devops", "observability", "monitoring", "logs", "metrics", "traces", "software-engineering"]
+  "related": [
+    "distributed-tracing-01",
+    "system-design-notifications-01",
+    "canary-releases-01"
+  ],
+  "tags": [
+    "devops",
+    "observability",
+    "monitoring",
+    "logs",
+    "metrics",
+    "traces",
+    "software-engineering"
+  ]
 }

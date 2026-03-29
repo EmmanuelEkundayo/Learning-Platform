@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Applying a single commit from one branch to another branch without merging the entire history.",
     "analogy": "A grocery list: you have a list with 10 items (a branch), but you only want the 'milk' (one commit). Instead of buying the whole cart, you just grab the milk bottle and put it in your own basket (your current branch).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) diff size",
+    "space_complexity": "O(D) patch size",
     "when_to_use": [
       "Porting a specific bug fix from a 'development' branch to a 'hotfix' branch",
       "Recovering a commit you accidentally deleted or worked on in the wrong branch",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"cherry\" in ans.lower()\nassert check(\"cherry-pick\")\nprint(\"PASS\")"
   },
-  "related": ["merge-vs-rebase-01", "git-internals-dag-01", "interactive-rebase-01"],
-  "tags": ["git", "cherry-pick", "vcs", "hotfixes", "productivity", "software-engineering"]
+  "related": [
+    "merge-vs-rebase-01",
+    "git-internals-dag-01",
+    "interactive-rebase-01"
+  ],
+  "tags": [
+    "git",
+    "cherry-pick",
+    "vcs",
+    "hotfixes",
+    "productivity",
+    "software-engineering"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Distributing incoming network traffic across multiple servers to ensure no single server is overwhelmed and the system remains available.",
     "analogy": "A grocery store with 10 checkout lines: a manager (Load Balancer) stands at the entrance and directs each customer to a line so that no one waits too long in the same queue.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(S) servers checked per request",
+    "space_complexity": "O(S) server states",
     "when_to_use": [
       "Scaling your application to handle more users than a single server can support",
       "Ensuring High Availability (if one server dies, the load balancer skips it)",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"round robin\"\nassert check(\"Round Robin\")\nprint(\"PASS\")"
   },
-  "related": ["api-gateway-01", "database-replication-01", "dns-resolution-01"],
-  "tags": ["load-balancing", "scaling", "infrastructure", "high-availability", "backend"]
+  "related": [
+    "api-gateway-01",
+    "database-replication-01",
+    "dns-resolution-01"
+  ],
+  "tags": [
+    "load-balancing",
+    "scaling",
+    "infrastructure",
+    "high-availability",
+    "backend"
+  ]
 }

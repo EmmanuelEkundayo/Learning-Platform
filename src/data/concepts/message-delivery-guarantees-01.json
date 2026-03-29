@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Three different levels of certainty provided by a message broker regarding whether and how many times a message will reach its destination.",
     "analogy": "Ordering a pizza: 'At-most-once' is they might forget your order. 'At-least-once' is they might send the same pizza twice because they didn't hear you say 'Got it!'. 'Exactly-once' is the perfect delivery.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per ack received",
+    "space_complexity": "O(M) in-flight messages",
     "when_to_use": [
       "At-most-once: For non-critical data like high-frequency sensor metrics (losing one doesn't matter)",
       "At-least-once: Most common for business tasks where processing the same thing twice is okay (if idempotent)",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert \"most\" in guarantees.values() or \"MOST\" in guarantees.values()\nassert \"least\" in guarantees.values() or \"LEAST\" in guarantees.values()\nprint(\"PASS\")"
   },
-  "related": ["idempotency-01", "message-queue-concepts-01", "kafka-architecture-01"],
-  "tags": ["messaging", "reliability", "distributed-systems", "fault-tolerance", "backend"]
+  "related": [
+    "idempotency-01",
+    "message-queue-concepts-01",
+    "kafka-architecture-01"
+  ],
+  "tags": [
+    "messaging",
+    "reliability",
+    "distributed-systems",
+    "fault-tolerance",
+    "backend"
+  ]
 }

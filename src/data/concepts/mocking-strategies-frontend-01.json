@@ -9,7 +9,7 @@
     "intuition": "Replacing real parts of your system (like an API or a third-party library) with 'fake' versions that behave in a predictable way during tests.",
     "analogy": "A crash test dummy: you don't use a real person (the real API) to test a car crash (the test). You use a dummy (the Mock) that looks and acts enough like a person to give you the data you need without the risk or cost of a real human.",
     "time_complexity": "O(1) compared to real I/O",
-    "space_complexity": "N/A",
+    "space_complexity": "O(M) mock definitions",
     "when_to_use": [
       "Testing components that fetch data from an API",
       "Simulating error responses (404, 500) from the server",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"MSW\"\nassert check(\"MSW\")\nprint(\"PASS\")"
   },
-  "related": ["unit-vs-integration-e2e-01", "react-testing-library-01", "testing-pyramid-frontend-01"],
-  "tags": ["testing", "mocking", "jest", "msw", "api", "frontend"]
+  "related": [
+    "unit-vs-integration-e2e-01",
+    "react-testing-library-01",
+    "testing-pyramid-frontend-01"
+  ],
+  "tags": [
+    "testing",
+    "mocking",
+    "jest",
+    "msw",
+    "api",
+    "frontend"
+  ]
 }

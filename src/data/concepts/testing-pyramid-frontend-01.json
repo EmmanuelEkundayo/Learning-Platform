@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A strategy for balancing your testing effort: you should have many fast, cheap unit tests at the bottom, fewer integration tests in the middle, and only a few slow, expensive E2E tests at the top.",
     "analogy": "Building a house: you test every brick (Unit), then you test if the plumbing works together (Integration), then finally you walk through the front door and turn on the lights to see if the whole house works (E2E). You don't build 100 houses just to test if one brick is strong.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(U+I+E) test suite size",
+    "space_complexity": "O(T) test artifacts",
     "when_to_use": [
       "Designing a test suite for a new project",
       "Optimizing CI/CD pipelines that are taking too long to run",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"Unit\" in layers[0]\nassert \"Integration\" in layers[1]\nassert \"E2E\" in layers[2]\nprint(\"PASS\")"
   },
-  "related": ["unit-vs-integration-e2e-01", "mocking-strategies-frontend-01", "react-testing-library-01"],
-  "tags": ["testing", "pyramid", "quality", "unit-testing", "e2e", "frontend"]
+  "related": [
+    "unit-vs-integration-e2e-01",
+    "mocking-strategies-frontend-01",
+    "react-testing-library-01"
+  ],
+  "tags": [
+    "testing",
+    "pyramid",
+    "quality",
+    "unit-testing",
+    "e2e",
+    "frontend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A consistency model used in distributed systems where, if no new updates are made to a data item, all accesses to that item will eventually return the last updated value.",
     "analogy": "Social media likes: if you like a post, your friend across the world might not see it for a few seconds, but after a short wait, everyone will see the same total count.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(R) replica sync time",
+    "space_complexity": "O(R) replica states",
     "when_to_use": [
       "High-scale systems where latency is more critical than instant accuracy (e.g., DNS, global social networks)",
       "When using Amazon S3, DynamoDB, or Cassandra in certain configurations",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"strong\" in ans.lower() and \"consistency\" in ans.lower()\nassert check(\"Strong Consistency\")\nprint(\"PASS\")"
   },
-  "related": ["cap-theorem-01", "database-replication-01", "acid-properties-01"],
-  "tags": ["distributed-systems", "consistency", "database", "availability", "backend"]
+  "related": [
+    "cap-theorem-01",
+    "database-replication-01",
+    "acid-properties-01"
+  ],
+  "tags": [
+    "distributed-systems",
+    "consistency",
+    "database",
+    "availability",
+    "backend"
+  ]
 }

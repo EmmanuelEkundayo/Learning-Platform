@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Syntactic sugar built on top of Promises that allows you to write asynchronous code that looks and behaves like synchronous code, making it much easier to read and maintain.",
     "analogy": "Reading a choose-your-own-adventure book: instead of having to write 'go to page 50 if success' (Promise), you just read the book page by page. When a page says 'Wait for 5 minutes' (await), you stop reading until time is up, then continue exactly where you left off.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per await",
+    "space_complexity": "O(N) pending promises",
     "when_to_use": [
       "Writing clean, readable API requests",
       "Avoiding the 'Pyramid of Doom' (nested `.then()` blocks)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"await\"\nassert check(\"await\")\nprint(\"PASS\")"
   },
-  "related": ["promises-internals-01", "generators-js-01", "event-loop-browser-01"],
-  "tags": ["async-await", "javascript", "promises", "async", "sugar", "frontend"]
+  "related": [
+    "promises-internals-01",
+    "generators-js-01",
+    "event-loop-browser-01"
+  ],
+  "tags": [
+    "async-await",
+    "javascript",
+    "promises",
+    "async",
+    "sugar",
+    "frontend"
+  ]
 }

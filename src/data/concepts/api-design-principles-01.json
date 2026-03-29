@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A set of best practices for creating APIs that are easy to use, hard to misuse, and maintainable over time (e.g., Consistency, Error handling, Versioning).",
     "analogy": "A good light switch: it's in a predictable place, it only has two visible states (on/off), and it works the same way in every house. A bad API is like a switch that requires you to enter a 4-digit code and sometimes gives you an electric shock instead of light.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per request routing",
+    "space_complexity": "O(1) — stateless design",
     "when_to_use": [
       "Designing a public API for external developers",
       "Building internal microservices that must be 'Consumer-Friendly'",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"idempot\" in ans.lower()\nassert check(\"Idempotency\")\nprint(\"PASS\")"
   },
-  "related": ["semantic-versioning-01", "rest-principles-01", "contract-testing-01"],
-  "tags": ["api", "design", "rest", "developer-experience", "versioning", "software-engineering"]
+  "related": [
+    "semantic-versioning-01",
+    "rest-principles-01",
+    "contract-testing-01"
+  ],
+  "tags": [
+    "api",
+    "design",
+    "rest",
+    "developer-experience",
+    "versioning",
+    "software-engineering"
+  ]
 }

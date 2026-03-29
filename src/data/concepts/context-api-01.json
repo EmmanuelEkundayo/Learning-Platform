@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A way to share data like 'Current User' or 'Theme' across the entire component tree without having to manually pass props down through every single level (Prop Drilling).",
     "analogy": "A radio station: instead of the parent shouting the news to the child, who whispers it to the grandchild (Prop Drilling), the parent simply broadcasts the news on a specific frequency (Provider). Any component that wants to hear it just tunes in (useContext).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) consumers re-rendered",
+    "space_complexity": "O(1) context value",
     "when_to_use": [
       "Managing global themes (Dark/Light mode)",
       "Storing authenticated user information",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"Provider\" in components[0]\nassert \"useContext\" in components[1]\nprint(\"PASS\")"
   },
-  "related": ["zustand-redux-patterns-01", "usestate-internals-01", "react-query-01"],
-  "tags": ["react", "context", "state-management", "patterns", "decoupling", "frontend"]
+  "related": [
+    "zustand-redux-patterns-01",
+    "usestate-internals-01",
+    "react-query-01"
+  ],
+  "tags": [
+    "react",
+    "context",
+    "state-management",
+    "patterns",
+    "decoupling",
+    "frontend"
+  ]
 }

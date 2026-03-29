@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A secondary queue used to store messages that could not be processed successfully after multiple retries, preventing them from blocking the main queue.",
     "analogy": "The 'Lost and Found' box or the 'Junk Mail' folder: if the mailman can't deliver a letter (invalid address or recipient moved), they don't throw it on the ground; they put it in a special box for later inspection.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per message route",
+    "space_complexity": "O(D) dead messages",
     "when_to_use": [
       "Debugging failing background jobs without losing the original data",
       "Handling 'poison pill' messages (messages with invalid format that crash the consumer)",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"dlq\"\nassert check(\"dlq\")\nprint(\"PASS\")"
   },
-  "related": ["retry-and-backoff-01", "message-queue-concepts-01", "rabbitmq-01"],
-  "tags": ["messaging", "reliability", "debugging", "fault-tolerance", "backend"]
+  "related": [
+    "retry-and-backoff-01",
+    "message-queue-concepts-01",
+    "rabbitmq-01"
+  ],
+  "tags": [
+    "messaging",
+    "reliability",
+    "debugging",
+    "fault-tolerance",
+    "backend"
+  ]
 }

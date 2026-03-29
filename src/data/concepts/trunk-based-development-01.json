@@ -9,7 +9,7 @@
     "intuition": "A version control strategy where developers merge small, frequent updates to a single central branch (the 'Trunk') to avoid the 'Merge Hell' of long-lived feature branches.",
     "analogy": "A fast-moving assembly line: instead of taking a car to a private garage for a month (Long-lived branch), you add one small bolt every 5 minutes on the main line. The car is always moving and always 'mostly' finished.",
     "time_complexity": "O(1) integration time",
-    "space_complexity": "N/A",
+    "space_complexity": "O(1) — single integration branch",
     "when_to_use": [
       "High-velocity teams that want to ship multiple times per day",
       "Teams with excellent automated CI suites (which catch bugs instantly as they hit the trunk)",
@@ -32,13 +32,24 @@
   "exercise": {
     "type": "fill-in-the-blank",
     "prompt": "Trunk-based development encourages merging to 'main' at least once every ____ hours.",
-    "starter_code": "hours = __",
+    "starter_code": "hours = ___",
     "solution": "24",
     "hints": [
-      "At least once a day"
+      "At least once a day — how many hours in a day?"
     ],
-    "test_code": "def check(ans): return int(ans) <= 24\nassert check(\"24\")\nprint(\"PASS\")"
+    "test_code": "assert int(hours) <= 24\nprint(\"PASS\")"
   },
-  "related": ["feature-flags-01", "cicd-pipelines-01", "branch-strategies-01"],
-  "tags": ["git", "workflow", "ci", "continuous-integration", "devops", "software-engineering"]
+  "related": [
+    "feature-flags-01",
+    "cicd-pipelines-01",
+    "branch-strategies-01"
+  ],
+  "tags": [
+    "git",
+    "workflow",
+    "ci",
+    "continuous-integration",
+    "devops",
+    "software-engineering"
+  ]
 }

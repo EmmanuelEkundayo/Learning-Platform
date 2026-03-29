@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Controlling the number of requests a user or client can make to an API within a specific timeframe to prevent abuse and ensure stability.",
     "analogy": "A free sample line at a grocery store: the clerk only lets you take one sample every 5 minutes so one person doesn't eat the whole tray.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per token bucket check",
+    "space_complexity": "O(C) client counters",
     "when_to_use": [
       "Protecting against DDoS attacks and brute-force login attempts",
       "Preventing accidental 'infinite loops' in client-side code from crashing your server",
@@ -40,6 +40,16 @@
     ],
     "test_code": "class MockRedis: \n    def __init__(self): self.c=0\n    def incr(self, k, v): self.c += v\n    def get(self, k): return self.c\nredis = MockRedis()\nassert is_allowed(\"user1\") == True\nredis.c = 100\nassert is_allowed(\"user1\") == False\nprint(\"PASS\")"
   },
-  "related": ["cdn-basics-01", "redis-data-structures-01", "cors-01"],
-  "tags": ["rate-limiting", "security", "throttling", "scalability", "backend"]
+  "related": [
+    "cdn-basics-01",
+    "redis-data-structures-01",
+    "cors-01"
+  ],
+  "tags": [
+    "rate-limiting",
+    "security",
+    "throttling",
+    "scalability",
+    "backend"
+  ]
 }

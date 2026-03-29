@@ -14,8 +14,8 @@ export default function Layout() {
 
           {/* Logo — always links home */}
           <Link to="/" className="text-lg font-bold tracking-tight select-none shrink-0">
-            <span className="text-dsa-500">Algo</span>
-            <span className="text-ml-500">Lens</span>
+            <span className="text-dsa-500">Tech</span>
+            <span className="text-ml-500"> Cheats</span>
           </Link>
 
           {/* Primary nav */}

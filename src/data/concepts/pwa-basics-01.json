@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A set of technologies that allow a website to behave like a native mobile app: it can be installed on the home screen, work offline, and send push notifications.",
     "analogy": "A 'transformer' for the web: it's a website in the browser, but when you 'install' it on your phone, it transforms into a standalone app with no URL bar that works even in a tunnel (offline).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) cached resources",
+    "space_complexity": "O(C) cache storage",
     "when_to_use": [
       "Increasing user engagement with 'Add to Home Screen'",
       "Providing a fast, offline-first experience on mobile",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"Manifest\" in files[0]\nassert \"Service\" in files[1]\nprint(\"PASS\")"
   },
-  "related": ["service-workers-01", "browser-caching-01", "caching-strategies-frontend-01"],
-  "tags": ["pwa", "mobile", "offline", "web-apps", "ux", "frontend"]
+  "related": [
+    "service-workers-01",
+    "browser-caching-01",
+    "caching-strategies-frontend-01"
+  ],
+  "tags": [
+    "pwa",
+    "mobile",
+    "offline",
+    "web-apps",
+    "ux",
+    "frontend"
+  ]
 }

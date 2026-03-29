@@ -9,7 +9,7 @@
     "intuition": "Instead of testing specific inputs (e.g., 2+2=4), you define universal properties that must always be true (e.g., a + b == b + a) and let a tool generate hundreds of random inputs to try and break them.",
     "analogy": "Testing a bulletproof vest: a standard test is shooting one specific bullet at the center. Property-based testing is hiring a robot to shoot 1,000 random bullets at every possible angle to find the one weak seam you didn't think of.",
     "time_complexity": "O(N) generated cases",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) test cases in memory",
     "when_to_use": [
       "Testing complex algorithms (Compressors, Encoders, Sorting) where edge cases are hard to find",
       "Ensuring that a function never crashes regardless of the input",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"shrink\" in ans.lower()\nassert check(\"Shrinking\")\nprint(\"PASS\")"
   },
-  "related": ["mutation-testing-01", "tdd-cycle-01", "technical-debt-01"],
-  "tags": ["testing", "quality", "fuzzing", "algorithms", "software-engineering"]
+  "related": [
+    "mutation-testing-01",
+    "tdd-cycle-01",
+    "technical-debt-01"
+  ],
+  "tags": [
+    "testing",
+    "quality",
+    "fuzzing",
+    "algorithms",
+    "software-engineering"
+  ]
 }

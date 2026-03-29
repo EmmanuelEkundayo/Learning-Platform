@@ -8,7 +8,7 @@
   "card": {
     "intuition": "Two ways to load related data: 'Lazy' waits until you actually need it; 'Eager' loads everything up front in a single batch.",
     "analogy": "Packing for a trip: Eager loading is packing every possible outfit 'just in case' before you leave. Lazy loading is and 'only' buying a jacket when you arrive and realize it's cold.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(1) lazy; O(N) eager upfront",
     "space_complexity": "Eager uses more memory initially; Lazy uses more network round-trips",
     "when_to_use": [
       "Eager: When you know for certain you will need the related data (avoids N+1 queries)",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert select_loading_strategy(\"You need to display a list of 50 users AND their 50 profile pictures\") == \"Eager Loading\"\nassert select_loading_strategy(\"You load a user but only 1% of users click to see their 'Privacy Settings' table\") == \"Lazy Loading\"\nprint(\"PASS\")"
   },
-  "related": ["n-plus-one-query-01", "sql-joins-01", "orm-patterns-01"],
-  "tags": ["orm", "performance", "lazy-loading", "eager-loading", "sql", "backend"]
+  "related": [
+    "n-plus-one-query-01",
+    "sql-joins-01",
+    "orm-patterns-01"
+  ],
+  "tags": [
+    "orm",
+    "performance",
+    "lazy-loading",
+    "eager-loading",
+    "sql",
+    "backend"
+  ]
 }

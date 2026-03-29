@@ -9,7 +9,7 @@
     "intuition": "The process of decrypting SSL-encrypted traffic at the proxy level (Nginx/LB) so that the traffic can be forwarded to internal servers as plain HTTP, reducing CPU load on the backend.",
     "analogy": "A secure compound gate: visitors speak a secret code (HTTPS) at the gate. The guards verify them, and then they walk into the compound (Internal Network) where everyone speaks normally (HTTP). This way, and the people inside don't have to keep checking codes every time someone moves between rooms.",
     "time_complexity": "O(N) for initial handshake",
-    "space_complexity": "N/A",
+    "space_complexity": "O(S) active TLS sessions",
     "when_to_use": [
       "Centralizing SSL certificate management in one place (The Proxy)",
       "Speeding up backend servers that aren't optimized for heavy math (Encryption)",
@@ -39,6 +39,18 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"HTTP\"\nassert check(\"HTTP\")\nprint(\"PASS\")"
   },
-  "related": ["tls-ssl-handshake-01", "reverse-proxy-01", "nginx-config-01"],
-  "tags": ["ssl", "tls", "encryption", "networking", "security", "devops", "software-engineering"]
+  "related": [
+    "tls-ssl-handshake-01",
+    "reverse-proxy-01",
+    "nginx-config-01"
+  ],
+  "tags": [
+    "ssl",
+    "tls",
+    "encryption",
+    "networking",
+    "security",
+    "devops",
+    "software-engineering"
+  ]
 }

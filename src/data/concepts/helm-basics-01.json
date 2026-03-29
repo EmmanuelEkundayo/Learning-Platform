@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Helm is a package manager for Kubernetes that uses 'Charts' to group multiple K8s resources together into a single, versioned and manageable unit.",
     "analogy": "A recipe book: instead of individually buying flour, eggs, and sugar (Service, Deployment, Ingress YAMLS), you just order the 'Pancake Mix' (Helm Chart). You can even tell the shop to give you the 'Chocolate Chip' version by changing one variable.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(T) templates rendered",
+    "space_complexity": "O(R) release history",
     "when_to_use": [
       "Deploying complex applications like Redis or Jenkins with 10+ linked YAMLS",
       "Managing different configurations (Prod vs Staging) using the same templates but different 'values.yaml'",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"values\"\nassert check(\"values\")\nprint(\"PASS\")"
   },
-  "related": ["kubernetes-basics-01", "kubernetes-services-deployments-01", "cicd-pipelines-01"],
-  "tags": ["helm", "kubernetes", "k8s", "devops", "package-manager", "software-engineering"]
+  "related": [
+    "kubernetes-basics-01",
+    "kubernetes-services-deployments-01",
+    "cicd-pipelines-01"
+  ],
+  "tags": [
+    "helm",
+    "kubernetes",
+    "k8s",
+    "devops",
+    "package-manager",
+    "software-engineering"
+  ]
 }

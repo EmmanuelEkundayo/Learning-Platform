@@ -9,7 +9,7 @@
     "intuition": "Testing the quality of your tests by injecting tiny bugs (Mutants) into your source code and checking if your test suite catches them. If a test doesn't fail, the mutant 'Survived', and your tests are weak.",
     "analogy": "Testing a smoke alarm: you don't just check if the battery is in. You light a small match underneath it. If the alarm doesn't go off (The mutant survives), the alarm is broken, even if it has full batteries (High code coverage).",
     "time_complexity": "O(M * T) where M is mutants, T is tests (very slow!)",
-    "space_complexity": "N/A",
+    "space_complexity": "O(M) mutant binaries",
     "when_to_use": [
       "Evaluating whether '100% Code Coverage' is actually meaningful",
       "Finding 'Useless' tests that pass even if the code logic is inverted",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"surviv\" in ans.lower()\nassert check(\"Survived\")\nprint(\"PASS\")"
   },
-  "related": ["property-based-testing-01", "code-coverage-01", "static-analysis-01"],
-  "tags": ["testing", "quality", "mutation", "coverage", "software-engineering"]
+  "related": [
+    "property-based-testing-01",
+    "code-coverage-01",
+    "static-analysis-01"
+  ],
+  "tags": [
+    "testing",
+    "quality",
+    "mutation",
+    "coverage",
+    "software-engineering"
+  ]
 }

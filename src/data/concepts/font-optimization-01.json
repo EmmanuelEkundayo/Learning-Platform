@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Ensuring custom web fonts load quickly and don't cause visual jitter (like text suddenly changing size or jumping) during page load.",
     "analogy": "A restaurant sign: if the custom neon sign (Web Font) is broken, you'd rather see a plain painted sign (Fallback Font) immediately than have a blank, empty wall for 30 seconds while the electrician arrives.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(G) glyph subsets loaded",
+    "space_complexity": "O(F) font files cached",
     "when_to_use": [
       "Reducing CLS (Cumulative Layout Shift) caused by font swaps",
       "Speeding up the time to 'First Contentful Paint'",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"display\"\nassert check(\"display\")\nprint(\"PASS\")"
   },
-  "related": ["prefetching-preloading-01", "image-optimization-01", "core-web-vitals-01"],
-  "tags": ["performance", "fonts", "css", "typography", "cls", "frontend"]
+  "related": [
+    "prefetching-preloading-01",
+    "image-optimization-01",
+    "core-web-vitals-01"
+  ],
+  "tags": [
+    "performance",
+    "fonts",
+    "css",
+    "typography",
+    "cls",
+    "frontend"
+  ]
 }

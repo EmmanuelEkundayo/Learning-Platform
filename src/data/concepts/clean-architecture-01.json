@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An architectural philosophy by Robert C. Martin (Uncle Bob) that organizes code into concentric layers, ensuring dependency only flows inward toward the core 'Business Rules'.",
     "analogy": "An onion: the 'Business Logic' (Entities / Use Cases) is the core. The 'Databases' and 'UI' are the outer skins. You can peel off the outer skin (switch from Web to Mobile, or SQL to MongoDB) without hurting the core of the onion.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per dependency rule check",
+    "space_complexity": "O(L) layers",
     "when_to_use": [
       "Large-scale enterprise systems with complex domain logic",
       "Projects that need to be completely independent of their Database or Framework",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"inward\"\nassert check(\"inward\")\nprint(\"PASS\")"
   },
-  "related": ["solid-principles-01", "hexagonal-architecture-01", "domain-driven-design-01"],
-  "tags": ["architecture", "clean-architecture", "design-principles", "uncle-bob", "software-engineering"]
+  "related": [
+    "solid-principles-01",
+    "hexagonal-architecture-01",
+    "domain-driven-design-01"
+  ],
+  "tags": [
+    "architecture",
+    "clean-architecture",
+    "design-principles",
+    "uncle-bob",
+    "software-engineering"
+  ]
 }

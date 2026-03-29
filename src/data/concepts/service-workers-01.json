@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A script that your browser runs in the background, separate from a web page, opening the door to features that don't need a web page or user interaction.",
     "analogy": "A personal assistant who lives in the lobby of your building: they can answer the door for you (intercept network requests) when you are asleep (page closed), or go fetch mail and keep it in a safe (caching) for when you wake up.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) cache strategy lookups",
+    "space_complexity": "O(C) cached responses",
     "when_to_use": [
       "Building Progressive Web Apps (PWAs) with offline support",
       "Push Notifications",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"Install\" in lifecycle[1]\nassert \"Activate\" in lifecycle[2]\nprint(\"PASS\")"
   },
-  "related": ["web-workers-01", "browser-caching-01", "web-components-01"],
-  "tags": ["pwa", "service-worker", "offline", "caching", "background", "frontend"]
+  "related": [
+    "web-workers-01",
+    "browser-caching-01",
+    "web-components-01"
+  ],
+  "tags": [
+    "pwa",
+    "service-worker",
+    "offline",
+    "caching",
+    "background",
+    "frontend"
+  ]
 }

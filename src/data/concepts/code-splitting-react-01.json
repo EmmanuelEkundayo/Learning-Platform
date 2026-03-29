@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The practice of splitting your JS into smaller chunks that can be loaded on demand, ensuring users only download the code they need for the page they are currently visiting.",
     "analogy": "A library: instead of giving the reader every single book in the building when they walk in the door (One Big Bundle), you give them a catalog. They only go to the shelf to pick up a book when they actually want to read it (Lazy Loading).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) chunks at load time",
+    "space_complexity": "O(C) loaded chunks",
     "when_to_use": [
       "Large SPAs with many routes",
       "Loading heavy libraries (like a 3D viewer) only when requested",
@@ -40,6 +40,17 @@
     ],
     "test_code": "def check(l, i): return l.lower() == \"lazy\" and i.lower() == \"import\"\nassert check(\"lazy\", \"import\")\nprint(\"PASS\")"
   },
-  "related": ["suspense-react-01", "bundlers-internals-01", "tree-shaking-01"],
-  "tags": ["react", "performance", "bundling", "lazy-loading", "optimization", "frontend"]
+  "related": [
+    "suspense-react-01",
+    "bundlers-internals-01",
+    "tree-shaking-01"
+  ],
+  "tags": [
+    "react",
+    "performance",
+    "bundling",
+    "lazy-loading",
+    "optimization",
+    "frontend"
+  ]
 }

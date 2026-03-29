@@ -9,7 +9,7 @@
     "intuition": "A structural pattern that provides a surrogate or placeholder for another object to control access to it (e.g., for security, lazy loading, or logging).",
     "analogy": "A personal assistant: instead of talking to a celebrity (The Real Subject) directly, you talk to their assistant (The Proxy). The assistant can check your identification (Security), tell you the celebrity is busy (Lazy Loading), or record who you are (Logging) without ever bothering the celebrity.",
     "time_complexity": "O(1) overhead",
-    "space_complexity": "N/A",
+    "space_complexity": "O(1) — wraps single subject",
     "when_to_use": [
       "Lazy-loading giant images or database records only when they are actually needed",
       "Adding 'Access Control' to a sensitive service (e.g., checking if a user is an admin)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"lazy\" in ans.lower()\nassert check(\"Lazy\")\nprint(\"PASS\")"
   },
-  "related": ["decorator-pattern-01", "adapter-pattern-01", "facade-pattern-01"],
-  "tags": ["design-patterns", "structural", "proxy", "lazy-loading", "security", "software-engineering"]
+  "related": [
+    "decorator-pattern-01",
+    "adapter-pattern-01",
+    "facade-pattern-01"
+  ],
+  "tags": [
+    "design-patterns",
+    "structural",
+    "proxy",
+    "lazy-loading",
+    "security",
+    "software-engineering"
+  ]
 }

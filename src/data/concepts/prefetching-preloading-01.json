@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Techniques to tell the browser which resources will be needed soon. Preloading is for resources needed for the CURRENT page; Prefetching is for resources needed for SUBSEQUENT pages.",
     "analogy": "Going to a concert: Preloading is putting your tickets in your front pocket because you need them right now at the gate. Prefetching is packing a map of the city you're visiting tomorrow.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(H) hints processed",
+    "space_complexity": "O(R) prefetched resources",
     "when_to_use": [
       "Preloading critical fonts to avoid flickering (FOIT)",
       "Prefetching the JavaScript for the 'Checkout' page while the user is still in the 'Cart'",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"preload\" in tags[0]\nassert \"prefetch\" in tags[1]\nprint(\"PASS\")"
   },
-  "related": ["lazy-loading-frontend-01", "browser-caching-01", "font-optimization-01"],
-  "tags": ["performance", "prefetch", "preload", "networking", "optimization", "frontend"]
+  "related": [
+    "lazy-loading-frontend-01",
+    "browser-caching-01",
+    "font-optimization-01"
+  ],
+  "tags": [
+    "performance",
+    "prefetch",
+    "preload",
+    "networking",
+    "optimization",
+    "frontend"
+  ]
 }

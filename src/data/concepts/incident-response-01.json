@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An organized approach to addressing and managing the aftermath of a security breach or system outage, aiming to limit damage and reduce recovery time.",
     "analogy": "A hospital ER: when a 'Code Blue' (An Outage) is called, an ER team doesn't panic. They follow a pre-planned checklist: Stop the bleeding (Mitigate), find the cause (Diagnose), and perform surgery (Repair). After it's over, they review what happened (Post-mortem).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(S) systems to check",
+    "space_complexity": "O(L) incident log entries",
     "when_to_use": [
       "Every production outage or security alert! No matter how small",
       "Coordinating multiple teams (SRE, Security, Dev) during a crisis",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"post\" in ans.lower()\nassert check(\"Post-mortem\")\nprint(\"PASS\")"
   },
-  "related": ["observability-logs-metrics-traces-01", "sla-design-01", "disaster-recovery-01"],
-  "tags": ["sre", "reliability", "incidents", "management", "on-call", "software-engineering"]
+  "related": [
+    "observability-logs-metrics-traces-01",
+    "sla-design-01",
+    "disaster-recovery-01"
+  ],
+  "tags": [
+    "sre",
+    "reliability",
+    "incidents",
+    "management",
+    "on-call",
+    "software-engineering"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Using visualization tools (like Webpack Bundle Analyzer) to see exactly which libraries and files are taking up the most space in your final JavaScript bundle.",
     "analogy": "Checking your credit card statement: you might be surprised to see that 'Small Subscription' (that tiny library you imported) is actually costing you $50/month (adding 500KB to your bundle).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) modules at build time",
+    "space_complexity": "O(N) bundle entries",
     "when_to_use": [
       "Finding 'Heavy' libraries that can be replaced with lighter alternatives",
       "Identifying accidentally duplicated code",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"analyze\" in ans.lower()\nassert check(\"Analyzer\")\nprint(\"PASS\")"
   },
-  "related": ["tree-shaking-01", "bundlers-internals-01", "code-splitting-strategies-01"],
-  "tags": ["performance", "bundling", "optimization", "metrics", "treemap", "frontend"]
+  "related": [
+    "tree-shaking-01",
+    "bundlers-internals-01",
+    "code-splitting-strategies-01"
+  ],
+  "tags": [
+    "performance",
+    "bundling",
+    "optimization",
+    "metrics",
+    "treemap",
+    "frontend"
+  ]
 }

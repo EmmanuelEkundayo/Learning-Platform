@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Two organizational strategies for codebases: putting all related projects in a single repository (Monorepo) vs putting each project in its own repository (Polyrepo).",
     "analogy": "Housing: **Monorepo** is a giant hotel where everyone shares the same lobby and utilities (Dependencies). **Polyrepo** is a neighborhood of separate houses. It's harder for the neighbors to share tools, but if one house catches fire, the others are safe.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(P) packages to build",
+    "space_complexity": "O(P) package caches",
     "when_to_use": [
       "Monorepo: Large companies (Google, Meta) with massive shared libraries",
       "Polyrepo: Small teams with completely independent microservices",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"mono\" in ans.lower()\nassert check(\"Monorepo\")\nprint(\"PASS\")"
   },
-  "related": ["git-internals-dag-01", "cicd-pipelines-01", "branch-strategies-01"],
-  "tags": ["git", "monorepo", "architecture", "collaboration", "scaling", "software-engineering"]
+  "related": [
+    "git-internals-dag-01",
+    "cicd-pipelines-01",
+    "branch-strategies-01"
+  ],
+  "tags": [
+    "git",
+    "monorepo",
+    "architecture",
+    "collaboration",
+    "scaling",
+    "software-engineering"
+  ]
 }

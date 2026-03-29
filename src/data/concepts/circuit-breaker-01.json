@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A stability pattern that prevents a service from repeatedly trying an operation that is likely to fail, allowing the system to recover rather than cascading the failure.",
     "analogy": "An electrical circuit breaker in your house: if too much power flows (a service is failing), the breaker 'trips' and cuts the power to prevent a fire (crashing your whole system).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per request check",
+    "space_complexity": "O(W) sliding window",
     "when_to_use": [
       "Calling external 3rd-party APIs that might be down or slow",
       "Microservice-to-microservice communication where you want to fail fast",
@@ -24,7 +24,11 @@
     "type": "state-diagram",
     "config": {
       "mode": "circuit-breaker-states",
-      "show_transitions": ["Closed", "Open", "Half-Open"],
+      "show_transitions": [
+        "Closed",
+        "Open",
+        "Half-Open"
+      ],
       "show_failure_threshold": true,
       "step_annotations": true
     }
@@ -40,6 +44,16 @@
     ],
     "test_code": "assert states[\"Requests flow normally\"] == \"Closed\"\nassert states[\"Requests fail immediately (blocked)\"] == \"Open\"\nprint(\"PASS\")"
   },
-  "related": ["retry-and-backoff-01", "api-gateway-01", "load-balancing-01"],
-  "tags": ["stability", "fault-tolerance", "design-patterns", "microservices", "backend"]
+  "related": [
+    "retry-and-backoff-01",
+    "api-gateway-01",
+    "load-balancing-01"
+  ],
+  "tags": [
+    "stability",
+    "fault-tolerance",
+    "design-patterns",
+    "microservices",
+    "backend"
+  ]
 }

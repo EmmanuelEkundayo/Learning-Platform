@@ -8,7 +8,7 @@
   "card": {
     "intuition": "Syntactic sugar over generators and promises that allows you to write non-blocking code that looks and behaves like synchronous code.",
     "analogy": "A waiter at a cafe: they take your order and 'await' the kitchen. Instead of standing still at your table (blocking), they move on to help other customers and return when the food is ready.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(1) per microtask dispatch",
     "space_complexity": "O(N) per pending task in the event loop",
     "when_to_use": [
       "Handling thousands of concurrent I/O requests (database calls, API fetches) without a high memory cost",
@@ -40,6 +40,17 @@
     ],
     "test_code": "import asyncio\nasync def mock_fetch(u): return u\ndef run_mock():\n    loop = asyncio.new_event_loop()\n    tasks = [mock_fetch(\"a\"), mock_fetch(\"b\")]\n    return loop.run_until_complete(asyncio.gather(*tasks))\nassert run_mock() == [\"a\", \"b\"]\nprint(\"PASS\")"
   },
-  "related": ["event-loop-nodejs-01", "threads-vs-processes-01", "worker-threads-01"],
-  "tags": ["async", "await", "concurrency", "event-loop", "non-blocking", "backend"]
+  "related": [
+    "event-loop-nodejs-01",
+    "threads-vs-processes-01",
+    "worker-threads-01"
+  ],
+  "tags": [
+    "async",
+    "await",
+    "concurrency",
+    "event-loop",
+    "non-blocking",
+    "backend"
+  ]
 }

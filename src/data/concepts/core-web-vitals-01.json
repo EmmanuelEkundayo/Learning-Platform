@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A set of three specific metrics that Google uses to measure the user experience of a webpage: loading speed, interactivity, and visual stability.",
     "analogy": "A health checkup for a website: the doctor checks your heart rate (Loading), your reaction time (Interactivity), and your balance (Stability). If one is bad, you're not fully 'healthy'.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) DOM events measured",
+    "space_complexity": "O(N) metric samples",
     "when_to_use": [
       "Improving SEO rankings (Google uses these as ranking signals)",
       "Measuring actual user experience (Field Data)",
@@ -39,6 +39,16 @@
     ],
     "test_code": "assert \"LCP\" in vitals[0]\nassert \"CLS\" in vitals[1]\nassert \"INP\" in vitals[2]\nprint(\"PASS\")"
   },
-  "related": ["lighthouse-scoring-01", "render-pipeline-01", "lazy-loading-frontend-01"],
-  "tags": ["performance", "seo", "web-vitals", "metrics", "frontend"]
+  "related": [
+    "lighthouse-scoring-01",
+    "render-pipeline-01",
+    "lazy-loading-frontend-01"
+  ],
+  "tags": [
+    "performance",
+    "seo",
+    "web-vitals",
+    "metrics",
+    "frontend"
+  ]
 }

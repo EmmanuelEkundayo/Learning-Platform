@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A persistent, full-duplex communication channel over a single TCP connection, allowing real-time data flow in both directions.",
     "analogy": "A walkie-talkie where both people can talk at the same time, vs. regular HTTP which is like sending letters back and forth.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per frame sent",
+    "space_complexity": "O(C) open connections",
     "when_to_use": [
       "Real-time chat applications",
       "Live financial tickers / stock prices",
@@ -41,6 +41,16 @@
     ],
     "test_code": "def mock_server(header, msg):\n    if header == \"websocket\":\n        return f\"Echo: {msg}\"\n    return \"Error\"\n\nassert mock_server(\"websocket\", \"hello\") == \"Echo: hello\"\nprint(\"PASS\")"
   },
-  "related": ["server-sent-events-01", "http-versions-01", "tcp-vs-udp-01"],
-  "tags": ["websockets", "real-time", "bidirectional", "networking", "backend"]
+  "related": [
+    "server-sent-events-01",
+    "http-versions-01",
+    "tcp-vs-udp-01"
+  ],
+  "tags": [
+    "websockets",
+    "real-time",
+    "bidirectional",
+    "networking",
+    "backend"
+  ]
 }

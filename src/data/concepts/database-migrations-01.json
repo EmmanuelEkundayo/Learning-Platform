@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A version control system for your database schema, allowing you to gradually modify the structure over time in a safe, reversible way.",
     "analogy": "Updating a recipe book: instead of throwing away the old book and writing a new one every time you add a spice, you write a small 'sticky note' saying 'Add 1 tsp salt' so everyone knows exactly what changed.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(M) migration steps",
+    "space_complexity": "O(M) migration history",
     "when_to_use": [
       "Changing the database structure when multiple developers are working on the same project",
       "Deploying schema changes to production safely",
@@ -40,6 +40,17 @@
     ],
     "test_code": "def check(u, d): return u.upper() == \"ADD\" and d.upper() == \"DROP\"\nassert check(\"ADD\", \"DROP\")\nprint(\"PASS\")"
   },
-  "related": ["orm-patterns-01", "sql-joins-01", "database-normalization-01"],
-  "tags": ["database", "migrations", "devops", "schema-design", "version-control", "backend"]
+  "related": [
+    "orm-patterns-01",
+    "sql-joins-01",
+    "database-normalization-01"
+  ],
+  "tags": [
+    "database",
+    "migrations",
+    "devops",
+    "schema-design",
+    "version-control",
+    "backend"
+  ]
 }

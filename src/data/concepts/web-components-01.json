@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A suite of different technologies (Custom Elements, Shadow DOM, HTML Templates) that allow you to create reusable custom HTML tags that work natively in all browsers without a framework.",
     "analogy": "Building your own Lego blocks: instead of just using standard 2x4 rectangles (divs and spans), you build a specialized 'Pirate Ship Mast' block (a <user-profile> tag) that you can use anywhere and it always looks and acts the same.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) custom elements defined",
+    "space_complexity": "O(N) shadow roots",
     "when_to_use": [
       "Building a design system that needs to be shared across many different teams and frameworks (React, Vue, Angular)",
       "Creating standalone widgets (like a weather widget) for embedding on 3rd party sites",
@@ -41,6 +41,17 @@
     ],
     "test_code": "assert \"Custom\" in pillars[0]\nassert \"DOM\" in pillars[1]\nprint(\"PASS\")"
   },
-  "related": ["shadow-dom-01", "dom-internals-01", "event-delegation-01"],
-  "tags": ["web-components", "html", "custom-elements", "standards", "reusability", "frontend"]
+  "related": [
+    "shadow-dom-01",
+    "dom-internals-01",
+    "event-delegation-01"
+  ],
+  "tags": [
+    "web-components",
+    "html",
+    "custom-elements",
+    "standards",
+    "reusability",
+    "frontend"
+  ]
 }

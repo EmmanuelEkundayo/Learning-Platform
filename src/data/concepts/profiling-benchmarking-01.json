@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Measuring the performance of your code to identify bottlenecks (Profiling) and comparing different implementations to find the fastest one (Benchmarking).",
     "analogy": "Profiling is like looking at a heart rate monitor while you run to see exactly when you get tired. Benchmarking is like running a 100m sprint against a friend to see who is faster.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) samples collected",
+    "space_complexity": "O(N) profile data",
     "when_to_use": [
       "Finding exactly which function is making your API slow",
       "Choosing between two different libraries for JSON parsing",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert identify_chart(\"Visualization of stack traces over time\") == \"Flame Graph\"\nprint(\"PASS\")"
   },
-  "related": ["memory-leaks-backend-01", "query-optimization-01", "load-balancing-01"],
-  "tags": ["performance", "profiling", "benchmarking", "optimization", "metrics", "backend"]
+  "related": [
+    "memory-leaks-backend-01",
+    "query-optimization-01",
+    "load-balancing-01"
+  ],
+  "tags": [
+    "performance",
+    "profiling",
+    "benchmarking",
+    "optimization",
+    "metrics",
+    "backend"
+  ]
 }

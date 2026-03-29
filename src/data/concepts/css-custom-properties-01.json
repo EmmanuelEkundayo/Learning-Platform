@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Dynamic variables defined in CSS that can be reused throughout a stylesheet and changed at runtime using JavaScript or media queries.",
     "analogy": "A global 'find and replace' that stays alive: instead of writing 'hex code #3b82f6' 50 times, you define `--brand-blue: #3b82f6`. If you want to change to 'brand-red', you only change it in one place, and the whole site updates instantly.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) property cascade lookups",
+    "space_complexity": "O(P) custom properties",
     "when_to_use": [
       "Implementing Dark Mode / Light Mode themes",
       "Storing consistent design tokens (colors, spacing, font sizes)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"var\" in solution\nassert \"--\" in solution\nprint(\"PASS\")"
   },
-  "related": ["css-specificity-cascade-01", "responsive-design-01", "tailwind-internals-01"],
-  "tags": ["css", "variables", "custom-properties", "tokens", "theming", "frontend"]
+  "related": [
+    "css-specificity-cascade-01",
+    "responsive-design-01",
+    "tailwind-internals-01"
+  ],
+  "tags": [
+    "css",
+    "variables",
+    "custom-properties",
+    "tokens",
+    "theming",
+    "frontend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A standardized naming system (MAJOR.MINOR.PATCH) that communicates exactly what kind of changes are in a new release of a library or service.",
     "analogy": "A menu update: **Patch** is fixing a typo in the price. **Minor** is adding a new soup to the list (New feature, old orders still work). **Major** is changing from a Sushi bar to a Taco stand (Breaking change, old orders no longer work).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per version parse",
+    "space_complexity": "O(1) version string",
     "when_to_use": [
       "Publishing NPM/Pip/Maven packages",
       "Communicating API changes to external clients",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"minor\" in ans.lower()\nassert check(\"Minor\")\nprint(\"PASS\")"
   },
-  "related": ["git-internals-dag-01", "cicd-pipelines-01", "monorepo-vs-polyrepo-01"],
-  "tags": ["versioning", "semver", "api", "collaboration", "devops", "software-engineering"]
+  "related": [
+    "git-internals-dag-01",
+    "cicd-pipelines-01",
+    "monorepo-vs-polyrepo-01"
+  ],
+  "tags": [
+    "versioning",
+    "semver",
+    "api",
+    "collaboration",
+    "devops",
+    "software-engineering"
+  ]
 }

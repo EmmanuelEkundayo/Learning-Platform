@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An advanced Git tool that lets you edit, combine (squash), delete, or reorder commits before they are finalized, allowing you to curate a perfect feature history.",
     "analogy": "Editing a movie: while filming (Coding), you have many 'bad takes' and mistakes. Interactive rebase is the editing room where you cut the boring parts, combine two scenes together, and fix the lighting before the audience (Code Reviewers) sees it.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) commits to rewrite",
+    "space_complexity": "O(C) rewritten commits",
     "when_to_use": [
       "Cleaning up 'Fix bug', 'Fix bug again' commits into one meaningful commit",
       "Reordering commits to tell a more logical story of how a feature was built",
@@ -32,13 +32,25 @@
   "exercise": {
     "type": "fill-in-the-blank",
     "prompt": "Identify the command to start an interactive rebase for the last 5 commits.",
-    "starter_code": "cmd = \"git rebase _ HEAD~5\"",
+    "starter_code": "cmd = \"git rebase ___ HEAD~5\"",
     "solution": "-i",
     "hints": [
-      "The first letter of 'Interactive'"
+      "The flag that stands for 'Interactive'",
+      "It's a single dash followed by one letter"
     ],
-    "test_code": "def check(ans): return \"-i\" in ans\nassert check(\"-i\")\nprint(\"PASS\")"
+    "test_code": "assert \"-i\" in cmd\nprint(\"PASS\")"
   },
-  "related": ["merge-vs-rebase-01", "git-internals-dag-01", "code-review-best-practices-01"],
-  "tags": ["git", "rebase", "interactive", "productivity", "history", "software-engineering"]
+  "related": [
+    "merge-vs-rebase-01",
+    "git-internals-dag-01",
+    "code-review-best-practices-01"
+  ],
+  "tags": [
+    "git",
+    "rebase",
+    "interactive",
+    "productivity",
+    "history",
+    "software-engineering"
+  ]
 }

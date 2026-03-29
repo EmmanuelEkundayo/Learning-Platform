@@ -9,7 +9,7 @@
     "intuition": "The three main levels of software testing, distinguished by how much of the system is being tested at once and how 'real' the environment is.",
     "analogy": "Testing a car: a **Unit** test checks if one single lightbulb works. An **Integration** test checks if flicking the switch turns on the light. An **E2E** test checks if a human can drive the car to the store at night.",
     "time_complexity": "E2E is significantly slower than Unit",
-    "space_complexity": "N/A",
+    "space_complexity": "O(T) test fixtures",
     "when_to_use": [
       "Unit: For pure functions, utilities, and isolated logic",
       "Integration: For React components that interact with each other or the store",
@@ -41,6 +41,17 @@
     ],
     "test_code": "assert \"Unit\" in tools.values()\nassert \"E2E\" in tools.values()\nprint(\"PASS\")"
   },
-  "related": ["testing-pyramid-frontend-01", "react-testing-library-01", "mocking-strategies-frontend-01"],
-  "tags": ["testing", "jest", "cypress", "playwright", "integration", "frontend"]
+  "related": [
+    "testing-pyramid-frontend-01",
+    "react-testing-library-01",
+    "mocking-strategies-frontend-01"
+  ],
+  "tags": [
+    "testing",
+    "jest",
+    "cypress",
+    "playwright",
+    "integration",
+    "frontend"
+  ]
 }

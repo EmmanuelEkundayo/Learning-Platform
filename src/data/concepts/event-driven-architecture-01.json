@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A design pattern where services communicate by emitting and responding to events ('something happened') rather than directly calling each other.",
     "analogy": "A fire alarm system: the sensor (Producer) just screams 'FIRE!'. It doesn't know about the sprinklers, the fire station, or the elevator. Those systems (Consumers) listen for the scream and decide what to do independently.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) publish; O(S) fan-out",
+    "space_complexity": "O(Q) queued events",
     "when_to_use": [
       "Large-scale microservices where you want maximum decoupling",
       "Real-time data processing (notifications, analytics)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"event\"\nassert check(\"Event\")\nprint(\"PASS\")"
   },
-  "related": ["message-queue-concepts-01", "pubsub-pattern-01", "kafka-architecture-01"],
-  "tags": ["architecture", "eda", "microservices", "asynchronous", "scalability", "backend"]
+  "related": [
+    "message-queue-concepts-01",
+    "pubsub-pattern-01",
+    "kafka-architecture-01"
+  ],
+  "tags": [
+    "architecture",
+    "eda",
+    "microservices",
+    "asynchronous",
+    "scalability",
+    "backend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A keyword that refers to the 'context' in which a function is currently executing. Its value is not fixed and depends on HOW the function was called.",
     "analogy": "The word 'Me': if Alice says 'Look at me', 'me' refers to Alice. If Bob says 'Look at me', 'me' refers to Bob. The word 'me' changes based on who is speaking (the caller).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per binding lookup",
+    "space_complexity": "O(1) — execution context",
     "when_to_use": [
       "Accessing object properties from within its own methods",
       "Using arrow functions to capture the 'lexical' this (like in class components or event handlers)",
@@ -24,7 +24,12 @@
     "type": "timeline-step",
     "config": {
       "mode": "this-resolution-priority",
-      "show_four_rules": ["New", "Explicit", "Implicit", "Default"],
+      "show_four_rules": [
+        "New",
+        "Explicit",
+        "Implicit",
+        "Default"
+      ],
       "show_arrow_function_lexical": true,
       "step_annotations": true
     }
@@ -39,6 +44,16 @@
     ],
     "test_code": "def check(ans): return ans.lower().startswith(\"explicit\")\nassert check(\"Explicit\")\nprint(\"PASS\")"
   },
-  "related": ["prototypal-inheritance-01", "closures-js-01", "async-await-js-01"],
-  "tags": ["javascript", "this", "context", "binding", "frontend"]
+  "related": [
+    "prototypal-inheritance-01",
+    "closures-js-01",
+    "async-await-js-01"
+  ],
+  "tags": [
+    "javascript",
+    "this",
+    "context",
+    "binding",
+    "frontend"
+  ]
 }

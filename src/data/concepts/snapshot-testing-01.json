@@ -9,7 +9,7 @@
     "intuition": "Capturing the rendered output (usually HTML string or component tree) of a component and saving it to a file, then ensuring it doesn't change unexpectedly in the future.",
     "analogy": "A physical photo of your room: after you clean it up perfectly, you take a polaroid. A week later, you compare the room to the polaroid. If a shoe is on the bed, the 'test' fails and you have to decide if that's a mistake or if you meant to move the shoe.",
     "time_complexity": "O(N) string comparison",
-    "space_complexity": "N/A",
+    "space_complexity": "O(S) snapshot files",
     "when_to_use": [
       "Testing large, static data objects or config files",
       "Ensuring a component's rendered HTML structure remains stable",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"match\" in ans.lower() and \"snap\" in ans.lower()\nassert check(\"MatchSnapshot\")\nprint(\"PASS\")"
   },
-  "related": ["visual-regression-testing-01", "unit-vs-integration-e2e-01", "react-testing-library-01"],
-  "tags": ["testing", "snapshot", "jest", "dom", "regression", "frontend"]
+  "related": [
+    "visual-regression-testing-01",
+    "unit-vs-integration-e2e-01",
+    "react-testing-library-01"
+  ],
+  "tags": [
+    "testing",
+    "snapshot",
+    "jest",
+    "dom",
+    "regression",
+    "frontend"
+  ]
 }

@@ -9,7 +9,7 @@
     "intuition": "Bundlers (like Webpack, Vite, Rollup) take hundreds of messy development files and combine them into one or two highly optimized files that the browser can load quickly.",
     "analogy": "A professional mover: you have a messy house with thousands of random items. The mover (Bundler) comes in, organizes everything into boxes by room (graph traversal), labels them, and loads them into a single truck (the Bundle) for the journey.",
     "time_complexity": "O(N log N) during build",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) module graph nodes",
     "when_to_use": [
       "Compiling modern JS/TS for browsers that don't support new features yet",
       "Implementing Hot Module Replacement (HMR) for faster development",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"Reso\" in stages[0] or \"Graph\" in stages[0]\nassert \"Gen\" in stages[1] or \"Bundle\" in stages[1]\nprint(\"PASS\")"
   },
-  "related": ["esm-vs-cjs-01", "tree-shaking-01", "render-pipeline-01"],
-  "tags": ["bundler", "webpack", "vite", "javascript", "build-tools", "frontend"]
+  "related": [
+    "esm-vs-cjs-01",
+    "tree-shaking-01",
+    "render-pipeline-01"
+  ],
+  "tags": [
+    "bundler",
+    "webpack",
+    "vite",
+    "javascript",
+    "build-tools",
+    "frontend"
+  ]
 }

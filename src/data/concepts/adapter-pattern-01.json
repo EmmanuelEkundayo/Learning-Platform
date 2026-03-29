@@ -9,7 +9,7 @@
     "intuition": "A structural pattern that allows objects with incompatible interfaces to collaborate by converting the interface of one class into an interface expected by the client.",
     "analogy": "A travel plug: your hair dryer has a 3-prong UK plug (**Class A**), but the wall socket is a 2-prong European hole (**Client expecting Class B**). You put an 'Adapter' in the middle that 'speaks' both languages.",
     "time_complexity": "O(1) delegation",
-    "space_complexity": "N/A",
+    "space_complexity": "O(1) — wraps existing object",
     "when_to_use": [
       "Integrating a third-party library that uses different method names than your existing code",
       "Converting legacy XML data into JSON for a modern frontend component",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"incomp\" in ans.lower()\nassert check(\"incompatible\")\nprint(\"PASS\")"
   },
-  "related": ["facade-pattern-01", "decorator-pattern-01", "proxy-pattern-01"],
-  "tags": ["design-patterns", "structural", "adapter", "compatibility", "wrappers", "software-engineering"]
+  "related": [
+    "facade-pattern-01",
+    "decorator-pattern-01",
+    "proxy-pattern-01"
+  ],
+  "tags": [
+    "design-patterns",
+    "structural",
+    "adapter",
+    "compatibility",
+    "wrappers",
+    "software-engineering"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The evolution of how web browsers and servers talk — from simple text exchanges to multiplexed binary streams over UDP.",
     "analogy": "Upgrading a single-lane road to a multi-lane highway, and then to a dedicated high-speed rail system that doesn't stop for traffic jams.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(S) concurrent streams (HTTP/2)",
+    "space_complexity": "O(H) header table (HPACK)",
     "when_to_use": [
       "Optimizing website load times by reducing head-of-line blocking",
       "Deciding whether to use domain sharding (needed for HTTP/1.1 but harmful for HTTP/2)",
@@ -41,6 +41,16 @@
     ],
     "test_code": "assert identify_http_version(\"Single TCP connection, binary framing, multiplexing\") == \"HTTP/2\"\nassert identify_http_version(\"Uses QUIC over UDP for faster handshakes and no HOL blocking\") == \"HTTP/3\"\nassert identify_http_version(\"Text-based, one request per connection (unless Keep-Alive)\") == \"HTTP/1.1\"\nprint(\"PASS\")"
   },
-  "related": ["tcp-vs-udp-01", "tls-ssl-handshake-01", "websockets-01"],
-  "tags": ["http", "protocol", "performance", "networking", "backend"]
+  "related": [
+    "tcp-vs-udp-01",
+    "tls-ssl-handshake-01",
+    "websockets-01"
+  ],
+  "tags": [
+    "http",
+    "protocol",
+    "performance",
+    "networking",
+    "backend"
+  ]
 }

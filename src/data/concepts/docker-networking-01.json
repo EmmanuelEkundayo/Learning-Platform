@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The system used to connect Docker containers to each other, the host, and external networks using various drivers like Bridge, Host, and Overlay.",
     "analogy": "A private apartment building intercom: within the building (The Bridge Network), apartments can talk to each other by room number. If someone wants to talk to the outside world, they go through the lobby (The Gateway).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per packet route",
+    "space_complexity": "O(N) network namespaces",
     "when_to_use": [
       "Connecting a Web container to a DB container on the same host",
       "Connecting containers across different physical servers (Overlay)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"overlay\"\nassert check(\"Overlay\")\nprint(\"PASS\")"
   },
-  "related": ["docker-internals-01", "kubernetes-basics-01", "reverse-proxy-01"],
-  "tags": ["docker", "networking", "devops", "bridge", "overlay", "software-engineering"]
+  "related": [
+    "docker-internals-01",
+    "kubernetes-basics-01",
+    "reverse-proxy-01"
+  ],
+  "tags": [
+    "docker",
+    "networking",
+    "devops",
+    "bridge",
+    "overlay",
+    "software-engineering"
+  ]
 }

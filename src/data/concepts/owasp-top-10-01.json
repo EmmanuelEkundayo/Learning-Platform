@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A standard awareness document for developers and web application security, representing a broad consensus on the most critical security risks to web applications.",
     "analogy": "The 'Top 10 Most Wanted' list for hackers: it tells you exactly what they are looking for so you can lock the right doors and windows first.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per vulnerability check",
+    "space_complexity": "O(C) security controls",
     "when_to_use": [
       "Designing the security architecture of a new application",
       "Training team members on common vulnerabilities",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"broken\" in ans.lower() and \"access\" in ans.lower()\nassert check(\"Broken Access\")\nprint(\"PASS\")"
   },
-  "related": ["sql-injection-01", "csrf-01", "xss-cross-site-scripting-01"],
-  "tags": ["security", "owasp", "best-practices", "vulnerabilities", "audit", "backend"]
+  "related": [
+    "sql-injection-01",
+    "csrf-01",
+    "xss-cross-site-scripting-01"
+  ],
+  "tags": [
+    "security",
+    "owasp",
+    "best-practices",
+    "vulnerabilities",
+    "audit",
+    "backend"
+  ]
 }

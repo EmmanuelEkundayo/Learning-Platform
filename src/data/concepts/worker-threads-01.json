@@ -8,7 +8,7 @@
   "card": {
     "intuition": "Executing CPU-intensive JavaScript code in parallel to the main thread, preventing the Event Loop from becoming blocked.",
     "analogy": "A busy restaurant kitchen: the head chef (Main Thread) handles the orders and customer communication (Event Loop), but they hire 'Prep Cooks' (Worker Threads) to chop 50kg of onions in a separate room so the kitchen doesn't slow down.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(T) thread pool overhead",
     "space_complexity": "O(N) memory per worker",
     "when_to_use": [
       "Image processing or video encoding in Node.js",
@@ -40,6 +40,17 @@
     ],
     "test_code": "def check(pm, m): return pm == \"postMessage\" and m == \"message\"\nassert check(\"postMessage\", \"message\")\nprint(\"PASS\")"
   },
-  "related": ["threads-vs-processes-01", "event-loop-nodejs-01", "async-await-internals-01"],
-  "tags": ["node.js", "worker-threads", "parallelism", "cpu-intensive", "concurrency", "backend"]
+  "related": [
+    "threads-vs-processes-01",
+    "event-loop-nodejs-01",
+    "async-await-internals-01"
+  ],
+  "tags": [
+    "node.js",
+    "worker-threads",
+    "parallelism",
+    "cpu-intensive",
+    "concurrency",
+    "backend"
+  ]
 }

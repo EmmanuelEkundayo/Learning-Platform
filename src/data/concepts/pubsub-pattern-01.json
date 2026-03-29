@@ -9,7 +9,7 @@
     "intuition": "A messaging pattern where a message sent by one 'Publisher' is received by all 'Subscribers' who are interested in that specific topic.",
     "analogy": "A magazine subscription: when the latest issue of 'Backender' is published, every single person who subscribed gets their own copy of the same magazine.",
     "time_complexity": "O(N) where N is number of subscribers",
-    "space_complexity": "N/A",
+    "space_complexity": "O(S) subscriber list",
     "when_to_use": [
       "Updating multiple microservices at once when a piece of data changes",
       "Real-time features like chat rooms where everyone in the room gets the message",
@@ -39,6 +39,16 @@
     ],
     "test_code": "assert \"Publisher\" in roles[0]\nassert \"Subscriber\" in roles[1]\nassert \"Topic\" in roles[2]\nprint(\"PASS\")"
   },
-  "related": ["redis-pubsub-01", "rabbitmq-01", "event-driven-architecture-01"],
-  "tags": ["pubsub", "messaging", "broadcast", "decoupling", "backend"]
+  "related": [
+    "redis-pubsub-01",
+    "rabbitmq-01",
+    "event-driven-architecture-01"
+  ],
+  "tags": [
+    "pubsub",
+    "messaging",
+    "broadcast",
+    "decoupling",
+    "backend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A property where making the same request multiple times has the same effect as making it once, preventing accidental duplicate actions.",
     "analogy": "An elevator button: pressing it once calls the elevator. Pressing it 20 more times doesn't make the elevator come faster or send 20 elevators — the final result is exactly the same.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per idempotency key lookup",
+    "space_complexity": "O(K) stored keys",
     "when_to_use": [
       "Payment processing (avoiding double charges on a slow network click)",
       "Retrying failed API calls automatically (safe to retry if the endpoint is idempotent)",
@@ -41,6 +41,16 @@
     ],
     "test_code": "assert is_idempotent[\"GET\"] == True\nassert is_idempotent[\"POST\"] == False\nassert is_idempotent[\"PUT\"] == True\nprint(\"PASS\")"
   },
-  "related": ["rest-api-design-01", "api-versioning-01", "database-transactions-01"],
-  "tags": ["idempotency", "api", "rest", "reliability", "backend"]
+  "related": [
+    "rest-api-design-01",
+    "api-versioning-01",
+    "database-transactions-01"
+  ],
+  "tags": [
+    "idempotency",
+    "api",
+    "rest",
+    "reliability",
+    "backend"
+  ]
 }

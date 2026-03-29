@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Three fundamental acronyms that guide clean code: Don't Repeat Yourself (DRY), Keep It Simple, Stupid (KISS), and You Ain't Gonna Need It (YAGNI).",
     "analogy": "Packing for a trip: **DRY** is making sure you don't pack two of the same shirt. **KISS** is taking a simple duffel bag instead of a 20-compartment suitcase that requires a manual to open. **YAGNI** is not packing an umbrella just in case it rains in the desert.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "Reduces O(N) duplicated code",
+    "space_complexity": "Reduces O(N) code size",
     "when_to_use": [
       "Deciding whether to add a complex 'what if' feature (YAGNI says No)",
       "Finding two identical blocks of code and moving them to a function (DRY)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"YAGNI\"\nassert check(\"YAGNI\")\nprint(\"PASS\")"
   },
-  "related": ["solid-principles-01", "clean-architecture-01", "code-review-best-practices-01"],
-  "tags": ["design-principles", "dry", "kiss", "yagni", "clean-code", "software-engineering"]
+  "related": [
+    "solid-principles-01",
+    "clean-architecture-01",
+    "code-review-best-practices-01"
+  ],
+  "tags": [
+    "design-principles",
+    "dry",
+    "kiss",
+    "yagni",
+    "clean-code",
+    "software-engineering"
+  ]
 }

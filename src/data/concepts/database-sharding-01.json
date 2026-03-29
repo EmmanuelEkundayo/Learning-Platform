@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Horizontal scaling by splitting a large dataset into smaller chunks ('shards') and distributing them across multiple database servers.",
     "analogy": "If one library building becomes too small for a city's books, instead of building one giant skyscraper, you build 5 smaller neighborhood libraries and put books A-E in the first, F-J in the second, and so on.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) shard lookup; O(N/S) per shard",
+    "space_complexity": "O(N) distributed",
     "when_to_use": [
       "When a single database server exceeds its CPU, RAM, or storage limits",
       "To improve write performance by parallelizing writes across different nodes",
@@ -39,6 +39,16 @@
     ],
     "test_code": "assert get_shard_id(10, 3) == 1, \"10 % 3 = 1\"\nassert get_shard_id(15, 3) == 0, \"15 % 3 = 0\"\nprint(\"PASS\")"
   },
-  "related": ["database-replication-01", "cap-theorem-01", "database-indexing-01"],
-  "tags": ["database", "sharding", "scalability", "horizontal-scaling", "backend"]
+  "related": [
+    "database-replication-01",
+    "cap-theorem-01",
+    "database-indexing-01"
+  ],
+  "tags": [
+    "database",
+    "sharding",
+    "scalability",
+    "horizontal-scaling",
+    "backend"
+  ]
 }

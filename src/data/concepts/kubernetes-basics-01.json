@@ -8,7 +8,7 @@
   "card": {
     "intuition": "An orchestration platform for automating the deployment, scaling, and management of containerized applications across a cluster of servers.",
     "analogy": "A captain of a fleet: you tell the captain 'I want 3 ships carrying corn' (Desired State). If one ship sinks, the captain automatically orders a new ship to be built and filled with corn to maintain the 3-ship minimum (Self-healing).",
-    "time_complexity": "N/A",
+    "time_complexity": "O(1) scheduling per pod",
     "space_complexity": "O(N) nodes and pods",
     "when_to_use": [
       "Managing complex microservices in production",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"pod\"\nassert check(\"Pod\")\nprint(\"PASS\")"
   },
-  "related": ["kubernetes-services-deployments-01", "docker-internals-01", "helm-basics-01"],
-  "tags": ["kubernetes", "k8s", "orchestration", "devops", "cloud-native", "software-engineering"]
+  "related": [
+    "kubernetes-services-deployments-01",
+    "docker-internals-01",
+    "helm-basics-01"
+  ],
+  "tags": [
+    "kubernetes",
+    "k8s",
+    "orchestration",
+    "devops",
+    "cloud-native",
+    "software-engineering"
+  ]
 }

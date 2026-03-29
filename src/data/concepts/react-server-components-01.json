@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A new architectural pattern where components can be rendered entirely on the server and sent to the browser as a specialized stream, reducing the amount of JavaScript sent to the client.",
     "analogy": "Ordering a pre-built Lego set: instead of receiving the instructions and all the pieces (Client Components), you receive the already-assembled 'Dragon' (Server Component). It takes up no space in your backpack (no JS bundle), but you can't change its pose (no interactivity) unless it has some 'interative joints' (Client Islands).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) server components rendered",
+    "space_complexity": "O(S) serialized state",
     "when_to_use": [
       "Data-heavy pages where you want minimal JS on the client (like a Blog or E-commerce list)",
       "Securely accessing databases or secret API keys directly from a component",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"client\"\nassert check(\"client\")\nprint(\"PASS\")"
   },
-  "related": ["hydration-islands-01", "react-fiber-01", "bundlers-internals-01"],
-  "tags": ["react", "rsc", "server-side", "architecture", "performance", "frontend"]
+  "related": [
+    "hydration-islands-01",
+    "react-fiber-01",
+    "bundlers-internals-01"
+  ],
+  "tags": [
+    "react",
+    "rsc",
+    "server-side",
+    "architecture",
+    "performance",
+    "frontend"
+  ]
 }

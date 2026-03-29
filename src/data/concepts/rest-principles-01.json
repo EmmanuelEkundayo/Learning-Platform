@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An architectural style for designing networked applications based on resources, standard HTTP verbs, and stateless communication.",
     "analogy": "A library where every book has a unique ID (URL) and you use standard actions like 'Get', 'Add', 'Update', or 'Delete' to interact with them.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) stateless per request",
+    "space_complexity": "O(1) — no server session",
     "when_to_use": [
       "Building public APIs for mobile apps or web frontends",
       "CRUD-based systems (Create, Read, Update, Delete)",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert \"GET\" in api_design[\"Get a specific user\"]\nassert \"POST\" in api_design[\"Create a new post\"]\nassert \"PATCH\" in api_design.get(\"Update user bio\", \"PUT\") # allow PUT or PATCH for flexibility but PATCH preferred here\nassert \"DELETE\" in api_design[\"Delete a comment\"]\nprint(\"PASS\")"
   },
-  "related": ["graphql-basics-01", "grpc-01", "http-versions-01"],
-  "tags": ["rest", "api", "http", "architecture", "backend"]
+  "related": [
+    "graphql-basics-01",
+    "grpc-01",
+    "http-versions-01"
+  ],
+  "tags": [
+    "rest",
+    "api",
+    "http",
+    "architecture",
+    "backend"
+  ]
 }

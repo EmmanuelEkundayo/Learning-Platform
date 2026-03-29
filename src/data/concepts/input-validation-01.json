@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The practice of checking user input against a set of rules (Validation) and cleaning it (Sanitization) to ensure it is safe before processing it.",
     "analogy": "A bouncer at a club: Validation is checking if the person has an ID and is over 21. Sanitization is making them leave their weapons (malicious scripts) at the door before they enter.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(R) validation rules",
+    "space_complexity": "O(1) per validation",
     "when_to_use": [
       "Every single time your application receives data from the outside world (API calls, forms, URL params)",
       "Standardizing data formats before saving them to the database",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert \"Val\" in tasks[\"Check if the email contains an @ symbol\"]\nassert \"San\" in tasks[\"Strip <script> tags from a comment string\"]\nprint(\"PASS\")"
   },
-  "related": ["sql-injection-01", "xss-cross-site-scripting-01", "owasp-top-10-01"],
-  "tags": ["security", "validation", "sanitization", "best-practices", "backend"]
+  "related": [
+    "sql-injection-01",
+    "xss-cross-site-scripting-01",
+    "owasp-top-10-01"
+  ],
+  "tags": [
+    "security",
+    "validation",
+    "sanitization",
+    "best-practices",
+    "backend"
+  ]
 }

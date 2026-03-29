@@ -8,7 +8,7 @@
   "card": {
     "intuition": "The process of reducing image file sizes as much as possible without sacrificing quality, using modern formats and responsive techniques.",
     "analogy": "Packing for a trip: you want to bring all your clothes (high quality), but you compress them into a tiny suitcase (optimized file) so you don't have to carry a heavy trunk (original raw image) through the airport.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(I) images processed at build",
     "space_complexity": "O(N) file size reduction",
     "when_to_use": [
       "Reducing the 'Initial Load' time of a webpage",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"webp\"\nassert check(\"WebP\")\nprint(\"PASS\")"
   },
-  "related": ["lazy-loading-frontend-01", "core-web-vitals-01", "browser-caching-01"],
-  "tags": ["performance", "images", "webp", "optimization", "lcp", "frontend"]
+  "related": [
+    "lazy-loading-frontend-01",
+    "core-web-vitals-01",
+    "browser-caching-01"
+  ],
+  "tags": [
+    "performance",
+    "images",
+    "webp",
+    "optimization",
+    "lcp",
+    "frontend"
+  ]
 }

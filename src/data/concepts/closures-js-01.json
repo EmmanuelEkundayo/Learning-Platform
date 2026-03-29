@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A function that 'remembers' and has access to variables from its outer scope, even after that outer scope has finished executing.",
     "analogy": "A physical photo of your childhood home: even though you have moved out and the house might have been sold (outer function finished), you still have a 'reference' (photo) that lets you recall exactly what was in each room.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(1) per closure access",
     "space_complexity": "O(N) for captured variables",
     "when_to_use": [
       "Creating 'private' variables in JavaScript",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"nonlocal\"\nassert check(\"nonlocal\")\nprint(\"PASS\")"
   },
-  "related": ["event-loop-browser-01", "memory-management-gc-01", "this-binding-01"],
-  "tags": ["javascript", "closures", "scope", "state", "functional-programming", "frontend"]
+  "related": [
+    "event-loop-browser-01",
+    "memory-management-gc-01",
+    "this-binding-01"
+  ],
+  "tags": [
+    "javascript",
+    "closures",
+    "scope",
+    "state",
+    "functional-programming",
+    "frontend"
+  ]
 }

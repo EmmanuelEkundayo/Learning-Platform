@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An extension of TDD that focuses on the 'behavior' of the system from a business perspective, using natural language (Given/When/Then) to define requirements.",
     "analogy": "A contract between a customer and a builder: instead of saying 'Use 50 bricks', the contract says 'GIVEN I am standing outside, WHEN I open the door, THEN I should see a kitchen'. It describes the result, not the implementation.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(S) scenarios to run",
+    "space_complexity": "O(S) scenario state",
     "when_to_use": [
       "Collaborating with non-technical stakeholders (PO, QA) to define acceptance criteria",
       "Building complex user flows (e.g., 'A user can checkout if they have at least 3 items')",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"given\" in solution.lower()\nassert \"when\" in solution.lower()\nassert \"then\" in solution.lower()\nprint(\"PASS\")"
   },
-  "related": ["tdd-cycle-01", "contract-testing-01", "technical-debt-01"],
-  "tags": ["bdd", "testing", "gherkin", "agile", "collaboration", "software-engineering"]
+  "related": [
+    "tdd-cycle-01",
+    "contract-testing-01",
+    "technical-debt-01"
+  ],
+  "tags": [
+    "bdd",
+    "testing",
+    "gherkin",
+    "agile",
+    "collaboration",
+    "software-engineering"
+  ]
 }

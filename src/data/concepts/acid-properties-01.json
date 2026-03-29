@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A set of four properties (Atomicity, Consistency, Isolation, Durability) that guarantee database transactions are processed reliably.",
     "analogy": "An ATM withdrawal: either the machine gives you cash AND deducts it from your balance, or neither happens. It's impossible for it to give you cash but forget to update the balance.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per transaction check",
+    "space_complexity": "O(1) — metadata only",
     "when_to_use": [
       "Any financial or sensitive system where data integrity is more important than raw speed",
       "When multiple users are writing to the same pieces of data simultaneously",
@@ -41,6 +41,16 @@
     ],
     "test_code": "assert identify_property(\"All or nothing\") == \"Atomicity\"\nassert identify_property(\"Committed data is permanent even after crash\") == \"Durability\"\nassert identify_property(\"Concurrent transactions don't interfere\") == \"Isolation\"\nprint(\"PASS\")"
   },
-  "related": ["database-transactions-01", "cap-theorem-01", "eventual-consistency-01"],
-  "tags": ["database", "acid", "transactions", "reliability", "backend"]
+  "related": [
+    "database-transactions-01",
+    "cap-theorem-01",
+    "eventual-consistency-01"
+  ],
+  "tags": [
+    "database",
+    "acid",
+    "transactions",
+    "reliability",
+    "backend"
+  ]
 }

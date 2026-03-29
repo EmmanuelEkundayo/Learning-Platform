@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Test-Driven Development (TDD) is a process where you write a failing test first, then write the minimum code to pass it, and finally clean up the code.",
     "analogy": "Building a Lego set with a missing piece detector: first, you look for a specific piece you don't have (Red: Failing Test). Then, you find that exact piece and put it in (Green: Pass). Finally, you straighten the blocks so they look nice (Refactor).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(T) tests to run per cycle",
+    "space_complexity": "O(T) test suite size",
     "when_to_use": [
       "Ensuring high test coverage from the start of a project",
       "Designing clean APIs by thinking about how they are 'called' before how they are 'built'",
@@ -39,6 +39,17 @@
     ],
     "test_code": "assert \"red\" in solution.lower()\nassert \"green\" in solution.lower()\nassert \"refactor\" in solution.lower()\nprint(\"PASS\")"
   },
-  "related": ["bdd-basics-01", "refactoring-patterns-01", "code-coverage-01"],
-  "tags": ["tdd", "testing", "design", "agile", "quality", "software-engineering"]
+  "related": [
+    "bdd-basics-01",
+    "refactoring-patterns-01",
+    "code-coverage-01"
+  ],
+  "tags": [
+    "tdd",
+    "testing",
+    "design",
+    "agile",
+    "quality",
+    "software-engineering"
+  ]
 }

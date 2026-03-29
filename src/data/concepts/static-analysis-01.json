@@ -9,7 +9,7 @@
     "intuition": "The process of analyzing source code without actually running it, to find bugs, security vulnerabilities, or code style violations.",
     "analogy": "A grammar checker for code: it finds 'sentences' that are technically valid but likely wrong (like an unused variable) or dangerous (like an unprotected SQL query), all before you even 'publish' the app.",
     "time_complexity": "O(N) source lines",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) AST nodes",
     "when_to_use": [
       "Catching simple typos and syntax errors instantly in your editor",
       "Enforcing a consistent 'Style Guide' across a large team automatically",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"eslint\" in ans.lower()\nassert check(\"ESLint\")\nprint(\"PASS\")"
   },
-  "related": ["code-coverage-01", "technical-debt-01", "code-review-best-practices-01"],
-  "tags": ["analysis", "linting", "quality", "security", "ast", "software-engineering"]
+  "related": [
+    "code-coverage-01",
+    "technical-debt-01",
+    "code-review-best-practices-01"
+  ],
+  "tags": [
+    "analysis",
+    "linting",
+    "quality",
+    "security",
+    "ast",
+    "software-engineering"
+  ]
 }

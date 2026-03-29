@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Functions that sit in the middle of a request-response cycle, allowing you to intercept, process, or modify the request before it reaches your main logic.",
     "analogy": "A security checkpoint at an airport: before you reach your gate (business logic), you go through ID check (Auth), baggage scan (Validation), and metal detector (Logging/Sanitization).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(M) middleware chain length",
+    "space_complexity": "O(M) middleware stack",
     "when_to_use": [
       "Authentication and Authorization checks",
       "Request logging and performance monitoring",
@@ -41,6 +41,17 @@
     ],
     "test_code": "def check(n): return n == \"next\"\nassert check(\"next\")\nprint(\"PASS\")"
   },
-  "related": ["rest-principles-01", "dependency-injection-01", "jwt-authentication-01"],
-  "tags": ["middleware", "express", "api", "interceptor", "design-patterns", "backend"]
+  "related": [
+    "rest-principles-01",
+    "dependency-injection-01",
+    "jwt-authentication-01"
+  ],
+  "tags": [
+    "middleware",
+    "express",
+    "api",
+    "interceptor",
+    "design-patterns",
+    "backend"
+  ]
 }

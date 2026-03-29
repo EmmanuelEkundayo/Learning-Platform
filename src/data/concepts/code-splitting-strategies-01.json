@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The technical decision-making of exactly HOW to split your code: by Route (page-level), by Component (lazy loading heavy parts), or by Vendor (separating libraries from your code).",
     "analogy": "Packing a car for a road trip: do you put everything in one huge box (One Bundle)? No, you put 'Driving Snacks' in the front seat (Route logic), 'Camping Gear' in the trunk (Lazy components), and 'Tools/Spare Tire' in the hidden compartment (Vendor libraries).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) chunks at build time",
+    "space_complexity": "O(C) code chunks",
     "when_to_use": [
       "Large-scale apps with huge 3rd-party dependencies (like Google Maps or D3.js)",
       "Optimizing 'Long Term Caching' (vendor files change less often than your code)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"route\"\nassert check(\"Route\")\nprint(\"PASS\")"
   },
-  "related": ["code-splitting-react-01", "bundlers-internals-01", "bundle-analysis-01"],
-  "tags": ["performance", "bundling", "splitting", "architecture", "optimization", "frontend"]
+  "related": [
+    "code-splitting-react-01",
+    "bundlers-internals-01",
+    "bundle-analysis-01"
+  ],
+  "tags": [
+    "performance",
+    "bundling",
+    "splitting",
+    "architecture",
+    "optimization",
+    "frontend"
+  ]
 }

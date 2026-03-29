@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Two separate queues in the Event Loop: Microtasks (e.g., Promises) are higher priority and are all executed immediately after the current task finishes; Macrotasks (e.g., setTimeout) are executed one-by-one in subsequent loop cycles.",
     "analogy": "A VIP line at a club: The Macrotask queue is the regular line. Every time a person from the regular line enters (current task), the bouncer checks the 'VIP list' (Microtasks). ALL VIPs get to enter BEFORE the next person from the regular line is allowed in.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(M) microtasks drained first",
+    "space_complexity": "O(T) task queues",
     "when_to_use": [
       "Predicting the exact execution order of complex async code",
       "Clearing a microtask queue to avoid blocking the UI",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans1, ans2): return ans1 == \"Promise\" and ans2 == \"Timeout\"\nassert check(\"Promise\", \"Timeout\")\nprint(\"PASS\")"
   },
-  "related": ["event-loop-browser-01", "promises-internals-01", "async-await-js-01"],
-  "tags": ["event-loop", "microtasks", "macrotasks", "async", "promises", "frontend"]
+  "related": [
+    "event-loop-browser-01",
+    "promises-internals-01",
+    "async-await-js-01"
+  ],
+  "tags": [
+    "event-loop",
+    "microtasks",
+    "macrotasks",
+    "async",
+    "promises",
+    "frontend"
+  ]
 }

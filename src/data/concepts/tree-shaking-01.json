@@ -9,7 +9,7 @@
     "intuition": "A build-time optimization that removes 'dead' (unused) code from your final JavaScript bundle to reduce its file size.",
     "analogy": "Shaking a tree in autumn: the dead, brown leaves (unused functions) fall off and disappear, leaving only the healthy, green leaves (code you actually call) attached to the branches.",
     "time_complexity": "O(N) at build time",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) dependency graph nodes",
     "when_to_use": [
       "Reducing the size of your production JS bundles",
       "Using large utility libraries (like lodash) efficiently",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"ESM\"\nassert check(\"ESM\")\nprint(\"PASS\")"
   },
-  "related": ["esm-vs-cjs-01", "bundlers-internals-01", "memory-management-gc-01"],
-  "tags": ["optimization", "bundling", "performance", "esm", "dead-code", "frontend"]
+  "related": [
+    "esm-vs-cjs-01",
+    "bundlers-internals-01",
+    "memory-management-gc-01"
+  ],
+  "tags": [
+    "optimization",
+    "bundling",
+    "performance",
+    "esm",
+    "dead-code",
+    "frontend"
+  ]
 }

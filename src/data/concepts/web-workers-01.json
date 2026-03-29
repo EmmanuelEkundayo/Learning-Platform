@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A way to run JavaScript in a separate background thread, allowing you to perform heavy calculations without freezing the main UI thread.",
     "analogy": "A restaurant with a separate prep kitchen: the main chef (UI Thread) handles the plating and customers, while a 'Prep Cook' (Web Worker) chops 50kg of onions in the back room so the dining room doesn't slow down.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(M) messages serialized",
     "space_complexity": "O(N) memory per worker",
     "when_to_use": [
       "Complex mathematical calculations",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(pm, om): return pm == \"postMessage\" and om == \"onmessage\"\nassert check(\"postMessage\", \"onmessage\")\nprint(\"PASS\")"
   },
-  "related": ["service-workers-01", "worker-threads-01", "event-loop-browser-01"],
-  "tags": ["web-worker", "concurrency", "performance", "multithreading", "frontend"]
+  "related": [
+    "service-workers-01",
+    "worker-threads-01",
+    "event-loop-browser-01"
+  ],
+  "tags": [
+    "web-worker",
+    "concurrency",
+    "performance",
+    "multithreading",
+    "frontend"
+  ]
 }

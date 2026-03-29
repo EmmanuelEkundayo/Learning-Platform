@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Maintaining a cache of open database connections that can be reused for future requests, rather than opening and closing a new connection every time.",
     "analogy": "Taxi cabs at a stand: instead of buying a new car every time you want to go to the airport and selling it when you arrive, you just grab an existing cab from the pool and return it when you're done.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per connection acquire",
+    "space_complexity": "O(P) pool connections",
     "when_to_use": [
       "In any high-traffic application to reduce the latency of the 'TCP + Database Handshake'",
       "Preventing 'connection exhaust' on the database server during traffic spikes",
@@ -40,6 +40,16 @@
     ],
     "test_code": "def check(a, r): return a == \"acquire\" and r == \"release\"\nassert check(\"acquire\", \"release\")\nprint(\"PASS\")"
   },
-  "related": ["postgresql-internals-01", "database-transactions-01", "query-optimization-01"],
-  "tags": ["database", "connection-pooling", "latency", "scalability", "backend"]
+  "related": [
+    "postgresql-internals-01",
+    "database-transactions-01",
+    "query-optimization-01"
+  ],
+  "tags": [
+    "database",
+    "connection-pooling",
+    "latency",
+    "scalability",
+    "backend"
+  ]
 }

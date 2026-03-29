@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The 'D' in SOLID. High-level modules should not depend on low-level modules; both should depend on abstractions (interfaces).",
     "analogy": "A wall socket: your Lamp (High-level) doesn't know about the 'Electrical Grid' (Low-level). Both depend on the 'Plug' (Abstraction). If the grid changes from Coal to Solar, your lamp still works perfectly because it only cares about the 'Plug' interface.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per abstraction call",
+    "space_complexity": "O(I) interface definitions",
     "when_to_use": [
       "Writing 'Pluggable' code where you can swap a real DB for a Mock DB in tests",
       "Decoupling your application logic from a specific UI framework or Library",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"abstra\" in ans.lower()\nassert check(\"abstraction\")\nprint(\"PASS\")"
   },
-  "related": ["solid-principles-01", "service-mesh-01", "clean-architecture-01"],
-  "tags": ["design-principles", "solid", "dependency-inversion", "di", "ioc", "software-engineering"]
+  "related": [
+    "solid-principles-01",
+    "service-mesh-01",
+    "clean-architecture-01"
+  ],
+  "tags": [
+    "design-principles",
+    "solid",
+    "dependency-inversion",
+    "di",
+    "ioc",
+    "software-engineering"
+  ]
 }

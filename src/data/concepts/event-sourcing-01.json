@@ -8,7 +8,7 @@
   "card": {
     "intuition": "Storing the state of an application as a sequence of immutable events, rather than just storing the current 'final' snapshot.",
     "analogy": "A bank ledger: instead of just storing 'Current Balance $500', the bank stores every deposit and withdrawal (+100, -50, +450). You can reconstruct the balance by playing back all the entries.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(E) events to replay",
     "space_complexity": "O(N) events",
     "when_to_use": [
       "Auditing systems where you MUST know exactly how you arrived at the current state",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"replay\"\nassert check(\"Replay\")\nprint(\"PASS\")"
   },
-  "related": ["cqrs-01", "saga-pattern-01", "kafka-basics-01"],
-  "tags": ["event-sourcing", "distributed-systems", "architecture", "audit", "immutability", "backend"]
+  "related": [
+    "cqrs-01",
+    "saga-pattern-01",
+    "kafka-basics-01"
+  ],
+  "tags": [
+    "event-sourcing",
+    "distributed-systems",
+    "architecture",
+    "audit",
+    "immutability",
+    "backend"
+  ]
 }

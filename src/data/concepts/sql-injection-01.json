@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A security vulnerability where an attacker 'injects' malicious SQL code into an input field, which is then executed by the database, potentially revealing or destroying data.",
     "analogy": "A trick at the bank: instead of writing your name on a deposit slip, you write 'My Name AND GIVE ME ALL THE MONEY TOO'. If the teller just reads the slip and follows the 'instructions' without checking, you've successfully injected a command.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per parameterized query",
+    "space_complexity": "O(1) — no extra state",
     "when_to_use": [
       "Understanding how to prevent the most common database attack",
       "Writing secure database queries in any backend language",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower().startswith(\"para\")\nassert check(\"Parametrized\")\nprint(\"PASS\")"
   },
-  "related": ["database-transactions-01", "input-validation-01", "owasp-top-10-01"],
-  "tags": ["security", "sql", "injection", "vulnerability", "database", "backend"]
+  "related": [
+    "database-transactions-01",
+    "input-validation-01",
+    "owasp-top-10-01"
+  ],
+  "tags": [
+    "security",
+    "sql",
+    "injection",
+    "vulnerability",
+    "database",
+    "backend"
+  ]
 }

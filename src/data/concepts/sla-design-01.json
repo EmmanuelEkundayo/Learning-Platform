@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The 3-layered framework for measuring reliability: SLIs (What we measure), SLOs (Our target), and SLAs (Our legal promise to the customer).",
     "analogy": "A pizza delivery: **SLI** is the stopwatch showing '35 minutes'. **SLO** is the chef's goal: 'Keep 99% of deliveries under 40 mins'. **SLA** is the flyer: 'If it's more than 60 mins, you get a free pizza'.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) dependent SLA checks",
+    "space_complexity": "O(S) SLA definitions",
     "when_to_use": [
       "Communicating the quality of your service to paid customers (SLA)",
       "Setting internal engineering priorities (if we miss an SLO, stop building features and fix bugs)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"SLI\"\nassert check(\"SLI\")\nprint(\"PASS\")"
   },
-  "related": ["disaster-recovery-01", "observability-logs-metrics-traces-01", "load-balancing-01"],
-  "tags": ["sre", "reliability", "metrics", "availability", "management", "software-engineering"]
+  "related": [
+    "disaster-recovery-01",
+    "observability-logs-metrics-traces-01",
+    "load-balancing-01"
+  ],
+  "tags": [
+    "sre",
+    "reliability",
+    "metrics",
+    "availability",
+    "management",
+    "software-engineering"
+  ]
 }

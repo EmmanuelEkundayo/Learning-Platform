@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A specialized browser API that tells the browser you wish to perform an animation and requests that the browser calls a specified function to update an animation before the next repaint.",
     "analogy": "A film director waiting for the next 'frame' of the movie: instead of just throwing paint at the wall whenever you want (setTimeout), you wait for the camera operator to say 'Ready!' (the screen is ready to refresh) before you move the subject.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) callbacks per frame (60fps)",
+    "space_complexity": "O(C) rAF callbacks",
     "when_to_use": [
       "Smooth, high-performance visual animations (e.g., parallax, drag-and-drop)",
       "Game loops in the browser",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"animation\" in ans.lower() and \"frame\" in ans.lower()\nassert check(\"requestAnimationFrame\")\nprint(\"PASS\")"
   },
-  "related": ["render-pipeline-01", "reflow-vs-repaint-01", "event-loop-browser-01"],
-  "tags": ["animation", "performance", "rendering", "javascript", "browser", "frontend"]
+  "related": [
+    "render-pipeline-01",
+    "reflow-vs-repaint-01",
+    "event-loop-browser-01"
+  ],
+  "tags": [
+    "animation",
+    "performance",
+    "rendering",
+    "javascript",
+    "browser",
+    "frontend"
+  ]
 }

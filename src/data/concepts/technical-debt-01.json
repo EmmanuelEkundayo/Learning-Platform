@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The cost of choosing an easy (fast) solution now instead of a better (slower) approach that would take longer to implement. Like financial debt, it must be 'repaid' with interest.",
     "analogy": "Using credit cards to build a house: you can buy the materials fast, but eventually, the interest (Messy code) becomes so high that you spend all your money on interest (Fixing bugs) instead of building new rooms (Features).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) debt items to remediate",
+    "space_complexity": "O(D) tracked debt items",
     "when_to_use": [
       "Consciously launching an MVP early to test a market, knowing the code will need refactoring later",
       "Explaining to managers why new features are taking longer over time",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"effort\" in ans.lower() or \"time\" in ans.lower()\nassert check(\"effort\")\nprint(\"PASS\")"
   },
-  "related": ["refactoring-patterns-01", "dry-kiss-yagni-01", "code-coverage-01"],
-  "tags": ["debt", "maintenance", "management", "quality", "agile", "software-engineering"]
+  "related": [
+    "refactoring-patterns-01",
+    "dry-kiss-yagni-01",
+    "code-coverage-01"
+  ],
+  "tags": [
+    "debt",
+    "maintenance",
+    "management",
+    "quality",
+    "agile",
+    "software-engineering"
+  ]
 }

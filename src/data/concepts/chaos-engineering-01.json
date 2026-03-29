@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The discipline of experimenting on a system in order to build confidence in its capability to withstand turbulent conditions (like server outages or network failures) in production.",
     "analogy": "A fire drill: you choose to set off the alarm and walk everyone out into the rain while the company is working. It's annoying, but it's the only way to know if people WILL actually survive a real fire.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(E) experiments running",
+    "space_complexity": "O(L) experiment logs",
     "when_to_use": [
       "Testing if your system automatically recovers when a random server is deleted (The 'Chaos Monkey')",
       "Simulating network latency to see if your 'Timed Out' pages look okay to users",
@@ -39,6 +39,18 @@
     ],
     "test_code": "def check(ans): return \"monkey\" in ans.lower()\nassert check(\"Chaos Monkey\")\nprint(\"PASS\")"
   },
-  "related": ["circuit-breaker-01", "disaster-recovery-01", "horizontal-vs-vertical-scaling-01"],
-  "tags": ["chaos", "resiliency", "devops", "netflix", "sre", "reliability", "software-engineering"]
+  "related": [
+    "circuit-breaker-01",
+    "disaster-recovery-01",
+    "horizontal-vs-vertical-scaling-01"
+  ],
+  "tags": [
+    "chaos",
+    "resiliency",
+    "devops",
+    "netflix",
+    "sre",
+    "reliability",
+    "software-engineering"
+  ]
 }

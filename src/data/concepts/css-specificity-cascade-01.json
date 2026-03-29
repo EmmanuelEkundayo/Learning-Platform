@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The set of rules the browser uses to decide which CSS styles win when multiple rules apply to the same element. 'The Cascade' is the overall process, and 'Specificity' is the weight assigned to different selector types.",
     "analogy": "A hierarchy of authority: a 'Company Policy' (Tag selector) says casual dress. A 'Manager Note' (Class selector) says wear a shirt. The 'CEO Direct Email' (ID selector) says wear a tuxedo. The tuxedo wins because the CEO has the highest specificity (authority).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) rules to evaluate",
+    "space_complexity": "O(N) style rules",
     "when_to_use": [
       "Resolving styling conflicts in large codebases",
       "Overriding styles from external CSS libraries",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"green\"\nassert check(\"green\")\nprint(\"PASS\")"
   },
-  "related": ["stacking-context-01", "css-custom-properties-01", "tailwind-internals-01"],
-  "tags": ["css", "specificity", "cascade", "selectors", "frontend"]
+  "related": [
+    "stacking-context-01",
+    "css-custom-properties-01",
+    "tailwind-internals-01"
+  ],
+  "tags": [
+    "css",
+    "specificity",
+    "cascade",
+    "selectors",
+    "frontend"
+  ]
 }

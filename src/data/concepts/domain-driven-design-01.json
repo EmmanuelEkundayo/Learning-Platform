@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A focus on modeling software to match a specific business domain, using a 'Ubiquitous Language' shared by both developers and business experts.",
     "analogy": "A medical textbook written for non-doctors: if the experts call it 'Cardiac Arrest', and the developers call it 'HeartStopErr', the software will fail. In DDD, both the experts and the code use the exact same term: 'CardiacArrest'.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per domain event",
+    "space_complexity": "O(A) aggregate state",
     "when_to_use": [
       "Managing extremely complex business logic where the 'rules' are more important than the 'database'",
       "Large teams where communication between 'Business' and 'Engineering' is a bottleneck",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"ubiquit\" in ans.lower()\nassert check(\"Ubiquitous\")\nprint(\"PASS\")"
   },
-  "related": ["clean-architecture-01", "hexagonal-architecture-01", "microservices-basics-01"],
-  "tags": ["architecture", "ddd", "domain-driven-design", "modeling", "software-engineering"]
+  "related": [
+    "clean-architecture-01",
+    "hexagonal-architecture-01",
+    "microservices-basics-01"
+  ],
+  "tags": [
+    "architecture",
+    "ddd",
+    "domain-driven-design",
+    "modeling",
+    "software-engineering"
+  ]
 }

@@ -9,7 +9,7 @@
     "intuition": "Overfitting: model memorises training data including noise — low train loss, high val loss. Underfitting: model is too simple to capture the pattern — high train AND val loss. The goal is the sweet spot: low train loss AND low val loss.",
     "analogy": "Overfitting is like a student who memorises past exam answers verbatim — perfect on past tests, fails new questions. Underfitting is like a student who didn't study at all — fails both old and new tests. Good generalisation is studying the underlying principles.",
     "time_complexity": "N/A — diagnostic framework",
-    "space_complexity": "N/A",
+    "space_complexity": "O(P) model parameters",
     "when_to_use": [
       "Diagnosing model performance by plotting train vs validation loss curves",
       "Deciding whether to increase model capacity (underfitting) or add regularisation (overfitting)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "# Simulated: val loss decreases then increases (overfitting)\ndef make_val_fn(best_epoch):\n    def val_fn(epoch):\n        if epoch <= best_epoch: return 1.0 - 0.05*epoch\n        return 1.0 - 0.05*best_epoch + 0.02*(epoch - best_epoch)\n    return val_fn\n\nstop = early_stopping_train(\n    train_fn=lambda e: max(0, 1.0 - 0.1*e),\n    val_fn=make_val_fn(10),\n    patience=5\n)\nassert 10 < stop <= 16, f'Expected stop near epoch 15, got {stop}'\n\n# If val always improves, train all epochs\nstop2 = early_stopping_train(\n    train_fn=lambda e: 1.0-e*0.01,\n    val_fn=lambda e: 1.0-e*0.005,\n    max_epochs=50, patience=5\n)\nassert stop2 == 49\nprint('PASS')"
   },
-  "related": ["bias-variance-tradeoff-01", "cross-validation-01", "l1-l2-regularization-01", "learning-rate-scheduling-01"],
-  "tags": ["overfitting", "underfitting", "early-stopping", "generalisation", "train-val-gap"]
+  "related": [
+    "bias-variance-tradeoff-01",
+    "cross-validation-01",
+    "l1-l2-regularization-01",
+    "learning-rate-scheduling-01"
+  ],
+  "tags": [
+    "overfitting",
+    "underfitting",
+    "early-stopping",
+    "generalisation",
+    "train-val-gap"
+  ]
 }

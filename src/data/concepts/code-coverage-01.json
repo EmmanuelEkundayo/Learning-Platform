@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A metric that measures the percentage of your source code executed during testing. It helps identify 'dark corners' of the app that have no tests at all.",
     "analogy": "A coloring book: the source code is the drawing. Every time a test runs over a line, it colors it in. If you finish your tests and half the page is still white, your tests haven't 'visited' those parts of the code yet.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) lines instrumented",
+    "space_complexity": "O(N) coverage data",
     "when_to_use": [
       "Identifying risky areas of the code that are completely untested",
       "Gamifying the testing process to encourage developers to write more tests",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"branch\" in ans.lower()\nassert check(\"Branch\")\nprint(\"PASS\")"
   },
-  "related": ["mutation-testing-01", "tdd-cycle-01", "static-analysis-01"],
-  "tags": ["testing", "metrics", "coverage", "quality", "software-engineering"]
+  "related": [
+    "mutation-testing-01",
+    "tdd-cycle-01",
+    "static-analysis-01"
+  ],
+  "tags": [
+    "testing",
+    "metrics",
+    "coverage",
+    "quality",
+    "software-engineering"
+  ]
 }

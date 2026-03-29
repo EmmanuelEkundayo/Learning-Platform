@@ -9,7 +9,7 @@
     "intuition": "A one-dimensional layout model that distributes space among items in a container, allowing them to shrink or grow to fill available space along a main axis.",
     "analogy": "A line of people at a bus stop: the bus stop (Flex Container) can tell people to stand in a row (row) or a column (column). If there is extra room, people can spread out (justify-content), and if it's too crowded, they can squeeze together (flex-shrink).",
     "time_complexity": "O(N) for layout calculation",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) flex items",
     "when_to_use": [
       "Aligning items in a navigation bar",
       "Centering content vertically and horizontally",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"align\"\nassert check(\"align\")\nprint(\"PASS\")"
   },
-  "related": ["css-grid-01", "responsive-design-01", "stacking-context-01"],
-  "tags": ["css", "layout", "flexbox", "alignment", "responsive", "frontend"]
+  "related": [
+    "css-grid-01",
+    "responsive-design-01",
+    "stacking-context-01"
+  ],
+  "tags": [
+    "css",
+    "layout",
+    "flexbox",
+    "alignment",
+    "responsive",
+    "frontend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Standardized techniques for improving the internal structure of code without changing its external behavior.",
     "analogy": "Tidying a desk: you aren't writing any new letters, but you are putting the pens in a holder and stacking the papers. The work output is the same, but it's much easier to find the stapler tomorrow.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) code sites to update",
+    "space_complexity": "O(N) refactored units",
     "when_to_use": [
       "Extracting Method: when a function gets too 'Long' and hard to read",
       "Renaming Variables: when names like `x` and `temp` hide the meaning of the data",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"unchange\" in ans.lower()\nassert check(\"unchanged\")\nprint(\"PASS\")"
   },
-  "related": ["technical-debt-01", "tdd-cycle-01", "solid-principles-01"],
-  "tags": ["refactoring", "clean-code", "quality", "maintenance", "software-engineering"]
+  "related": [
+    "technical-debt-01",
+    "tdd-cycle-01",
+    "solid-principles-01"
+  ],
+  "tags": [
+    "refactoring",
+    "clean-code",
+    "quality",
+    "maintenance",
+    "software-engineering"
+  ]
 }

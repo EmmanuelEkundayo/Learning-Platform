@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Accessible Rich Internet Applications (ARIA) is a set of attributes that you add to HTML to describe the purpose and state of elements to assistive technologies (like screen readers).",
     "analogy": "Closed captioning for the UI: if you build a custom 'checkbox' out of a `<div>`, a screen reader doesn't know it's clickable. By adding `role=\"checkbox\"`, you are giving the screen reader the 'script' so it can tell the user what's happening.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) DOM traversal",
+    "space_complexity": "O(N) accessibility tree",
     "when_to_use": [
       "Creating custom UI widgets (drawers, tabs, sliders) that don't have native HTML equivalents",
       "Labeling interactive elements that don't have visible text (like an 'X' button for closing)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"live\"\nassert check(\"live\")\nprint(\"PASS\")"
   },
-  "related": ["screen-reader-compatibility-01", "keyboard-navigation-01", "react-testing-library-01"],
-  "tags": ["accessibility", "a11y", "aria", "web-standards", "inclusive", "frontend"]
+  "related": [
+    "screen-reader-compatibility-01",
+    "keyboard-navigation-01",
+    "react-testing-library-01"
+  ],
+  "tags": [
+    "accessibility",
+    "a11y",
+    "aria",
+    "web-standards",
+    "inclusive",
+    "frontend"
+  ]
 }

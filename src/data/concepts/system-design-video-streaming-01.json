@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A high-bandwidth system (like Netflix or YouTube) that delivers video content by chunking files, transcoding them into multiple qualities, and serving them from geographically distributed servers (CDNs).",
     "analogy": "A fast-food chain with local branches: if everyone in the world tried to get a burger from one 'Master Kitchen' in New York (Central Server), it would be cold by the time it reached Japan. Instead, the kitchen prepares components (Video Chunks) and sends them to local stores (CDNs) all over the world.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(C) concurrent streams",
     "space_complexity": "O(N * Q) where Q is number of quality versions",
     "when_to_use": [
       "Building Netflix, YouTube, or Twitch platforms",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"CDN\"\nassert check(\"CDN\")\nprint(\"PASS\")"
   },
-  "related": ["cdn-basics-01", "system-design-file-storage-01", "load-balancing-01"],
-  "tags": ["system-design", "video", "streaming", "cdn", "transcoding", "software-engineering"]
+  "related": [
+    "cdn-basics-01",
+    "system-design-file-storage-01",
+    "load-balancing-01"
+  ],
+  "tags": [
+    "system-design",
+    "video",
+    "streaming",
+    "cdn",
+    "transcoding",
+    "software-engineering"
+  ]
 }

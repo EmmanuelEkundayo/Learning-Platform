@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Designing APIs that are intuitive, scalable, and follow standard web conventions for resources and endpoints.",
     "analogy": "A clear, well-labeled restaurant menu: you know exactly where the appetizers are, where the main courses are, and how to order more of something vs. sending something back.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per RESTful route lookup",
+    "space_complexity": "O(R) route definitions",
     "when_to_use": [
       "Creating the primary interface for your backend services",
       "When you need a standard, predictable way for multiple team's frontends to consume your data",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"/users/42\" in operation.values()\nassert \"PATCH\" in operation.values()\nprint(\"PASS\")"
   },
-  "related": ["rest-principles-01", "api-versioning-01", "idempotency-01"],
-  "tags": ["api", "rest", "design", "naming", "web", "backend"]
+  "related": [
+    "rest-principles-01",
+    "api-versioning-01",
+    "idempotency-01"
+  ],
+  "tags": [
+    "api",
+    "rest",
+    "design",
+    "naming",
+    "web",
+    "backend"
+  ]
 }

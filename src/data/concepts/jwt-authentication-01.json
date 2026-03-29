@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A stateless way to verify a user's identity using a digitally signed JSON object (Token) that the client sends with every request.",
     "analogy": "A personalized theme park wristband: you show your ID once to get the band, and then you just show the band at every ride. The rides don't need to call the office to check if you're allowed; they just look at the band's signature.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) stateless verification",
+    "space_complexity": "O(1) — no server state",
     "when_to_use": [
       "Stateless microservices where you don't want every service querying a session database",
       "Mobile apps where keeping a persistent cookie is difficult",
@@ -41,6 +41,17 @@
     ],
     "test_code": "assert jwt_structure[\"part1\"].lower() == \"header\"\nassert jwt_structure[\"part3\"].lower() == \"signature\"\nassert jwt_structure[\"separator\"] == \".\"\nprint(\"PASS\")"
   },
-  "related": ["oauth2-01", "session-authentication-01", "tls-ssl-handshake-01"],
-  "tags": ["jwt", "authentication", "security", "tokens", "stateless", "backend"]
+  "related": [
+    "oauth2-01",
+    "session-authentication-01",
+    "tls-ssl-handshake-01"
+  ],
+  "tags": [
+    "jwt",
+    "authentication",
+    "security",
+    "tokens",
+    "stateless",
+    "backend"
+  ]
 }

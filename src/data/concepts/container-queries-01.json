@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A modern CSS feature that allows you to style elements based on the size of their parent container rather than the size of the whole browser viewport.",
     "analogy": "Self-aware clothes: a shirt that turns into a jacket if you step into a cold 'room' (container), regardless of whether it's winter or summer in the 'rest of the world' (the viewport).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) matched elements",
+    "space_complexity": "O(N) style rules",
     "when_to_use": [
       "Creating 'Modular Components' that look good in a narrow sidebar AND a wide main area",
       "Building design systems where components are decoupled from the page layout",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"container\"\nassert check(\"container\")\nprint(\"PASS\")"
   },
-  "related": ["responsive-design-01", "css-grid-01", "flexbox-algorithm-01"],
-  "tags": ["css", "responsive", "container-queries", "modern-css", "components", "frontend"]
+  "related": [
+    "responsive-design-01",
+    "css-grid-01",
+    "flexbox-algorithm-01"
+  ],
+  "tags": [
+    "css",
+    "responsive",
+    "container-queries",
+    "modern-css",
+    "components",
+    "frontend"
+  ]
 }

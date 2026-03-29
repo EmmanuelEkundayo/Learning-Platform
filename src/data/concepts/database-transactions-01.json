@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Grouping multiple database operations into a single unit of work that either succeeds completely or fails completely.",
     "analogy": "A retail checkout process: scanning items, applying coupons, and charging the card. If the card charge fails, the coupons shouldn't be 'used up' and the items shouldn't be marked as 'sold'.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(L) log entries written",
+    "space_complexity": "O(L) transaction log",
     "when_to_use": [
       "Transferring money between two accounts (debit one, credit the other)",
       "Creating an order record AND 5 item-order records simultaneously",
@@ -40,6 +40,16 @@
     ],
     "test_code": "def check(start, end): return start.upper() == \"BEGIN\" and end.upper() == \"COMMIT\"\nassert check(\"BEGIN\", \"COMMIT\")\nprint(\"PASS\")"
   },
-  "related": ["acid-properties-01", "postgresql-internals-01", "database-indexing-01"],
-  "tags": ["database", "transaction", "sql", "atomicity", "backend"]
+  "related": [
+    "acid-properties-01",
+    "postgresql-internals-01",
+    "database-indexing-01"
+  ],
+  "tags": [
+    "database",
+    "transaction",
+    "sql",
+    "atomicity",
+    "backend"
+  ]
 }

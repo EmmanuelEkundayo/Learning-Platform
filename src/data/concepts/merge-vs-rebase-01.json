@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Two ways to integrate changes from one branch into another: Merge preserves the exact history with a 'Merge Commit', while Rebase 'rewrites' history by moving your commits onto the new tip of the base branch.",
     "analogy": "A collaborative book: **Merge** is like sticking two chapters together with tape. You see exactly where they joined. **Rebase** is like rewriting your chapter to start after the other person's chapter finished, making it look like you both wrote it in order.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(C) commits processed",
+    "space_complexity": "O(C) rewritten commits",
     "when_to_use": [
       "Merge: Keeping a true record of exactly when features were integrated",
       "Rebase: Maintaining a perfectly clean, linear commit history for easier debugging",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"rebase\"\nassert check(\"rebase\")\nprint(\"PASS\")"
   },
-  "related": ["git-internals-dag-01", "interactive-rebase-01", "cherry-pick-01"],
-  "tags": ["git", "rebase", "merge", "vcs", "collaboration", "software-engineering"]
+  "related": [
+    "git-internals-dag-01",
+    "interactive-rebase-01",
+    "cherry-pick-01"
+  ],
+  "tags": [
+    "git",
+    "rebase",
+    "merge",
+    "vcs",
+    "collaboration",
+    "software-engineering"
+  ]
 }

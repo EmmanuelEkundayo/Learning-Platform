@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Optimizing how software reads your website aloud to blind or visually impaired users. It involves creating a clean 'Accessibility Tree' that mirrors your visual layout.",
     "analogy": "A radio play of a movie: if the movie only has cool graphics and no sound, the radio listener (Screen Reader user) has no idea what's happening. You need to add 'narrative descriptions' (Alt text, ARIA, Labels) so the story makes sense without the pictures.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) ARIA nodes traversed",
+    "space_complexity": "O(N) accessibility tree",
     "when_to_use": [
       "Testing your site with tools like NVDA, JAWS, or VoiceOver",
       "Adding 'alt' text to complex images and diagrams",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"alt\"\nassert check(\"alt\")\nprint(\"PASS\")"
   },
-  "related": ["aria-roles-01", "keyboard-navigation-01", "color-contrast-wcag-01"],
-  "tags": ["accessibility", "a11y", "screen-reader", "semantic-html", "ux", "frontend"]
+  "related": [
+    "aria-roles-01",
+    "keyboard-navigation-01",
+    "color-contrast-wcag-01"
+  ],
+  "tags": [
+    "accessibility",
+    "a11y",
+    "screen-reader",
+    "semantic-html",
+    "ux",
+    "frontend"
+  ]
 }

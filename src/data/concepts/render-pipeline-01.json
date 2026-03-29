@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The step-by-step process the browser takes to convert raw HTML, CSS, and JS into actual pixels on your screen.",
     "analogy": "An artist's workflow: first they sketch the outline (DOM), then they decide the colors (CSSOM), then they draw the grid (Layout), and finally they fill in the paint (Painting).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) DOM + style recalcs",
+    "space_complexity": "O(N) render pipeline stages",
     "when_to_use": [
       "Optimizing animations for 60FPS (avoiding 'Jank')",
       "Understanding the impact of JavaScript on loading performance",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert \"Layout\" in pipeline[2]\nassert \"Paint\" in pipeline[3]\nprint(\"PASS\")"
   },
-  "related": ["dom-internals-01", "cssom-01", "reflow-vs-repaint-01"],
-  "tags": ["rendering", "browser", "performance", "pipeline", "frontend"]
+  "related": [
+    "dom-internals-01",
+    "cssom-01",
+    "reflow-vs-repaint-01"
+  ],
+  "tags": [
+    "rendering",
+    "browser",
+    "performance",
+    "pipeline",
+    "frontend"
+  ]
 }

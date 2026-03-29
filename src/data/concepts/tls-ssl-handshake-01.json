@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A sequence of steps to establish a secure, encrypted connection between a client and a server using public-key cryptography.",
     "analogy": "Two strangers meeting to exchange a private secret: they first prove their identity with IDs (certificates), then agree on a secret code (session key) using a complex locked-box ritual.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(R) handshake round trips",
+    "space_complexity": "O(K) key material",
     "when_to_use": [
       "Securing any sensitive data transfer (HTTPS, SFTP, SMTPS)",
       "Verifying the identity of a server to prevent Man-in-the-Middle attacks",
@@ -40,6 +40,17 @@
     ],
     "test_code": "order = tls_handshake_order()\nassert order[0] == \"ClientHello\"\nassert \"Client\" in order[2]\nassert \"Finished\" in order[4]\nprint(\"PASS\")"
   },
-  "related": ["http-versions-01", "dns-resolution-01", "tcp-vs-udp-01"],
-  "tags": ["tls", "ssl", "security", "encryption", "handshake", "backend"]
+  "related": [
+    "http-versions-01",
+    "dns-resolution-01",
+    "tcp-vs-udp-01"
+  ],
+  "tags": [
+    "tls",
+    "ssl",
+    "security",
+    "encryption",
+    "handshake",
+    "backend"
+  ]
 }

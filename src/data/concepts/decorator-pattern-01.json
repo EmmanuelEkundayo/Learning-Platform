@@ -9,7 +9,7 @@
     "intuition": "A structural pattern that allows behavior to be added to an individual object, dynamically, without affecting the behavior of other objects from the same class.",
     "analogy": "A coffee order: you start with a 'Basic Coffee'. You 'decorate' it with 'Milk', then 'decorate' that with 'Sugar', then 'decorate' that with 'Whipped Cream'. Each decorator wraps the item before it, adding its own cost and feature.",
     "time_complexity": "O(D) where D is number of decorators",
-    "space_complexity": "N/A",
+    "space_complexity": "O(D) decorator chain",
     "when_to_use": [
       "Adding features like 'Encryption' or 'Compression' to a standard file stream",
       "Implementing UI elements that can be 'Scrolled', then 'Bordered', then 'Shadowed'",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"dynam\" in ans.lower()\nassert check(\"dynamically\")\nprint(\"PASS\")"
   },
-  "related": ["strategy-pattern-01", "adapter-pattern-01", "proxy-pattern-01"],
-  "tags": ["design-patterns", "structural", "decorator", "composition", "wrappers", "software-engineering"]
+  "related": [
+    "strategy-pattern-01",
+    "adapter-pattern-01",
+    "proxy-pattern-01"
+  ],
+  "tags": [
+    "design-patterns",
+    "structural",
+    "decorator",
+    "composition",
+    "wrappers",
+    "software-engineering"
+  ]
 }

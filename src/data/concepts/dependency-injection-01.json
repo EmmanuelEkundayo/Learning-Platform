@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A design pattern where an object's dependencies are provided ('injected') from the outside, rather than the object creating them itself.",
     "analogy": "Building a Lego set: instead of the Lego house having to build its own front door and windows, you (the builder) just snap existing doors and windows (dependencies) onto the house.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(G) dependency graph resolution",
+    "space_complexity": "O(G) dependency graph",
     "when_to_use": [
       "Writing unit tests (inject a 'MockDatabase' instead of a real one)",
       "Keeping your code decoupled and easy to refactor",
@@ -39,6 +39,17 @@
     ],
     "test_code": "class MockDB: pass\nus = UserService(MockDB())\nassert isinstance(us.db, MockDB)\nprint(\"PASS\")"
   },
-  "related": ["repository-pattern-01", "middleware-patterns-01", "orm-patterns-01"],
-  "tags": ["dependency-injection", "di", "ioc", "testing", "design-patterns", "backend"]
+  "related": [
+    "repository-pattern-01",
+    "middleware-patterns-01",
+    "orm-patterns-01"
+  ],
+  "tags": [
+    "dependency-injection",
+    "di",
+    "ioc",
+    "testing",
+    "design-patterns",
+    "backend"
+  ]
 }

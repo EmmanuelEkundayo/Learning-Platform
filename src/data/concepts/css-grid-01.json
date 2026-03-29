@@ -9,7 +9,7 @@
     "intuition": "A two-dimensional layout system for the web, allowing you to align content into rows and columns simultaneously with precise control over sizing and placement.",
     "analogy": "A spreadsheet or a piece of graph paper: you define the columns and rows first, and then you place your 'stickers' (content) into specific cells or ranges of cells.",
     "time_complexity": "O(N*M) for grid resolution",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N*M) grid cells",
     "when_to_use": [
       "Complex page layouts with overlapping elements",
       "Creating 'Photo Galleries' with varying tile sizes",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"columns\"\nassert check(\"columns\")\nprint(\"PASS\")"
   },
-  "related": ["flexbox-algorithm-01", "container-queries-01", "responsive-design-01"],
-  "tags": ["css", "grid", "layout", "2d", "responsive", "frontend"]
+  "related": [
+    "flexbox-algorithm-01",
+    "container-queries-01",
+    "responsive-design-01"
+  ],
+  "tags": [
+    "css",
+    "grid",
+    "layout",
+    "2d",
+    "responsive",
+    "frontend"
+  ]
 }

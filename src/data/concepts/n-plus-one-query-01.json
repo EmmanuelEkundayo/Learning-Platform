@@ -9,7 +9,7 @@
     "intuition": "A common database performance anti-pattern where an application makes one query to get a list of items, and then one additional query PER item to fetch related data.",
     "analogy": "Grocery shopping: instead of buying 10 items in one trip (1 query), you drive to the store for a bag of chips (1), drive home, then drive back for a soda (1), drive home... doing 11 trips total for 10 items.",
     "time_complexity": "O(N) queries instead of O(1)",
-    "space_complexity": "N/A",
+    "space_complexity": "O(N) extra queries fired",
     "when_to_use": [
       "Detecting why a page with a simple list is taking 10 seconds to load",
       "Optimization phase of any application using an ORM (Active Record/Data Mapper)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() in [\"joinedload\", \"include\", \"prefetch_related\"]\nassert check(\"joinedload\")\nprint(\"PASS\")"
   },
-  "related": ["sql-joins-01", "query-optimization-01", "lazy-vs-eager-loading-01"],
-  "tags": ["orm", "database", "performance", "n+1", "sql", "backend"]
+  "related": [
+    "sql-joins-01",
+    "query-optimization-01",
+    "lazy-vs-eager-loading-01"
+  ],
+  "tags": [
+    "orm",
+    "database",
+    "performance",
+    "n+1",
+    "sql",
+    "backend"
+  ]
 }

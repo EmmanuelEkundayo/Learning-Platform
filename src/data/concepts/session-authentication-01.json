@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A stateful authentication method where the server stores a session ID and sends it to the client as a cookie, which is then sent back with every request.",
     "analogy": "A coat check at a club: you give your coat (login), get a numbered ticket (session ID), and later show that ticket to get your coat back. The club keeps the coat in the back (server state).",
-    "time_complexity": "N/A",
+    "time_complexity": "O(1) session lookup",
     "space_complexity": "O(N) users on the server",
     "when_to_use": [
       "Traditional web apps where the frontend and backend are on the same domain",
@@ -40,6 +40,16 @@
     ],
     "test_code": "class MockStore:\n    def get(self, k): return {\"name\": \"Alice\"} if k == \"123\" else None\nsession_store = MockStore()\nclass MockReq:\n    def __init__(self, c): self.cookies = c\nassert \"Alice\" in check_auth(MockReq({\"sessionid\": \"123\"}))\nprint(\"PASS\")"
   },
-  "related": ["jwt-authentication-01", "oauth2-01", "redis-data-structures-01"],
-  "tags": ["authentication", "sessions", "cookies", "stateful", "backend"]
+  "related": [
+    "jwt-authentication-01",
+    "oauth2-01",
+    "redis-data-structures-01"
+  ],
+  "tags": [
+    "authentication",
+    "sessions",
+    "cookies",
+    "stateful",
+    "backend"
+  ]
 }

@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A collaborative process where team members examine each other's code to catch bugs, improve quality, and share knowledge.",
     "analogy": "A proofreader for a book: even the best author makes typos. A second pair of eyes finds things the author was 'too close' to see, and they help the author write in a way that the whole team can understand.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) diff lines reviewed",
+    "space_complexity": "O(C) comments stored",
     "when_to_use": [
       "Every time a Pull Request is opened",
       "Onboarding new team members to learn the style guide",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return int(ans) <= 500\nassert check(\"400\")\nprint(\"PASS\")"
   },
-  "related": ["git-internals-dag-01", "dry-kiss-yagni-01", "semantic-versioning-01"],
-  "tags": ["collaboration", "code-review", "mentorship", "quality", "teamwork", "software-engineering"]
+  "related": [
+    "git-internals-dag-01",
+    "dry-kiss-yagni-01",
+    "semantic-versioning-01"
+  ],
+  "tags": [
+    "collaboration",
+    "code-review",
+    "mentorship",
+    "quality",
+    "teamwork",
+    "software-engineering"
+  ]
 }

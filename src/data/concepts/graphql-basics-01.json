@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A query language for your API that allows clients to request exactly the data they need and nothing more.",
     "analogy": "Ordering from a bespoke sandwich shop: you tell the chef exactly what toppings you want, instead of picking from a pre-set list of sandwiches where you might have to pick off the onions.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(R) resolver chain depth",
+    "space_complexity": "O(R) resolver results",
     "when_to_use": [
       "Solving under-fetching (multiple REST calls for one view) and over-fetching (getting too many fields)",
       "When the frontend needs highly flexible, nested data structures",
@@ -41,6 +41,16 @@
     ],
     "test_code": "assert \"type User\" in typedefs\nassert \"posts: [Post]\" in typedefs\nassert \"type Post\" in typedefs\nprint(\"PASS\")"
   },
-  "related": ["rest-principles-01", "grpc-01", "query-optimization-01"],
-  "tags": ["graphql", "api", "query-language", "data-fetching", "backend"]
+  "related": [
+    "rest-principles-01",
+    "grpc-01",
+    "query-optimization-01"
+  ],
+  "tags": [
+    "graphql",
+    "api",
+    "query-language",
+    "data-fetching",
+    "backend"
+  ]
 }

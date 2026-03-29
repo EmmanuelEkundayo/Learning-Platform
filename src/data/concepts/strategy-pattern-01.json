@@ -9,7 +9,7 @@
     "intuition": "A behavioral pattern that turns a set of behaviors into objects and makes them interchangeable inside an original context object.",
     "analogy": "A versatile gaming mouse: you can swap the side-panels. If you're playing an FPS, you snap on the '2-button' panel (**Strategy A**). If you're playing an MMO, you snap on the '12-button' panel (**Strategy B**). The mouse (Context) stays the same, but its behavior changes instantly.",
     "time_complexity": "O(1) swap",
-    "space_complexity": "N/A",
+    "space_complexity": "O(S) strategies registered",
     "when_to_use": [
       "Providing different sorting algorithms (QuickSort vs BubbleSort) that a user can choose at runtime",
       "Handling different payment methods (PayPal, CreditCard, Crypto) in an e-commerce checkout",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"open\" in ans.lower() and \"close\" in ans.lower()\nassert check(\"Open-Closed\")\nprint(\"PASS\")"
   },
-  "related": ["observer-pattern-01", "decorator-pattern-01", "solid-principles-01"],
-  "tags": ["design-patterns", "behavioral", "strategy", "interchangeable", "polymorphism", "software-engineering"]
+  "related": [
+    "observer-pattern-01",
+    "decorator-pattern-01",
+    "solid-principles-01"
+  ],
+  "tags": [
+    "design-patterns",
+    "behavioral",
+    "strategy",
+    "interchangeable",
+    "polymorphism",
+    "software-engineering"
+  ]
 }

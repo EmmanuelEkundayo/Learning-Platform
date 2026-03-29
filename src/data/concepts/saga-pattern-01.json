@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A way to manage data consistency across multiple microservices by using a sequence of local transactions and compensating actions if one step fails.",
     "analogy": "Booking a vacation: Step 1: Book flight. Step 2: Book hotel. Step 3: Book car. If Step 3 fails, the 'Saga' automatically calls the hotel and airline to cancel the previous bookings.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(S) saga steps",
+    "space_complexity": "O(S) saga state",
     "when_to_use": [
       "Distributed transactions where traditional 'Two-Phase Commit' is too slow or unsupported",
       "Long-lived business processes that span multiple services",
@@ -39,6 +39,16 @@
     ],
     "test_code": "assert \"Orchestration\" in saga_types[0]\nassert \"Choreography\" in saga_types[1]\nprint(\"PASS\")"
   },
-  "related": ["event-sourcing-01", "cqrs-01", "database-transactions-01"],
-  "tags": ["saga", "microservices", "distributed-transactions", "reliability", "backend"]
+  "related": [
+    "event-sourcing-01",
+    "cqrs-01",
+    "database-transactions-01"
+  ],
+  "tags": [
+    "saga",
+    "microservices",
+    "distributed-transactions",
+    "reliability",
+    "backend"
+  ]
 }

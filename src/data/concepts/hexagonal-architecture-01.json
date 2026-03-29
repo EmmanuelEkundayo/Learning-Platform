@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An architectural pattern that separates the core application from external world concerns using 'Ports' (interfaces) and 'Adapters' (implementations).",
     "analogy": "A computer motherboard: the CPU (Application) doesn't know about the 4K Monitor (External API) or the Clicky Keyboard (User Input). It just has 'Slots' (Ports). You can plug in a standard USB Adapter, and as long as it fits the port, the CPU can communicate with anything.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per port adapter call",
+    "space_complexity": "O(P) port definitions",
     "when_to_use": [
       "Building microservices that need to be tested without a database",
       "Supporting multiple 'Driving' actors (a CLI, a Web API, and a GUI) for the same core logic",
@@ -39,6 +39,16 @@
     ],
     "test_code": "assert \"port\" in solution.lower()\nassert \"adapter\" in solution.lower()\nprint(\"PASS\")"
   },
-  "related": ["clean-architecture-01", "adapter-pattern-01", "domain-driven-design-01"],
-  "tags": ["architecture", "hexagonal", "ports-and-adapters", "decoupling", "software-engineering"]
+  "related": [
+    "clean-architecture-01",
+    "adapter-pattern-01",
+    "domain-driven-design-01"
+  ],
+  "tags": [
+    "architecture",
+    "hexagonal",
+    "ports-and-adapters",
+    "decoupling",
+    "software-engineering"
+  ]
 }

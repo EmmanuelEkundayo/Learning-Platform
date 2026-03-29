@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A network of geographically distributed servers that work together to deliver web content (images, videos, JS) from the location closest to the user.",
     "analogy": "Ordering a pizza: instead of one kitchen in Italy delivery to every house in the world, the pizza company has local kitchens in every city so your pizza arrives hot and fast.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) cache hit; O(N) on miss",
+    "space_complexity": "O(N) cached assets",
     "when_to_use": [
       "Serving static assets (images, CSS, JS) to a global audience",
       "Reducing the load on your origin (main) server",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"bust\"\nassert check(\"Bust\")\nprint(\"PASS\")"
   },
-  "related": ["dns-resolution-01", "rate-limiting-01", "http-versions-01"],
-  "tags": ["cdn", "caching", "performance", "networking", "backend"]
+  "related": [
+    "dns-resolution-01",
+    "rate-limiting-01",
+    "http-versions-01"
+  ],
+  "tags": [
+    "cdn",
+    "caching",
+    "performance",
+    "networking",
+    "backend"
+  ]
 }

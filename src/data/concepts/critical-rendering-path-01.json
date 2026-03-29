@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The set of steps the browser must perform to convert HTML, CSS, and JavaScript into pixels on the screen for the first time.",
     "analogy": "The 'shortest path' to opening a store: you need the keys (HTML), the sign (CSS), and the cash register (JS). You can't open until all three are ready and at the door.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) DOM + CSSOM nodes",
+    "space_complexity": "O(N) render tree nodes",
     "when_to_use": [
       "Optimizing 'Time to First Paint'",
       "Reducing the number of 'render-blocking' resources",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"defer\" or ans.lower() == \"async\"\nassert check(\"defer\")\nprint(\"PASS\")"
   },
-  "related": ["render-pipeline-01", "dom-internals-01", "browser-caching-01"],
-  "tags": ["performance", "crp", "rendering", "optimization", "web-vitals", "frontend"]
+  "related": [
+    "render-pipeline-01",
+    "dom-internals-01",
+    "browser-caching-01"
+  ],
+  "tags": [
+    "performance",
+    "crp",
+    "rendering",
+    "optimization",
+    "web-vitals",
+    "frontend"
+  ]
 }

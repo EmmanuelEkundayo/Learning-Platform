@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A file that tells the browser how to map the optimized, minified code it's running back to the original, readable source code you wrote.",
     "analogy": "A cipher key: the browser is reading a scrambled, coded message (minified JS). The Source Map is the secret key that allows the developer (via DevTools) to see the original, clear message so they can find mistakes.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) at build generation",
+    "space_complexity": "O(M) mapping table",
     "when_to_use": [
       "Debugging errors in production using the original file names and line numbers",
       "Tracking performance bottlenecks in minified code",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"map\"\nassert check(\"map\")\nprint(\"PASS\")"
   },
-  "related": ["transpilation-babel-01", "bundlers-internals-01", "profiling-benchmarking-01"],
-  "tags": ["debugging", "javascript", "source-maps", "tooling", "minification", "frontend"]
+  "related": [
+    "transpilation-babel-01",
+    "bundlers-internals-01",
+    "profiling-benchmarking-01"
+  ],
+  "tags": [
+    "debugging",
+    "javascript",
+    "source-maps",
+    "tooling",
+    "minification",
+    "frontend"
+  ]
 }

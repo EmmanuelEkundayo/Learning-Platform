@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The process of modifying a database query and its environment to ensure it executes in the most efficient way possible, minimizing resource usage and latency.",
     "analogy": "Planning the most efficient route for a delivery truck to visit 10 houses: instead of visiting them in a random order, you use a GPS (Query Optimizer) to find the path that uses the least fuel and time.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(log N) with index; O(N) without",
+    "space_complexity": "O(1) index overhead",
     "when_to_use": [
       "When slow database queries are causing API timeouts or high CPU usage",
       "Before scaling a database to handle higher traffic",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"EXPLAIN\"\nassert check(\"EXPLAIN\")\nprint(\"PASS\")"
   },
-  "related": ["database-indexing-01", "sql-joins-01", "postgresql-internals-01"],
-  "tags": ["database", "query", "optimization", "explain-plan", "backend"]
+  "related": [
+    "database-indexing-01",
+    "sql-joins-01",
+    "postgresql-internals-01"
+  ],
+  "tags": [
+    "database",
+    "query",
+    "optimization",
+    "explain-plan",
+    "backend"
+  ]
 }

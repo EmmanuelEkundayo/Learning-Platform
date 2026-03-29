@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Exploiting misconfigured Cross-Origin Resource Sharing (CORS) policies to allow a malicious site to read sensitive data from your API.",
     "analogy": "A neighbor's ladder: CORS is like a rule saying you can only borrow a ladder if you're a trusted neighbor. If the rule is accidentally set to 'Let anyone on Earth borrow the ladder', a thief from another country can walk into your yard and climb into your window.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per origin validation",
+    "space_complexity": "O(1) — policy state",
     "when_to_use": [
       "Configuring which domains are allowed to call your API (e.g., allowing your frontend at `app.com` but blocking `hacker.com`)",
       "Debugging 'Blocked by CORS Policy' errors in the browser console",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"OPTIONS\"\nassert check(\"OPTIONS\")\nprint(\"PASS\")"
   },
-  "related": ["cors-01", "csrf-01", "owasp-top-10-01"],
-  "tags": ["security", "cors", "web", "api", "browsers", "backend"]
+  "related": [
+    "cors-01",
+    "csrf-01",
+    "owasp-top-10-01"
+  ],
+  "tags": [
+    "security",
+    "cors",
+    "web",
+    "api",
+    "browsers",
+    "backend"
+  ]
 }

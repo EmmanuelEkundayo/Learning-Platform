@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Deployments manage the 'Desired State' of your pods (how many copies), while Services provide a stable network address to reach those pods even as they come and go.",
     "analogy": "A phone operator: the 'Deployment' ensures there are always 5 operators sitting at desks. The 'Service' is the 1-800 number people call. When someone calls the number, the service routes them to whichever operator is free.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(P) pods managed",
+    "space_complexity": "O(R) replica set history",
     "when_to_use": [
       "Exposing a group of web pods to the internal cluster network (ClusterIP)",
       "Exposing an application to the internet via a cloud provider's load balancer (LoadBalancer)",
@@ -39,6 +39,18 @@
     ],
     "test_code": "def check(ans): return \"roll\" in ans.lower()\nassert check(\"Rolling\")\nprint(\"PASS\")"
   },
-  "related": ["kubernetes-basics-01", "helm-basics-01", "load-balancer-internals-01"],
-  "tags": ["kubernetes", "k8s", "deployment", "service", "scaling", "devops", "software-engineering"]
+  "related": [
+    "kubernetes-basics-01",
+    "helm-basics-01",
+    "load-balancer-internals-01"
+  ],
+  "tags": [
+    "kubernetes",
+    "k8s",
+    "deployment",
+    "service",
+    "scaling",
+    "devops",
+    "software-engineering"
+  ]
 }

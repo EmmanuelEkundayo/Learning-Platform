@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A component that allows you to declaratively 'wait' for something (like data or code) to load and show a fallback UI (like a spinner) in the meantime.",
     "analogy": "Waiting for a plane: you arrive at the gate (Suspense Boundary). If the plane isn't there yet (Loading), you wait in the lounge (Fallback). Once the plane arrives (Resolved), you board and fly (Rendered Content).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(B) boundary checks",
+    "space_complexity": "O(P) pending promises",
     "when_to_use": [
       "Showing skeletons while data is fetching",
       "Handling 'Lazy Loaded' components",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"fallback\"\nassert check(\"fallback\")\nprint(\"PASS\")"
   },
-  "related": ["concurrent-mode-01", "react-fiber-01", "code-splitting-react-01"],
-  "tags": ["react", "suspense", "loading", "async", "ux", "frontend"]
+  "related": [
+    "concurrent-mode-01",
+    "react-fiber-01",
+    "code-splitting-react-01"
+  ],
+  "tags": [
+    "react",
+    "suspense",
+    "loading",
+    "async",
+    "ux",
+    "frontend"
+  ]
 }

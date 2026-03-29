@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A way to encapsulate a 'private' DOM tree inside an element, completely isolated from the main document's CSS and JavaScript.",
     "analogy": "A tinted car window: from the outside (main DOM), you just see a car. Inside (Shadow DOM), there is a whole dashboard, seats, and people that are hidden from public view and don't get 'wet' if it rains outside (CSS leaked).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) shadow tree nodes",
+    "space_complexity": "O(N) encapsulated styles",
     "when_to_use": [
       "Building reusable Web Components",
       "Creating widgets or libraries (like a Video Player) that shouldn't be affected by the host site's styles",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return \"attach\" in ans.lower() and \"shadow\" in ans.lower()\nassert check(\"attachShadow\")\nprint(\"PASS\")"
   },
-  "related": ["web-components-01", "dom-internals-01", "cssom-01"],
-  "tags": ["dom", "web-components", "encapsulation", "shadow-dom", "frontend"]
+  "related": [
+    "web-components-01",
+    "dom-internals-01",
+    "cssom-01"
+  ],
+  "tags": [
+    "dom",
+    "web-components",
+    "encapsulation",
+    "shadow-dom",
+    "frontend"
+  ]
 }

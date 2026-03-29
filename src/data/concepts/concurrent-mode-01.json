@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A set of features in React 18 that allows React to prepare multiple versions of your UI at the same time and switch between them without blocking the main thread.",
     "analogy": "A chef cooking multiple dishes at once (Multitasking): they can start the pasta, then while it's boiling, start the sauce. If a fire starts (Urgent User Input), they drop everything to fix it immediately, then go back to the food.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(U) units of work",
+    "space_complexity": "O(F) fiber nodes",
     "when_to_use": [
       "Responsive UIs during heavy data processing",
       "Using `useTransition` to keep inputs fast while filtering large lists",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"transition\" in ans.lower()\nassert check(\"useTransition\")\nprint(\"PASS\")"
   },
-  "related": ["react-fiber-01", "suspense-react-01", "virtual-dom-reconciliation-01"],
-  "tags": ["react", "concurrent", "performance", "hooks", "scheduling", "frontend"]
+  "related": [
+    "react-fiber-01",
+    "suspense-react-01",
+    "virtual-dom-reconciliation-01"
+  ],
+  "tags": [
+    "react",
+    "concurrent",
+    "performance",
+    "hooks",
+    "scheduling",
+    "frontend"
+  ]
 }

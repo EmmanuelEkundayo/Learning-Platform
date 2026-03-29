@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Two different systems for dividing JavaScript into modules: CommonJS (Node.js style) is synchronous and used for the server; ESM (Modern browser style) is asynchronous and standard.",
     "analogy": "Ordering a kit: CommonJS is like walking into a shop and waiting at the counter while they grab every part (Synchronous). ESM is like ordering parts online; you can keep doing other things while they arrive separately, and you only assemble when everything is there (Asynchronous).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) static deps at parse time",
+    "space_complexity": "O(D) module graph",
     "when_to_use": [
       "Deciding between `require()` (CJS) and `import` (ESM)",
       "Configuring build tools like Vite or Webpack",
@@ -39,6 +39,17 @@
     ],
     "test_code": "res = identify_systems()\nassert \"common\" in res['require(\"module\")'].lower()\nassert \"esm\" in res['import x from \"module\"'].lower()\nprint(\"PASS\")"
   },
-  "related": ["tree-shaking-01", "bundlers-internals-01", "javascript-core-01"],
-  "tags": ["modules", "esm", "cjs", "bundling", "javascript", "frontend"]
+  "related": [
+    "tree-shaking-01",
+    "bundlers-internals-01",
+    "javascript-core-01"
+  ],
+  "tags": [
+    "modules",
+    "esm",
+    "cjs",
+    "bundling",
+    "javascript",
+    "frontend"
+  ]
 }

@@ -9,7 +9,7 @@
     "intuition": "Objects used in place of real dependencies (like a Database or API) during testing to speed up tests and isolate the unit under test.",
     "analogy": "A crash test dummy: instead of putting a real person in the car (A real database), you put a dummy that looks and feels like a person. It's safer, cheaper, and you can crash 100 times a day (Run 100 tests per second).",
     "time_complexity": "O(1) setup",
-    "space_complexity": "N/A",
+    "space_complexity": "O(D) test double definitions",
     "when_to_use": [
       "Testing logic that depends on a slow network API call",
       "Isolating a function from a complex, hard-to-set-up third-party library",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"mock\"\nassert check(\"Mock\")\nprint(\"PASS\")"
   },
-  "related": ["tdd-cycle-01", "contract-testing-01", "dependency-inversion-01"],
-  "tags": ["testing", "mocks", "stubs", "fakes", "isolation", "software-engineering"]
+  "related": [
+    "tdd-cycle-01",
+    "contract-testing-01",
+    "dependency-inversion-01"
+  ],
+  "tags": [
+    "testing",
+    "mocks",
+    "stubs",
+    "fakes",
+    "isolation",
+    "software-engineering"
+  ]
 }

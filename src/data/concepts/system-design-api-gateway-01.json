@@ -9,7 +9,7 @@
     "intuition": "A single entry point for all client requests in a microservices architecture, handling cross-cutting concerns like authentication, routing, and rate limiting.",
     "analogy": "A hotel concierge: guests (Clients) don't go talk to the plumbers, chefs, or cleaners (Microservices) directly. They talk to the concierge (Gateway), who checks their room key (Auth), handles their request, and tells the right staff member what to do.",
     "time_complexity": "O(1) routing overhead",
-    "space_complexity": "N/A",
+    "space_complexity": "O(R) routing rules",
     "when_to_use": [
       "Microservices architectures with 10+ internal services",
       "Implementing centralized Security (JWT validation, CORS)",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"limit\" in ans.lower()\nassert check(\"Limiting\")\nprint(\"PASS\")"
   },
-  "related": ["load-balancer-internals-01", "service-mesh-01", "system-design-rate-limiter-01"],
-  "tags": ["system-design", "api-gateway", "microservices", "routing", "security", "software-engineering"]
+  "related": [
+    "load-balancer-internals-01",
+    "service-mesh-01",
+    "system-design-rate-limiter-01"
+  ],
+  "tags": [
+    "system-design",
+    "api-gateway",
+    "microservices",
+    "routing",
+    "security",
+    "software-engineering"
+  ]
 }

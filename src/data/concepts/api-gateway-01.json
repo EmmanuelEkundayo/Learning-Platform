@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A single entry point for all client requests that routes them to the correct microservice, handles authentication, and performs cross-cutting tasks.",
     "analogy": "A hotel concierge desk: instead of you going into the basement to find the plumber or up to the 10th floor to find the maid, you just talk to the concierge and they handle everything behind the scenes.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) routing overhead",
+    "space_complexity": "O(N) active connections",
     "when_to_use": [
       "Microservice architectures where the client shouldn't know about dozens of internal URLs",
       "Consolidating Auth, Rate Limiting, and Logging into one place",
@@ -40,6 +40,17 @@
     ],
     "test_code": "assert \"Limiting\" in gateway_tasks[1]\nassert \"Routing\" in gateway_tasks[2]\nprint(\"PASS\")"
   },
-  "related": ["rest-api-design-01", "oauth2-01", "load-balancing-01"],
-  "tags": ["api-gateway", "microservices", "proxy", "routing", "infrastructure", "backend"]
+  "related": [
+    "rest-api-design-01",
+    "oauth2-01",
+    "load-balancing-01"
+  ],
+  "tags": [
+    "api-gateway",
+    "microservices",
+    "proxy",
+    "routing",
+    "infrastructure",
+    "backend"
+  ]
 }

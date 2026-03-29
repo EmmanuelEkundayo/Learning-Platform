@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The internal engine of React 16+ that allows the reconciliation process to be broken into small chunks, paused, and prioritized, ensuring the main thread stays responsive for user interactions.",
     "analogy": "A chef with a 'pause' button: in the old engine (Stack), once the chef started a 10-course meal, they couldn't stop until it was finished. With Fiber, the chef can chop one onion, check if a customer needs water (User Interaction), then go back to chopping.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(W) work units in fiber tree",
+    "space_complexity": "O(F) fiber nodes",
     "when_to_use": [
       "Understanding Concurrent Rendering features",
       "Optimizing apps with heavy computations that freeze the UI",
@@ -24,7 +24,13 @@
     "type": "timeline-step",
     "config": {
       "mode": "fiber-work-loop",
-      "show_priority_levels": ["Immediate", "UserBlocking", "Normal", "Low", "Idle"],
+      "show_priority_levels": [
+        "Immediate",
+        "UserBlocking",
+        "Normal",
+        "Low",
+        "Idle"
+      ],
       "show_work_in_progress_tree": true,
       "step_annotations": true
     }
@@ -39,6 +45,17 @@
     ],
     "test_code": "assert \"Render\" in phases[0]\nassert \"Commit\" in phases[1]\nprint(\"PASS\")"
   },
-  "related": ["virtual-dom-reconciliation-01", "concurrent-mode-01", "suspense-react-01"],
-  "tags": ["react", "fiber", "reconciliation", "scheduling", "concurrent", "frontend"]
+  "related": [
+    "virtual-dom-reconciliation-01",
+    "concurrent-mode-01",
+    "suspense-react-01"
+  ],
+  "tags": [
+    "react",
+    "fiber",
+    "reconciliation",
+    "scheduling",
+    "concurrent",
+    "frontend"
+  ]
 }

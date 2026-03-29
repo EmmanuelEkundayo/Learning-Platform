@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The process of organizing data in a database to reduce redundancy and improve data integrity by splitting tables and defining relationships.",
     "analogy": "Instead of writing your address on every single paycheck you receive, you list it once in your 'employee profile' and your paychecks just refer to your ID. If you move, you only change it in one place.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(N) query joins needed",
+    "space_complexity": "O(N) normalized rows",
     "when_to_use": [
       "Designing a new relational database schema",
       "Fixing 'update anomalies' (where you change info in one place but forget others)",
@@ -41,6 +41,16 @@
     ],
     "test_code": "assert get_required_nf(\"No repeating groups, every cell has a single value\") == \"1NF\"\nassert get_required_nf(\"No partial functional dependencies (attributes depend on full PK)\") == \"2NF\"\nassert get_required_nf(\"No transitive dependencies (attributes only depend on PK)\") == \"3NF\"\nprint(\"PASS\")"
   },
-  "related": ["sql-joins-01", "database-indexing-01", "database-sharding-01"],
-  "tags": ["database", "normalization", "schema-design", "integrity", "backend"]
+  "related": [
+    "sql-joins-01",
+    "database-indexing-01",
+    "database-sharding-01"
+  ],
+  "tags": [
+    "database",
+    "normalization",
+    "schema-design",
+    "integrity",
+    "backend"
+  ]
 }

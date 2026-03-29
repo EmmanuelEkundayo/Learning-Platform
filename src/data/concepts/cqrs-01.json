@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Splitting your application into two separate models: one for 'Commands' (changing data) and one for 'Queries' (reading data).",
     "analogy": "A physical library: the 'Write' system is the librarians putting books on shelves. The 'Read' system is the public index catalog. They are completely different tools optimized for different speeds.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) command dispatch; O(Q) query read",
+    "space_complexity": "O(E) event history",
     "when_to_use": [
       "Large-scale systems where read performance needs are vastly different from write performance",
       "When the same data needs to be presented in many different formats to users",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert actions[\"GetAccountBalance\"] == \"Query\"\nassert actions[\"TransferMoney\"] == \"Command\"\nprint(\"PASS\")"
   },
-  "related": ["event-sourcing-01", "saga-pattern-01", "eventual-consistency-01"],
-  "tags": ["cqrs", "architecture", "distributed-systems", "scalability", "backend"]
+  "related": [
+    "event-sourcing-01",
+    "saga-pattern-01",
+    "eventual-consistency-01"
+  ],
+  "tags": [
+    "cqrs",
+    "architecture",
+    "distributed-systems",
+    "scalability",
+    "backend"
+  ]
 }

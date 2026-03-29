@@ -8,8 +8,8 @@
   "card": {
     "intuition": "An automated message a server sends to your app immediately after a specific event happens — essentially a 'reverse API' call.",
     "analogy": "Getting a text notification when your Uber arrives: instead of you opening the app every 10 seconds to check, the Uber server 'calls' your phone when the event (arrival) triggers.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per event delivery",
+    "space_complexity": "O(H) webhook handlers",
     "when_to_use": [
       "Getting notified when a payment is successful (Stripe/PayPal)",
       "Triggering a build when code is pushed to GitHub",
@@ -40,6 +40,17 @@
     ],
     "test_code": "def check(e, status): return e == \"succeeded\" and status == 200\nassert check(\"succeeded\", 200)\nprint(\"PASS\")"
   },
-  "related": ["websockets-01", "rest-principles-01", "event-sourcing-01"],
-  "tags": ["webhooks", "callbacks", "events", "api", "integration", "backend"]
+  "related": [
+    "websockets-01",
+    "rest-principles-01",
+    "event-sourcing-01"
+  ],
+  "tags": [
+    "webhooks",
+    "callbacks",
+    "events",
+    "api",
+    "integration",
+    "backend"
+  ]
 }

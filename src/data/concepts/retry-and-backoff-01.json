@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A strategy for handling transient failures by retrying the operation with increasing wait times between attempts to avoid overwhelming the target service.",
     "analogy": "Knocking on a friend's door who is sleeping: you knock once, wait 10 seconds. Knock again, wait 60 seconds. Knock a third time, wait 5 minutes. You wait longer each time so you don't become annoying.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(R) retry attempts",
+    "space_complexity": "O(1) backoff state",
     "when_to_use": [
       "Handling 'flaky' network connections",
       "Dealing with Rate Limiting (429 Too Many Requests) from 3rd party APIs",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert \"8\" in delays[2]\nassert \"16\" in delays[3]\nprint(\"PASS\")"
   },
-  "related": ["circuit-breaker-01", "rate-limiting-01", "dead-letter-queues-01"],
-  "tags": ["reliability", "fault-tolerance", "networks", "resilience", "backend"]
+  "related": [
+    "circuit-breaker-01",
+    "rate-limiting-01",
+    "dead-letter-queues-01"
+  ],
+  "tags": [
+    "reliability",
+    "fault-tolerance",
+    "networks",
+    "resilience",
+    "backend"
+  ]
 }

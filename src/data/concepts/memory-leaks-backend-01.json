@@ -8,7 +8,7 @@
   "card": {
     "intuition": "A situation where a program fails to release memory it no longer needs, causing the application's RAM usage to grow over time until it eventually crashes (OOM).",
     "analogy": "A restaurant that never clears the tables: eventually, new customers can't sit down because every table is covered in old dishes and leftovers, even though those people left hours ago.",
-    "time_complexity": "N/A",
+    "time_complexity": "O(1) detection per allocation",
     "space_complexity": "O(Infinity) over time",
     "when_to_use": [
       "Debugging 'Out of Memory' (OOM) errors in long-running server processes",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.lower() in [\"linearly\", \"continuously\", \"infinitely\"]\nassert check(\"linearly\")\nprint(\"PASS\")"
   },
-  "related": ["profiling-benchmarking-01", "event-loop-nodejs-01", "worker-threads-01"],
-  "tags": ["performance", "memory", "debugging", "leak", "optimization", "backend"]
+  "related": [
+    "profiling-benchmarking-01",
+    "event-loop-nodejs-01",
+    "worker-threads-01"
+  ],
+  "tags": [
+    "performance",
+    "memory",
+    "debugging",
+    "leak",
+    "optimization",
+    "backend"
+  ]
 }

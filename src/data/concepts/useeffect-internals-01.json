@@ -8,8 +8,8 @@
   "card": {
     "intuition": "The hook that allows you to perform side effects (data fetching, subscriptions, DOM mutations) in functional components, running AFTER the browser has painted the screen.",
     "analogy": "A 'Post-it' note on the back of a painting: the painter finishes the artwork (renders the UI), hangs it on the wall (paints the screen), and only THEN reads the note to see if they need to call the gallery or turn on the spotlights (run effects).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(D) dependency array size",
+    "space_complexity": "O(E) active effects",
     "when_to_use": [
       "Fetching data from an API",
       "Setting up a WebSocket connection",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"clean\" in ans.lower()\nassert check(\"cleanup\")\nprint(\"PASS\")"
   },
-  "related": ["usestate-internals-01", "component-lifecycle-01", "usememo-usecallback-01"],
-  "tags": ["react", "useEffect", "hooks", "side-effects", "lifecycle", "frontend"]
+  "related": [
+    "usestate-internals-01",
+    "component-lifecycle-01",
+    "usememo-usecallback-01"
+  ],
+  "tags": [
+    "react",
+    "useEffect",
+    "hooks",
+    "side-effects",
+    "lifecycle",
+    "frontend"
+  ]
 }

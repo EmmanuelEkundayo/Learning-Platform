@@ -9,7 +9,7 @@
     "intuition": "A powerful automation platform built into GitHub that lets you create custom workflows (CI/CD) triggered by events like push, pull request, or issue creation.",
     "analogy": "A smart home system for your code: if the front door opens (A push to main), turn on the lights (Run tests), start the oven (Build Docker), and notify the owner (Send Slack message).",
     "time_complexity": "O(N) actions in a job",
-    "space_complexity": "N/A",
+    "space_complexity": "O(A) artifact storage",
     "when_to_use": [
       "Automating tests for GitHub-hosted repositories",
       "Publishing NPM packages or Docker images automatically",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return ans.upper() == \"YAML\"\nassert check(\"YAML\")\nprint(\"PASS\")"
   },
-  "related": ["cicd-pipelines-01", "docker-internals-01", "kubernetes-basics-01"],
-  "tags": ["github", "actions", "ci-cd", "devops", "automation", "software-engineering"]
+  "related": [
+    "cicd-pipelines-01",
+    "docker-internals-01",
+    "kubernetes-basics-01"
+  ],
+  "tags": [
+    "github",
+    "actions",
+    "ci-cd",
+    "devops",
+    "automation",
+    "software-engineering"
+  ]
 }

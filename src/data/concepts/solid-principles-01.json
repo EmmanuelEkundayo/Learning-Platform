@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A set of five design principles intended to make software designs more understandable, flexible, and maintainable.",
     "analogy": "Building a custom PC: every part is separate (Single Responsibility), easy to swap for a better version (Open/Closed), uses standard plugs (Interface Segregation), and any 'GPU' works as long as it fits the slot (Liskov Substitution).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(1) per dependency rule",
+    "space_complexity": "O(A) abstractions defined",
     "when_to_use": [
       "Designing a large, long-lived object-oriented codebase",
       "Refactoring messy 'God Objects' that do too many things",
@@ -39,6 +39,16 @@
     ],
     "test_code": "def check(ans): return ans.lower() == \"single\"\nassert check(\"Single\")\nprint(\"PASS\")"
   },
-  "related": ["dry-kiss-yagni-01", "dependency-inversion-01", "clean-architecture-01"],
-  "tags": ["design-principles", "solid", "oop", "architecture", "software-engineering"]
+  "related": [
+    "dry-kiss-yagni-01",
+    "dependency-inversion-01",
+    "clean-architecture-01"
+  ],
+  "tags": [
+    "design-principles",
+    "solid",
+    "oop",
+    "architecture",
+    "software-engineering"
+  ]
 }

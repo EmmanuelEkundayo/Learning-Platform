@@ -8,8 +8,8 @@
   "card": {
     "intuition": "Copying data from one database server (the leader) to one or more others (followers) to improve reliability and read performance.",
     "analogy": "A CEO sending a memo to 10 department heads. The CEO makes the 'write' (creates the memo), and then 10 people can 'read' it simultaneously in their own offices.",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(W) write propagation lag",
+    "space_complexity": "O(R) replica count",
     "when_to_use": [
       "Improving read throughput (Leader handles writes, Followers handle reads)",
       "High Availability (if the Leader dies, a Follower can be promoted to Leader)",
@@ -40,6 +40,16 @@
     ],
     "test_code": "assert get_db_instance(\"create_user\") == \"Leader\"\nassert get_db_instance(\"fetch_user_profile\") == \"Follower\"\nprint(\"PASS\")"
   },
-  "related": ["database-sharding-01", "cap-theorem-01", "acid-properties-01"],
-  "tags": ["database", "replication", "high-availability", "scalability", "backend"]
+  "related": [
+    "database-sharding-01",
+    "cap-theorem-01",
+    "acid-properties-01"
+  ],
+  "tags": [
+    "database",
+    "replication",
+    "high-availability",
+    "scalability",
+    "backend"
+  ]
 }

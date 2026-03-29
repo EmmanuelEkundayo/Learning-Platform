@@ -8,8 +8,8 @@
   "card": {
     "intuition": "A library for testing React components in a way that resembles how an actual user would interact with them, focusing on the DOM rather than component internals.",
     "analogy": "A secret shopper: the shopper doesn't care how the kitchen is organized or what the chef's name is (component state/props). They only care if the food is served correctly and the waiter is polite (the resulting DOM and events).",
-    "time_complexity": "N/A",
-    "space_complexity": "N/A",
+    "time_complexity": "O(Q) queries run in test",
+    "space_complexity": "O(D) DOM nodes",
     "when_to_use": [
       "Testing if a button click opens a modal",
       "Ensuring form validation messages appear correctly",
@@ -39,6 +39,17 @@
     ],
     "test_code": "def check(ans): return \"role\" in ans.lower()\nassert check(\"getByRole\")\nprint(\"PASS\")"
   },
-  "related": ["unit-vs-integration-e2e-01", "aria-roles-01", "mocking-strategies-frontend-01"],
-  "tags": ["testing", "react", "rtl", "accessibility", "dom", "frontend"]
+  "related": [
+    "unit-vs-integration-e2e-01",
+    "aria-roles-01",
+    "mocking-strategies-frontend-01"
+  ],
+  "tags": [
+    "testing",
+    "react",
+    "rtl",
+    "accessibility",
+    "dom",
+    "frontend"
+  ]
 }
