@@ -42,6 +42,10 @@ export default function Layout() {
       <main className="flex-1">
         <Outlet />
       </main>
+
+      <footer className="border-t border-surface-700 py-4 text-center text-xs text-gray-600">
+        Built with ♥ by Emma, 2026
+      </footer>
     </div>
   )
 }
