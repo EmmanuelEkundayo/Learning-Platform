@@ -17,7 +17,11 @@
       "Bash(npm run:*)",
       "Bash(cmd /c \"npm run build\")",
       "Bash(powershell -Command \"cd 'C:/Users/Emmanuel/Desktop/Learning Platform'; npm run build\" 2>&1)",
-      "Bash(node:*)"
+      "Bash(node:*)",
+      "Bash(grep -v '\\\\.json$')",
+      "Bash(grep -r \"AlgoLens\\\\|algolens\\\\|algoLens\" 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform' --include=*.json --include=*.html --include=*.md -l)",
+      "Bash(grep -rn \"AlgoLens\\\\|Algolens\\\\|algolens\\\\|AlgoLens\\\\|Algo\\\\b\\\\|Lens\\\\b\" 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform\\\\src' --include=*.jsx --include=*.js --include=*.tsx --include=*.ts --include=*.html --include=*.css)",
+      "Bash(node -e \":*)"
     ]
   }
 }
