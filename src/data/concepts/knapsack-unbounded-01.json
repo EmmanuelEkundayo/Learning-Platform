@@ -1,0 +1,44 @@
+{
+  "id": "knapsack-unbounded-01",
+  "slug": "knapsack-unbounded",
+  "title": "Unbounded Knapsack",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Unlike 0/1 knapsack, each item can be used any number of times. The recurrence becomes dp[w] = max(dp[w], dp[w - wt[i]] + val[i]) for each item — using dp[w - wt[i]] (already updated this pass) instead of the previous row allows reuse.",
+    "analogy": "An all-you-can-eat buffet where you can take multiple servings of any dish. The goal is to maximise satisfaction without exceeding your caloric budget — you're free to load up on your favourite dish.",
+    "time_complexity": "O(n · W) where n = number of items, W = capacity",
+    "space_complexity": "O(W) — 1D DP array",
+    "when_to_use": [
+      "Coin change (minimise coins / count ways) — items = coin denominations, reuse allowed",
+      "Rod cutting problem — cut a rod into pieces for maximum profit",
+      "Any knapsack variant where items can be reused"
+    ],
+    "gotchas": [
+      "Iterate weight w from low to high (unlike 0/1 knapsack which iterates high to low) to allow reuse within the same pass",
+      "1D DP array is sufficient — dp[w] already incorporates reuse from the current pass",
+      "If no solution exists (dp[target] still 0 or ∞), handle the base case carefully"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-table",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement unbounded knapsack: each item may be used multiple times.",
+    "starter_code": "def unbounded_knapsack(weights, values, capacity):\n    \"\"\"\n    weights, values: lists of equal length\n    capacity: max weight\n    Returns maximum value achievable.\n    \"\"\"\n    n  = len(weights)\n    dp = [0] * (capacity + 1)\n\n    for w in range(1, capacity + 1):   # iterate capacity low-to-high\n        for i in range(n):\n            if weights[i] <= w:\n                dp[w] = max(dp[w], ___________)\n    return dp[capacity]",
+    "solution": "dp[w - weights[i]] + values[i]",
+    "hints": [
+      "When item i fits (weights[i] <= w), consider dp[w - weights[i]] + values[i] — this reads from the already-updated dp, allowing item reuse"
+    ],
+    "test_code": "# Items: weights=[1,3,4,5], values=[1,4,5,7], capacity=7\nw=[1,3,4,5]; v=[1,4,5,7]\nassert unbounded_knapsack(w, v, 7) == 9   # use item 1 (w=3,v=4) twice + item 0 = 4+4+1=9? No: 3+3+1=7 -> 4+4+1=9 ✓\nassert unbounded_knapsack(w, v, 0) == 0\nassert unbounded_knapsack([2],[5], 6) == 15  # 3 copies of weight-2 item\nassert unbounded_knapsack([3],[4], 5) == 4   # only one fits\nprint('PASS')"
+  },
+  "related": ["dp-knapsack-01", "coin-change-01", "subset-sum-01", "memoization-vs-tabulation-01"],
+  "tags": ["knapsack", "unbounded-knapsack", "dynamic-programming", "1D-DP", "reuse"]
+}

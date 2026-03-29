@@ -1,0 +1,45 @@
+{
+  "id": "min-stack-01",
+  "slug": "min-stack",
+  "title": "Min Stack",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Maintain a second 'min-tracker' stack in parallel — every time you push, also push the current minimum; every time you pop, the previous minimum is automatically restored.",
+    "analogy": "A sticky note on every document in your stack that says the smallest number seen so far in the pile below it. Remove the top document and its note tells you the new minimum instantly.",
+    "time_complexity": "O(1) for push, pop, top, and getMin",
+    "space_complexity": "O(n) — up to 2n entries across both stacks",
+    "when_to_use": [
+      "Any stack that must support O(1) minimum query in addition to standard push/pop",
+      "As a building block for more complex data structures (monotonic stack variants, stack-based DP)",
+      "Interview: 'design a data structure with push, pop, and getMin all in O(1)'"
+    ],
+    "gotchas": [
+      "The min stack must push even when the new value is not a minimum — otherwise pops become desynchronised",
+      "Space optimisation: only push to the min stack when the new value is <= current min, but then you must also push on equals to handle duplicates",
+      "Alternative single-stack trick: store (val, current_min) pairs — no second stack needed"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "min-stack",
+      "show_min_tracker": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the MinStack. push, pop, top, and getMin must all run in O(1).",
+    "starter_code": "class MinStack:\n    def __init__(self):\n        self.stack     = []\n        self.min_stack = []  # parallel stack tracking running minimum\n\n    def push(self, val):\n        self.stack.append(val)\n        # Push the new minimum — either val or the current minimum\n        if self.min_stack:\n            self.min_stack.append(min(val, ___________))\n        else:\n            self.min_stack.append(val)\n\n    def pop(self):\n        self.stack.pop()\n        ___________\n\n    def top(self):\n        return self.stack[-1]\n\n    def getMin(self):\n        return self.min_stack[-1]",
+    "solution": "min(val, self.min_stack[-1])\nself.min_stack.pop()",
+    "hints": [
+      "When pushing, append min(val, self.min_stack[-1]) to the min stack — this records the smallest value seen up to and including this point",
+      "When popping, pop from both stacks to keep them synchronised"
+    ],
+    "test_code": "ms = MinStack()\nms.push(-2); ms.push(0); ms.push(-3)\nassert ms.getMin() == -3, 'Min after [-2,0,-3] is -3'\nms.pop()\nassert ms.top()    ==  0, 'Top after pop is 0'\nassert ms.getMin() == -2, 'Min after pop is -2'\nms.push(1)\nassert ms.getMin() == -2, 'Min unchanged after push(1)'\nms.push(-5)\nassert ms.getMin() == -5, 'New min is -5'\nms.pop()\nassert ms.getMin() == -2, 'Min restored to -2'\nprint('PASS')"
+  },
+  "related": ["monotonic-stack-01", "priority-queue-01", "deque-01"],
+  "tags": ["min-stack", "stack", "O(1)-min", "design", "auxiliary-stack"]
+}

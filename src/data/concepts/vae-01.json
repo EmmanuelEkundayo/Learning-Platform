@@ -1,0 +1,44 @@
+{
+  "id": "vae-01",
+  "slug": "vae",
+  "title": "Variational Autoencoder (VAE)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Encoder outputs μ and log σ² (not a single point), defining a Gaussian posterior q(z|x). Reparameterisation trick: z = μ + σ·ε, ε ~ N(0,1) makes sampling differentiable. Loss = reconstruction loss + KL divergence KL(q(z|x) || N(0,1)) which regularises the latent space to be smooth and continuous. At inference, sample z ~ N(0,1) and decode.",
+    "analogy": "A sketch artist who doesn't memorise faces but learns the distribution of facial features: the encoder compresses a face into a range of possible descriptions (mean ± uncertainty), training forces these ranges to overlap with a standard distribution, and the decoder can generate new plausible faces by sampling from anywhere in that continuous space.",
+    "time_complexity": "O(n · d_enc + n · d_dec) per batch",
+    "space_complexity": "O(d_enc + d_dec + d_latent)",
+    "when_to_use": [
+      "Generative modelling with a structured, continuous latent space",
+      "Anomaly detection: high reconstruction loss or KL for out-of-distribution inputs",
+      "Latent space interpolation and controlled generation"
+    ],
+    "gotchas": [
+      "KL collapse: decoder becomes too powerful and ignores z — use KL annealing (β-VAE) or free bits",
+      "Blurry reconstructions (vs GAN) because MSE reconstruction loss averages over modes",
+      "β-VAE: weight KL by β > 1 to disentangle latent dimensions at cost of reconstruction quality"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "vae",
+      "show_latent_space": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the reparameterisation trick and VAE ELBO loss.",
+    "starter_code": "import math, random\n\ndef reparameterise(mu, log_var):\n    \"\"\"\n    Reparameterisation trick: z = mu + std * epsilon, epsilon ~ N(0,1).\n    mu, log_var: lists of floats (latent dimension d)\n    Returns z (list of floats).\n    \"\"\"\n    return [\n        mu[i] + math.exp(0.5 * log_var[i]) * ___________\n        for i in range(len(mu))\n    ]\n\ndef kl_divergence(mu, log_var):\n    \"\"\"\n    Analytical KL(N(mu,sigma^2) || N(0,1)) per dimension, summed.\n    KL = -0.5 * sum(1 + log_var - mu^2 - exp(log_var))\n    \"\"\"\n    return -0.5 * sum(1 + log_var[i] - mu[i]**2 - math.exp(log_var[i])\n                      for i in range(len(mu)))\n\ndef vae_loss(x, x_recon, mu, log_var):\n    \"\"\"ELBO = reconstruction (MSE) + KL.\"\"\"\n    recon = sum((x[i]-x_recon[i])**2 for i in range(len(x)))\n    return recon + kl_divergence(mu, log_var)",
+    "solution": "random.gauss(0, 1)",
+    "hints": [
+      "Sample epsilon from standard normal N(0,1) using random.gauss(0,1) — then scale and shift by std and mean."
+    ],
+    "test_code": "import math, random\nrandom.seed(42)\n\n# Reparameterisation preserves expected value\nmu      = [1.0, -2.0]\nlog_var = [0.0,  0.0]  # std=1\n\nsamples = [reparameterise(mu, log_var) for _ in range(2000)]\nmean_z  = [sum(s[i] for s in samples)/2000 for i in range(2)]\nassert abs(mean_z[0] - 1.0) < 0.1, f'E[z0] ≈ mu[0]: {mean_z[0]:.3f}'\nassert abs(mean_z[1] - (-2.0)) < 0.1\n\n# KL for standard normal (mu=0, log_var=0) should be 0\nassert abs(kl_divergence([0.0],[0.0])) < 1e-9\n\n# KL positive for non-standard\nassert kl_divergence([1.0],[0.0]) > 0\n\n# VAE loss is non-negative for reasonable inputs\nx = [0.5, 0.3]; xr = [0.5, 0.3]  # perfect recon\nloss = vae_loss(x, xr, [0.0], [0.0])\nassert loss >= 0\nprint('PASS')"
+  },
+  "related": ["gan-01", "diffusion-models-01", "mlp-01", "activation-functions-01"],
+  "tags": ["VAE", "variational-autoencoder", "reparameterisation", "ELBO", "KL-divergence", "latent-space", "generative-model"]
+}

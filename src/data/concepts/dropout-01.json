@@ -1,0 +1,44 @@
+{
+  "id": "dropout-01",
+  "slug": "dropout",
+  "title": "Dropout",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Randomly zero out each neuron's activation with probability p during training. This prevents co-adaptation: neurons cannot rely on specific partners being active, so each must learn robust features. At inference, disable dropout and scale activations by (1−p) — or use inverted dropout (scale by 1/(1−p) during training, no scaling at inference).",
+    "analogy": "Team training with random absences: if teammates randomly miss practice, each player must learn to perform independently rather than relying on one star player. The resulting team plays more robustly under real-game conditions when everyone shows up.",
+    "time_complexity": "O(d) per layer — elementwise mask application",
+    "space_complexity": "O(d) for the binary mask",
+    "when_to_use": [
+      "Large networks where overfitting is a concern",
+      "Applied after fully-connected layers; less common in conv layers (use spatial dropout)",
+      "p=0.5 for hidden layers; p=0.2 for input layers — tune as a hyperparameter"
+    ],
+    "gotchas": [
+      "Disable during inference (model.eval()) — or predictions will be stochastic and wrong",
+      "Inverted dropout is preferred: scale at train time so inference code stays unchanged",
+      "Dropout and batch norm interact poorly — avoid using both in the same layer"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "dropout",
+      "show_masks": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement inverted dropout for training.",
+    "starter_code": "import random\n\ndef dropout(x, p, training=True):\n    \"\"\"\n    Inverted dropout: during training, zero each element with probability p\n    and scale survivors by 1/(1-p) so expected value is unchanged.\n    During inference, return x unchanged.\n    x: list of floats\n    p: drop probability (0 <= p < 1)\n    \"\"\"\n    if not training or p == 0.0:\n        return x\n    scale = ___________\n    return [xi * scale if random.random() > p else 0.0 for xi in x]",
+    "solution": "1.0 / (1.0 - p)",
+    "hints": [
+      "Inverted dropout scales surviving activations by 1/(1−p) so the expected value equals the original. This way, inference code needs no modification."
+    ],
+    "test_code": "import random\nrandom.seed(42)\n\n# Inference mode: no dropout\nx = [1.0, 2.0, 3.0, 4.0]\nassert dropout(x, p=0.5, training=False) == x\n\n# Training mode: expected value preserved on average\nrandom.seed(0)\ntotal = [0.0] * 4\nN = 5000\nfor _ in range(N):\n    out = dropout(x, p=0.5, training=True)\n    for i in range(4): total[i] += out[i]\navg = [t/N for t in total]\nfor i in range(4):\n    assert abs(avg[i] - x[i]) < 0.15, f'E[dropout] != original at index {i}: {avg[i]:.3f} vs {x[i]}'\n\n# p=0: no dropout\nassert dropout(x, p=0.0) == x\nprint('PASS')"
+  },
+  "related": ["mlp-01", "batch-normalization-01", "overfitting-underfitting-01", "l1-l2-regularization-01"],
+  "tags": ["dropout", "regularisation", "inverted-dropout", "co-adaptation", "overfitting", "deep-learning"]
+}

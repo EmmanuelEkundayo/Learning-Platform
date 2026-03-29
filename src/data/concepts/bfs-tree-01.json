@@ -1,0 +1,47 @@
+{
+  "id": "bfs-tree-01",
+  "slug": "bfs-tree",
+  "title": "Tree BFS (Level-Order Traversal)",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Visit all nodes at depth d before any node at depth d+1 — use a queue so the first nodes in are the first processed, producing level-by-level output.",
+    "analogy": "Photographing a family reunion by generation: grandparents first, then parents, then children — you walk the entire row before moving to the next.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(w) where w is the maximum width of the tree — O(n) worst case for a complete tree's last level",
+    "when_to_use": [
+      "Level-order output, zigzag traversal, average of levels",
+      "Minimum depth of a binary tree — BFS finds the first leaf faster than DFS",
+      "Right-side view — keep only the last node at each level",
+      "Connect nodes at the same level (populating next pointers)"
+    ],
+    "gotchas": [
+      "Use a double-ended queue (deque) not a list for O(1) popleft — list.pop(0) is O(n)",
+      "To separate levels, either snapshot queue length at the start of each level, or use a sentinel None between levels",
+      "A None child in a complete binary tree representation is NOT a node — don't enqueue it"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "bfs",
+      "show_level": true,
+      "show_queue": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Return a list of lists — each inner list contains the values at one level of the tree.",
+    "starter_code": "from collections import deque\n\nclass TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val; self.left = left; self.right = right\n\ndef level_order(root):\n    if not root:\n        return []\n    result = []\n    queue  = deque([root])\n    while queue:\n        level_size = len(queue)     # snapshot: nodes on this level\n        level      = []\n        for _ in range(level_size):\n            node = queue.popleft()\n            level.append(node.val)\n            if node.left:  queue.append(___________)\n            if node.right: queue.append(___________)\n        result.append(level)\n    return result",
+    "solution": "node.left\nnode.right",
+    "hints": [
+      "Enqueue the left child (node.left) if it exists",
+      "Enqueue the right child (node.right) if it exists — children go to the back of the queue for the next level"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\n\nroot=TreeNode(3,TreeNode(9),TreeNode(20,TreeNode(15),TreeNode(7)))\nassert level_order(root) == [[3],[9,20],[15,7]], 'Standard tree'\nassert level_order(TreeNode(1)) == [[1]], 'Single node'\nassert level_order(None) == [], 'Empty tree'\nroot2=TreeNode(1,TreeNode(2,TreeNode(4),TreeNode(5)),TreeNode(3))\nassert level_order(root2) == [[1],[2,3],[4,5]], 'Asymmetric tree'\nprint('PASS')"
+  },
+  "related": ["dfs-preorder-01", "bfs-01", "tree-diameter-01"],
+  "tags": ["BFS", "level-order", "tree", "queue", "breadth-first"]
+}

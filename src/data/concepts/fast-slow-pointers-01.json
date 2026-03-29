@@ -1,0 +1,47 @@
+{
+  "id": "fast-slow-pointers-01",
+  "slug": "fast-slow-pointers",
+  "title": "Fast & Slow Pointers (Floyd's)",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Two pointers move through a sequence at different speeds — the fast one laps the slow one if a cycle exists, or reaches the end to reveal the midpoint.",
+    "analogy": "Two runners on a circular track: the faster runner will eventually lap the slower one if they loop forever. On a finite track, the fast runner hits the finish line when the slow one is exactly halfway.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "Detect a cycle in a linked list (fast laps slow inside the cycle)",
+      "Find the middle node of a linked list (fast reaches end when slow is at midpoint)",
+      "Find the start of a cycle (move one pointer to head after meeting, then advance both at speed 1)",
+      "Detect a happy number (cycle in digit-square sequence)"
+    ],
+    "gotchas": [
+      "Loop condition must be `while fast and fast.next` — checking only `fast` misses a null dereference on `fast.next`",
+      "For finding the cycle start: after slow and fast meet, reset one pointer to head and advance both by 1 per step — they meet exactly at the cycle entry",
+      "For odd-length lists, slow lands on the exact middle; for even-length, it lands on the second-middle node by default"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "fast-slow",
+      "show_slow": true,
+      "show_fast": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the middle node of a linked list. For even-length lists, return the second middle node.",
+    "starter_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef find_middle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = ___________\n        fast = ___________\n    return slow",
+    "solution": "slow = slow.next\nfast = fast.next.next",
+    "hints": [
+      "Slow moves one step at a time: slow = slow.next",
+      "Fast moves two steps at a time: fast = fast.next.next — when fast reaches the end, slow is at the middle"
+    ],
+    "test_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val; self.next = next\n\ndef make_list(vals):\n    dummy = ListNode()\n    cur = dummy\n    for v in vals: cur.next = ListNode(v); cur = cur.next\n    return dummy.next\n\nassert find_middle(make_list([1,2,3,4,5])).val == 3,   'Odd length: middle is 3'\nassert find_middle(make_list([1,2,3,4])).val   == 3,   'Even length: second middle'\nassert find_middle(make_list([1])).val          == 1,   'Single node'\nassert find_middle(make_list([1,2])).val        == 2,   'Two nodes: return second'\nprint('PASS')"
+  },
+  "related": ["cycle-detection-01", "reverse-linked-list-01", "two-pointers-01"],
+  "tags": ["fast-slow-pointers", "floyd", "linked-list", "cycle", "middle", "O(1)-space"]
+}

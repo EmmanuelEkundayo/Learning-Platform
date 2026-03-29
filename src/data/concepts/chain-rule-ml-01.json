@@ -1,0 +1,45 @@
+{
+  "id": "chain-rule-ml-01",
+  "slug": "chain-rule-ml",
+  "title": "Chain Rule & Backpropagation",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The chain rule decomposes the gradient of a composite function: dL/dx = (dL/dy)·(dy/dx). In a neural network, each layer computes a function of the previous; backpropagation applies the chain rule recursively from loss to inputs, accumulating gradients layer by layer.",
+    "analogy": "Tracing responsibility in a chain of decisions: if a factory's output error traces back through the assembly line, each station's responsibility = (how much it affected the next station) × (how much that station's error matters). Multiply these sensitivities back to the source.",
+    "time_complexity": "O(same as forward pass) — backprop is at most twice the cost of a forward pass",
+    "space_complexity": "O(number of parameters + activations) to store intermediate values",
+    "when_to_use": [
+      "Computing gradients in any differentiable computation graph",
+      "Automatic differentiation (PyTorch/TensorFlow implement this for you)",
+      "Understanding why activation functions must be differentiable"
+    ],
+    "gotchas": [
+      "Vanishing gradient: sigmoid/tanh derivatives are ≤ 0.25 — deep networks struggle. Use ReLU",
+      "Exploding gradient: gradients grow exponentially — use gradient clipping or batch normalisation",
+      "Store activations during forward pass — needed to compute gradients during backward pass"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "backprop",
+      "show_forward_backward": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement forward and backward passes for a single-layer network: loss = MSE(ReLU(xW + b), y).",
+    "starter_code": "def relu(x): return max(0.0, x)\ndef relu_grad(x): return 1.0 if x > 0 else 0.0\n\ndef forward_backward(x, w, b, y_true):\n    \"\"\"\n    Single neuron: z = x*w + b, a = relu(z), loss = (a - y_true)^2\n    Returns (loss, dw, db) via chain rule.\n    \"\"\"\n    # Forward\n    z    = x * w + b\n    a    = relu(z)\n    loss = (a - y_true) ** 2\n\n    # Backward — apply chain rule\n    dL_da = 2 * (a - y_true)          # dL/da\n    da_dz = relu_grad(z)               # da/dz\n    dL_dz = dL_da * da_dz             # dL/dz = dL/da * da/dz\n\n    dw = ___________                   # dL/dw = dL/dz * dz/dw  (dz/dw = x)\n    db = ___________                   # dL/db = dL/dz * dz/db  (dz/db = 1)\n    return loss, dw, db",
+    "solution": "dL_dz * x\ndL_dz * 1.0",
+    "hints": [
+      "dz/dw = x (since z = x*w + b), so dL/dw = dL/dz * x",
+      "dz/db = 1 (since z = x*w + b), so dL/db = dL/dz * 1.0"
+    ],
+    "test_code": "import math\n# Check: gradient should point in the direction that reduces loss\nx, w, b, y = 2.0, 0.5, 0.1, 3.0\nloss, dw, db = forward_backward(x, w, b, y)\nassert loss > 0\n\n# Numerical gradient check\neps = 1e-5\ndef f(w_): return forward_backward(x, w_, b, y)[0]\ndef g(b_): return forward_backward(x, w, b_, y)[0]\nnumerical_dw = (f(w+eps) - f(w-eps)) / (2*eps)\nnumerical_db = (g(b+eps) - g(b-eps)) / (2*eps)\nassert math.isclose(dw, numerical_dw, rel_tol=1e-4), f'dw: {dw:.6f} vs {numerical_dw:.6f}'\nassert math.isclose(db, numerical_db, rel_tol=1e-4), f'db: {db:.6f} vs {numerical_db:.6f}'\nprint('PASS')"
+  },
+  "related": ["backpropagation-01", "gradient-descent-01", "loss-functions-01", "stochastic-gradient-descent-01"],
+  "tags": ["chain-rule", "backpropagation", "gradient", "calculus", "automatic-differentiation", "ReLU"]
+}

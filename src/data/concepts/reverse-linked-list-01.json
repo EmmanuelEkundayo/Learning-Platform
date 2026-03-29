@@ -1,0 +1,45 @@
+{
+  "id": "reverse-linked-list-01",
+  "slug": "reverse-linked-list",
+  "title": "Reverse a Linked List",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Walk the list once, rewiring each node's next pointer to point backward at the previous node instead of forward.",
+    "analogy": "A train reversing direction by uncoupling each car and re-coupling it behind the last car already reversed — one car at a time, no extra track needed.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1) iterative; O(n) recursive (call stack)",
+    "when_to_use": [
+      "In-place list reversal as a subroutine (reverse a sublist for reorder-list, palindrome check, etc.)",
+      "Reversing groups of k nodes at a time (k-group reversal)",
+      "Checking if a linked list is a palindrome (reverse the second half, compare)"
+    ],
+    "gotchas": [
+      "Save next = curr.next BEFORE rewiring curr.next — otherwise you lose the rest of the list",
+      "The three-pointer dance (prev, curr, next) must happen in the correct order: save next, rewire, advance",
+      "Recursive reversal has O(n) stack depth — iterative is always preferred for very long lists"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "reverse-list",
+      "show_prev_curr": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Reverse a singly linked list in-place. Return the new head.",
+    "starter_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef reverse_list(head):\n    prev, curr = None, head\n    while curr:\n        nxt       = curr.next   # save next before overwriting\n        curr.next = ___________  # point backward\n        prev      = curr\n        curr      = ___________  # advance forward\n    return prev",
+    "solution": "curr.next = prev\ncurr      = nxt",
+    "hints": [
+      "curr.next should point to prev — the node just behind it in the reversed order",
+      "After rewiring, advance: prev becomes curr, curr becomes nxt (the saved original next)"
+    ],
+    "test_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val; self.next = next\n\ndef make_list(vals):\n    d = ListNode(); c = d\n    for v in vals: c.next = ListNode(v); c = c.next\n    return d.next\n\ndef to_arr(head):\n    r = []\n    while head: r.append(head.val); head = head.next\n    return r\n\nassert to_arr(reverse_list(make_list([1,2,3,4,5]))) == [5,4,3,2,1]\nassert to_arr(reverse_list(make_list([1,2])))        == [2,1]\nassert to_arr(reverse_list(make_list([1])))          == [1]\nassert reverse_list(None) is None\nprint('PASS')"
+  },
+  "related": ["fast-slow-pointers-01", "merge-linked-lists-01", "doubly-linked-list-01"],
+  "tags": ["reverse", "linked-list", "in-place", "three-pointer", "O(1)-space"]
+}

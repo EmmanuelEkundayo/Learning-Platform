@@ -1,0 +1,44 @@
+{
+  "id": "mos-algorithm-01",
+  "slug": "mos-algorithm",
+  "title": "Mo's Algorithm",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Sort offline queries by (left/√n, right) — queries in the same √n block are sorted by right, alternating blocks by right or left. Then slide a [l, r] window across the array: each query transition adds or removes one element. Total pointer movement is O((n + q)√n).",
+    "analogy": "A librarian answering range queries by walking a bookshelf: instead of restarting from scratch for each query, they sort queries so adjacent ones require the fewest steps — moving efficiently from one range to the next.",
+    "time_complexity": "O((n + q)√n) for q queries; O(1) per element add/remove",
+    "space_complexity": "O(n + q)",
+    "when_to_use": [
+      "Offline range queries where adding/removing an element from the window is O(1)",
+      "Count of distinct elements in a range, frequency queries",
+      "Any problem where online is not required and the transition operation is cheap"
+    ],
+    "gotchas": [
+      "Queries must be offline — all queries known before processing starts",
+      "Adding/removing elements must be O(1) — otherwise O((n+q)√n) becomes O((n+q)√n · T_transition)",
+      "Mo's with updates: use block size n^(2/3) and a time dimension for the sort"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "mos-algorithm",
+      "show_window": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Mo's algorithm to answer distinct-element-count queries offline.",
+    "starter_code": "import math\n\ndef mos_distinct(arr, queries):\n    \"\"\"\n    arr    : input array\n    queries: list of (l, r) 0-indexed inclusive\n    Returns list of answers: count of distinct values in arr[l..r].\n    \"\"\"\n    n     = len(arr)\n    block = max(1, math.isqrt(n))\n    order = sorted(range(len(queries)),\n                   key=lambda i: (queries[i][0] // block,\n                                  queries[i][1] if (queries[i][0] // block) % 2 == 0\n                                  else -queries[i][1]))\n    freq    = {}\n    distinct = 0\n    ans     = [0] * len(queries)\n    cur_l, cur_r = 0, -1\n\n    def add(pos):\n        nonlocal distinct\n        v = arr[pos]\n        freq[v] = freq.get(v, 0) + 1\n        if freq[v] == 1: distinct += 1\n\n    def remove(pos):\n        nonlocal distinct\n        v = arr[pos]\n        freq[v] -= 1\n        if freq[v] == 0: distinct -= 1\n\n    for qi in order:\n        l, r = queries[qi]\n        while cur_r < r: cur_r += 1; add(cur_r)\n        while cur_l > l: cur_l -= 1; add(cur_l)\n        while cur_r > r: remove(cur_r); cur_r -= 1\n        while cur_l < l: remove(cur_l); ___________\n        ans[qi] = distinct\n    return ans",
+    "solution": "cur_l += 1",
+    "hints": [
+      "When shrinking the left boundary (cur_l < l), remove arr[cur_l] from the window, then increment cur_l to move the boundary right"
+    ],
+    "test_code": "arr = [1,2,1,3,2,1,4,3,2,1]\nqs  = [(0,3),(1,5),(3,8),(0,9)]\nans = mos_distinct(arr, qs)\nassert ans[0] == 3  # [1,2,1,3] -> {1,2,3}\nassert ans[1] == 3  # [2,1,3,2,1] -> {1,2,3}\nassert ans[2] == 4  # [3,2,1,4,3,2] -> {1,2,3,4}\nassert ans[3] == 4  # whole array -> {1,2,3,4}\nprint('PASS')"
+  },
+  "related": ["square-root-decomposition-01", "segment-tree-01", "sparse-table-01", "fenwick-tree-01"],
+  "tags": ["mos-algorithm", "offline-queries", "range-queries", "sqrt-decomp", "distinct-elements"]
+}

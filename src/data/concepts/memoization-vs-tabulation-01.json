@@ -1,0 +1,45 @@
+{
+  "id": "memoization-vs-tabulation-01",
+  "slug": "memoization-vs-tabulation",
+  "title": "Memoization vs Tabulation",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Both avoid recomputing overlapping subproblems. Memoization (top-down) caches recursive calls lazily — only subproblems actually needed are computed. Tabulation (bottom-up) fills a DP table iteratively in dependency order — all subproblems are computed, but no recursion overhead.",
+    "analogy": "Planning a road trip: memoization is looking up a city in a guide only when you need to visit it (lazy). Tabulation is filling in the guide for every city in order before you leave (eager). Both give the same answers; the choice is about overhead and order.",
+    "time_complexity": "Both O(n) for Fibonacci — same asymptotic; tabulation often faster in practice due to no recursion overhead",
+    "space_complexity": "Memoization: O(n) call stack + O(n) cache; Tabulation: O(n) table (or O(1) with space optimisation)",
+    "when_to_use": [
+      "Memoization: when only a subset of subproblems are needed or dependency order is complex",
+      "Tabulation: when all subproblems are needed and bottom-up order is straightforward",
+      "Tabulation with rolling array: when only the last few rows/entries are needed"
+    ],
+    "gotchas": [
+      "Memoization hits Python's recursion limit on deep inputs — add sys.setrecursionlimit or convert to iterative",
+      "Tabulation order must respect dependencies — fill in the order subproblems are needed by later ones",
+      "Both have the same time complexity for the same recurrence; tabulation usually has better constant factors"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-table",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Fibonacci using (a) memoization and (b) tabulation.",
+    "starter_code": "import sys\nsys.setrecursionlimit(10000)\n\n# (a) Memoization — top-down\ndef fib_memo(n, memo={}):\n    if n <= 1:\n        return n\n    if n not in memo:\n        memo[n] = fib_memo(n-1, memo) + fib_memo(n-2, memo)\n    return ___________\n\n# (b) Tabulation — bottom-up\ndef fib_tab(n):\n    if n <= 1:\n        return n\n    dp = [0] * (n + 1)\n    dp[1] = 1\n    for i in range(2, n + 1):\n        dp[i] = ___________\n    return dp[n]",
+    "solution": "memo[n]\ndp[i-1] + dp[i-2]",
+    "hints": [
+      "Memoization: return the cached value memo[n] after computing and storing it",
+      "Tabulation: each dp[i] = dp[i-1] + dp[i-2] — exactly the Fibonacci recurrence"
+    ],
+    "test_code": "fibs = [0,1,1,2,3,5,8,13,21,34,55]\nfor i, expected in enumerate(fibs):\n    assert fib_memo(i, {}) == expected, f'fib_memo({i})'\n    assert fib_tab(i)       == expected, f'fib_tab({i})'\nassert fib_memo(30, {}) == fib_tab(30) == 832040\nprint('PASS')"
+  },
+  "related": ["dp-knapsack-01", "coin-change-01", "longest-common-subsequence-01", "subset-sum-01"],
+  "tags": ["memoization", "tabulation", "dynamic-programming", "top-down", "bottom-up", "fibonacci"]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "next-greater-element-01",
+  "slug": "next-greater-element",
+  "title": "Next Greater Element",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Scan left-to-right maintaining a decreasing stack of 'waiting' indices — the moment a larger element arrives, it answers all waiting elements in the stack that are smaller.",
+    "analogy": "People waiting in line for the first person taller than them. As a tall person walks past, everyone shorter who was waiting behind them finally gets their answer simultaneously.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(n) for the stack and result array",
+    "when_to_use": [
+      "Daily temperatures — how many days until a warmer day?",
+      "Stock span — how many consecutive days with price <= today?",
+      "Next greater element in a circular array (iterate 2n elements modulo n)",
+      "Any problem asking: for each element, find the first larger element to the right"
+    ],
+    "gotchas": [
+      "Elements remaining in the stack after the main loop have no next greater element — they stay -1 (or 0 for stock span)",
+      "For circular arrays, iterate indices 0..2n-1 modulo n and only record results for the first n iterations",
+      "The stack stores indices (not values) so you can compute positional differences (e.g., number of days)"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "next-greater",
+      "show_stack": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Given daily temperatures, return an array where result[i] = number of days until a warmer temperature. Use 0 if no warmer day exists.",
+    "starter_code": "def daily_temperatures(temps):\n    n      = len(temps)\n    result = [0] * n\n    stack  = []  # indices of days waiting for a warmer day\n    for i, t in enumerate(temps):\n        while stack and temps[stack[-1]] < t:\n            j          = stack.pop()\n            result[j]  = ___________  # days between j and i\n        stack.append(i)\n    return result",
+    "solution": "result[j] = i - j",
+    "hints": [
+      "When temps[i] is warmer than the day at the top of the stack (index j), the wait is i - j days",
+      "Pop index j, compute i - j, store it in result[j], then continue popping while the condition holds"
+    ],
+    "test_code": "assert daily_temperatures([73,74,75,71,69,72,76,73]) == [1,1,4,2,1,1,0,0]\nassert daily_temperatures([30,40,50,60])              == [1,1,1,0]\nassert daily_temperatures([30,60,90])                 == [1,1,0]\nassert daily_temperatures([90,80,70,60])              == [0,0,0,0]\nassert daily_temperatures([70])                       == [0]\nprint('PASS')"
+  },
+  "related": ["monotonic-stack-01", "monotonic-queue-01", "sliding-window-max-01"],
+  "tags": ["next-greater-element", "monotonic-stack", "temperatures", "stack", "O(n)"]
+}

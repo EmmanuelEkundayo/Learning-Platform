@@ -1,0 +1,44 @@
+{
+  "id": "bipartite-check-01",
+  "slug": "bipartite-check",
+  "title": "Bipartite Check",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A graph is bipartite iff it can be 2-coloured: assign alternating colours during BFS/DFS. If you ever find two adjacent nodes of the same colour, a cycle of odd length exists — the graph is not bipartite.",
+    "analogy": "Checking if a sports league can split all teams into two groups where every game is played between groups (no intra-group games). Assign each team a colour; if two rival teams end up the same colour, the schedule is impossible.",
+    "time_complexity": "O(V + E)",
+    "space_complexity": "O(V)",
+    "when_to_use": [
+      "Checking if a graph can be 2-coloured (scheduling, matching readiness)",
+      "Prerequisite for bipartite matching algorithms",
+      "Detecting odd-length cycles"
+    ],
+    "gotchas": [
+      "A graph is bipartite iff it has no odd-length cycle",
+      "Run BFS/DFS from every unvisited node to handle disconnected graphs",
+      "The colour assignment itself is the two-partition — useful for follow-up matching algorithms"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "bipartite",
+      "show_colors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement bipartite check using BFS 2-colouring.",
+    "starter_code": "from collections import deque\n\ndef is_bipartite(n, adj):\n    \"\"\"\n    n   : number of vertices\n    adj : adjacency list dict {u: [v, ...]}\n    Returns True if the graph is bipartite, False otherwise.\n    \"\"\"\n    color = [-1] * n\n\n    for start in range(n):\n        if color[start] != -1:\n            continue\n        color[start] = 0\n        queue = deque([start])\n        while queue:\n            u = queue.popleft()\n            for v in adj.get(u, []):\n                if color[v] == -1:\n                    color[v] = ___________   # assign opposite colour\n                    queue.append(v)\n                elif color[v] == color[u]:   # same colour — odd cycle\n                    return False\n    return True",
+    "solution": "1 - color[u]",
+    "hints": [
+      "Assign the opposite colour to v: if color[u] == 0 assign 1, and vice versa — use 1 - color[u]"
+    ],
+    "test_code": "# Even cycle (bipartite)\nadj1 = {0:[1,3], 1:[0,2], 2:[1,3], 3:[2,0]}\nassert is_bipartite(4, adj1) == True\n\n# Odd cycle (not bipartite)\nadj2 = {0:[1,2], 1:[0,2], 2:[0,1]}\nassert is_bipartite(3, adj2) == False\n\n# Disconnected bipartite\nadj3 = {0:[1], 1:[0], 2:[3], 3:[2]}\nassert is_bipartite(4, adj3) == True\n\n# Single node\nassert is_bipartite(1, {0:[]}) == True\nprint('PASS')"
+  },
+  "related": ["bipartite-matching-01", "bfs-01", "dfs-graph-01", "cycle-detection-undirected-01"],
+  "tags": ["bipartite", "2-coloring", "BFS", "graph", "odd-cycle"]
+}

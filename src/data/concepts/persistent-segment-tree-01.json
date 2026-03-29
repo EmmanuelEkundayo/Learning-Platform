@@ -1,0 +1,45 @@
+{
+  "id": "persistent-segment-tree-01",
+  "slug": "persistent-segment-tree",
+  "title": "Persistent Segment Tree",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "On each update, instead of modifying the tree in place, create new nodes only along the path from root to the updated leaf (O(log n) new nodes). All other nodes are shared with the previous version. This gives a full history of O(n + q log n) total nodes.",
+    "analogy": "A git repository for your segment tree: each commit (update) creates a new 'root' that shares most nodes with the previous commit — only the changed path gets new nodes. You can checkout any historical version in O(1).",
+    "time_complexity": "O(n + q log n) space; O(log n) per update and query",
+    "space_complexity": "O(n + q log n) total nodes",
+    "when_to_use": [
+      "Range queries on historical versions of the array",
+      "Offline range k-th smallest (merge sort tree alternative)",
+      "Any problem requiring multiple versions of a data structure simultaneously"
+    ],
+    "gotchas": [
+      "Never modify existing nodes — always create new ones for updated paths",
+      "Node pool (pre-allocated array) is faster than dynamic allocation in practice",
+      "Persistent segment tree for k-th smallest: build on sorted input, each version = prefix of elements"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "persistent-tree",
+      "show_versions": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement persistent segment tree point update — create new nodes along the update path.",
+    "starter_code": "class Node:\n    __slots__ = ('val','left','right')\n    def __init__(self, val=0, left=None, right=None):\n        self.val = val; self.left = left; self.right = right\n\ndef build(l, r):\n    node = Node()\n    if l == r: return node\n    mid = (l + r) // 2\n    node.left  = build(l, mid)\n    node.right = build(mid+1, r)\n    return node\n\ndef update(prev, l, r, pos, delta):\n    \"\"\"\n    Return a new root after adding delta to position pos.\n    Only creates new nodes along the path; shares the rest with prev.\n    \"\"\"\n    node = Node(prev.val + delta, prev.left, prev.right)\n    if l == r:\n        return node\n    mid = (l + r) // 2\n    if pos <= mid:\n        node.left = ___________          # create new left child\n    else:\n        node.right = ___________         # create new right child\n    return node\n\ndef query(node, l, r, ql, qr):\n    if ql <= l and r <= qr: return node.val\n    if qr < l or r < ql:   return 0\n    mid = (l + r) // 2\n    return query(node.left, l, mid, ql, qr) + query(node.right, mid+1, r, ql, qr)",
+    "solution": "update(prev.left, l, mid, pos, delta)\nupdate(prev.right, mid+1, r, pos, delta)",
+    "hints": [
+      "When pos <= mid, recurse into the left child: update(prev.left, l, mid, pos, delta) — this creates new nodes only on the left path",
+      "When pos > mid, recurse into the right child: update(prev.right, mid+1, r, pos, delta)"
+    ],
+    "test_code": "N = 8\nroots = [build(0, N-1)]\narr = [0] * N\n# Version 1: add 3 at index 2\nroots.append(update(roots[0], 0, N-1, 2, 3))\n# Version 2: add 5 at index 5\nroots.append(update(roots[1], 0, N-1, 5, 5))\n# Version 3: add 2 at index 2 (on top of version 2)\nroots.append(update(roots[2], 0, N-1, 2, 2))\n\nassert query(roots[0], 0, N-1, 0, N-1) == 0  # original: all zeros\nassert query(roots[1], 0, N-1, 2, 2)   == 3  # v1: pos 2 = 3\nassert query(roots[2], 0, N-1, 0, N-1) == 8  # v2: 3+5\nassert query(roots[3], 0, N-1, 2, 2)   == 5  # v3: pos 2 = 3+2=5\nassert query(roots[1], 0, N-1, 0, N-1) == 3  # v1 unchanged\nprint('PASS')"
+  },
+  "related": ["segment-tree-01", "sparse-table-01", "heavy-light-decomposition-01", "cdq-divide-conquer-01"],
+  "tags": ["persistent-segment-tree", "functional-segment-tree", "versioning", "immutable", "O(log-n)"]
+}

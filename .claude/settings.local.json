@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(export PATH=\"$PATH:/c/Program Files/nodejs\")",
+      "Bash(npm --version)",
+      "Bash(npm create:*)",
+      "Bash(npm install:*)",
+      "Bash(cmd.exe /c \"SET PATH=%PATH%;C:\\\\Program Files\\\\nodejs && cd \\\\\"C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform\\\\\" && npm install\" 2>&1)",
+      "Bash(cmd.exe /c \"SET \\\\\"PATH=C:\\\\\\\\Program Files\\\\\\\\nodejs;%PATH%\\\\\" && cd \\\\\"C:\\\\\\\\Users\\\\\\\\Emmanuel\\\\\\\\Desktop\\\\\\\\Learning Platform\\\\\" && npm install 2>&1\")",
+      "Bash(cmd.exe /c \"echo %PATH%\")",
+      "Bash(%PATH% cd:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -File \"C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform\\\\install.ps1\" 2>&1)",
+      "Bash(node -e \"import\\(''./vite.config.js''\\).then\\(m => console.log\\(''vite config ok''\\)\\).catch\\(e => console.error\\(e.message\\)\\)\")",
+      "Bash(ls src/data/concepts/*.json)",
+      "Bash(python3 -c \":*)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(d[''''slug''''], d[''''title'''']\\)\")"
+    ]
+  }
+}

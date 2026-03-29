@@ -1,0 +1,44 @@
+{
+  "id": "divide-conquer-dp-01",
+  "slug": "divide-conquer-dp",
+  "title": "Divide & Conquer DP Optimisation",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "When the optimal split point opt[i] is monotone (opt[i] ≤ opt[i+1]), the O(n²) DP inner loop can be replaced with divide-and-conquer: solve the midpoint, then recurse on each half knowing the opt range is bounded — reducing to O(n log n).",
+    "analogy": "Narrowing a search for the cheapest bus route: instead of checking all possible transfer cities for every destination, you discover that the best transfer city only ever moves right as the destination moves right — halving the search space each time.",
+    "time_complexity": "O(n log n) when opt monotonicity holds; vs O(n²) naïve",
+    "space_complexity": "O(n) for one DP row + O(log n) recursion stack",
+    "when_to_use": [
+      "1D DP recurrence dp[i] = min over j < i of (dp[j] + cost(j, i)) when cost satisfies concave SMAWK / divide-and-conquer opt monotonicity",
+      "Optimal k-partition problems (k-means on sorted data, binomial DP)",
+      "Knuth's O(n²) interval DP optimisation (special case)"
+    ],
+    "gotchas": [
+      "Only valid when the optimal split point is monotone — verify this before applying",
+      "The cost function must satisfy the quadrangle inequality or similar condition for opt monotonicity",
+      "Divide-and-conquer optimisation is different from divide-and-conquer DP — the former is an O(n log n) optimisation of a 1D DP"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-table",
+      "show_opt_monotone": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the divide-and-conquer DP optimisation for a 1D DP with monotone opt.",
+    "starter_code": "def dc_dp(n, cost):\n    \"\"\"\n    Computes dp[i] = min over j in [0, i) of (dp[j] + cost(j, i))\n    using divide-and-conquer on the assumption that opt is monotone.\n    cost: callable cost(j, i)\n    \"\"\"\n    INF = float('inf')\n    dp  = [INF] * (n + 1)\n    dp[0] = 0\n\n    def solve(lo, hi, opt_lo, opt_hi):\n        if lo > hi:\n            return\n        mid = (lo + hi) // 2\n        best_cost = INF\n        best_opt  = opt_lo\n        for j in range(opt_lo, min(opt_hi, mid - 1) + 1):\n            c = dp[j] + cost(j, mid)\n            if c < best_cost:\n                best_cost = c\n                best_opt  = j\n        dp[mid] = best_cost\n        solve(lo,      mid - 1, opt_lo,   best_opt)  # left half: opt in [opt_lo, best_opt]\n        solve(mid + 1, hi,      ___________,  opt_hi)  # right half: opt in [best_opt, opt_hi]\n\n    solve(1, n, 0, n - 1)\n    return dp[n]",
+    "solution": "best_opt",
+    "hints": [
+      "For the right half (indices > mid), the optimal split point is at least best_opt — pass best_opt as the lower bound of the opt range"
+    ],
+    "test_code": "# dp[i] = min over j<i of (dp[j] + (i-j)^2)  (convex cost => monotone opt)\ndef cost(j, i): return (i - j) ** 2\nresult = dc_dp(5, cost)\n# Brute force for verification\nINF = float('inf')\ndp_bf = [INF] * 6; dp_bf[0] = 0\nfor i in range(1, 6):\n    for j in range(i):\n        dp_bf[i] = min(dp_bf[i], dp_bf[j] + cost(j, i))\nassert result == dp_bf[5], f'Got {result}, expected {dp_bf[5]}'\nprint('PASS')"
+  },
+  "related": ["matrix-chain-multiplication-01", "interval-dp-01", "convex-hull-trick-01", "memoization-vs-tabulation-01"],
+  "tags": ["divide-conquer-dp", "DP-optimisation", "monotone-opt", "O(n-log-n)", "advanced-dp"]
+}

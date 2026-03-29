@@ -1,0 +1,46 @@
+{
+  "id": "deque-01",
+  "slug": "deque",
+  "title": "Deque (Double-Ended Queue)",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "A sequence that supports O(1) push and pop at both ends — simultaneously a stack (LIFO from one end) and a queue (FIFO front-to-back).",
+    "analogy": "A subway car with doors at both ends: passengers can board or exit from either the front or the back at any time, with no shuffling needed.",
+    "time_complexity": "O(1) amortised for all four operations: appendleft, append, popleft, pop",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Sliding window problems requiring fast eviction from both ends (monotonic deque)",
+      "BFS where you occasionally need to reprioritise nodes back to the front (0-1 BFS)",
+      "Implementing both stack and queue behaviour in the same structure",
+      "Palindrome checking — compare front and back popping simultaneously"
+    ],
+    "gotchas": [
+      "Python's collections.deque is O(1) on both ends but O(n) for random access — not a replacement for a list when index access is needed",
+      "A list used as a deque (list.insert(0, x)) is O(n) per front insertion — always use collections.deque for front operations",
+      "Circular buffer arrays implement deques with O(1) amortised cost — the indices wrap around modulo capacity"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "deque",
+      "show_front_back": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a deque using a circular array. Complete is_empty and the size calculation.",
+    "starter_code": "class Deque:\n    def __init__(self, capacity=8):\n        self.buf   = [None] * capacity\n        self.front = 0\n        self.back  = 0           # points one past the last element\n        self.cap   = capacity\n        self._size = 0\n\n    def is_empty(self):\n        return ___________\n\n    def __len__(self):\n        return self._size\n\n    def append(self, val):       # push to back\n        self.buf[self.back] = val\n        self.back  = (self.back + 1) % self.cap\n        self._size += 1\n\n    def appendleft(self, val):   # push to front\n        self.front = (self.front - 1) % self.cap\n        self.buf[self.front] = val\n        self._size += 1\n\n    def pop(self):               # pop from back\n        self.back  = (self.back - 1) % self.cap\n        val = self.buf[self.back]\n        self._size -= 1\n        return val\n\n    def popleft(self):           # pop from front\n        val = self.buf[self.front]\n        self.front = ___________\n        self._size -= 1\n        return val",
+    "solution": "return self._size == 0\nself.front = (self.front + 1) % self.cap",
+    "hints": [
+      "is_empty should check whether _size equals 0",
+      "popleft advances front by 1 (wrapping around): (self.front + 1) % self.cap"
+    ],
+    "test_code": "d = Deque()\nassert d.is_empty() == True\nd.append(1); d.append(2); d.append(3)\nassert len(d) == 3\nassert d.popleft() == 1\nassert d.pop()     == 3\nassert len(d) == 1\nd.appendleft(0)\nassert d.popleft() == 0\nassert d.popleft() == 2\nassert d.is_empty() == True\n# Wrap-around test\nfor i in range(6): d.append(i)\nfor i in range(6): assert d.popleft() == i, f'Expected {i}'\nprint('PASS')"
+  },
+  "related": ["monotonic-queue-01", "min-stack-01", "sliding-window-max-01"],
+  "tags": ["deque", "double-ended-queue", "circular-buffer", "O(1)", "stack", "queue"]
+}

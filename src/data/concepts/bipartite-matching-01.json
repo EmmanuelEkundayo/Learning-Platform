@@ -1,0 +1,44 @@
+{
+  "id": "bipartite-matching-01",
+  "slug": "bipartite-matching",
+  "title": "Bipartite Matching",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Try to augment the matching by finding augmenting paths via DFS: an augmenting path alternates between unmatched and matched edges, starting and ending at unmatched nodes. Each augmenting path increases matching size by 1.",
+    "analogy": "Assigning workers to jobs: each worker prefers certain jobs. Try to assign each worker; if their preferred job is taken, see if the current holder can switch to another job — a chain of reassignments is an augmenting path.",
+    "time_complexity": "O(VE) for Hungarian / augmenting-path DFS; O(E√V) for Hopcroft-Karp",
+    "space_complexity": "O(V + E)",
+    "when_to_use": [
+      "Job assignment / task allocation problems",
+      "Maximum bipartite matching",
+      "Minimum vertex cover via König's theorem: min cover = max matching in bipartite graphs"
+    ],
+    "gotchas": [
+      "The augmenting-path DFS uses a 'visited' set per augmentation attempt to avoid infinite loops",
+      "König's theorem: minimum vertex cover size = maximum matching size in bipartite graphs",
+      "Reduce to max flow: source→left nodes (cap 1), edges (cap 1), right nodes→sink (cap 1)"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "bipartite-matching",
+      "show_matching": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement maximum bipartite matching using augmenting-path DFS.",
+    "starter_code": "def bipartite_matching(left_n, right_n, adj):\n    \"\"\"\n    left_n : number of left nodes (0..left_n-1)\n    right_n: number of right nodes (0..right_n-1)\n    adj    : adj[u] = list of right nodes u can match with\n    Returns size of maximum matching.\n    \"\"\"\n    match_left  = [-1] * left_n    # match_left[u]  = right node matched to u\n    match_right = [-1] * right_n   # match_right[v] = left  node matched to v\n\n    def try_augment(u, visited):\n        for v in adj[u]:\n            if visited[v]:\n                continue\n            visited[v] = True\n            # v is free OR its current match can find another job\n            if match_right[v] == -1 or try_augment(match_right[v], visited):\n                match_left[u]  = v\n                match_right[v] = ___________\n                return True\n        return False\n\n    result = 0\n    for u in range(left_n):\n        visited = [False] * right_n\n        if try_augment(u, visited):\n            result += 1\n    return result",
+    "solution": "u",
+    "hints": [
+      "When we successfully match u to v, record the reverse mapping: match_right[v] = u"
+    ],
+    "test_code": "# Workers 0,1,2 -> Jobs 0,1,2\nadj = [[0,1],[1,2],[0,2]]\nassert bipartite_matching(3, 3, adj) == 3  # perfect matching\n\n# Only 2 matches possible\nadj2 = [[0],[0],[0,1]]\nassert bipartite_matching(3, 2, adj2) == 2\n\n# No matching\nadj3 = [[],[]]\nassert bipartite_matching(2, 2, adj3) == 0\nprint('PASS')"
+  },
+  "related": ["network-flow-ford-fulkerson-01", "bipartite-check-01", "union-find-01", "dijkstra-01"],
+  "tags": ["bipartite-matching", "augmenting-path", "Hopcroft-Karp", "matching", "graph"]
+}

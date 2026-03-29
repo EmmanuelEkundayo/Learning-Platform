@@ -1,0 +1,44 @@
+{
+  "id": "naive-bayes-01",
+  "slug": "naive-bayes",
+  "title": "Naive Bayes",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Apply Bayes' theorem assuming features are conditionally independent given the class: P(y|x) ∝ P(y)·∏P(xⱼ|y). Gaussian NB models P(xⱼ|y) as N(μⱼᵧ, σ²ⱼᵧ). Despite the 'naive' independence assumption, it works surprisingly well for text and other sparse high-dimensional data.",
+    "analogy": "Diagnosing a patient using a medical checklist: assume each symptom provides independent evidence for each disease. Multiply the probabilities for each observed symptom per disease and multiply by the disease prevalence — the disease with the highest score wins.",
+    "time_complexity": "O(n·d) to train; O(k·d) to predict (k = number of classes)",
+    "space_complexity": "O(k·d) for per-class statistics",
+    "when_to_use": [
+      "Text classification (spam, sentiment) — Multinomial NB works well with bag-of-words",
+      "Fast training and prediction when features are approximately independent",
+      "Strong baseline especially when training data is small"
+    ],
+    "gotchas": [
+      "Zero probability for unseen feature-class combinations — use Laplace smoothing: add 1 to all counts",
+      "Log probabilities to avoid numerical underflow when multiplying many small probabilities",
+      "Gaussian NB assumes normally distributed continuous features — check this assumption"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "naive-bayes",
+      "show_likelihoods": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Gaussian Naive Bayes: fit per-class mean/variance, predict using log-likelihoods.",
+    "starter_code": "import math\n\nclass GaussianNB:\n    def fit(self, X, y):\n        classes  = list(set(y))\n        self.classes_ = classes\n        n, d     = len(X), len(X[0])\n        self.log_prior_ = {}\n        self.mean_  = {}\n        self.var_   = {}\n        for c in classes:\n            Xc = [X[i] for i in range(n) if y[i] == c]\n            nc = len(Xc)\n            self.log_prior_[c] = math.log(nc / n)\n            self.mean_[c]  = [sum(Xc[i][j] for i in range(nc))/nc for j in range(d)]\n            self.var_[c]   = [max(1e-9, sum((Xc[i][j]-self.mean_[c][j])**2\n                              for i in range(nc))/nc) for j in range(d)]\n        return self\n\n    def _log_likelihood(self, x, c):\n        d = len(x)\n        ll = 0.0\n        for j in range(d):\n            mu, var = self.mean_[c][j], self.var_[c][j]\n            ll += ___________   # log of Gaussian PDF\n        return ll\n\n    def predict(self, X):\n        return [max(self.classes_,\n                    key=lambda c: self.log_prior_[c] + self._log_likelihood(x, c))\n                for x in X]",
+    "solution": "-0.5 * math.log(2 * math.pi * var) - (x[j] - mu)**2 / (2 * var)",
+    "hints": [
+      "Log of Gaussian PDF: -0.5*log(2π*σ²) - (x-μ)²/(2σ²) — this avoids computing exp and handles numerical stability"
+    ],
+    "test_code": "X_tr = [[1,2],[1.5,1.8],[2,1],[6,5],[7,6],[6.5,5.5]]\ny_tr = [0,0,0,1,1,1]\ngnb = GaussianNB().fit(X_tr, y_tr)\npreds = gnb.predict(X_tr)\nassert preds == y_tr\n# Test on new points\nassert gnb.predict([[1,1]])[0] == 0\nassert gnb.predict([[7,5]])[0] == 1\nprint('PASS')"
+  },
+  "related": ["logistic-regression-01", "knn-01", "cross-validation-01", "feature-scaling-01"],
+  "tags": ["naive-bayes", "Gaussian-NB", "Bayes-theorem", "independence-assumption", "generative-model"]
+}

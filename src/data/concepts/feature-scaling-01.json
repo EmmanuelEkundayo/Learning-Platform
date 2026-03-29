@@ -1,0 +1,44 @@
+{
+  "id": "feature-scaling-01",
+  "slug": "feature-scaling",
+  "title": "Feature Scaling",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Standardisation (z-score): subtract mean, divide by std → N(0,1). Min-max scaling: subtract min, divide by range → [0,1]. Unscaled features with very different magnitudes cause gradient descent to converge slowly (loss contours are elongated ellipses) and distance-based algorithms to ignore small-scale features.",
+    "analogy": "Converting currencies before comparing prices: if one feature is in dollars and another in cents, the model incorrectly treats the cent-feature as 100× more important. Scaling puts everything on the same currency.",
+    "time_complexity": "O(n) per feature for fit and transform",
+    "space_complexity": "O(d) to store mean/std or min/max per feature",
+    "when_to_use": [
+      "Before any gradient-based algorithm (linear/logistic regression, neural networks, SVMs)",
+      "Before distance-based algorithms (KNN, K-means, DBSCAN)",
+      "Not needed for tree-based models (decision trees, random forests, gradient boosting)"
+    ],
+    "gotchas": [
+      "Fit scaler on TRAIN data only — apply same transform to validation and test to prevent data leakage",
+      "Outliers distort min-max scaling — use standardisation or robust scaler (median/IQR) for outlier-heavy data",
+      "Tree-based models are invariant to feature scaling — no need to scale for them"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "mode": "feature-scaling",
+      "show_before_after": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a StandardScaler (z-score) and MinMaxScaler.",
+    "starter_code": "class StandardScaler:\n    def fit(self, X):\n        n, d = len(X), len(X[0])\n        self.mean_ = [sum(X[i][j] for i in range(n))/n for j in range(d)]\n        self.std_  = [max(1e-8, (sum((X[i][j]-self.mean_[j])**2 for i in range(n))/n)**0.5)\n                      for j in range(d)]\n        return self\n    def transform(self, X):\n        return [[(X[i][j] - self.mean_[j]) / self.std_[j]\n                 for j in range(len(X[i]))] for i in range(len(X))]\n\nclass MinMaxScaler:\n    def fit(self, X):\n        d = len(X[0])\n        self.min_  = [min(X[i][j] for i in range(len(X))) for j in range(d)]\n        self.range_= [max(max(X[i][j] for i in range(len(X))) - self.min_[j], 1e-8)\n                      for j in range(d)]\n        return self\n    def transform(self, X):\n        return [[(X[i][j] - self.min_[j]) / self.range_[j]\n                 for j in range(len(X[i]))] for i in range(len(X))]\n\ndef fit_transform(scaler, X_train, X_test):\n    scaler.fit(___________)\n    return scaler.transform(X_train), scaler.transform(X_test)",
+    "solution": "X_train",
+    "hints": [
+      "Always fit the scaler on X_train only — fitting on test data would leak test statistics into preprocessing"
+    ],
+    "test_code": "import math\nX_train = [[1,100],[2,200],[3,300],[4,400]]\nX_test  = [[2.5, 250]]\n\nss = StandardScaler()\nXtr, Xte = fit_transform(ss, X_train, X_test)\nassert math.isclose(sum(r[0] for r in Xtr)/len(Xtr), 0, abs_tol=1e-9)\nassert math.isclose(sum(r[1] for r in Xtr)/len(Xtr), 0, abs_tol=1e-9)\nassert math.isclose(Xte[0][0], 0.0, abs_tol=1e-6)  # 2.5 is the mean\n\nmm = MinMaxScaler()\nXtr2, Xte2 = fit_transform(mm, X_train, X_test)\nassert Xtr2[0] == [0.0, 0.0]\nassert Xtr2[-1] == [1.0, 1.0]\nassert Xte2[0][0] == 0.5  # (2.5-1)/(4-1)\nprint('PASS')"
+  },
+  "related": ["stochastic-gradient-descent-01", "knn-01", "svm-linear-01", "logistic-regression-01"],
+  "tags": ["feature-scaling", "standardisation", "z-score", "min-max", "normalisation", "preprocessing"]
+}

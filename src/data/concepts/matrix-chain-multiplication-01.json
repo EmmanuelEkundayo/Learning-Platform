@@ -1,0 +1,44 @@
+{
+  "id": "matrix-chain-multiplication-01",
+  "slug": "matrix-chain-multiplication",
+  "title": "Matrix Chain Multiplication",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Multiplying a chain of matrices A₁A₂...Aₙ — parenthesisation order doesn't change the result but dramatically changes the cost. dp[i][j] = minimum scalar multiplications to multiply matrices i..j. Try every split point k: dp[i][j] = min over k of (dp[i][k] + dp[k+1][j] + rows[i]*cols[k]*cols[j]).",
+    "analogy": "Deciding the order to process a pipeline of transforms: doing a cheap operation early can drastically reduce the size of data flowing through the rest, making subsequent operations cheaper.",
+    "time_complexity": "O(n³)",
+    "space_complexity": "O(n²)",
+    "when_to_use": [
+      "Optimising matrix multiplication order in linear algebra pipelines",
+      "Parsing with CYK algorithm (same DP structure)",
+      "Interval DP template: any problem of the form 'optimal way to split a range'"
+    ],
+    "gotchas": [
+      "Input is dimensions array where matrix i has dims[i] × dims[i+1] — length n+1 for n matrices",
+      "dp[i][i] = 0 for all i (single matrix, no multiplication needed)",
+      "Fill by chain length l = 2, 3, ..., n — not by row/column"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "interval-dp",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement matrix chain multiplication DP.",
+    "starter_code": "def matrix_chain(dims):\n    \"\"\"\n    dims: list of n+1 dimensions; matrix i has shape dims[i] x dims[i+1]\n    Returns minimum number of scalar multiplications.\n    \"\"\"\n    n = len(dims) - 1\n    dp = [[0] * n for _ in range(n)]\n\n    for length in range(2, n + 1):          # chain length\n        for i in range(n - length + 1):\n            j = i + length - 1\n            dp[i][j] = float('inf')\n            for k in range(i, j):           # split point\n                cost = (dp[i][k] + dp[k+1][j]\n                        + ___________)\n                dp[i][j] = min(dp[i][j], cost)\n    return dp[0][n-1]",
+    "solution": "dims[i] * dims[k+1] * dims[j+1]",
+    "hints": [
+      "The cost of multiplying the left and right parts together is dims[i] * dims[k+1] * dims[j+1] — rows of left part × inner dimension × columns of right part"
+    ],
+    "test_code": "# 4 matrices: 10x30, 30x5, 5x60 -> min = 27000\nassert matrix_chain([10,30,5,60]) == 27000\n# Classic: 40x20, 20x30, 30x10, 10x30\nassert matrix_chain([40,20,30,10,30]) == 26000\n# Single matrix\nassert matrix_chain([5,10]) == 0\n# Two matrices\nassert matrix_chain([2,3,4]) == 24  # 2*3*4 = 24\nprint('PASS')"
+  },
+  "related": ["interval-dp-01", "dp-knapsack-01", "memoization-vs-tabulation-01", "divide-conquer-dp-01"],
+  "tags": ["matrix-chain", "interval-dp", "dynamic-programming", "O(n^3)", "parenthesisation"]
+}

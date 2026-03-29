@@ -1,0 +1,46 @@
+{
+  "id": "dfs-postorder-01",
+  "slug": "dfs-postorder",
+  "title": "DFS Post-order Traversal",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Visit Left, then Right, then Root — children are always processed before their parent, making it natural for bottom-up computations.",
+    "analogy": "Cleaning up after a party: you tidy every room in the east wing, then the west wing, then the hallway between them — always finish sub-areas before the connecting space.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(h)",
+    "when_to_use": [
+      "Delete a tree — you must free children before the parent",
+      "Evaluate an expression tree — compute leaves before operators",
+      "Tree DP where a node's answer depends on its children's answers",
+      "Compute subtree sizes, depths, or any aggregate that propagates upward"
+    ],
+    "gotchas": [
+      "Iterative post-order trick: run a modified pre-order (Root, Right, Left) then reverse the result — gives Left, Right, Root",
+      "Two-stack approach: push to result stack instead of printing; pop result stack at the end",
+      "Don't confuse with pre-order — post-order root comes LAST, pre-order root comes FIRST"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "dfs-postorder",
+      "highlight_path": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement iterative post-order using the 'reverse modified pre-order' trick.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef postorder(root):\n    if not root:\n        return []\n    # Modified pre-order: Root -> Right -> Left (note: right before left)\n    stack  = [root]\n    result = []\n    while stack:\n        node = stack.pop()\n        result.append(node.val)\n        if node.left:  stack.append(___________)\n        if node.right: stack.append(___________)\n    return result[::-1]   # reverse gives Left -> Right -> Root",
+    "solution": "node.left\nnode.right",
+    "hints": [
+      "This modified pre-order pushes left first (so right is processed first), giving Root→Right→Left order",
+      "Reversing Root→Right→Left gives Left→Right→Root, which is post-order"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\nroot=TreeNode(1,TreeNode(2,TreeNode(4),TreeNode(5)),TreeNode(3))\nassert postorder(root) == [4,5,2,3,1], 'Standard post-order'\nassert postorder(TreeNode(1)) == [1], 'Single'\nassert postorder(None) == [], 'Empty'\nroot2=TreeNode(1,TreeNode(2,TreeNode(3)))\nassert postorder(root2) == [3,2,1], 'Left-skewed'\nprint('PASS')"
+  },
+  "related": ["dfs-preorder-01", "dfs-inorder-01", "tree-dp-01"],
+  "tags": ["DFS", "post-order", "tree", "traversal", "bottom-up"]
+}

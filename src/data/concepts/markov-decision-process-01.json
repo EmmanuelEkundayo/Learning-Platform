@@ -1,0 +1,44 @@
+{
+  "id": "markov-decision-process-01",
+  "slug": "markov-decision-process",
+  "title": "Markov Decision Process (MDP)",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An MDP is a tuple (S, A, P, R, γ): states S, actions A, transition probabilities P(s'|s,a), reward R(s,a,s'), discount γ∈[0,1). The Markov property: the future depends only on the current state, not history. The goal is to find a policy π(a|s) maximising expected discounted return G_t = Σ γᵏR_{t+k+1}.",
+    "analogy": "A board game where each position is a state, possible moves are actions, dice rolls encode transition probabilities, and points earned are rewards. A good player (policy) chooses moves that maximise total future score, discounting distant rewards less than immediate ones.",
+    "time_complexity": "O(|S|² · |A|) per value iteration sweep",
+    "space_complexity": "O(|S| · |A|) for Q-table or O(|S|) for value function",
+    "when_to_use": [
+      "Formulating any sequential decision problem under uncertainty",
+      "Robotics, game AI, resource scheduling, recommendation systems",
+      "Foundation for all RL algorithms — define MDP before choosing algorithm"
+    ],
+    "gotchas": [
+      "Fully observable MDP assumes agent sees full state — POMDPs handle partial observability",
+      "γ close to 1: values can explode for continuing tasks without terminal states",
+      "Tabular MDPs require enumerable S and A — use function approximation (DQN, PPO) for large spaces"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "mdp-value-grid",
+      "show_policy_arrows": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement value iteration for a small MDP.",
+    "starter_code": "def value_iteration(S, A, P, R, gamma=0.9, theta=1e-6):\n    \"\"\"\n    S: list of states\n    A: list of actions\n    P: P[s][a][s'] = transition probability\n    R: R[s][a]     = expected reward\n    Returns V (value function) and policy.\n    \"\"\"\n    V = {s: 0.0 for s in S}\n    while True:\n        delta = 0.0\n        for s in S:\n            v = V[s]\n            # Bellman optimality: V(s) = max_a [R(s,a) + gamma * sum_s' P(s,a,s')*V(s')]\n            V[s] = max(\n                R[s][a] + gamma * sum(P[s][a][sp] * V[sp] for sp in S)\n                for a in A\n            )\n            delta = max(delta, ___________)\n        if delta < theta:\n            break\n    policy = {s: max(A, key=lambda a: R[s][a] + gamma*sum(P[s][a][sp]*V[sp] for sp in S))\n              for s in S}\n    return V, policy",
+    "solution": "abs(v - V[s])",
+    "hints": [
+      "delta tracks the maximum change across all states: abs(old_value - new_value) for each state s."
+    ],
+    "test_code": "# 2-state MDP: s0 (non-terminal), s1 (absorbing)\nS = ['s0','s1']\nA = ['a0','a1']\nP = {\n    's0': {'a0': {'s0':0.0,'s1':1.0}, 'a1': {'s0':1.0,'s1':0.0}},\n    's1': {'a0': {'s0':0.0,'s1':1.0}, 'a1': {'s0':0.0,'s1':1.0}}\n}\nR = {'s0': {'a0': 10.0, 'a1': 0.0}, 's1': {'a0': 0.0, 'a1': 0.0}}\nV, pi = value_iteration(S, A, P, R, gamma=0.9)\nassert pi['s0'] == 'a0', 'From s0, a0 gives reward 10 and goes to s1'\nassert V['s0'] > V['s1']  # s0 has value because a0 yields reward\nprint('PASS')"
+  },
+  "related": ["bellman-equation-01", "q-learning-01", "policy-gradient-01", "deep-q-network-01"],
+  "tags": ["MDP", "Markov-decision-process", "value-iteration", "Bellman", "policy", "reinforcement-learning"]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "segment-tree-01",
+  "slug": "segment-tree",
+  "title": "Segment Tree",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A complete binary tree where each node stores an aggregate (sum, min, max) over a subarray — a range query decomposes into O(log n) non-overlapping stored segments.",
+    "analogy": "A company org chart where each manager's file summarises all reports below them. To get the total headcount of any division, look up just the relevant manager nodes — no individual counting needed.",
+    "time_complexity": "O(n) build; O(log n) point update; O(log n) range query",
+    "space_complexity": "O(4n) for the tree array — size 4n is safe for any n",
+    "when_to_use": [
+      "Range sum/min/max queries with point updates — the sweet spot over prefix sums (which don't support updates)",
+      "Range update + range query with lazy propagation",
+      "Counting inversions, range GCD, range OR/AND, range multiply"
+    ],
+    "gotchas": [
+      "Allocate tree array of size 4n — a tree of n leaves needs at most 4n nodes in 1-indexed representation",
+      "Node i's left child is 2i, right child is 2i+1 (1-indexed) — this is the standard segment tree layout",
+      "Lazy propagation is required for range updates — without it, a range update takes O(n) not O(log n)"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "segment-tree",
+      "show_ranges": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the segment tree range sum query. Decompose [l, r] into stored segments.",
+    "starter_code": "class SegmentTree:\n    def __init__(self, arr):\n        self.n    = len(arr)\n        self.tree = [0] * (4 * self.n)\n        self._build(arr, 1, 0, self.n - 1)\n\n    def _build(self, arr, node, start, end):\n        if start == end:\n            self.tree[node] = arr[start]\n        else:\n            mid = (start + end) // 2\n            self._build(arr, 2*node,   start, mid)\n            self._build(arr, 2*node+1, mid+1, end)\n            self.tree[node] = self.tree[2*node] + self.tree[2*node+1]\n\n    def query(self, l, r, node=1, start=0, end=None):\n        if end is None: end = self.n - 1\n        if r < start or end < l:     # completely outside\n            return 0\n        if l <= start and end <= r:  # completely inside\n            return ___________\n        mid = (start + end) // 2\n        left  = self.query(l, r, 2*node,   start, mid)\n        right = self.query(l, r, 2*node+1, mid+1, end)\n        return ___________\n\n    def update(self, i, val, node=1, start=0, end=None):\n        if end is None: end = self.n - 1\n        if start == end:\n            self.tree[node] = val; return\n        mid = (start + end) // 2\n        if i <= mid: self.update(i, val, 2*node,   start, mid)\n        else:        self.update(i, val, 2*node+1, mid+1, end)\n        self.tree[node] = self.tree[2*node] + self.tree[2*node+1]",
+    "solution": "return self.tree[node]\nreturn left + right",
+    "hints": [
+      "When the query range completely covers the current segment [start, end], return self.tree[node] — no need to go deeper",
+      "Otherwise merge left and right recursive results: return left + right"
+    ],
+    "test_code": "arr = [1,3,5,7,9,11]\nst  = SegmentTree(arr)\nassert st.query(0,2)  == 9,   'sum [0,2] = 1+3+5'\nassert st.query(0,5)  == 36,  'sum all'\nassert st.query(3,5)  == 27,  'sum [3,5] = 7+9+11'\nassert st.query(1,1)  == 3,   'single element'\nst.update(1, 10)\nassert st.query(0,2)  == 16,  'after update: 1+10+5'\nassert st.query(0,5)  == 43,  'full sum after update'\nprint('PASS')"
+  },
+  "related": ["fenwick-tree-01", "prefix-sum-01", "avl-tree-01"],
+  "tags": ["segment-tree", "range-query", "range-update", "O(log-n)", "tree"]
+}

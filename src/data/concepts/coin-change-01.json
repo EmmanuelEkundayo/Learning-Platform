@@ -1,0 +1,44 @@
+{
+  "id": "coin-change-01",
+  "slug": "coin-change",
+  "title": "Coin Change",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "dp[a] = minimum coins to make amount a. For each coin c, dp[a] = min(dp[a], dp[a-c] + 1). Because coins can be reused, iterate amount from 0 to target — same as unbounded knapsack. Initialise dp[0]=0, all others ∞.",
+    "analogy": "Making change at a till: for each target amount, consider using every coin denomination and keep track of the minimum coins needed. Build up from 1 cent to the target.",
+    "time_complexity": "O(amount · n) where n = number of coin denominations",
+    "space_complexity": "O(amount)",
+    "when_to_use": [
+      "Minimum coin change (classic DP problem)",
+      "Number of ways to make change (change count DP variant)",
+      "Any unbounded item selection problem with a sum target"
+    ],
+    "gotchas": [
+      "Initialise dp[0]=0 and dp[1..amount]=∞ — not 0, to distinguish 'reachable with 0 coins' from 'unreachable'",
+      "If dp[amount] is still ∞ after filling, return -1 (no solution)",
+      "Greedy (always pick the largest coin) does NOT work for all coin sets — use DP"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "dp-1d",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement coin change: minimum number of coins to make the target amount.",
+    "starter_code": "def coin_change(coins, amount):\n    dp = [float('inf')] * (amount + 1)\n    dp[0] = 0\n    for a in range(1, amount + 1):\n        for c in coins:\n            if c <= a:\n                dp[a] = min(dp[a], ___________)\n    return dp[amount] if dp[amount] != float('inf') else -1",
+    "solution": "dp[a - c] + 1",
+    "hints": [
+      "If coin c fits (c <= a), try dp[a-c] + 1 — one more coin than what was needed for amount a-c"
+    ],
+    "test_code": "assert coin_change([1,5,10,25], 36) == 3   # 25+10+1\nassert coin_change([1,5,11], 15) == 3       # 11+1+1+1+1? No: 5+5+5=3 ✓\nassert coin_change([2], 3) == -1            # impossible\nassert coin_change([1], 0) == 0\nassert coin_change([1,2,5], 11) == 3        # 5+5+1\nprint('PASS')"
+  },
+  "related": ["knapsack-unbounded-01", "subset-sum-01", "dp-knapsack-01", "memoization-vs-tabulation-01"],
+  "tags": ["coin-change", "dynamic-programming", "unbounded-knapsack", "minimum-coins", "1D-DP"]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "tree-dp-01",
+  "slug": "tree-dp",
+  "title": "Tree DP",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Define a DP state at each node that summarises the optimal answer for its subtree — compute children first (post-order), then combine at the parent. The tree structure naturally prevents cycles, so no memoization is needed.",
+    "analogy": "Planning the best seating arrangement for a large family dinner: you decide each table (subtree) independently, then combine tables into the full venue — the decision at each table only depends on who sits there, not other tables.",
+    "time_complexity": "O(n) — single post-order DFS",
+    "space_complexity": "O(h) for the call stack; O(n) if storing per-node states",
+    "when_to_use": [
+      "Maximum independent set on a tree (include/exclude each node)",
+      "Minimum vertex cover, maximum matching on trees",
+      "Subtree aggregate problems: max path sum, diameter, longest chain"
+    ],
+    "gotchas": [
+      "Tree DP states are defined per subtree root — always think 'what does this node need to know about its subtree?'",
+      "Often need two states per node: one where the node is selected, one where it is not",
+      "For path problems crossing a node, track the best depth from that node downward, then combine left + right (same pattern as tree diameter)"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "tree-dp",
+      "show_states": true,
+      "highlight_path": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Maximum Independent Set on a tree: find the largest subset of nodes such that no two adjacent nodes are both selected.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef max_independent_set(root):\n    \"\"\"\n    Returns the size of the maximum independent set.\n    dp(node) -> (include, exclude)\n      include = size of MIS in subtree when node IS selected\n      exclude = size of MIS in subtree when node is NOT selected\n    \"\"\"\n    def dp(node):\n        if not node:\n            return (0, 0)\n        li, le = dp(node.left)\n        ri, re = dp(node.right)\n        # If we include this node, children must be excluded\n        include = 1 + ___________\n        # If we exclude this node, children can be included or excluded (take best)\n        exclude  = ___________\n        return (include, exclude)\n\n    inc, exc = dp(root)\n    return max(inc, exc)",
+    "solution": "include = 1 + le + re\nexclude = max(li, le) + max(ri, re)",
+    "hints": [
+      "When the current node is included, its direct children cannot be — use the children's 'exclude' values",
+      "When the current node is excluded, each child may independently be included or excluded — take max(li, le) + max(ri, re)"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\n\n# Tree: 1 -> 2,3 -> 4,5 (children of 2)\nroot=TreeNode(1,TreeNode(2,TreeNode(4),TreeNode(5)),TreeNode(3))\nassert max_independent_set(root) == 3, 'Select 1,4,5 or 4,5,3 -> 3 nodes... best: {4,5,3}=3 or {4,5,1}... actually {4,5,3}=3'\n# Verify: selecting 4,5,3 gives 3 non-adjacent nodes\n\n# Chain: 1-2-3-4\nchain=TreeNode(1,TreeNode(2,TreeNode(3,TreeNode(4))))\nassert max_independent_set(chain) == 2, 'Chain of 4: select 1,3 or 2,4 -> 2'\n\nassert max_independent_set(None) == 0, 'Empty'\nassert max_independent_set(TreeNode(1)) == 1, 'Single node'\nprint('PASS')"
+  },
+  "related": ["tree-diameter-01", "lowest-common-ancestor-01", "dfs-postorder-01", "segment-tree-01"],
+  "tags": ["tree-dp", "dynamic-programming", "independent-set", "post-order", "tree"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "rnn-01",
+  "slug": "rnn",
+  "title": "Recurrent Neural Network (RNN)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "At each time step t, combine the new input xₜ with the previous hidden state hₜ₋₁: hₜ = tanh(Wₕxₜ + Uₕhₜ₋₁ + b). The hidden state is a running memory of the sequence. Backpropagation through time (BPTT) unrolls the network T steps back and sums gradients — causing vanishing/exploding gradients for long sequences.",
+    "analogy": "Reading a sentence word by word while maintaining a mental summary: each new word (xₜ) updates your current understanding (hₜ) based on what you've read so far (hₜ₋₁). By the end of a very long book, the earliest chapters are barely remembered — the vanishing gradient problem.",
+    "time_complexity": "O(T · d²) per sequence (T steps, d-dimensional hidden state)",
+    "space_complexity": "O(T · d) for unrolled hidden states during BPTT",
+    "when_to_use": [
+      "Short sequences (T < 50) where long-range dependencies are not critical",
+      "Understanding foundations before LSTM/GRU/Transformer",
+      "Character-level language models, simple time-series"
+    ],
+    "gotchas": [
+      "Vanishing gradient: gradients decay exponentially with T — use LSTM/GRU for T > 50",
+      "Exploding gradient: use gradient clipping (clip to max norm) as standard practice",
+      "Backprop through time is O(T) memory — truncated BPTT trades off accuracy for memory"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "rnn-unrolled",
+      "show_hidden_state": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement an RNN forward pass over a sequence.",
+    "starter_code": "import math\n\ndef tanh_vec(v): return [math.tanh(x) for x in v]\n\ndef matvec(W, x):\n    return [sum(W[i][j]*x[j] for j in range(len(x))) for i in range(len(W))]\n\ndef add_vecs(*vecs):\n    return [sum(v[i] for v in vecs) for i in range(len(vecs[0]))]\n\ndef rnn_forward(X, Wh, Uh, bh, h0=None):\n    \"\"\"\n    X  : list of T input vectors each of size d_in\n    Wh : d_h x d_in   input-to-hidden weights\n    Uh : d_h x d_h    hidden-to-hidden weights\n    bh : d_h bias\n    Returns list of T hidden states.\n    \"\"\"\n    d_h = len(bh)\n    h = h0 if h0 is not None else [0.0] * d_h\n    states = []\n    for x in X:\n        h = tanh_vec(add_vecs(matvec(Wh, x), ___________, bh))\n        states.append(h)\n    return states",
+    "solution": "matvec(Uh, h)",
+    "hints": [
+      "The recurrent connection: add the transformed previous hidden state Uh·h to the input term Wh·x and bias."
+    ],
+    "test_code": "import math\n# 2-input, 3-hidden\nWh = [[0.1,0.2],[0.3,0.4],[0.5,0.6]]\nUh = [[0.1,0.0,0.0],[0.0,0.1,0.0],[0.0,0.0,0.1]]\nbh = [0.0,0.0,0.0]\n\nX = [[1.0,0.0],[0.0,1.0],[1.0,1.0]]\nstates = rnn_forward(X, Wh, Uh, bh)\nassert len(states) == 3\nassert len(states[0]) == 3\n# All hidden values should be in (-1,1) due to tanh\nassert all(-1 < v < 1 for h in states for v in h)\n# h0 defaults to zeros\nstates2 = rnn_forward(X, Wh, Uh, bh, h0=[0.0,0.0,0.0])\nassert states == states2\nprint('PASS')"
+  },
+  "related": ["lstm-01", "gru-01", "vanishing-exploding-gradients-01", "seq2seq-01"],
+  "tags": ["RNN", "recurrent-neural-network", "hidden-state", "BPTT", "sequence-modeling", "vanishing-gradient"]
+}

@@ -1,0 +1,45 @@
+{
+  "id": "xor-linked-list-01",
+  "slug": "xor-linked-list",
+  "title": "XOR Linked List",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Store only one pointer per node — the XOR of the previous and next node addresses — so you can derive either neighbor given the one you came from.",
+    "analogy": "A trail of breadcrumbs where each crumb encodes both the one before it and after it in a single mark. As long as you remember where you came from, you can always find where to go next.",
+    "time_complexity": "O(1) for insert at ends; O(n) traversal",
+    "space_complexity": "O(n) — halves pointer storage vs a standard doubly linked list",
+    "when_to_use": [
+      "Doubly linked list functionality with only one pointer per node — halves pointer overhead in memory-constrained environments",
+      "Embedded systems or low-level memory management where pointer size matters",
+      "Understanding bitwise operations applied to memory addresses"
+    ],
+    "gotchas": [
+      "Not supported in garbage-collected languages (Python, Java, Go) — only in languages where you control raw memory addresses (C, C++, Rust unsafe)",
+      "You must always carry the 'previous node' pointer as you traverse — the npx field alone is useless without context",
+      "Any external reference to a node must hold it alive (no GC) — XOR of unmanaged pointers is undefined behavior if either is freed"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "xor-list",
+      "show_npx": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Simulate XOR linked list traversal using integer IDs as proxy for memory addresses.",
+    "starter_code": "# We simulate with integer node IDs instead of real pointers.\n# Each node stores npx = prev_id XOR next_id.\n# 0 is the null sentinel.\n\ndef build_xor_list(values):\n    \"\"\"Return (nodes_dict, head_id) where nodes_dict maps id -> {val, npx}.\"\"\"\n    nodes = {}\n    prev_id = 0\n    first_id = None\n    for i, v in enumerate(values, start=1):\n        next_id = i + 1 if i < len(values) else 0\n        npx = prev_id ^ next_id\n        nodes[i] = {'val': v, 'npx': npx}\n        if first_id is None:\n            first_id = i\n        prev_id = i\n    return nodes, first_id\n\ndef traverse_xor_list(nodes, head_id):\n    \"\"\"Return list of values by traversing the XOR linked list forward.\"\"\"\n    result = []\n    prev_id, cur_id = 0, head_id\n    while cur_id != 0:\n        result.append(nodes[cur_id]['val'])\n        next_id = ___________      # derive next from npx XOR prev\n        prev_id, cur_id = cur_id, next_id\n    return result",
+    "solution": "next_id = nodes[cur_id]['npx'] ^ prev_id",
+    "hints": [
+      "npx stores prev XOR next. You know prev_id, so: next_id = npx XOR prev_id",
+      "XOR is its own inverse: if npx = prev XOR next, then npx XOR prev = next"
+    ],
+    "test_code": "nodes, head = build_xor_list([10, 20, 30, 40, 50])\nassert traverse_xor_list(nodes, head) == [10,20,30,40,50], 'Forward traversal'\nnodes2, head2 = build_xor_list([1])\nassert traverse_xor_list(nodes2, head2) == [1], 'Single node'\nnodes3, head3 = build_xor_list([7, 8])\nassert traverse_xor_list(nodes3, head3) == [7,8], 'Two nodes'\nprint('PASS')"
+  },
+  "related": ["doubly-linked-list-01", "reverse-linked-list-01"],
+  "tags": ["xor-linked-list", "bitwise", "memory", "doubly-linked", "advanced"]
+}

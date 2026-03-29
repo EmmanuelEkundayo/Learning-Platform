@@ -1,0 +1,46 @@
+{
+  "id": "dfs-inorder-01",
+  "slug": "dfs-inorder",
+  "title": "DFS In-order Traversal",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Visit Left, then Root, then Right — for a Binary Search Tree this produces nodes in ascending sorted order.",
+    "analogy": "Reading a book where each chapter has a preface section, then the main content, then an epilogue — you read the entire left sub-book before the current chapter's content, then the right sub-book.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(h) — O(log n) balanced, O(n) skewed",
+    "when_to_use": [
+      "Get BST elements in sorted order in O(n)",
+      "Validate whether a binary tree is a valid BST (check previous in-order value)",
+      "Find the kth smallest element in a BST",
+      "Flatten a BST to a sorted linked list in-place"
+    ],
+    "gotchas": [
+      "Iterative in-order: go left as deep as possible (pushing to stack), then process, then move right — this is the 'drill left, process, pivot right' pattern",
+      "In-order only gives sorted output for BSTs — it is NOT sorted for a general binary tree",
+      "For iterative: the loop condition is `while stack or curr` — not just `while stack`"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "dfs-inorder",
+      "highlight_path": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement iterative in-order traversal (Left → Root → Right) without recursion.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef inorder(root):\n    result = []\n    stack  = []\n    curr   = root\n    while stack or curr:\n        # Drill all the way left\n        while curr:\n            stack.append(curr)\n            curr = ___________\n        # Process node\n        curr = stack.pop()\n        result.append(curr.val)\n        # Move to right subtree\n        curr = ___________\n    return result",
+    "solution": "curr = curr.left\ncurr = curr.right",
+    "hints": [
+      "Drill left: set curr = curr.left until curr is None, pushing each node to the stack",
+      "After processing a node, pivot right: set curr = curr.right (may be None, which will cause the outer while to pop the next node)"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\n# BST: in-order should give sorted output\nroot=TreeNode(4,TreeNode(2,TreeNode(1),TreeNode(3)),TreeNode(6,TreeNode(5),TreeNode(7)))\nassert inorder(root) == [1,2,3,4,5,6,7], 'BST in-order = sorted'\nassert inorder(TreeNode(1)) == [1], 'Single'\nassert inorder(None) == [], 'Empty'\nroot2=TreeNode(1,None,TreeNode(2,None,TreeNode(3)))\nassert inorder(root2) == [1,2,3], 'Right-skewed'\nprint('PASS')"
+  },
+  "related": ["dfs-preorder-01", "dfs-postorder-01", "bst-operations-01", "morris-traversal-01"],
+  "tags": ["DFS", "in-order", "BST", "traversal", "sorted", "tree"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "overfitting-underfitting-01",
+  "slug": "overfitting-underfitting",
+  "title": "Overfitting & Underfitting",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Overfitting: model memorises training data including noise — low train loss, high val loss. Underfitting: model is too simple to capture the pattern — high train AND val loss. The goal is the sweet spot: low train loss AND low val loss.",
+    "analogy": "Overfitting is like a student who memorises past exam answers verbatim — perfect on past tests, fails new questions. Underfitting is like a student who didn't study at all — fails both old and new tests. Good generalisation is studying the underlying principles.",
+    "time_complexity": "N/A — diagnostic framework",
+    "space_complexity": "N/A",
+    "when_to_use": [
+      "Diagnosing model performance by plotting train vs validation loss curves",
+      "Deciding whether to increase model capacity (underfitting) or add regularisation (overfitting)",
+      "Early stopping: monitor validation loss and stop when it starts increasing"
+    ],
+    "gotchas": [
+      "A gap between train and val loss is the clearest signal of overfitting",
+      "Both losses plateau at high values → underfitting; try a more complex model",
+      "Early stopping is a form of regularisation that prevents overfitting without explicit penalties"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "train-val-curves",
+      "show_gap": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement early stopping: halt training when validation loss stops improving.",
+    "starter_code": "def early_stopping_train(train_fn, val_fn, max_epochs=200, patience=10):\n    \"\"\"\n    train_fn : callable(epoch) -> train_loss\n    val_fn   : callable(epoch) -> val_loss\n    patience : stop after this many epochs without improvement\n    Returns epoch at which training stopped.\n    \"\"\"\n    best_val  = float('inf')\n    wait      = 0\n    for epoch in range(max_epochs):\n        train_loss = train_fn(epoch)\n        val_loss   = val_fn(epoch)\n        if val_loss < best_val:\n            best_val = val_loss\n            wait     = 0\n        else:\n            wait += 1\n            if ___________:   # patience exceeded\n                return epoch\n    return max_epochs - 1",
+    "solution": "wait >= patience",
+    "hints": [
+      "Stop training when wait >= patience — we've gone patience epochs without improvement"
+    ],
+    "test_code": "# Simulated: val loss decreases then increases (overfitting)\ndef make_val_fn(best_epoch):\n    def val_fn(epoch):\n        if epoch <= best_epoch: return 1.0 - 0.05*epoch\n        return 1.0 - 0.05*best_epoch + 0.02*(epoch - best_epoch)\n    return val_fn\n\nstop = early_stopping_train(\n    train_fn=lambda e: max(0, 1.0 - 0.1*e),\n    val_fn=make_val_fn(10),\n    patience=5\n)\nassert 10 < stop <= 16, f'Expected stop near epoch 15, got {stop}'\n\n# If val always improves, train all epochs\nstop2 = early_stopping_train(\n    train_fn=lambda e: 1.0-e*0.01,\n    val_fn=lambda e: 1.0-e*0.005,\n    max_epochs=50, patience=5\n)\nassert stop2 == 49\nprint('PASS')"
+  },
+  "related": ["bias-variance-tradeoff-01", "cross-validation-01", "l1-l2-regularization-01", "learning-rate-scheduling-01"],
+  "tags": ["overfitting", "underfitting", "early-stopping", "generalisation", "train-val-gap"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "bitmask-dp-01",
+  "slug": "bitmask-dp",
+  "title": "Bitmask DP",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Encode a subset of n items as an n-bit integer (bitmask). dp[mask][v] = best cost to have visited exactly the nodes in mask, currently at node v. Transition: try adding any unvisited node next. With n ≤ 20, 2ⁿ states × n last nodes is tractable.",
+    "analogy": "Tracking which cities you've visited on a road trip using a checklist. Each unique checklist state (bitmask) combined with your current location fully captures where you are in the trip — regardless of the order you visited them.",
+    "time_complexity": "O(2ⁿ · n²) for TSP-style problems",
+    "space_complexity": "O(2ⁿ · n)",
+    "when_to_use": [
+      "Travelling Salesman Problem (TSP) for small n (n ≤ 20)",
+      "Assigning n tasks to n workers optimally",
+      "Any problem where you must track which subset of items has been used"
+    ],
+    "gotchas": [
+      "Bitmask for n items uses bits 0..n-1: bit i is set iff item i is included",
+      "Iterate over submasks of a mask: for sub = mask; sub > 0; sub = (sub-1) & mask",
+      "n ≤ 20 is a soft limit — 2²⁰ ≈ 1M states; beyond 20 typically exceeds memory"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "bitmask-dp",
+      "show_mask_states": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Solve TSP with bitmask DP: find the minimum-cost Hamiltonian cycle.",
+    "starter_code": "def tsp(dist):\n    \"\"\"\n    dist: n x n distance matrix (dist[i][j] = cost from i to j)\n    Returns minimum cost of visiting all cities exactly once and returning to 0.\n    \"\"\"\n    n    = len(dist)\n    INF  = float('inf')\n    full = (1 << n) - 1\n    # dp[mask][v] = min cost to visit cities in mask, ending at city v\n    dp = [[INF] * n for _ in range(1 << n)]\n    dp[1][0] = 0   # start at city 0, mask = {0}\n\n    for mask in range(1, 1 << n):\n        for u in range(n):\n            if dp[mask][u] == INF: continue\n            if not (mask >> u & 1): continue  # u must be in mask\n            for v in range(n):\n                if mask >> v & 1: continue    # v not yet visited\n                new_mask = ___________\n                new_cost = dp[mask][u] + dist[u][v]\n                if new_cost < dp[new_mask][v]:\n                    dp[new_mask][v] = new_cost\n\n    return min(dp[full][u] + dist[u][0] for u in range(1, n))",
+    "solution": "mask | (1 << v)",
+    "hints": [
+      "new_mask sets bit v in mask: mask | (1 << v) — this marks city v as now visited"
+    ],
+    "test_code": "dist4 = [\n    [0, 10, 15, 20],\n    [10, 0, 35, 25],\n    [15, 35, 0, 30],\n    [20, 25, 30, 0]\n]\nassert tsp(dist4) == 80  # 0->1->3->2->0 = 10+25+30+15 = 80\n\n# 2 cities\ndist2 = [[0, 5],[5, 0]]\nassert tsp(dist2) == 10  # 0->1->0 = 5+5\nprint('PASS')"
+  },
+  "related": ["subset-sum-01", "dp-on-graphs-01", "sos-dp-01", "memoization-vs-tabulation-01"],
+  "tags": ["bitmask-dp", "TSP", "travelling-salesman", "subset-enumeration", "dynamic-programming", "O(2^n)"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "vanishing-exploding-gradients-01",
+  "slug": "vanishing-exploding-gradients",
+  "title": "Vanishing & Exploding Gradients",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "During backprop, gradients are products of weight matrices and activation derivatives: ∂L/∂h₁ = Π_{l=2}^{L} (Wₗᵀ · diag(σ'(zₗ))). With sigmoid, σ'(z) ≤ 0.25; stacking L layers multiplies by (Wσ')^L → exponentially small (vanishing) or large (exploding). Solutions: ReLU (σ'=1 in active region), residual connections (gradient highway), gradient clipping, LSTM gates.",
+    "analogy": "Whispering in a long chain of people: each person adds noise when relaying the message (vanishing — message fades) or amplifies wildly (exploding — message becomes shout). Solutions: shortcut communication (residual connections), strict message protocols (gradient clipping), memory aids (LSTM gates).",
+    "time_complexity": "O(L · d²) for L layers — same as forward pass",
+    "space_complexity": "O(L · d) for stored activations needed in backward pass",
+    "when_to_use": [
+      "Diagnosing training failure: plot per-layer gradient norms — vanishing if near zero in early layers",
+      "Choosing architecture: skip connections (ResNet) for deep networks",
+      "Choosing activation: ReLU or GELU over sigmoid for hidden layers"
+    ],
+    "gotchas": [
+      "Gradient clipping: clip by global L2 norm (√Σ‖gₗ‖²) not per-parameter — preserves direction",
+      "Batch norm helps but doesn't fully solve vanishing gradients — still need ReLU and residuals",
+      "LSTM/GRU solve vanishing in RNNs via the constant error carousel (additive cell state update)"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "gradient-flow",
+      "show_per_layer": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement gradient norm clipping.",
+    "starter_code": "import math\n\ndef clip_grad_norm(grads, max_norm):\n    \"\"\"\n    Clip gradients by global L2 norm.\n    grads   : list of gradient vectors (list of lists)\n    max_norm: maximum allowed global norm\n    Returns clipped gradients (scaled if norm > max_norm).\n    \"\"\"\n    # Compute global L2 norm\n    global_norm = math.sqrt(sum(g**2 for layer in grads for g in layer))\n    if global_norm > max_norm:\n        scale = ___________\n        return [[g * scale for g in layer] for layer in grads]\n    return grads",
+    "solution": "max_norm / global_norm",
+    "hints": [
+      "Scale all gradients by max_norm / global_norm to bring the total L2 norm exactly to max_norm."
+    ],
+    "test_code": "import math\n\n# Exploding gradient: norm >> max_norm\ngrads = [[3.0, 4.0]]  # norm = 5\nclipped = clip_grad_norm(grads, max_norm=1.0)\nnorm_after = math.sqrt(sum(g**2 for layer in clipped for g in layer))\nassert abs(norm_after - 1.0) < 1e-9, f'Norm after clipping: {norm_after}'\n# Direction preserved\nassert abs(clipped[0][0]/clipped[0][1] - 3/4) < 1e-9\n\n# Small gradient: unchanged\ngrads2 = [[0.1, 0.1]]\nclipped2 = clip_grad_norm(grads2, max_norm=10.0)\nassert clipped2 == grads2\n\n# Multiple layers\ngrads3 = [[1.0, 0.0], [0.0, 1.0]]  # norm = sqrt(2)\nclipped3 = clip_grad_norm(grads3, max_norm=1.0)\nnorm3 = math.sqrt(sum(g**2 for layer in clipped3 for g in layer))\nassert abs(norm3 - 1.0) < 1e-9\nprint('PASS')"
+  },
+  "related": ["batch-normalization-01", "rnn-01", "lstm-01", "weight-initialization-01", "adam-optimizer-01"],
+  "tags": ["vanishing-gradient", "exploding-gradient", "gradient-clipping", "residual-connections", "backpropagation", "deep-learning"]
+}

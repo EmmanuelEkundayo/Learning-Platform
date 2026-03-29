@@ -1,0 +1,47 @@
+{
+  "id": "aho-corasick-01",
+  "slug": "aho-corasick",
+  "title": "Aho-Corasick Algorithm",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Build a trie of all patterns, then add KMP-style failure links between nodes — a single O(n) scan of the text matches all patterns simultaneously.",
+    "analogy": "A smart airport security scanner that checks your bag against every item on a banned-list simultaneously, rather than rescanning for each item separately.",
+    "time_complexity": "O(Σm + n + k) — Σm to build automaton, n to scan text, k for total matches",
+    "space_complexity": "O(Σm × ALPHABET_SIZE)",
+    "when_to_use": [
+      "Multi-pattern string search: find all occurrences of k patterns in a text in one pass",
+      "Virus/spam detection, intrusion detection systems scanning for multiple signatures",
+      "Word-break and substring covering problems with many dictionary words",
+      "When KMP or Rabin-Karp would need to be run separately for each pattern"
+    ],
+    "gotchas": [
+      "Build failure links via BFS (level-order) — depth-first order misses some transitions",
+      "Output links chain through failure pointers to collect ALL patterns ending at a state, not just the longest",
+      "The goto function should return state 0 for unmatched characters from the root — this is the 'catch-all' edge that makes the automaton total"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "aho-corasick",
+      "show_failure_links": true,
+      "show_output": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the Aho-Corasick trie insertion — insert each pattern character-by-character, marking pattern IDs at word endings.",
+    "starter_code": "from collections import deque\n\ndef build_aho_corasick(patterns):\n    goto   = [{}]   # goto[state][char] = next_state\n    fail   = [0]    # failure link\n    output = [[]]   # pattern IDs ending at this state\n\n    # Step 1: Build the trie\n    for pid, pat in enumerate(patterns):\n        cur = 0\n        for ch in pat:\n            if ch not in goto[cur]:\n                goto[cur][ch] = len(goto)\n                goto.append({})\n                fail.append(0)\n                output.append([])\n            cur = goto[cur][ch]\n        ___________   # record that pattern pid ends at state cur\n\n    # Step 2: Build failure links via BFS\n    q = deque()\n    for ch, s in goto[0].items():\n        fail[s] = 0\n        q.append(s)\n    while q:\n        r = q.popleft()\n        for ch, s in goto[r].items():\n            q.append(s)\n            u = fail[r]\n            while u and ch not in goto[u]:\n                u = fail[u]\n            fail[s] = goto[u].get(ch, 0)\n            if fail[s] == s: fail[s] = 0\n            output[s] = output[s] + ___________\n\n    return goto, fail, output",
+    "solution": "output[cur].append(pid)\noutput[s] = output[s] + output[fail[s]]   # merge outputs via failure link",
+    "hints": [
+      "At the end of each pattern insertion, append the pattern's index (pid) to output[cur] to mark that this state corresponds to a full pattern match",
+      "When setting output for state s via BFS, merge output[s] with output[fail[s]] — any patterns ending at the failure state also end here (suffix matches)"
+    ],
+    "test_code": "from collections import deque\ngoto, fail, output = build_aho_corasick(['he','she','his','hers'])\n\ndef search(text, goto, fail, output):\n    results = []\n    state = 0\n    for i, ch in enumerate(text):\n        while state and ch not in goto[state]: state = fail[state]\n        state = goto[state].get(ch, 0)\n        for pid in output[state]:\n            results.append(pid)\n    return results\n\nmatches = search('ushers', goto, fail, output)\nassert 1 in matches, '\"she\" must be found'\nassert 0 in matches, '\"he\" must be found'\nassert 3 in matches, '\"hers\" must be found'\nassert len(matches) == 3, f'Expected 3 matches, got {len(matches)}'\nprint('PASS')"
+  },
+  "related": ["trie-01", "kmp-01", "rabin-karp-01"],
+  "tags": ["aho-corasick", "multi-pattern", "string-matching", "automaton", "trie", "failure-links"]
+}

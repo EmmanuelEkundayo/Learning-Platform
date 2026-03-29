@@ -1,0 +1,44 @@
+{
+  "id": "gan-01",
+  "slug": "gan",
+  "title": "Generative Adversarial Network (GAN)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Two networks compete: Generator G maps noise z ~ p(z) to synthetic data G(z); Discriminator D classifies inputs as real or fake. Training alternates: maximise D's accuracy on real/fake, then minimise it (maximise G's deception). Equilibrium: G generates data indistinguishable from real, D is stuck at 50% — Nash equilibrium of a minimax game.",
+    "analogy": "A counterfeiter (G) and a detective (D): the counterfeiter gets better at faking currency as the detective improves at detecting fakes. Each iteration, the counterfeiter studies the detective's mistakes and the detective studies the counterfeiter's best fakes — until the counterfeiter can fool even experts.",
+    "time_complexity": "O(n · d_G + n · d_D) per batch (d_G, d_D model sizes)",
+    "space_complexity": "O(d_G + d_D) for both networks",
+    "when_to_use": [
+      "Image synthesis, style transfer, super-resolution",
+      "Data augmentation for rare-class samples",
+      "Learning the data distribution without an explicit density model"
+    ],
+    "gotchas": [
+      "Mode collapse: G learns to produce only a few high-quality samples, ignoring diversity — use minibatch discrimination or Wasserstein GAN",
+      "Training instability: D too strong → G gradient vanishes; D too weak → G never improves",
+      "Wasserstein GAN (WGAN) uses gradient penalty and Wasserstein distance for more stable training"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "gan-training",
+      "show_adversarial_loop": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the GAN discriminator loss (binary cross-entropy).",
+    "starter_code": "import math\n\ndef bce(y_true, y_pred, eps=1e-7):\n    \"\"\"Binary cross-entropy for a single sample.\"\"\"\n    p = max(eps, min(1-eps, y_pred))\n    return -(y_true * math.log(p) + (1 - y_true) * math.log(1 - p))\n\ndef discriminator_loss(real_probs, fake_probs):\n    \"\"\"\n    GAN discriminator loss:\n      L_D = -E[log D(x_real)] - E[log(1 - D(G(z)))]\n    real_probs: D's output on real samples (list)\n    fake_probs: D's output on fake samples (list)\n    Returns average loss.\n    \"\"\"\n    n = len(real_probs)\n    real_loss = sum(bce(1.0, p) for p in real_probs) / n\n    fake_loss = sum(___________ for p in fake_probs) / n\n    return real_loss + fake_loss\n\ndef generator_loss(fake_probs):\n    \"\"\"Non-saturating G loss: -E[log D(G(z))].\"\"\"\n    return sum(bce(1.0, p) for p in fake_probs) / len(fake_probs)",
+    "solution": "bce(0.0, p)",
+    "hints": [
+      "For fake samples, the discriminator's target label is 0 (fake) — compute BCE with y_true=0."
+    ],
+    "test_code": "import math\n\n# Perfect discriminator: real=1.0, fake=0.0\nreal_p = [0.99, 0.98, 0.97]\nfake_p = [0.01, 0.02, 0.03]\nd_loss = discriminator_loss(real_p, fake_p)\nassert d_loss < 0.1, f'Perfect D should have low loss: {d_loss:.4f}'\n\n# Confused discriminator: all 0.5\nreal_p2 = [0.5]*4; fake_p2 = [0.5]*4\nd_loss2 = discriminator_loss(real_p2, fake_p2)\nassert abs(d_loss2 - 2*math.log(2)) < 0.01, f'd_loss2={d_loss2:.4f}'\n\n# Generator wants D to output 1 on fakes\ng_loss_good = generator_loss([0.99, 0.98])\ng_loss_bad  = generator_loss([0.01, 0.02])\nassert g_loss_good < g_loss_bad\nprint('PASS')"
+  },
+  "related": ["vae-01", "diffusion-models-01", "mlp-01", "dropout-01"],
+  "tags": ["GAN", "generative-adversarial-network", "generator", "discriminator", "minimax", "mode-collapse", "WGAN"]
+}

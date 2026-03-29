@@ -1,0 +1,45 @@
+{
+  "id": "topological-sort-dfs-01",
+  "slug": "topological-sort-dfs",
+  "title": "Topological Sort — DFS",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Run DFS; when you finish exploring a node (all descendants done), prepend it to the result. The last node to finish has no outgoing edges, so it naturally ends up last — reading results forward gives a valid topological order.",
+    "analogy": "Packing for a trip: you can only pack an item after packing everything it depends on. When you're done packing a bag (all sub-items inside), put the bag on the shelf. The order bags land on the shelf is the reverse finish order — a valid packing sequence.",
+    "time_complexity": "O(V + E)",
+    "space_complexity": "O(V) recursion stack",
+    "when_to_use": [
+      "Topological sort as a side-effect of DFS (e.g., during SCC computation)",
+      "When you already have a DFS framework and want to avoid a separate BFS pass",
+      "Generating all valid orderings via backtracking variants"
+    ],
+    "gotchas": [
+      "Use a 3-color state: WHITE (unvisited), GRAY (in-progress), BLACK (done) — a GRAY neighbour means a back-edge and a cycle",
+      "Append to result on node finish, then reverse — or prepend directly",
+      "This DFS-based sort does not detect cycles as cleanly as Kahn's — need explicit cycle tracking"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "topological-dfs",
+      "show_colors": true,
+      "show_finish_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement DFS topological sort using 3-colour cycle detection.",
+    "starter_code": "def topological_sort_dfs(n, adj):\n    \"\"\"\n    n   : number of vertices (0..n-1)\n    adj : adjacency list dict {u: [v, ...]}\n    Returns topological order, or [] if cycle detected.\n    \"\"\"\n    WHITE, GRAY, BLACK = 0, 1, 2\n    color  = [WHITE] * n\n    result = []\n    cycle  = [False]\n\n    def dfs(u):\n        if cycle[0]: return\n        color[u] = GRAY\n        for v in adj.get(u, []):\n            if color[v] == GRAY:      # back-edge -> cycle\n                cycle[0] = True; return\n            if color[v] == WHITE:\n                dfs(v)\n        color[u] = BLACK\n        ___________                   # record finish\n\n    for u in range(n):\n        if color[u] == WHITE:\n            dfs(u)\n\n    return [] if cycle[0] else result[::-1]",
+    "solution": "result.append(u)",
+    "hints": [
+      "Append u to result when the node is fully finished (colored BLACK). Reversing result at the end gives the topological order."
+    ],
+    "test_code": "adj  = {0:[1,2], 1:[3], 2:[3], 3:[]}\nresult = topological_sort_dfs(4, adj)\nassert len(result) == 4\npos = {v:i for i,v in enumerate(result)}\nfor u in adj:\n    for v in adj[u]:\n        assert pos[u] < pos[v], f'{u} should come before {v}'\n\n# Cycle\nadj2 = {0:[1], 1:[2], 2:[0]}\nassert topological_sort_dfs(3, adj2) == []\nprint('PASS')"
+  },
+  "related": ["topological-sort-kahns-01", "cycle-detection-directed-01", "tarjans-scc-01", "dfs-graph-01"],
+  "tags": ["topological-sort", "DFS", "DAG", "three-color", "cycle-detection", "finish-time"]
+}

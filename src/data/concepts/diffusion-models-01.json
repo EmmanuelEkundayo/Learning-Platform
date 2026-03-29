@@ -1,0 +1,44 @@
+{
+  "id": "diffusion-models-01",
+  "slug": "diffusion-models",
+  "title": "Diffusion Models",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Forward process (fixed): gradually add Gaussian noise over T steps: q(xₜ|xₜ₋₁) = N(xₜ; √(1−βₜ)xₜ₋₁, βₜI). Closed form: xₜ = √ᾱₜ·x₀ + √(1−ᾱₜ)·ε, ᾱₜ=∏βₛ. Reverse process (learned): train neural network to predict noise ε̂_θ(xₜ,t). DDPM objective: minimize E[‖ε − ε̂_θ(xₜ,t)‖²]. Generate by iteratively denoising from pure noise.",
+    "analogy": "Turning an image into static then recovering it: the forward process is like fading a photo to snow over 1000 steps. The neural network learns to run the VCR in reverse — given a slightly-noisy frame, predict what noise was added, remove it, and repeat until the original picture emerges. You can generate new images by starting from pure snow.",
+    "time_complexity": "O(T · d_UNet) per image generation; T=1000 for DDPM, T=10-50 for DDIM",
+    "space_complexity": "O(d_UNet + H·W·C) for image and model",
+    "when_to_use": [
+      "State-of-the-art image/video/audio generation (Stable Diffusion, DALL·E 3, Sora)",
+      "When mode coverage matters more than speed — diffusion explores full data distribution",
+      "Molecule generation, protein structure prediction (RoseTTAFold Diffusion)"
+    ],
+    "gotchas": [
+      "Slow inference: T=1000 forward passes per sample — use DDIM or consistency models for fast sampling",
+      "Classifier-free guidance (CFG): train conditional and unconditional jointly; at inference scale: ε̂ = (1+w)ε̂_cond − w·ε̂_uncond",
+      "Latent diffusion (Stable Diffusion): run diffusion in VAE latent space — 8× cheaper than pixel space"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "diffusion",
+      "show_forward_reverse": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the DDPM forward noising process: sample xₜ given x₀ using the closed-form.",
+    "starter_code": "import math, random\n\ndef ddpm_forward(x0, t, betas):\n    \"\"\"\n    Sample x_t from q(x_t | x_0) using the closed-form:\n      x_t = sqrt(alpha_bar_t) * x0 + sqrt(1 - alpha_bar_t) * eps\n    where eps ~ N(0,1) and alpha_bar_t = prod(1-beta_s for s in 1..t).\n    x0   : list of floats (1D signal for simplicity)\n    t    : noise level (1-indexed, 1 <= t <= len(betas))\n    betas: noise schedule list, length T\n    Returns (x_t, eps) both as lists.\n    \"\"\"\n    alpha_bar_t = 1.0\n    for s in range(t):\n        alpha_bar_t *= (1.0 - betas[s])\n    sqrt_ab  = math.sqrt(alpha_bar_t)\n    sqrt_1ab = math.sqrt(1.0 - alpha_bar_t)\n    eps = [random.gauss(0, 1) for _ in x0]\n    x_t = [___________  for x, e in zip(x0, eps)]\n    return x_t, eps",
+    "solution": "sqrt_ab * x + sqrt_1ab * e",
+    "hints": [
+      "Closed-form: xₜ = √ᾱₜ · x₀ + √(1−ᾱₜ) · ε. Combine the signal term (scaled x0) and the noise term (scaled epsilon)."
+    ],
+    "test_code": "import math, random\nrandom.seed(42)\n\n# Linear beta schedule\nT = 100\nbetas = [0.0001 + 0.02 * i / (T-1) for i in range(T)]\n\nx0 = [1.0, 0.5, -0.5, 2.0]\n\n# t=1: very little noise\nxt_low, eps_low = ddpm_forward(x0, t=1, betas=betas)\nfor orig, noisy in zip(x0, xt_low):\n    assert abs(orig - noisy) < 0.1, 'Small t should barely change signal'\n\n# t=T: mostly noise\nxt_high, _ = ddpm_forward(x0, t=T, betas=betas)\nalpha_bar_T = 1.0\nfor b in betas: alpha_bar_T *= (1-b)\nassert abs(math.sqrt(alpha_bar_T)) < 0.1, 'At t=T signal should be almost gone'\n\n# Output length matches input\nassert len(xt_low) == len(x0)\nprint('PASS')"
+  },
+  "related": ["vae-01", "gan-01", "umap-01", "score-based-generative-models"],
+  "tags": ["diffusion-models", "DDPM", "DDIM", "stable-diffusion", "forward-process", "denoising", "generative-model"]
+}

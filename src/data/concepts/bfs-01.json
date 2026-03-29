@@ -1,0 +1,48 @@
+{
+  "id": "bfs-01",
+  "slug": "breadth-first-search",
+  "title": "Breadth-First Search",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Explore all neighbors before going deeper — like ripples spreading outward in water.",
+    "analogy": "You're searching a building floor-by-floor, clearing every room on level 1 before descending to level 2.",
+    "time_complexity": "O(V + E)",
+    "space_complexity": "O(V)",
+    "when_to_use": [
+      "Shortest path in an unweighted graph",
+      "Level-order traversal of a tree",
+      "Finding all nodes within k hops",
+      "Connected components in an undirected graph"
+    ],
+    "gotchas": [
+      "Requires a visited set — without it you'll loop forever on cycles",
+      "Only gives shortest path for unweighted graphs; use Dijkstra for weighted"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "nodes": 8,
+      "directed": false,
+      "weighted": false,
+      "step_annotations": true,
+      "show_queue": true,
+      "show_visited": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the BFS implementation. It must visit nodes level-by-level from the start node.",
+    "starter_code": "from collections import deque\n\ndef bfs(graph, start):\n    visited = set()\n    queue = deque([start])\n    visited.add(start)\n    result = []\n    while queue:\n        node = ___________\n        result.append(node)\n        for neighbor in graph[node]:\n            if neighbor not in visited:\n                ___________\n                ___________\n    return result",
+    "solution": "node = queue.popleft()\n# inside the if-block:\nvisited.add(neighbor)\nqueue.append(neighbor)",
+    "hints": [
+      "A queue is FIFO — use popleft(), not pop() (that would make it DFS)",
+      "Mark a node visited before you enqueue it, not when you dequeue it — otherwise you'll enqueue duplicates"
+    ],
+    "test_code": "g = {0:[1,2],1:[0,3,4],2:[0,5],3:[1,7],4:[1,7],5:[2,6],6:[5],7:[3,4]}\nresult = bfs(g, 0)\nassert isinstance(result, list), 'bfs() must return a list'\nassert len(result) == 8, f'Expected 8 nodes, got {len(result)}: {result}'\nassert result[0] == 0, f'First node must be start=0, got {result[0]}'\nassert set(result) == set(range(8)), f'All 8 nodes must appear, missing: {set(range(8)) - set(result)}'\nassert result[1] in {1,2} and result[2] in {1,2}, 'Nodes 1 and 2 must be at level 1 (positions 1-2)'\nprint('PASS')"
+  },
+  "related": ["dfs-01", "dijkstra-01", "topological-sort-01"],
+  "tags": ["graph", "traversal", "queue", "BFS", "shortest-path"]
+}

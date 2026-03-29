@@ -1,0 +1,44 @@
+{
+  "id": "interval-dp-01",
+  "slug": "interval-dp",
+  "title": "Interval DP",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Solve a problem on intervals [i, j] by trying every way to split the interval at some point k, combining the answers for [i, k] and [k+1, j]. Fill the table by increasing interval length — smaller intervals are always filled before larger ones that contain them.",
+    "analogy": "Evaluating a mathematical expression by trying every possible place to apply the last operation. The answer for the full expression depends on the answers for all sub-expressions — which were already computed when the interval was shorter.",
+    "time_complexity": "O(n³) — n² intervals × n split points",
+    "space_complexity": "O(n²)",
+    "when_to_use": [
+      "Matrix chain multiplication (split at which multiplication to do last)",
+      "Burst Balloons (split at which balloon to pop last)",
+      "Optimal Binary Search Tree, polygon triangulation"
+    ],
+    "gotchas": [
+      "Fill by INCREASING LENGTH — dp[i][j] of length l must be filled after all sub-intervals of length < l",
+      "The split k can be inclusive of either endpoint depending on the problem — read the recurrence carefully",
+      "Interval DP is O(n³) — with Knuth's optimisation, some variants drop to O(n²)"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "interval-dp",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Burst Balloons: given balloons with values, burst them to maximise coins. Coins = nums[left] * nums[i] * nums[right] where left/right are the nearest un-burst neighbours.",
+    "starter_code": "def max_coins(nums):\n    # Pad with sentinel 1s at both ends\n    nums = [1] + nums + [1]\n    n = len(nums)\n    dp = [[0] * n for _ in range(n)]\n\n    # dp[i][j] = max coins bursting all balloons strictly between i and j\n    for length in range(2, n):\n        for i in range(0, n - length):\n            j = i + length\n            for k in range(i + 1, j):  # k is the LAST balloon burst in (i, j)\n                coins = nums[i] * nums[k] * nums[j]\n                dp[i][j] = max(dp[i][j],\n                               ___________ + coins + ___________)\n    return dp[0][n-1]",
+    "solution": "dp[i][k]\ndp[k][j]",
+    "hints": [
+      "dp[i][k] = coins from bursting balloons between i and k (excluding i and k themselves); add dp[k][j] for the right half; then add the coins for bursting k last (with i and j as its neighbours)"
+    ],
+    "test_code": "assert max_coins([3,1,5,8]) == 167\nassert max_coins([1,5]) == 10\nassert max_coins([5]) == 5\nassert max_coins([1]) == 1\nassert max_coins([2,4,3,5]) == 54\nprint('PASS')"
+  },
+  "related": ["matrix-chain-multiplication-01", "palindrome-dp-01", "divide-conquer-dp-01", "memoization-vs-tabulation-01"],
+  "tags": ["interval-dp", "burst-balloons", "dynamic-programming", "O(n^3)", "split-point"]
+}

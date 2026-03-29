@@ -1,0 +1,46 @@
+{
+  "id": "lru-cache-01",
+  "slug": "lru-cache",
+  "title": "LRU Cache",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Combine a hash map (O(1) lookup) with a doubly-linked list (O(1) insertion/deletion) — on every access, move the node to the front; on overflow, evict the tail.",
+    "analogy": "Your desk with limited space: every time you use a document you move it to the top of the pile. When the pile is full and you need a new document, discard the bottom one — the least recently touched.",
+    "time_complexity": "O(1) for both get and put",
+    "space_complexity": "O(capacity)",
+    "when_to_use": [
+      "Any cache with a fixed size budget where the least-recently-used item is the best eviction candidate",
+      "Browser history, page replacement in OS virtual memory, database buffer pools",
+      "When you need a data structure that combines O(1) lookup AND O(1) eviction"
+    ],
+    "gotchas": [
+      "Use dummy head and tail sentinel nodes to avoid null checks on every insert/delete — head.next is MRU, tail.prev is LRU",
+      "On a cache HIT, you must still move the node to the front — forgetting this breaks the recency order",
+      "Python's OrderedDict implements LRU with move_to_end() + popitem(last=False) — know it but also be able to implement from scratch"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "lru-cache",
+      "show_hashmap": true,
+      "show_dll": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the LRU Cache put method. On capacity overflow, evict the least-recently-used entry.",
+    "starter_code": "class Node:\n    def __init__(self, key=0, val=0):\n        self.key=key; self.val=val; self.prev=self.next=None\n\nclass LRUCache:\n    def __init__(self, capacity):\n        self.cap   = capacity\n        self.cache = {}          # key -> Node\n        self.head  = Node()      # dummy MRU sentinel\n        self.tail  = Node()      # dummy LRU sentinel\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def _remove(self, node):\n        node.prev.next = node.next\n        node.next.prev = node.prev\n\n    def _insert_front(self, node):\n        node.next = self.head.next\n        node.prev = self.head\n        self.head.next.prev = node\n        self.head.next = node\n\n    def get(self, key):\n        if key not in self.cache:\n            return -1\n        node = self.cache[key]\n        self._remove(node)\n        self._insert_front(node)\n        return node.val\n\n    def put(self, key, value):\n        if key in self.cache:\n            self._remove(self.cache[key])\n        node = Node(key, value)\n        self.cache[key] = node\n        self._insert_front(node)\n        if len(self.cache) > self.cap:\n            lru = ___________             # LRU node is just before tail sentinel\n            self._remove(lru)\n            ___________                   # remove from hash map too",
+    "solution": "lru = self.tail.prev\ndel self.cache[lru.key]",
+    "hints": [
+      "The LRU node sits just before the tail sentinel: self.tail.prev",
+      "After removing the node from the linked list, also remove its entry from the hash map using del self.cache[lru.key]"
+    ],
+    "test_code": "lru = LRUCache(2)\nlru.put(1,1); lru.put(2,2)\nassert lru.get(1)   == 1,  'get(1) = 1'\nlru.put(3,3)                # evicts key 2\nassert lru.get(2)   == -1, 'key 2 evicted'\nlru.put(4,4)                # evicts key 1\nassert lru.get(1)   == -1, 'key 1 evicted'\nassert lru.get(3)   == 3,  'get(3) = 3'\nassert lru.get(4)   == 4,  'get(4) = 4'\n\nlru2 = LRUCache(1)\nlru2.put(1,10); lru2.put(2,20)\nassert lru2.get(1) == -1, 'Capacity 1: key 1 evicted'\nassert lru2.get(2) == 20, 'Capacity 1: key 2 present'\nprint('PASS')"
+  },
+  "related": ["doubly-linked-list-01", "cycle-detection-01", "monotonic-queue-01"],
+  "tags": ["lru-cache", "doubly-linked-list", "hash-map", "O(1)", "cache", "eviction"]
+}

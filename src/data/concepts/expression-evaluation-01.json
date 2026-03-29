@@ -1,0 +1,47 @@
+{
+  "id": "expression-evaluation-01",
+  "slug": "expression-evaluation",
+  "title": "Expression Evaluation (Shunting-Yard)",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Use two stacks — one for operands, one for operators — and apply operators in precedence order: when a lower-precedence operator arrives, flush all higher-precedence operators waiting on the stack.",
+    "analogy": "A chef juggling orders: high-priority (multiplication) orders get cooked before lower-priority (addition) orders that arrived first. The chef holds pending low-priority orders on a ticket rail until the urgent ones are done.",
+    "time_complexity": "O(n) — each token is pushed and popped at most once",
+    "space_complexity": "O(n) for the two stacks",
+    "when_to_use": [
+      "Evaluate infix arithmetic expressions respecting PEMDAS/BODMAS order of operations",
+      "Convert infix to postfix (Reverse Polish Notation) via Shunting-Yard algorithm",
+      "Interpret simple expression languages in interpreters or calculators",
+      "Any problem involving nested parentheses that need to be resolved inside-out"
+    ],
+    "gotchas": [
+      "Pop and apply the operator stack before pushing a new operator of equal or lower precedence — left-associativity means equal precedence also pops",
+      "Left parenthesis on the operator stack acts as a barrier — stop popping when you see it; discard both parentheses when a right paren arrives",
+      "Handle unary minus carefully — it's a different token from binary minus"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "expression-evaluation",
+      "show_operator_stack": true,
+      "show_operand_stack": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Evaluate a simple integer expression with +, -, *, / (integer division) and no parentheses.",
+    "starter_code": "def evaluate(s):\n    nums = []\n    ops  = []\n    i, n = 0, len(s)\n\n    def apply_op():\n        b, a = nums.pop(), nums.pop()\n        op   = ops.pop()\n        if   op == '+': nums.append(a + b)\n        elif op == '-': nums.append(a - b)\n        elif op == '*': nums.append(a * b)\n        elif op == '/': nums.append(int(a / b))  # truncate toward zero\n\n    PREC = {'+': 1, '-': 1, '*': 2, '/': 2}\n\n    while i < n:\n        if s[i] == ' ':\n            i += 1; continue\n        if s[i].isdigit():\n            j = i\n            while j < n and s[j].isdigit(): j += 1\n            nums.append(int(s[i:j]))\n            i = j\n        else:\n            # Before pushing op, apply all ops of >= precedence\n            while ops and ops[-1] in PREC and ___________:\n                apply_op()\n            ops.append(s[i]); i += 1\n    while ops:\n        apply_op()\n    return nums[0]",
+    "solution": "PREC[ops[-1]] >= PREC[s[i]]",
+    "hints": [
+      "Pop and apply waiting operators when their precedence is >= the new operator's precedence (left-associativity)",
+      "Check ops[-1] is in PREC (not a parenthesis) before comparing precedence levels"
+    ],
+    "test_code": "assert evaluate('3+2*2')       == 7\nassert evaluate(' 3/2 ')       == 1\nassert evaluate(' 3+5 / 2 ')   == 5\nassert evaluate('10-3-2')      == 5\nassert evaluate('2*3+4*5')     == 26\nassert evaluate('100*2+12')    == 212\nprint('PASS')"
+  },
+  "related": ["monotonic-stack-01", "min-stack-01", "deque-01"],
+  "tags": ["expression-evaluation", "shunting-yard", "stack", "operator-precedence", "parsing"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "random-forest-01",
+  "slug": "random-forest",
+  "title": "Random Forest",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Build many decision trees on bootstrap samples of the data (bagging), each using a random subset of features at each split. Aggregate predictions by majority vote (classification) or mean (regression). Randomness de-correlates trees — their errors cancel out, reducing variance.",
+    "analogy": "Crowdsourcing an answer: instead of asking one expert who might be biased, ask a crowd of experts each trained on slightly different information. The majority answer is usually more reliable than any single expert.",
+    "time_complexity": "O(n · log n · d · T) to train T trees; O(log n · d · T) to predict",
+    "space_complexity": "O(n · T) for all trees",
+    "when_to_use": [
+      "Strong baseline for tabular data — often outperforms other models out of the box",
+      "Built-in feature importance via mean decrease impurity",
+      "Handles missing values, mixed types, and requires minimal preprocessing"
+    ],
+    "gotchas": [
+      "Feature importance from impurity can be biased toward high-cardinality features — use permutation importance",
+      "More trees never hurts accuracy but increases training time and memory",
+      "Random forests do NOT extrapolate well — predictions are bounded by training data range"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "random-forest",
+      "show_trees": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the core of random forest: bootstrap sampling and majority vote aggregation.",
+    "starter_code": "import random\n\ndef bootstrap_sample(X, y, seed=None):\n    \"\"\"Sample n points with replacement.\"\"\"\n    if seed is not None: random.seed(seed)\n    n = len(X)\n    idx  = [random.randint(0, n-1) for _ in range(n)]\n    return [X[i] for i in idx], [y[i] for i in idx]\n\ndef majority_vote(predictions):\n    \"\"\"\n    predictions: list of lists — each inner list is one tree's predictions\n    Returns the majority-voted class for each sample.\n    \"\"\"\n    n_samples = len(predictions[0])\n    result    = []\n    for i in range(n_samples):\n        votes = [tree_preds[i] for tree_preds in predictions]\n        # Count votes and return most common\n        counts = {}\n        for v in votes:\n            counts[v] = counts.get(v, 0) + 1\n        result.append(___________)\n    return result",
+    "solution": "max(counts, key=counts.get)",
+    "hints": [
+      "Return the class with the most votes: max(counts, key=counts.get) — keys are class labels, values are vote counts"
+    ],
+    "test_code": "# Majority vote\npreds = [[1,0,1,0],[1,1,0,0],[1,0,0,0]]   # 3 trees\nresult = majority_vote(preds)\nassert result == [1,0,0,0]   # sample0: 1wins(3-0), s1: 0wins(2-1), s2: 0wins(2-1), s3: 0wins(3-0)\n\n# Bootstrap: same length, some duplicates\nX = [[i]*2 for i in range(10)]\ny = list(range(10))\nXb, yb = bootstrap_sample(X, y, seed=0)\nassert len(Xb) == 10\nassert len(set(tuple(x) for x in Xb)) < 10  # some duplicates\nprint('PASS')"
+  },
+  "related": ["gradient-boosting-01", "bias-variance-tradeoff-01", "decision-tree-01", "cross-validation-01"],
+  "tags": ["random-forest", "bagging", "bootstrap", "ensemble", "decision-tree", "feature-importance"]
+}

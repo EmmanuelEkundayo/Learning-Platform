@@ -1,0 +1,44 @@
+{
+  "id": "gmm-em-01",
+  "slug": "gmm-em",
+  "title": "Gaussian Mixture Models & EM",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Model data as a mixture of k Gaussians. EM alternates: E-step computes soft assignments (responsibilities) r_ik = P(cluster k | point i) using Bayes; M-step updates means, covariances, and mixing coefficients to maximise likelihood given those responsibilities.",
+    "analogy": "Separating two overlapping piles of red and blue marbles in a dim room: start with a guess, then iteratively adjust which pile each marble belongs to (E-step) and where each pile's centre is (M-step). The estimates converge to the most likely configuration.",
+    "time_complexity": "O(n · k · d²) per EM iteration",
+    "space_complexity": "O(n · k) for responsibilities",
+    "when_to_use": [
+      "Soft (probabilistic) clustering — every point belongs to each cluster with some probability",
+      "Density estimation when data appears to be a mixture of Gaussians",
+      "Anomaly detection using log-likelihood under the fitted GMM"
+    ],
+    "gotchas": [
+      "EM is sensitive to initialisation — use k-means++ initialisation to start near good means",
+      "EM converges to a local maximum of log-likelihood, not necessarily global",
+      "Covariance matrix can collapse (singular) if a component claims very few points — add a minimum variance floor"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "mode": "gmm-em",
+      "show_gaussians": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the E-step of EM for a 1D Gaussian mixture.",
+    "starter_code": "import math\n\ndef gaussian_pdf(x, mu, sigma2):\n    return math.exp(-0.5*(x-mu)**2/sigma2) / math.sqrt(2*math.pi*sigma2)\n\ndef em_e_step(X, means, vars_, weights):\n    \"\"\"\n    E-step: compute responsibilities r[i][k] = P(z=k | x_i)\n    X      : list of 1D points\n    means  : list of k means\n    vars_  : list of k variances\n    weights: list of k mixing coefficients (sum to 1)\n    Returns r: n x k responsibility matrix.\n    \"\"\"\n    k = len(means)\n    r = []\n    for x in X:\n        # Unnormalised responsibility for each component\n        unnorm = [\n            weights[j] * gaussian_pdf(x, means[j], vars_[j])\n            for j in range(k)\n        ]\n        total = sum(unnorm)\n        r.append([___________  for u in unnorm])\n    return r",
+    "solution": "u / total if total > 0 else 1/k",
+    "hints": [
+      "Normalise: responsibility[k] = unnorm[k] / sum(unnorm). Handle total=0 gracefully with uniform responsibility 1/k"
+    ],
+    "test_code": "import math\nmeans  = [0.0, 5.0]\nvars_  = [1.0, 1.0]\nweights = [0.5, 0.5]\n\n# Point x=0: close to cluster 0\nr = em_e_step([0.0], means, vars_, weights)\nassert r[0][0] > 0.99, f'r[0][0]={r[0][0]:.4f}'\nassert r[0][1] < 0.01\n\n# Point x=2.5: midpoint, roughly equal\nr2 = em_e_step([2.5], means, vars_, weights)\nassert abs(r2[0][0] - 0.5) < 0.1\nassert abs(r2[0][1] - 0.5) < 0.1\n\n# Responsibilities sum to 1\nassert all(abs(sum(ri) - 1.0) < 1e-9 for ri in r + r2)\nprint('PASS')"
+  },
+  "related": ["k-means-01", "hierarchical-clustering-01", "naive-bayes-01", "dbscan-01"],
+  "tags": ["GMM", "EM", "expectation-maximisation", "soft-clustering", "Gaussian-mixture", "unsupervised"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "adagrad-01",
+  "slug": "adagrad",
+  "title": "Adagrad",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Per-parameter adaptive rates by accumulating all past squared gradients: Gₜ = Σ_{τ=1}^{t} gτ². Update: θ ← θ − (α/√(Gₜ+ε))·gₜ. Rarely updated parameters get large effective rates; frequently updated ones get small rates — ideal for sparse features (NLP). Drawback: G only grows → learning rate monotonically decreases to zero.",
+    "analogy": "Studying for exams: topics you've spent a lot of time on (large accumulated gradient) get smaller additional study sessions (smaller effective rate); unfamiliar topics (small accumulated gradient) get larger sessions. Eventually all topics get so much study time that additional sessions become negligibly small — the Adagrad stopping problem.",
+    "time_complexity": "O(d) per step",
+    "space_complexity": "O(d) for accumulated squared gradients",
+    "when_to_use": [
+      "Sparse features and NLP tasks where most parameters update rarely",
+      "Convex problems where the decreasing rate is a feature not a bug",
+      "Conceptually simpler than Adam — good for teaching adaptive methods"
+    ],
+    "gotchas": [
+      "Monotonically decreasing rate kills learning in non-convex deep models — use RMSprop/Adam instead",
+      "Initial learning rate α needs careful tuning — 0.01 is a common default",
+      "GloVe embeddings were originally trained with Adagrad"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "adagrad",
+      "show_trajectory": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement one Adagrad optimizer step.",
+    "starter_code": "import math\n\ndef adagrad_step(params, grads, G, lr=0.01, eps=1e-8):\n    \"\"\"\n    params, grads: lists of floats.\n    G: accumulated sum of squared gradients (modified in place).\n    \"\"\"\n    for i in range(len(params)):\n        G[i] += grads[i] ** 2\n        params[i] -= ___________\n    return params, G",
+    "solution": "lr * grads[i] / (math.sqrt(G[i]) + eps)",
+    "hints": [
+      "Adagrad update: θ -= lr · g / (√G + ε) where G accumulates all past squared gradients."
+    ],
+    "test_code": "import math\nparams = [3.0]; G = [0.0]\nfor _ in range(500):\n    g = [2.0 * params[0]]\n    params, G = adagrad_step(params, g, G, lr=0.5)\nassert abs(params[0]) < 0.2, f'Should converge: {params[0]:.4f}'\nassert G[0] > 0  # G monotonically grows\nprint('PASS')"
+  },
+  "related": ["rmsprop-01", "adam-optimizer-01", "stochastic-gradient-descent-01", "learning-rate-scheduling-01"],
+  "tags": ["Adagrad", "adaptive-learning-rate", "sparse-gradients", "optimizer", "monotonic-decay", "deep-learning"]
+}

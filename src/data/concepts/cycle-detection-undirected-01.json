@@ -1,0 +1,44 @@
+{
+  "id": "cycle-detection-undirected-01",
+  "slug": "cycle-detection-undirected",
+  "title": "Cycle Detection — Undirected Graph",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "During DFS in an undirected graph, if you reach a visited node that isn't your immediate parent, you've found a cycle. Alternatively, Union-Find detects a cycle when two vertices of an edge already belong to the same component.",
+    "analogy": "Hiking a trail and tying string behind you: if you stumble upon your own string coming from a different direction, you've walked in a loop. The string from your direct previous step doesn't count.",
+    "time_complexity": "O(V + E) for DFS; O(E · α(V)) ≈ O(E) for Union-Find",
+    "space_complexity": "O(V)",
+    "when_to_use": [
+      "Checking if an undirected graph is a tree (connected + no cycles)",
+      "Validating network topologies",
+      "As a simpler alternative to 3-colour DFS when direction doesn't matter"
+    ],
+    "gotchas": [
+      "Pass parent to DFS to avoid treating the edge back to parent as a cycle — in undirected graphs every edge appears twice",
+      "For multigraphs with parallel edges, track parent edge index rather than parent node",
+      "Union-Find approach: a cycle exists iff an edge (u,v) has find(u) == find(v) before union"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "cycle-undirected",
+      "show_visited": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Detect a cycle in an undirected graph using DFS with parent tracking.",
+    "starter_code": "def has_cycle_undirected(n, adj):\n    visited = [False] * n\n\n    def dfs(u, parent):\n        visited[u] = True\n        for v in adj.get(u, []):\n            if not visited[v]:\n                if dfs(v, u):\n                    return True\n            elif ___________:   # visited but not parent -> cycle\n                return True\n        return False\n\n    return any(dfs(u, -1) for u in range(n) if not visited[u])",
+    "solution": "v != parent",
+    "hints": [
+      "If v is already visited AND v is not the parent of u, we've found a back-edge — return True for cycle"
+    ],
+    "test_code": "# Tree — no cycle\nadj1 = {0:[1,2], 1:[0,3], 2:[0], 3:[1]}\nassert not has_cycle_undirected(4, adj1)\n\n# Cycle: 0-1-2-0\nadj2 = {0:[1,2], 1:[0,2], 2:[0,1]}\nassert has_cycle_undirected(3, adj2)\n\n# Disconnected, one component cyclic\nadj3 = {0:[1], 1:[0], 2:[3,4], 3:[2,4], 4:[2,3]}\nassert has_cycle_undirected(5, adj3)\n\n# Single node\nassert not has_cycle_undirected(1, {0:[]})\nprint('PASS')"
+  },
+  "related": ["cycle-detection-directed-01", "dfs-graph-01", "union-find-01", "bipartite-check-01"],
+  "tags": ["cycle-detection", "undirected-graph", "DFS", "parent-tracking", "union-find"]
+}

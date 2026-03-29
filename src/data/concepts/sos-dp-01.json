@@ -1,0 +1,44 @@
+{
+  "id": "sos-dp-01",
+  "slug": "sos-dp",
+  "title": "Sum over Subsets DP (SOS DP)",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "For each bitmask, compute the sum of f[sub] over all submasks sub of mask. Naïve enumeration is O(3ⁿ). SOS DP achieves O(n · 2ⁿ) by processing one bit at a time: dp[mask] = dp[mask with bit i cleared] + dp[mask] for each bit i.",
+    "analogy": "Calculating the total votes a candidate received from any subset of districts: instead of re-counting every possible coalition, you add up contributions bit-by-bit — each pass considers one more district as potentially included.",
+    "time_complexity": "O(n · 2ⁿ) for SOS DP",
+    "space_complexity": "O(2ⁿ)",
+    "when_to_use": [
+      "Sum / min / max over all subsets of a mask",
+      "AND/OR convolution on bitmasks",
+      "Counting pairs (A, B) where A is a submask of B"
+    ],
+    "gotchas": [
+      "Process each bit i independently: for all masks where bit i is set, dp[mask] += dp[mask ^ (1 << i)]",
+      "SOS computes the sum of f over ALL submasks — not just immediate sub-masks",
+      "Superset sum DP is the reverse: for all masks where bit i is NOT set, dp[mask] += dp[mask | (1 << i)]"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "sos-dp",
+      "show_bit_pass": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement SOS DP: for each mask, compute the sum of f[sub] over all submasks sub.",
+    "starter_code": "def sos_dp(f, n):\n    \"\"\"\n    f : list of length 2^n (indexed by bitmask)\n    n : number of bits\n    Returns dp where dp[mask] = sum of f[sub] for all sub that are submasks of mask.\n    \"\"\"\n    dp = f[:]\n    for i in range(n):              # process bit i\n        for mask in range(1 << n):\n            if mask >> i & 1:       # bit i is set in mask\n                dp[mask] += ___________  # add contribution of sub-mask with bit i cleared\n    return dp",
+    "solution": "dp[mask ^ (1 << i)]",
+    "hints": [
+      "mask ^ (1 << i) clears bit i from mask — this gives the submask that doesn't include element i. Add its dp value to propagate subset sums upward."
+    ],
+    "test_code": "# n=3, f = [i for i in range(8)]\nf = list(range(8))  # f[0]=0, f[1]=1, ..., f[7]=7\ndp = sos_dp(f, 3)\n# dp[0b111=7] should be sum of all submasks of 7 = 0+1+2+3+4+5+6+7=28\nassert dp[7] == 28, f'dp[7]={dp[7]}'\n# dp[0b011=3] = f[0]+f[1]+f[2]+f[3] = 0+1+2+3=6\nassert dp[3] == 6, f'dp[3]={dp[3]}'\n# dp[0b100=4] = f[0]+f[4] = 0+4=4\nassert dp[4] == 4, f'dp[4]={dp[4]}'\n# dp[0] = f[0] = 0\nassert dp[0] == 0\nprint('PASS')"
+  },
+  "related": ["bitmask-dp-01", "subset-sum-01", "digit-dp-01", "memoization-vs-tabulation-01"],
+  "tags": ["SOS-dp", "sum-over-subsets", "bitmask", "dynamic-programming", "O(n-2^n)"]
+}

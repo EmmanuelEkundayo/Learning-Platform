@@ -1,0 +1,44 @@
+{
+  "id": "gradient-boosting-01",
+  "slug": "gradient-boosting",
+  "title": "Gradient Boosting",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Fit trees sequentially: each tree corrects the residual errors of the previous ensemble. For MSE loss, residuals = y - ŷ. More generally, each tree fits the negative gradient of the loss — hence 'gradient' boosting. Slow learning rate (shrinkage) prevents overfitting.",
+    "analogy": "Correcting a student's work essay by essay: first pass catches big errors, second pass catches the remaining ones, and so on. Each correction pass focuses entirely on what the previous passes got wrong.",
+    "time_complexity": "O(n · d · T) for T trees with depth d",
+    "space_complexity": "O(n · T)",
+    "when_to_use": [
+      "State-of-the-art on tabular data when properly tuned",
+      "When bias reduction is the priority (vs random forest which reduces variance)",
+      "Regression, classification, ranking — flexible loss functions"
+    ],
+    "gotchas": [
+      "More trees and deeper trees → overfitting. Use cross-validation to pick n_estimators",
+      "Learning rate and n_estimators are inversely related — smaller lr needs more trees",
+      "Boosting is sequential — cannot parallelise across trees like random forest"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "gradient-boosting",
+      "show_residuals": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the gradient boosting loop for regression (MSE loss).",
+    "starter_code": "def gradient_boosting_regression(X, y, n_trees=10, lr=0.1, max_depth=2):\n    \"\"\"\n    Simple gradient boosting for regression with MSE loss.\n    Uses constant-prediction trees (leaf = mean of assigned samples).\n    \"\"\"\n    # Start with mean prediction\n    mean_y = sum(y) / len(y)\n    F = [mean_y] * len(y)  # current predictions\n    trees = [mean_y]       # store leaf values\n\n    for t in range(n_trees):\n        # Negative gradient of MSE = residuals\n        residuals = [___________  for i in range(len(y))]\n        # Fit a very simple model: predict the mean residual\n        # (in practice, fit a full decision tree to residuals)\n        mean_resid = sum(residuals) / len(residuals)\n        # Update predictions\n        F = [F[i] + lr * mean_resid for i in range(len(y))]\n        trees.append(mean_resid)\n\n    def predict(X_new):\n        return [mean_y + lr * sum(trees[1:]) for _ in X_new]\n\n    return predict, F",
+    "solution": "y[i] - F[i]",
+    "hints": [
+      "Residual = y[i] - F[i] — the negative gradient of MSE is exactly the prediction error"
+    ],
+    "test_code": "X = [[1],[2],[3],[4],[5]]\ny = [2.0, 4.0, 6.0, 8.0, 10.0]\npredict, F_final = gradient_boosting_regression(X, y, n_trees=50, lr=0.5)\n# Final predictions should be close to y\nfor i in range(len(y)):\n    assert abs(F_final[i] - y[i]) < 0.5, f'F[{i}]={F_final[i]:.2f} vs y={y[i]}'\npreds = predict(X)\nassert len(preds) == len(X)\nprint('PASS')"
+  },
+  "related": ["random-forest-01", "xgboost-01", "adaboost-01", "bias-variance-tradeoff-01"],
+  "tags": ["gradient-boosting", "boosting", "residuals", "ensemble", "sequential", "GBM"]
+}

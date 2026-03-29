@@ -1,0 +1,44 @@
+{
+  "id": "transformer-decoder-01",
+  "slug": "transformer-decoder",
+  "title": "Transformer Decoder",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Adds a third sublayer to each encoder block: masked self-attention (causal mask prevents position i attending to j > i), cross-attention (queries from decoder, keys/values from encoder), then FFN. Causal masking enables autoregressive generation: at each step the model conditions on all previously generated tokens but not future ones.",
+    "analogy": "A translator reading sentence-by-sentence: at each word they've already written (masked self-attention) they glance back at the source text (cross-attention), then compose the next word (FFN + projection). The mask enforces left-to-right generation — peeking at future words would be cheating.",
+    "time_complexity": "O(N · T² · d) training (parallelised); O(N · T · d) per token at inference (KV cache)",
+    "space_complexity": "O(N · T · d) KV cache at inference",
+    "when_to_use": [
+      "Autoregressive text generation (GPT-style decoder-only)",
+      "Machine translation (encoder-decoder with cross-attention)",
+      "Any task where output depends on both input and previously generated tokens"
+    ],
+    "gotchas": [
+      "KV cache: cache past K,V to avoid recomputing at each autoregressive step — critical for inference speed",
+      "Causal mask must be applied in masked self-attention, not cross-attention",
+      "Temperature at inference: scale logits by 1/T before softmax — T<1 sharpens, T>1 flattens distribution"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "transformer-decoder",
+      "show_causal_mask": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Build a causal attention mask for autoregressive decoding.",
+    "starter_code": "def causal_mask(T):\n    \"\"\"\n    Returns a T x T mask where mask[i][j] = 0 if j <= i (allowed)\n    and mask[i][j] = -inf if j > i (masked future).\n    Used by adding to attention scores before softmax.\n    \"\"\"\n    NEG_INF = float('-inf')\n    return [\n        [0.0 if j <= i else ___________  for j in range(T)]\n        for i in range(T)\n    ]\n\ndef apply_causal_mask(scores, mask):\n    \"\"\"Add mask to score matrix elementwise.\"\"\"\n    return [\n        [scores[i][j] + mask[i][j] for j in range(len(scores[i]))]\n        for i in range(len(scores))\n    ]",
+    "solution": "NEG_INF",
+    "hints": [
+      "Future positions get -∞ so that after softmax they become 0 (exp(-∞) = 0), effectively blocking attention to those positions."
+    ],
+    "test_code": "import math\nmask = causal_mask(4)\n# Lower-triangular structure\nfor i in range(4):\n    for j in range(4):\n        if j <= i:\n            assert mask[i][j] == 0.0, f'mask[{i}][{j}] should be 0'\n        else:\n            assert mask[i][j] == float('-inf'), f'mask[{i}][{j}] should be -inf'\n\n# Applying mask: future scores become -inf\nscores = [[1.0]*4 for _ in range(4)]\nmasked = apply_causal_mask(scores, mask)\nassert masked[0][1] == float('-inf')\nassert masked[2][1] == 1.0   # past position allowed\nassert masked[3][3] == 1.0   # diagonal allowed\nprint('PASS')"
+  },
+  "related": ["transformer-encoder-01", "attention-mechanism-01", "gpt-01", "bert-01"],
+  "tags": ["transformer", "decoder", "causal-mask", "autoregressive", "cross-attention", "KV-cache"]
+}

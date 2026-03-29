@@ -1,0 +1,45 @@
+{
+  "id": "bridges-articulation-points-01",
+  "slug": "bridges-articulation-points",
+  "title": "Bridges & Articulation Points",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Using Tarjan-style DFS, track disc[u] (discovery time) and low[u] (earliest reachable ancestor). An edge (u,v) is a bridge if low[v] > disc[u] — no back-edge bypasses it. A node u is an articulation point if it has a child v with low[v] >= disc[u] (or u is root with ≥2 children).",
+    "analogy": "In a road network, a bridge road is one whose removal disconnects cities — no detour exists. An articulation point (city) is one whose removal splits the network into isolated regions — all traffic goes through it.",
+    "time_complexity": "O(V + E) — single DFS",
+    "space_complexity": "O(V)",
+    "when_to_use": [
+      "Network reliability: finding single points of failure",
+      "Finding 2-edge-connected and 2-vertex-connected components",
+      "Graph analysis where removing an edge or vertex disconnects the graph"
+    ],
+    "gotchas": [
+      "Track parent to avoid treating the tree-edge back to parent as a back-edge",
+      "Articulation point root case: the root is an AP only if it has ≥ 2 children in the DFS tree",
+      "For multigraphs (parallel edges), track parent edge index not parent node — two parallel edges are not a bridge"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "bridges",
+      "show_disc_low": true,
+      "highlight_bridges": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find all bridges in an undirected graph using Tarjan's algorithm.",
+    "starter_code": "import sys\nsys.setrecursionlimit(10000)\n\ndef find_bridges(n, adj):\n    \"\"\"\n    adj: dict {u: [v, ...]} undirected\n    Returns list of bridges as sorted (u,v) tuples with u < v.\n    \"\"\"\n    disc  = [-1] * n\n    low   = [0]  * n\n    timer = [0]\n    bridges = []\n\n    def dfs(u, parent):\n        disc[u] = low[u] = timer[0]\n        timer[0] += 1\n        for v in adj.get(u, []):\n            if disc[v] == -1:\n                dfs(v, u)\n                low[u] = min(low[u], low[v])\n                if ___________:          # bridge condition\n                    bridges.append((min(u,v), max(u,v)))\n            elif v != parent:\n                low[u] = min(low[u], disc[v])\n\n    for u in range(n):\n        if disc[u] == -1:\n            dfs(u, -1)\n    return sorted(bridges)",
+    "solution": "low[v] > disc[u]",
+    "hints": [
+      "A tree edge (u,v) is a bridge when low[v] > disc[u] — the subtree rooted at v cannot reach u or any ancestor of u via a back-edge"
+    ],
+    "test_code": "# Graph: 0-1-2-3, with 1-2 also reachable via back-edge 2->0? No — let's use:\n# 0-1, 1-2, 2-0 (triangle), 2-3 (bridge)\nadj = {0:[1,2], 1:[0,2], 2:[0,1,3], 3:[2]}\nbr = find_bridges(4, adj)\nassert br == [(2,3)], f'Only bridge is (2,3), got {br}'\n\n# Path graph: every edge is a bridge\nadj2 = {0:[1], 1:[0,2], 2:[1,3], 3:[2]}\nbr2 = find_bridges(4, adj2)\nassert br2 == [(0,1),(1,2),(2,3)]\nprint('PASS')"
+  },
+  "related": ["tarjans-scc-01", "dfs-graph-01", "bipartite-check-01", "cycle-detection-undirected-01"],
+  "tags": ["bridges", "articulation-points", "tarjans", "lowlink", "connectivity", "DFS"]
+}

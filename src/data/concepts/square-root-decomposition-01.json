@@ -1,0 +1,44 @@
+{
+  "id": "square-root-decomposition-01",
+  "slug": "square-root-decomposition",
+  "title": "Square Root Decomposition",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Divide an array of n elements into blocks of size √n. Precompute a block aggregate (sum, min, max) for each block. Point updates touch one element and one block aggregate (O(1)). Range queries cover at most 2 partial blocks (O(√n)) plus full blocks in between (O(√n) blocks × O(1) each) — total O(√n).",
+    "analogy": "Organising a bookshelf into sections: instead of counting every book from scratch for a range query, count full sections instantly and manually count only the partially included sections at each end.",
+    "time_complexity": "O(√n) per range query and point update; O(n) build",
+    "space_complexity": "O(n) for elements + O(√n) for block array",
+    "when_to_use": [
+      "Simpler alternative to segment trees when O(√n) per query is acceptable",
+      "Mo's algorithm (offline range queries) relies on √n block ordering",
+      "Problems where updates and queries both need to be reasonably fast but implementation simplicity matters"
+    ],
+    "gotchas": [
+      "Block size √n is a heuristic — actual optimal may differ; tune if needed",
+      "When a block is 'dirty' (partially updated), recompute the block aggregate from scratch",
+      "For range updates: update individual elements at the boundary blocks; batch-update full blocks"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "sqrt-decomp",
+      "show_blocks": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement √n-block range sum query with point updates.",
+    "starter_code": "import math\n\nclass SqrtDecomp:\n    def __init__(self, arr):\n        self.n     = len(arr)\n        self.block = math.isqrt(self.n) + 1\n        self.arr   = arr[:]\n        self.bsum  = [0] * ((self.n // self.block) + 1)\n        for i, v in enumerate(arr):\n            self.bsum[i // self.block] += v\n\n    def update(self, i, val):\n        self.bsum[i // self.block] += val - self.arr[i]\n        self.arr[i] = val\n\n    def query(self, l, r):\n        \"\"\"Sum of arr[l..r] inclusive.\"\"\"\n        total   = 0\n        bl, br  = l // self.block, r // self.block\n        if bl == br:                        # same block\n            return sum(self.arr[l:r+1])\n        total += sum(self.arr[l : (bl+1)*self.block])  # left partial\n        for b in range(bl+1, br):          # full blocks\n            total += ___________\n        total += sum(self.arr[br*self.block : r+1])    # right partial\n        return total",
+    "solution": "self.bsum[b]",
+    "hints": [
+      "Full blocks between bl+1 and br-1 (inclusive) contribute self.bsum[b] each — no need to iterate individual elements"
+    ],
+    "test_code": "arr = [1,2,3,4,5,6,7,8,9,10]\nsq = SqrtDecomp(arr)\nassert sq.query(0,9) == 55\nassert sq.query(0,2) == 6\nassert sq.query(3,7) == 30\nsq.update(4, 15)   # 5 -> 15\nassert sq.query(0,9) == 65\nassert sq.query(3,7) == 40\nassert sq.query(4,4) == 15\nprint('PASS')"
+  },
+  "related": ["segment-tree-01", "fenwick-tree-01", "mos-algorithm-01", "sparse-table-01"],
+  "tags": ["sqrt-decomposition", "block-decomposition", "range-query", "O(sqrt-n)", "point-update"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "broken-profile-dp-01",
+  "slug": "broken-profile-dp",
+  "title": "Broken Profile DP",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Tile a grid column-by-column, tracking the boundary ('profile') between filled and empty cells as a bitmask. The profile has n bits (one per row) representing which cells in the current column boundary are already filled. Transition: try all ways to fill the next cell using dominos.",
+    "analogy": "Laying tiles on a floor row by row, keeping track of which squares in the current row are already covered by tiles that started on the previous row. The 'broken' profile is the jagged boundary between done and not-done.",
+    "time_complexity": "O(m · n · 2ⁿ) where m, n are grid dimensions",
+    "space_complexity": "O(2ⁿ) — only two profile columns needed",
+    "when_to_use": [
+      "Counting domino tilings of an m×n grid",
+      "Grid packing problems with small n (≤20)",
+      "Profile DP on any grid where states depend on the current boundary"
+    ],
+    "gotchas": [
+      "Profile is a bitmask of n bits — one per row — representing which cells in the current column boundary are occupied",
+      "Two profiles are needed: current column's incoming profile and outgoing profile",
+      "Broken profile DP processes cells one at a time (not columns), enabling O(2ⁿ) states"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "profile-dp",
+      "show_profile": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Count the number of ways to tile a 2×n board with 1×2 dominoes.",
+    "starter_code": "def count_tilings_2xn(n):\n    \"\"\"\n    Count ways to tile a 2×n board with 1×2 dominoes.\n    Uses simple DP: dp[i] = ways to tile a 2×i board.\n    \"\"\"\n    if n == 0: return 1\n    if n == 1: return 1\n    dp = [0] * (n + 1)\n    dp[0] = 1\n    dp[1] = 1\n    for i in range(2, n + 1):\n        # Place a vertical domino in column i: dp[i-1] ways\n        # Place two horizontal dominoes in columns i-1,i: dp[i-2] ways\n        dp[i] = ___________\n    return dp[n]",
+    "solution": "dp[i-1] + dp[i-2]",
+    "hints": [
+      "dp[i] = dp[i-1] (add a vertical domino) + dp[i-2] (add two horizontal dominoes) — this is the Fibonacci recurrence"
+    ],
+    "test_code": "assert count_tilings_2xn(1)  == 1\nassert count_tilings_2xn(2)  == 2\nassert count_tilings_2xn(3)  == 3\nassert count_tilings_2xn(4)  == 5\nassert count_tilings_2xn(10) == 89   # Fibonacci(12)\nassert count_tilings_2xn(0)  == 1\nprint('PASS')"
+  },
+  "related": ["bitmask-dp-01", "sos-dp-01", "segment-tree-01", "memoization-vs-tabulation-01"],
+  "tags": ["broken-profile-dp", "profile-dp", "tiling", "bitmask", "dynamic-programming", "grid"]
+}

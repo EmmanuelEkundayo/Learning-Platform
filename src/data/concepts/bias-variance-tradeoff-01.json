@@ -1,0 +1,44 @@
+{
+  "id": "bias-variance-tradeoff-01",
+  "slug": "bias-variance-tradeoff",
+  "title": "Bias-Variance Tradeoff",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Expected test error = Bias² + Variance + Irreducible Noise. Bias: how wrong the model is on average (underfitting). Variance: how much predictions change with different training sets (overfitting). Increasing model complexity lowers bias but raises variance — the sweet spot is the minimum of their sum.",
+    "analogy": "Shooting arrows at a target: Bias = how far the average shot is from the bullseye. Variance = how spread out the shots are. A rigid aim (underfitting) = consistent but wrong. A shaky aim (overfitting) = centred but erratic.",
+    "time_complexity": "Conceptual framework — no single computation",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "Diagnosing whether a model is underfitting (high bias) or overfitting (high variance)",
+      "Choosing model complexity: polynomial degree, tree depth, number of layers",
+      "Justifying ensemble methods: bagging reduces variance, boosting reduces bias"
+    ],
+    "gotchas": [
+      "More training data reduces variance but not bias — adding data won't fix an underfitting model",
+      "Regularisation increases bias while decreasing variance — tune to find the sweet spot",
+      "Double descent: modern overparameterised models can have low test error despite zero training error"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "bias-variance",
+      "show_decomposition": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Empirically estimate bias and variance by training on multiple bootstrap samples.",
+    "starter_code": "import random, math\n\ndef bias_variance_estimate(model_fn, X_train, y_train, X_test, y_test,\n                            n_bootstrap=20, seed=42):\n    \"\"\"\n    model_fn: callable(X_train, y_train) -> predict(X_test) function\n    Returns (bias_sq, variance, mse) estimated from bootstrap samples.\n    \"\"\"\n    random.seed(seed)\n    n   = len(X_train)\n    all_preds = [[] for _ in range(len(X_test))]\n\n    for _ in range(n_bootstrap):\n        # Bootstrap sample\n        idx  = [random.randint(0, n-1) for _ in range(n)]\n        Xb   = [X_train[i] for i in idx]\n        yb   = [y_train[i] for i in idx]\n        pred = model_fn(Xb, yb)(X_test)\n        for j, p in enumerate(pred):\n            all_preds[j].append(p)\n\n    bias_sq  = 0.0\n    variance = 0.0\n    for j, preds in enumerate(all_preds):\n        mean_pred = sum(preds) / len(preds)\n        bias_sq  += (mean_pred - y_test[j]) ** 2\n        variance += sum(___________  for p in preds) / len(preds)\n    bias_sq  /= len(X_test)\n    variance /= len(X_test)\n    mse = bias_sq + variance\n    return bias_sq, variance, mse",
+    "solution": "(p - mean_pred) ** 2",
+    "hints": [
+      "Variance at each test point = average squared deviation of individual predictions from their mean: (p - mean_pred)^2 averaged over bootstrap samples"
+    ],
+    "test_code": "# Constant model: always predicts the mean of training y\ndef const_model(Xb, yb):\n    mean_y = sum(yb) / len(yb)\n    return lambda X: [mean_y] * len(X)\n\nX_tr = [[i] for i in range(20)]\ny_tr = [2.0 * x[0] + 1 for x in X_tr]\nX_te = [[5],[10],[15]]\ny_te = [11.0, 21.0, 31.0]\n\nbias_sq, variance, mse = bias_variance_estimate(const_model, X_tr, y_tr, X_te, y_te)\nassert bias_sq > variance, 'Constant model has high bias'\nassert mse > 0\nprint('PASS')"
+  },
+  "related": ["overfitting-underfitting-01", "cross-validation-01", "l1-l2-regularization-01", "random-forest-01"],
+  "tags": ["bias-variance", "tradeoff", "underfitting", "overfitting", "model-complexity", "generalisation"]
+}

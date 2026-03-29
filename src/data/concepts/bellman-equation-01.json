@@ -1,0 +1,44 @@
+{
+  "id": "bellman-equation-01",
+  "slug": "bellman-equation",
+  "title": "Bellman Equation",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "The Bellman equation decomposes the value of a state into immediate reward plus discounted future value: V(s) = Σₐ π(a|s) Σₛ' P(s'|s,a)[R(s,a,s') + γV(s')]. Optimality version: V*(s) = maxₐ Q*(s,a), Q*(s,a) = R(s,a) + γ Σₛ' P(s'|s,a)V*(s'). The Q-function captures the value of taking action a in state s under the optimal policy thereafter.",
+    "analogy": "Pricing a house by summing: today's rental income (immediate reward) + discounted resale value (future return). The resale value in turn equals next year's rent + its discounted resale — a recursive structure. The discount γ accounts for time preference and uncertainty about the future.",
+    "time_complexity": "O(|S| · |A|) per Bellman backup",
+    "space_complexity": "O(|S| · |A|) for Q-table",
+    "when_to_use": [
+      "Computing value functions in tabular RL (value/policy iteration)",
+      "Deriving TD learning targets: y = R + γ·max Q(s',a')",
+      "Understanding the bootstrapping principle behind all TD methods (Q-learning, SARSA)"
+    ],
+    "gotchas": [
+      "Tabular Bellman requires enumerable states — use neural network for Q-function approximation (DQN)",
+      "γ=0 myopic policy; γ→1 far-sighted but may diverge without terminal states",
+      "Bellman optimality applies to deterministic policies — stochastic policies use expected value"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "bellman-backup",
+      "show_q_values": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a single Bellman Q-update (TD target for Q-learning).",
+    "starter_code": "def bellman_q_update(Q, s, a, r, s_next, alpha, gamma, actions):\n    \"\"\"\n    Q-learning update (off-policy Bellman):\n      Q(s,a) <- Q(s,a) + alpha * [r + gamma * max_a' Q(s',a') - Q(s,a)]\n    Q      : dict[state][action] -> float\n    Returns updated Q value.\n    \"\"\"\n    best_next = max(Q[s_next][a_] for a_ in actions)\n    td_target = ___________\n    td_error  = td_target - Q[s][a]\n    Q[s][a]  += alpha * td_error\n    return Q[s][a]",
+    "solution": "r + gamma * best_next",
+    "hints": [
+      "The TD target is the immediate reward plus discounted best future Q-value: r + γ·max_{a'} Q(s', a')."
+    ],
+    "test_code": "actions = ['left','right']\nQ = {\n    's0': {'left': 0.0, 'right': 0.0},\n    's1': {'left': 0.0, 'right': 5.0}\n}\n# Take right from s0, reach s1, reward=1\nbellman_q_update(Q, 's0','right', r=1.0, s_next='s1', alpha=0.5, gamma=0.9, actions=actions)\n# TD target = 1 + 0.9*5 = 5.5; new Q = 0 + 0.5*(5.5-0) = 2.75\nassert abs(Q['s0']['right'] - 2.75) < 1e-9, f\"Got {Q['s0']['right']}\"\n\n# Repeated updates converge toward true value\nfor _ in range(200):\n    bellman_q_update(Q,'s0','right',1.0,'s1',0.5,0.9,actions)\nassert Q['s0']['right'] > 4.0, 'Should converge toward r+γ*max_next'\nprint('PASS')"
+  },
+  "related": ["markov-decision-process-01", "q-learning-01", "deep-q-network-01", "actor-critic-01"],
+  "tags": ["Bellman-equation", "Q-function", "TD-learning", "bootstrapping", "value-function", "reinforcement-learning"]
+}

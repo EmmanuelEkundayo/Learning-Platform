@@ -1,0 +1,45 @@
+{
+  "id": "morris-traversal-01",
+  "slug": "morris-traversal",
+  "title": "Morris Traversal",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Thread a temporary link from each node's in-order predecessor back to the node itself — this lets you navigate the tree without a stack or recursion, using the tree's own null right pointers as return paths.",
+    "analogy": "Leaving breadcrumbs on a hiking trail: before descending a side path, tie a string back to your current position. Follow the side path normally; when you find your own string, you know you've returned and can cut it.",
+    "time_complexity": "O(n) — each node is visited at most twice (once to set thread, once to use and remove it)",
+    "space_complexity": "O(1) — no call stack, no explicit stack data structure",
+    "when_to_use": [
+      "In-order traversal of a BST in O(1) space (e.g., in memory-constrained embedded systems)",
+      "Finding in-order successor without a parent pointer or stack",
+      "Interview question: traverse a binary tree without extra space"
+    ],
+    "gotchas": [
+      "Always remove the threaded link after using it — leaving it creates a cycle in the tree",
+      "Finding the in-order predecessor: go left once, then right as far as possible (stopping when right is null OR right is already the current node — the threading check)",
+      "Morris traversal modifies the tree temporarily — don't use it if the tree must remain immutable"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "morris",
+      "show_threads": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete Morris in-order traversal. Thread, traverse, and unthread in O(1) space.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef morris_inorder(root):\n    result = []\n    curr   = root\n    while curr:\n        if not curr.left:\n            result.append(curr.val)\n            curr = curr.right\n        else:\n            # Find in-order predecessor (rightmost in left subtree)\n            pre = curr.left\n            while pre.right and pre.right is not curr:\n                pre = pre.right\n            if pre.right is None:\n                # Thread: predecessor's right -> curr\n                pre.right = curr\n                curr      = ___________   # descend into left subtree\n            else:\n                # Thread already set — we've returned; unthread and process\n                pre.right = ___________   # remove thread\n                result.append(curr.val)\n                curr = curr.right\n    return result",
+    "solution": "curr = curr.left\npre.right = None",
+    "hints": [
+      "When no thread exists yet, set pre.right = curr then descend: curr = curr.left",
+      "When thread exists (pre.right is curr), we've returned from the left subtree — remove thread (pre.right = None), record curr, move right"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\nroot=TreeNode(4,TreeNode(2,TreeNode(1),TreeNode(3)),TreeNode(6,TreeNode(5),TreeNode(7)))\nassert morris_inorder(root) == [1,2,3,4,5,6,7], 'BST in-order'\nassert morris_inorder(TreeNode(1)) == [1], 'Single'\nassert morris_inorder(None) == [], 'Empty'\n# Verify tree not permanently modified\nassert root.left.left.right is None, 'Thread must be removed'\nprint('PASS')"
+  },
+  "related": ["dfs-inorder-01", "bst-operations-01", "dfs-preorder-01"],
+  "tags": ["morris-traversal", "O(1)-space", "in-order", "threading", "tree"]
+}

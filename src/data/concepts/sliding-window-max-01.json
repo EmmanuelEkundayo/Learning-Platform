@@ -1,0 +1,46 @@
+{
+  "id": "sliding-window-max-01",
+  "slug": "sliding-window-max",
+  "title": "Sliding Window Maximum",
+  "domain": "DSA",
+  "category": "Stacks & Queues",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A monotonic deque tracks candidates for the window maximum — new larger elements evict smaller ones from the back, and elements that slide out of the window are removed from the front.",
+    "analogy": "A VIP list for the best k seats in a venue. When a more important guest arrives, less-important guests behind them lose their reserved spot. Guests whose booking expired (left the window) are removed from the front automatically.",
+    "time_complexity": "O(n) — each element is added and removed from the deque at most once",
+    "space_complexity": "O(k) for the deque",
+    "when_to_use": [
+      "Maximum (or minimum) of every contiguous subarray of size k",
+      "DP optimization where dp[i] = max(dp[j]) for j in [i-k, i-1]",
+      "Whenever a brute-force O(nk) sliding window can be reduced to O(n)"
+    ],
+    "gotchas": [
+      "Store indices in the deque, not values — you need indices to check whether the front has expired",
+      "Evict from back when new value >= back value (use >= to remove stale equal elements, avoiding a leftover that shouldn't be max)",
+      "Evict from front when front index <= i - k (not < i - k)"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "sliding-window-max",
+      "show_deque": true,
+      "highlight_window": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Find the minimum (not maximum) of every sliding window of size k — same deque technique, opposite comparison.",
+    "starter_code": "from collections import deque\n\ndef sliding_window_min(nums, k):\n    dq     = deque()  # indices, increasing by nums value\n    result = []\n    for i, num in enumerate(nums):\n        # Remove expired front\n        while dq and dq[0] < i - k + 1:\n            dq.popleft()\n        # Maintain increasing order — evict larger elements from back\n        while dq and nums[dq[-1]] > num:\n            dq.pop()\n        dq.append(i)\n        if i >= k - 1:\n            result.append(___________)\n    return result",
+    "solution": "result.append(nums[dq[0]])",
+    "hints": [
+      "The minimum of the current window is always at the front of the deque: nums[dq[0]]",
+      "This is the same structure as sliding-window-max but with the comparison flipped (evict larger instead of smaller)"
+    ],
+    "test_code": "assert sliding_window_min([1,3,-1,-3,5,3,6,7], 3) == [-1,-3,-3,-3,3,3]\nassert sliding_window_min([1,2,3,4,5], 3)           == [1,2,3]\nassert sliding_window_min([5,4,3,2,1], 2)           == [4,3,2,1]\nassert sliding_window_min([4], 1)                   == [4]\nassert sliding_window_min([2,1,5,3], 2)             == [1,1,3]\nprint('PASS')"
+  },
+  "related": ["monotonic-queue-01", "monotonic-stack-01", "sliding-window-01"],
+  "tags": ["sliding-window-max", "monotonic-deque", "O(n)", "window", "deque"]
+}

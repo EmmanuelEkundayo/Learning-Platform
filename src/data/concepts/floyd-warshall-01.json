@@ -1,0 +1,44 @@
+{
+  "id": "floyd-warshall-01",
+  "slug": "floyd-warshall",
+  "title": "Floyd-Warshall",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "For every pair (i, j), check if routing through intermediate vertex k gives a shorter path. Iterate k from 0 to V-1 — after pass k, dist[i][j] holds the shortest path using only vertices 0..k as intermediates.",
+    "analogy": "Building a phone directory by adding one relay city at a time: after considering all routes through city k, you know the best way between every pair of cities using relays from the first k cities.",
+    "time_complexity": "O(V³)",
+    "space_complexity": "O(V²) for the distance matrix",
+    "when_to_use": [
+      "All-pairs shortest paths on dense graphs where O(V³) is acceptable",
+      "Detecting negative cycles (dist[i][i] < 0 after the algorithm)",
+      "Transitive closure (replace min/+ with OR/AND)"
+    ],
+    "gotchas": [
+      "Initialise dist[i][i] = 0, dist[i][j] = edge weight if edge exists, else ∞",
+      "The k loop must be the outermost loop — not i or j",
+      "For negative cycle detection: if dist[i][i] < 0 after the algorithm, node i is on a negative cycle"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "floyd-warshall",
+      "show_intermediate": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Floyd-Warshall for all-pairs shortest paths.",
+    "starter_code": "def floyd_warshall(n, edges):\n    \"\"\"\n    n     : number of vertices (0..n-1)\n    edges : list of (u, v, w)\n    Returns dist[i][j] = shortest path from i to j (inf if unreachable).\n    \"\"\"\n    INF = float('inf')\n    dist = [[INF] * n for _ in range(n)]\n    for i in range(n):\n        dist[i][i] = 0\n    for u, v, w in edges:\n        dist[u][v] = min(dist[u][v], w)\n\n    for k in range(n):          # intermediate vertex\n        for i in range(n):\n            for j in range(n):\n                if dist[i][k] + dist[k][j] < dist[i][j]:\n                    dist[i][j] = ___________\n    return dist",
+    "solution": "dist[i][k] + dist[k][j]",
+    "hints": [
+      "The relaxation step: if going i→k→j is shorter than the current dist[i][j], update it to dist[i][k] + dist[k][j]"
+    ],
+    "test_code": "edges = [(0,1,3),(0,3,7),(1,0,8),(1,2,2),(2,0,5),(2,3,1),(3,0,2)]\ndist = floyd_warshall(4, edges)\nassert dist[0][0] == 0\nassert dist[0][2] == 5   # 0->1->2\nassert dist[0][3] == 6   # 0->1->2->3\nassert dist[3][0] == 2   # 3->0 direct\nassert dist[3][2] == 7   # 3->0->1->2\n# Unreachable\nedges2 = [(0,1,1)]\nd2 = floyd_warshall(3, edges2)\nassert d2[2][0] == float('inf')\nprint('PASS')"
+  },
+  "related": ["dijkstra-01", "bellman-ford-01", "johnsons-algorithm-01", "dfs-graph-01"],
+  "tags": ["floyd-warshall", "all-pairs-shortest-paths", "dynamic-programming", "matrix", "O(V^3)"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "open-addressing-01",
+  "slug": "open-addressing",
+  "title": "Open Addressing",
+  "domain": "DSA",
+  "category": "Hashing",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Store all entries in the table array itself (no linked lists). On collision, probe for the next empty slot using a probe sequence: linear (i+1, i+2, ...), quadratic (i+1², i+2², ...), or double hashing (i + k·h₂(key)). Deletion uses a tombstone marker.",
+    "analogy": "A parking lot with a rule: if your assigned spot is taken, check the next spot, then the next, until you find one empty. When someone leaves, they leave a 'reserved' sign (tombstone) so future searches don't stop prematurely.",
+    "time_complexity": "O(1/(1-α)) expected for probe length at load factor α; O(1) average when α < 0.7",
+    "space_complexity": "O(m) — no extra pointer overhead vs chaining",
+    "when_to_use": [
+      "Cache-friendly hash tables (data stays in one array)",
+      "Memory-constrained environments where pointer overhead of chaining is costly",
+      "Python's dict uses open addressing with pseudo-random probing"
+    ],
+    "gotchas": [
+      "Deletion must place a TOMBSTONE — deleting in-place breaks probe chains for subsequent searches",
+      "Primary clustering in linear probing: long runs form, degrading performance — quadratic or double hashing reduces this",
+      "Table must never fill completely — keep load factor < 0.7 for open addressing"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "open-addressing",
+      "show_probe_sequence": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement linear probing search — handle tombstones correctly.",
+    "starter_code": "EMPTY, TOMBSTONE = None, '__DELETED__'\n\nclass LinearProbingTable:\n    def __init__(self, capacity=16):\n        self.cap   = capacity\n        self.table = [EMPTY] * capacity\n\n    def _hash(self, key): return hash(key) % self.cap\n\n    def put(self, key, value):\n        idx = self._hash(key)\n        first_tomb = None\n        for _ in range(self.cap):\n            cell = self.table[idx]\n            if cell is EMPTY:\n                pos = first_tomb if first_tomb is not None else idx\n                self.table[pos] = (key, value)\n                return\n            if cell is TOMBSTONE:\n                if first_tomb is None: first_tomb = idx\n            elif cell[0] == key:\n                self.table[idx] = (key, value); return\n            idx = (idx + 1) % self.cap\n\n    def get(self, key):\n        idx = self._hash(key)\n        for _ in range(self.cap):\n            cell = self.table[idx]\n            if cell is EMPTY:\n                raise KeyError(key)       # end of probe chain\n            if cell is not TOMBSTONE and ___________:\n                return cell[1]\n            idx = (idx + 1) % self.cap\n        raise KeyError(key)\n\n    def delete(self, key):\n        idx = self._hash(key)\n        for _ in range(self.cap):\n            cell = self.table[idx]\n            if cell is EMPTY: raise KeyError(key)\n            if cell is not TOMBSTONE and cell[0] == key:\n                self.table[idx] = TOMBSTONE; return\n            idx = (idx + 1) % self.cap\n        raise KeyError(key)",
+    "solution": "cell[0] == key",
+    "hints": [
+      "Check if the current cell holds the target key: cell[0] == key — if so, return cell[1] (the value)"
+    ],
+    "test_code": "t = LinearProbingTable(8)\nt.put('x', 1); t.put('y', 2); t.put('z', 3)\nassert t.get('x') == 1\nassert t.get('y') == 2\nt.delete('y')\ntry: t.get('y'); assert False\nexcept KeyError: pass\n# Probe chain must not break after tombstone\nt.put('a', 4)\nassert t.get('x') == 1\nassert t.get('z') == 3\nassert t.get('a') == 4\nprint('PASS')"
+  },
+  "related": ["hash-table-internals-01", "chaining-01", "bloom-filter-01", "consistent-hashing-01"],
+  "tags": ["open-addressing", "linear-probing", "tombstone", "hash-table", "collision-resolution"]
+}

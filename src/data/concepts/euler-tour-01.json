@@ -1,0 +1,46 @@
+{
+  "id": "euler-tour-01",
+  "slug": "euler-tour",
+  "title": "Euler Tour (Linearisation)",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Flatten a tree into an array by recording each node when you enter AND leave it during a DFS. Any subtree becomes a contiguous subarray — enabling range queries (RMQ, LCA, subtree sums) with array data structures.",
+    "analogy": "Stamping a passport every time you enter or leave a country on a road trip. Your travel log is a flat list, but the contiguous block between your first and last stamp for a region covers exactly that region — making it easy to query.",
+    "time_complexity": "O(n) for the tour; O(n log n) preprocessing + O(1) or O(log n) per LCA query with RMQ",
+    "space_complexity": "O(n) for the tour array",
+    "when_to_use": [
+      "LCA in O(1) per query after O(n log n) preprocessing (Euler tour + sparse table RMQ)",
+      "Subtree sum / update queries — entry/exit indices define the subtree's range in the tour",
+      "Converting tree path problems to range problems on arrays"
+    ],
+    "gotchas": [
+      "The Euler tour visits 2n-1 nodes (enter + re-visit on backtrack) — size the tour array accordingly",
+      "LCA(u,v) = node with minimum depth in euler_tour[first[u] .. first[v]] — requires first-occurrence index array",
+      "Subtree of node u spans euler_tour[entry[u] .. exit[u]] — use entry/exit timestamps, not first-occurrence"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "euler-tour",
+      "show_timestamps": true,
+      "show_tour_array": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Build the Euler tour and entry/exit timestamp arrays for a rooted tree.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, children=None):\n        self.val = val\n        self.children = children or []\n\ndef euler_tour(root):\n    \"\"\"\n    Returns:\n      tour   : list of node.val visited in DFS order (enter + re-visit = 2n-1 entries)\n      entry  : entry[v] = first index in tour where node v appears\n      exit_  : exit_[v] = last  index in tour where node v appears\n    \"\"\"\n    tour, entry, exit_ = [], {}, {}\n    timer = [0]\n\n    def dfs(node):\n        entry[node.val] = timer[0]\n        tour.append(node.val)\n        timer[0] += 1\n        for child in node.children:\n            dfs(child)\n            # Re-visit parent after returning from child\n            ___________\n            timer[0] += 1\n        exit_[node.val] = timer[0] - 1\n\n    dfs(root)\n    return tour, entry, exit_\n\ndef is_ancestor(u, v, entry, exit_):\n    \"\"\"True if u is an ancestor of v (or u == v).\"\"\"\n    return ___________",
+    "solution": "tour.append(node.val)\nreturn entry[u] <= entry[v] and exit_[v] <= exit_[u]",
+    "hints": [
+      "After finishing a child's DFS, append the current node again to the tour — this re-visit is what makes the tour length 2n-1",
+      "u is an ancestor of v iff u's entry comes before v's entry AND v's exit comes before u's exit — the subtree interval containment check"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,c=None): self.val=v; self.children=c or []\n\n#       1\n#      /|\\\n#     2  3  4\n#    / \\\n#   5   6\nn5,n6=TreeNode(5),TreeNode(6)\nn2=TreeNode(2,[n5,n6])\nn3,n4=TreeNode(3),TreeNode(4)\nroot=TreeNode(1,[n2,n3,n4])\n\ntour,entry,exit_=euler_tour(root)\n# Tour length = 2*6-1 = 11\nassert len(tour) == 11, f'Expected 11, got {len(tour)}'\n# Root appears first and last\nassert tour[0] == 1 and tour[-1] == 1\n# Entry of root is 0\nassert entry[1] == 0\n# Subtree of 2 contains 5 and 6\nassert entry[2] <= entry[5] <= exit_[5] <= exit_[2]\nassert entry[2] <= entry[6] <= exit_[6] <= exit_[2]\n# 1 is ancestor of everything; 2 is not ancestor of 3\nassert is_ancestor(1,5,entry,exit_)\nassert not is_ancestor(2,3,entry,exit_)\nprint('PASS')"
+  },
+  "related": ["lowest-common-ancestor-01", "dfs-postorder-01", "segment-tree-01", "fenwick-tree-01"],
+  "tags": ["euler-tour", "tree-linearisation", "LCA", "RMQ", "DFS", "subtree-queries"]
+}

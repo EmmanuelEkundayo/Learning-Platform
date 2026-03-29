@@ -1,0 +1,45 @@
+{
+  "id": "learning-rate-scheduling-01",
+  "slug": "learning-rate-scheduling",
+  "title": "Learning Rate Scheduling",
+  "domain": "ML",
+  "category": "ML Foundations",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A fixed learning rate is rarely optimal throughout training. Start large to make fast progress; decay over time for fine-grained convergence. Common schedules: step decay (halve every k epochs), exponential decay, cosine annealing (oscillate to escape local minima), and warmup (start small, ramp up, then decay).",
+    "analogy": "Adjusting a drill bit: use a large bit first to clear the bulk of material, then switch to a finer bit for precision work. Learning rate schedules apply the same principle — broad strokes early, fine adjustments late.",
+    "time_complexity": "O(1) to compute lr at any step",
+    "space_complexity": "O(1)",
+    "when_to_use": [
+      "Cosine annealing with warm restarts for finding multiple good minima",
+      "Linear warmup + decay for transformer training",
+      "Step decay for CNNs when validation loss plateaus"
+    ],
+    "gotchas": [
+      "Warmup is essential for large-batch training and transformers — starting with a large lr can destabilise early training",
+      "Cyclical learning rates can sometimes find better minima than monotone decay",
+      "Learning rate is the most important hyperparameter — schedule shape matters less than the range"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "lr-schedule",
+      "show_lr_curve": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement three learning rate schedules: step decay, cosine annealing, and linear warmup+decay.",
+    "starter_code": "import math\n\ndef step_decay(lr0, step, drop=0.5, drop_every=10):\n    \"\"\"Halve lr every drop_every steps.\"\"\"\n    return lr0 * (drop ** (step // drop_every))\n\ndef cosine_annealing(lr0, step, T_max):\n    \"\"\"Cosine decay from lr0 to 0 over T_max steps.\"\"\"\n    return ___________\n\ndef warmup_then_decay(lr_max, step, warmup_steps, total_steps):\n    \"\"\"Linear warmup then linear decay.\"\"\"\n    if step < warmup_steps:\n        return lr_max * step / warmup_steps\n    return lr_max * ___________",
+    "solution": "lr0 * 0.5 * (1 + math.cos(math.pi * step / T_max))\n(total_steps - step) / (total_steps - warmup_steps)",
+    "hints": [
+      "Cosine annealing: lr = lr0 * 0.5 * (1 + cos(π * step / T_max)) — starts at lr0, ends at 0",
+      "After warmup, linearly decay from lr_max to 0: multiply by (total_steps - step) / (total_steps - warmup_steps)"
+    ],
+    "test_code": "import math\n# Step decay\nassert step_decay(0.1, 0) == 0.1\nassert step_decay(0.1, 10) == 0.05\nassert step_decay(0.1, 20) == 0.025\n\n# Cosine annealing\nassert math.isclose(cosine_annealing(0.1, 0, 100), 0.1, rel_tol=1e-6)\nassert math.isclose(cosine_annealing(0.1, 100, 100), 0.0, abs_tol=1e-9)\nassert cosine_annealing(0.1, 50, 100) < 0.1  # decreasing\n\n# Warmup + decay\nassert warmup_then_decay(0.1, 0, 10, 100) == 0.0\nassert math.isclose(warmup_then_decay(0.1, 10, 10, 100), 0.1)\nassert warmup_then_decay(0.1, 100, 10, 100) == 0.0\nprint('PASS')"
+  },
+  "related": ["stochastic-gradient-descent-01", "gradient-descent-01", "mini-batch-gradient-descent-01", "overfitting-underfitting-01"],
+  "tags": ["learning-rate", "lr-schedule", "cosine-annealing", "warmup", "step-decay", "optimisation"]
+}

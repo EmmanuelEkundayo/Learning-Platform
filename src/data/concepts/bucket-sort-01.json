@@ -1,0 +1,44 @@
+{
+  "id": "bucket-sort-01",
+  "slug": "bucket-sort",
+  "title": "Bucket Sort",
+  "domain": "DSA",
+  "category": "Sorting & Searching",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Distribute elements into buckets based on their value range. Sort each bucket independently (insertion sort works well for small buckets), then concatenate. If input is uniformly distributed, each bucket has O(1) elements on average — giving O(n) expected time.",
+    "analogy": "Sorting exam papers by grade range: separate into A, B, C, D, F piles first (distribution), sort each pile individually (bucket sort), then stack piles in order. Most piles are small, so sorting each is fast.",
+    "time_complexity": "O(n + k) average for uniform distribution; O(n²) worst case when all elements fall in one bucket",
+    "space_complexity": "O(n + k) for buckets",
+    "when_to_use": [
+      "Floating-point values in [0, 1) — the canonical bucket sort use case",
+      "Data known to be uniformly distributed",
+      "External sorting where data is split into chunks that fit in memory"
+    ],
+    "gotchas": [
+      "Bucket sort degrades to O(n²) when all elements hash to the same bucket — distribution matters",
+      "Number of buckets k is a tuning parameter; k ≈ n works well for uniform data",
+      "For integers, counting sort or radix sort is usually preferable — bucket sort shines for floats"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "bucket-sort",
+      "show_buckets": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement bucket sort for floats in [0, 1).",
+    "starter_code": "def bucket_sort(arr):\n    \"\"\"\n    Sort floats in [0, 1). Returns a new sorted list.\n    \"\"\"\n    if not arr:\n        return arr\n    n = len(arr)\n    buckets = [[] for _ in range(n)]\n\n    for val in arr:\n        idx = int(val * n)            # map value to bucket index\n        idx = min(idx, n - 1)         # clamp (handles val == 1.0 edge case)\n        buckets[___________].append(val)\n\n    result = []\n    for bucket in buckets:\n        bucket.sort()                 # insertion sort for small buckets\n        result.extend(bucket)\n    return result",
+    "solution": "idx",
+    "hints": [
+      "Append val to buckets[idx] — idx is the bucket index computed from the value's relative position in [0, 1)"
+    ],
+    "test_code": "arr = [0.78, 0.17, 0.39, 0.26, 0.72, 0.94, 0.21, 0.12, 0.23, 0.68]\nassert bucket_sort(arr) == sorted(arr)\nassert bucket_sort([0.5]) == [0.5]\nassert bucket_sort([]) == []\nassert bucket_sort([0.0, 0.1, 0.9, 0.5]) == [0.0, 0.1, 0.5, 0.9]\nassert bucket_sort([0.3, 0.3, 0.3]) == [0.3, 0.3, 0.3]\nprint('PASS')"
+  },
+  "related": ["counting-sort-01", "radix-sort-01", "quicksort-01", "insertion-sort-01"],
+  "tags": ["bucket-sort", "sorting", "distribution-sort", "float-sort", "O(n)-average"]
+}

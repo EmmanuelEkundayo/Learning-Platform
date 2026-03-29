@@ -1,0 +1,45 @@
+{
+  "id": "edit-distance-01",
+  "slug": "edit-distance",
+  "title": "Edit Distance (Levenshtein)",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "dp[i][j] = minimum edits to convert s1[0..i-1] into s2[0..j-1]. If characters match, no edit needed: dp[i-1][j-1]. Otherwise, take 1 + the minimum of insert (dp[i][j-1]), delete (dp[i-1][j]), or replace (dp[i-1][j-1]).",
+    "analogy": "Auto-correct: given a misspelled word, find the minimum number of character insertions, deletions, or substitutions to reach the intended word. The DP table encodes the cheapest transformation of every prefix pair.",
+    "time_complexity": "O(m · n)",
+    "space_complexity": "O(m · n); O(min(m,n)) with two-row optimisation",
+    "when_to_use": [
+      "Spell checking and auto-correct",
+      "DNA sequence alignment (biological edit distance)",
+      "Approximate string matching / fuzzy search"
+    ],
+    "gotchas": [
+      "Base cases: dp[i][0] = i (delete all of s1 prefix), dp[0][j] = j (insert all of s2 prefix)",
+      "Three operations: insert into s1 (dp[i][j-1]+1), delete from s1 (dp[i-1][j]+1), substitute (dp[i-1][j-1]+1)",
+      "Damerau-Levenshtein also allows transpositions — one more case in the recurrence"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-table",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the edit distance DP recurrence.",
+    "starter_code": "def edit_distance(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n    for i in range(m + 1): dp[i][0] = i   # delete all of s1\n    for j in range(n + 1): dp[0][j] = j   # insert all of s2\n\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s1[i-1] == s2[j-1]:\n                dp[i][j] = ___________           # no edit needed\n            else:\n                dp[i][j] = 1 + min(\n                    dp[i-1][j],                  # delete from s1\n                    dp[i][j-1],                  # insert into s1\n                    ___________                  # substitute\n                )\n    return dp[m][n]",
+    "solution": "dp[i-1][j-1]\ndp[i-1][j-1]",
+    "hints": [
+      "Characters match: no edit needed — dp[i][j] = dp[i-1][j-1]",
+      "Substitute: cost 1 + dp[i-1][j-1] — replace the i-th char of s1 with the j-th char of s2"
+    ],
+    "test_code": "assert edit_distance('horse', 'ros') == 3\nassert edit_distance('intention', 'execution') == 5\nassert edit_distance('', 'abc') == 3\nassert edit_distance('abc', '') == 3\nassert edit_distance('abc', 'abc') == 0\nassert edit_distance('a', 'b') == 1\nprint('PASS')"
+  },
+  "related": ["longest-common-subsequence-01", "palindrome-dp-01", "string-hashing-01", "memoization-vs-tabulation-01"],
+  "tags": ["edit-distance", "Levenshtein", "dynamic-programming", "string-dp", "insert-delete-replace"]
+}

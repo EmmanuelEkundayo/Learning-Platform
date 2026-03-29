@@ -1,0 +1,46 @@
+{
+  "id": "dfs-preorder-01",
+  "slug": "dfs-preorder",
+  "title": "DFS Pre-order Traversal",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Visit the current node BEFORE its children — Root, Left, Right. You process a node the moment you first touch it.",
+    "analogy": "Reading a table of contents before the chapters: you record each chapter title when you encounter it, then dive into its sub-sections.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(h) where h is the tree height — O(log n) balanced, O(n) skewed",
+    "when_to_use": [
+      "Copy or serialize a tree — pre-order captures the parent before children, making reconstruction possible",
+      "Prefix expression trees (operator before operands)",
+      "Finding a path from root to a target node",
+      "Building a prefix-based trie from keys"
+    ],
+    "gotchas": [
+      "Iterative pre-order with a stack: push right child before left so left is processed first (stack is LIFO)",
+      "Pre-order visits root first — don't confuse with in-order (Left, Root, Right) which gives sorted output for BSTs",
+      "Recursive and iterative produce the same order; use iterative for very deep trees to avoid stack overflow"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "dfs-preorder",
+      "highlight_path": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement iterative pre-order traversal using an explicit stack.",
+    "starter_code": "class TreeNode:\n    def __init__(self, val=0, left=None, right=None):\n        self.val=val; self.left=left; self.right=right\n\ndef preorder(root):\n    if not root:\n        return []\n    result = []\n    stack  = [root]\n    while stack:\n        node = stack.pop()\n        result.append(node.val)\n        # Push right first so left is processed first (LIFO)\n        if node.right: stack.append(___________)\n        if node.left:  stack.append(___________)\n    return result",
+    "solution": "node.right\nnode.left",
+    "hints": [
+      "Push right child first — since stack is LIFO, right will be processed AFTER left, which is correct for Root→Left→Right order",
+      "Then push left child — it will be popped next, maintaining pre-order sequence"
+    ],
+    "test_code": "class TreeNode:\n    def __init__(self,v,l=None,r=None): self.val=v;self.left=l;self.right=r\nroot=TreeNode(1,TreeNode(2,TreeNode(4),TreeNode(5)),TreeNode(3))\nassert preorder(root) == [1,2,4,5,3], 'Standard pre-order'\nassert preorder(TreeNode(1)) == [1], 'Single node'\nassert preorder(None) == [], 'Empty'\nroot2=TreeNode(1,TreeNode(2,TreeNode(3)))\nassert preorder(root2) == [1,2,3], 'Left-skewed'\nprint('PASS')"
+  },
+  "related": ["dfs-inorder-01", "dfs-postorder-01", "bfs-tree-01"],
+  "tags": ["DFS", "pre-order", "tree", "traversal", "stack"]
+}

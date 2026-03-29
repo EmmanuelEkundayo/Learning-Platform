@@ -1,0 +1,44 @@
+{
+  "id": "sprague-grundy-01",
+  "slug": "sprague-grundy",
+  "title": "Sprague-Grundy Theorem",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Every impartial game position can be assigned a Grundy number (nimber): the MEX (minimum excludant) of the Grundy numbers of all reachable positions. A position is losing iff its Grundy number is 0. Multi-game XOR: the combined game's Grundy number is the XOR of all sub-game Grundy numbers.",
+    "analogy": "Rating how 'dangerous' each game position is: a losing position is rated 0. A position rated k can move to every rating below k (and possibly higher). The MEX gives the smallest danger level not directly reachable — the next unique level.",
+    "time_complexity": "O(states × moves) for computing all Grundy numbers",
+    "space_complexity": "O(states)",
+    "when_to_use": [
+      "Determining the winner of impartial combinatorial games (Nim, Subtraction games)",
+      "Multi-game combinations — XOR of Grundy values determines overall winner",
+      "Competitive programming problems involving 'who wins?' on game states"
+    ],
+    "gotchas": [
+      "MEX = Minimum EXcludant: smallest non-negative integer NOT in the set of reachable Grundy numbers",
+      "Grundy(0) = 0 always (terminal losing position — no moves available)",
+      "Only works for IMPARTIAL games (both players have identical moves available)"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "grundy-table",
+      "show_mex": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Compute Grundy numbers for a subtraction game with move set S. Determine the winner.",
+    "starter_code": "def mex(reachable):\n    \"\"\"Minimum excludant: smallest non-negative int not in reachable.\"\"\"\n    s = set(reachable)\n    i = 0\n    while i in s:\n        i += 1\n    return i\n\ndef grundy_subtraction(n, moves):\n    \"\"\"\n    Subtraction game: from pile of size n, remove any amount in moves.\n    Returns Grundy number for each pile size 0..n.\n    G[0] = 0 (no moves from empty pile = losing position).\n    \"\"\"\n    G = [0] * (n + 1)\n    for i in range(1, n + 1):\n        reachable = [G[i - m] for m in moves if i - m >= 0]\n        G[i] = ___________\n    return G\n\ndef wins_subtraction(n, moves):\n    \"\"\"True if the first player wins with pile of size n.\"\"\"\n    G = grundy_subtraction(n, moves)\n    return G[n] != 0",
+    "solution": "mex(reachable)",
+    "hints": [
+      "G[i] = mex of all Grundy numbers reachable from position i — compute the set of G[i - m] for valid moves m, then take the MEX"
+    ],
+    "test_code": "# Nim with moves {1,2,3}: Grundy numbers cycle 0,1,2,3,0,1,2,3,...\nG = grundy_subtraction(7, {1,2,3})\nassert G == [0,1,2,3,0,1,2,3]\nassert wins_subtraction(4, {1,2,3}) == False  # pile 4 -> Grundy 0 -> lose\nassert wins_subtraction(5, {1,2,3}) == True\n\n# Multi-game: two piles of size 3 and 5, moves {1,2,3}\n# XOR of Grundy values: G[3] XOR G[5] = 3 XOR 1 = 2 != 0 -> first player wins\ng = grundy_subtraction(5, {1,2,3})\nassert (g[3] ^ g[5]) != 0\nprint('PASS')"
+  },
+  "related": ["bitmask-dp-01", "dp-on-graphs-01", "memoization-vs-tabulation-01", "sos-dp-01"],
+  "tags": ["sprague-grundy", "game-theory", "grundy-number", "MEX", "nimber", "impartial-game"]
+}

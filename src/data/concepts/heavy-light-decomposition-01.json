@@ -1,0 +1,45 @@
+{
+  "id": "heavy-light-decomposition-01",
+  "slug": "heavy-light-decomposition",
+  "title": "Heavy-Light Decomposition",
+  "domain": "DSA",
+  "category": "Trees",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Label the edge to the child with the largest subtree as 'heavy'; all other edges are 'light'. Every root-to-leaf path crosses at most O(log n) light edges, so the path decomposes into O(log n) contiguous chains — each chain can be backed by a segment tree for O(log n) path queries.",
+    "analogy": "A highway system: the main road (heavy chain) runs through the biggest towns; smaller roads (light edges) branch off. Any journey uses at most O(log n) road changes — and each straight road segment is handled by one highway toll booth (segment tree).",
+    "time_complexity": "O(n) decomposition; O(log² n) per path query/update with a segment tree per chain",
+    "space_complexity": "O(n)",
+    "when_to_use": [
+      "Path sum / min / max queries on trees with updates",
+      "LCA queries in O(log n) without binary lifting tables",
+      "Any problem needing repeated range operations along tree paths"
+    ],
+    "gotchas": [
+      "Heavy child = child with the largest subtree size (break ties consistently)",
+      "Nodes on the same chain get consecutive positions in the flattened array — maintain a position[] array",
+      "When walking a path (u→v), always jump from the chain with the deeper head first"
+    ]
+  },
+  "visualization": {
+    "type": "tree-canvas",
+    "config": {
+      "mode": "heavy-light",
+      "show_chain_ids": true,
+      "highlight_path": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Compute subtree sizes and identify the heavy child of each node (the child with the largest subtree).",
+    "starter_code": "import sys\nsys.setrecursionlimit(10000)\n\ndef build_hld(n, adj, root=0):\n    \"\"\"\n    Returns:\n      size[]  : subtree size for each node\n      heavy[] : heavy child of each node (-1 if leaf)\n    \"\"\"\n    size  = [1] * n\n    heavy = [-1] * n\n\n    def dfs(u, parent):\n        max_size = 0\n        for v in adj[u]:\n            if v == parent:\n                continue\n            dfs(v, u)\n            size[u] += size[v]\n            if size[v] > max_size:\n                max_size = size[v]\n                heavy[u] = ___________   # heavy child is the one with largest subtree\n\n    dfs(root, -1)\n    return size, heavy",
+    "solution": "heavy[u] = v",
+    "hints": [
+      "Track max_size as you visit each child; when size[v] exceeds the current max, update both max_size and heavy[u] = v"
+    ],
+    "test_code": "adj = [[] for _ in range(7)]\nfor u, v in [(0,1),(0,2),(1,3),(1,4),(4,5),(4,6)]:\n    adj[u].append(v); adj[v].append(u)\nsize, heavy = build_hld(7, adj)\nassert size[0] == 7\nassert size[1] == 5  # subtree: 1,3,4,5,6\nassert size[4] == 3  # subtree: 4,5,6\nassert heavy[0] == 1  # node 1 has larger subtree than node 2\nassert heavy[1] == 4  # node 4 has size 3; node 3 has size 1\nassert heavy[4] in (5, 6)  # either child (both size 1, tie)\nassert heavy[3] == -1  # leaf\nprint('PASS')"
+  },
+  "related": ["segment-tree-01", "lowest-common-ancestor-01", "euler-tour-01", "tree-dp-01"],
+  "tags": ["heavy-light-decomposition", "HLD", "tree-path-queries", "segment-tree", "advanced-trees"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "lstm-01",
+  "slug": "lstm",
+  "title": "Long Short-Term Memory (LSTM)",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "LSTM adds a cell state cₜ (long-term memory) alongside the hidden state hₜ. Three gates control information flow: forget gate fₜ = σ(Wf·[hₜ₋₁,xₜ]) decides what to erase from cₜ; input gate iₜ decides what new info to write; output gate oₜ decides what to expose as hₜ. Gates use sigmoid so gradients flow through addition (not multiplication) along the cell state — the constant error carousel.",
+    "analogy": "A notebook with sticky notes: the cell state is the notebook (long-term memory), the forget gate is an eraser deciding which notes to rub out, the input gate decides what new notes to write, and the output gate decides which notes to read aloud (hidden state). The notebook can preserve information for hundreds of steps without degrading.",
+    "time_complexity": "O(T · d²) — 4× more ops than vanilla RNN due to 4 gate computations",
+    "space_complexity": "O(T · d) for hidden and cell states",
+    "when_to_use": [
+      "Long sequences (T > 50) with long-range dependencies",
+      "Language modelling, speech recognition, time-series forecasting",
+      "When the sequence has multi-scale temporal structure"
+    ],
+    "gotchas": [
+      "More parameters than GRU (4 weight matrices vs 3) — GRU often matches performance with less compute",
+      "Still struggles with very long contexts (T > 1000) — transformers dominate here",
+      "Layer normalisation within LSTM cells (LayerNorm LSTM) further stabilises training"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "lstm-unrolled",
+      "show_gates": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a single LSTM cell step.",
+    "starter_code": "import math\n\ndef sigmoid(x): return 1.0 / (1.0 + math.exp(-max(-30,min(30,x))))\ndef tanh_(x):   return math.tanh(x)\n\ndef lstm_cell(x, h_prev, c_prev, Wf, Wi, Wg, Wo, bf, bi, bg, bo):\n    \"\"\"\n    One LSTM step. All weight matrices have shape (d_h, d_in+d_h).\n    x      : input vector (d_in,)\n    h_prev : previous hidden (d_h,)\n    c_prev : previous cell   (d_h,)\n    Returns (h_next, c_next).\n    \"\"\"\n    xh = x + h_prev  # concatenate\n    def gate(W, b, act):\n        return [act(sum(W[i][j]*xh[j] for j in range(len(xh))) + b[i])\n                for i in range(len(b))]\n\n    f = gate(Wf, bf, sigmoid)          # forget gate\n    i = gate(Wi, bi, sigmoid)          # input gate\n    g = gate(Wg, bg, tanh_)            # cell gate (candidate)\n    o = gate(Wo, bo, sigmoid)          # output gate\n\n    c_next = [f[k]*c_prev[k] + i[k]*g[k] for k in range(len(f))]\n    h_next = [o[k] * ___________       for k in range(len(o))]\n    return h_next, c_next",
+    "solution": "tanh_(c_next[k])",
+    "hints": [
+      "The hidden state is the output gate multiplied by the tanh of the new cell state: hₜ = oₜ ⊙ tanh(cₜ)."
+    ],
+    "test_code": "import math\n# Minimal 2-hidden, 2-input LSTM\nd_h, d_in = 2, 2\ndim = d_h + d_in  # 4\n\ndef zeros(r, c): return [[0.0]*c for _ in range(r)]\ndef eye2(): return [[1.0,0.0,0.0,0.0],[0.0,1.0,0.0,0.0]]\n\n# All-zero weights: gates = sigmoid(0)=0.5, g=tanh(0)=0\nh0, c0 = [0.0,0.0], [0.0,0.0]\nWf = Wi = Wg = Wo = zeros(d_h, dim)\nbf = bi = bg = bo = [0.0]*d_h\nh1, c1 = lstm_cell([1.0,0.0], h0, c0, Wf,Wi,Wg,Wo, bf,bi,bg,bo)\nassert len(h1) == 2 and len(c1) == 2\nassert all(-1 <= v <= 1 for v in h1)\n# With c_prev=0 and g=0: c_next=0, h_next=0\nassert all(abs(v) < 1e-9 for v in c1)\nprint('PASS')"
+  },
+  "related": ["rnn-01", "gru-01", "seq2seq-01", "vanishing-exploding-gradients-01"],
+  "tags": ["LSTM", "long-short-term-memory", "cell-state", "gates", "forget-gate", "sequence-modeling"]
+}

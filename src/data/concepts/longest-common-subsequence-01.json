@@ -1,0 +1,45 @@
+{
+  "id": "longest-common-subsequence-01",
+  "slug": "longest-common-subsequence",
+  "title": "Longest Common Subsequence (LCS)",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "dp[i][j] = length of LCS of s1[0..i-1] and s2[0..j-1]. If the last characters match, dp[i][j] = dp[i-1][j-1] + 1. Otherwise, take the best of skipping one character from either string: max(dp[i-1][j], dp[i][j-1]).",
+    "analogy": "Finding the longest shared storyline between two book series: align the books and find the longest sequence of plot points that appear in both, in order, even if other events happen in between.",
+    "time_complexity": "O(m · n) where m, n are string lengths",
+    "space_complexity": "O(m · n) for full table; O(min(m,n)) with rolling array",
+    "when_to_use": [
+      "Diff tools (git diff computes LCS for line-by-line comparison)",
+      "DNA sequence alignment",
+      "Edit distance is closely related: edit_distance = m + n - 2 * LCS(s1, s2)"
+    ],
+    "gotchas": [
+      "LCS is a subsequence (not substring) — characters need not be contiguous",
+      "Backtrack through the DP table to reconstruct the actual subsequence, not just its length",
+      "Space-optimised version: only two rows needed since dp[i][j] depends only on dp[i-1][...]"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-table",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the LCS DP table filling logic.",
+    "starter_code": "def lcs(s1, s2):\n    m, n = len(s1), len(s2)\n    dp = [[0] * (n + 1) for _ in range(m + 1)]\n\n    for i in range(1, m + 1):\n        for j in range(1, n + 1):\n            if s1[i-1] == s2[j-1]:\n                dp[i][j] = ___________        # characters match\n            else:\n                dp[i][j] = ___________        # take best of skipping one\n    return dp[m][n]",
+    "solution": "dp[i-1][j-1] + 1\nmax(dp[i-1][j], dp[i][j-1])",
+    "hints": [
+      "Match: dp[i][j] = dp[i-1][j-1] + 1 — the LCS extends by one matching character",
+      "No match: dp[i][j] = max(dp[i-1][j], dp[i][j-1]) — skip one character from either string and take the better result"
+    ],
+    "test_code": "assert lcs('ABCBDAB', 'BDCAB') == 4   # 'BCAB' or 'BDAB'\nassert lcs('AGGTAB',  'GXTXAYB') == 4  # 'GTAB'\nassert lcs('',  'ABC') == 0\nassert lcs('ABC', '') == 0\nassert lcs('ABC', 'ABC') == 3\nassert lcs('A', 'B') == 0\nprint('PASS')"
+  },
+  "related": ["edit-distance-01", "longest-increasing-subsequence-01", "memoization-vs-tabulation-01", "palindrome-dp-01"],
+  "tags": ["LCS", "longest-common-subsequence", "dynamic-programming", "string-dp", "subsequence"]
+}

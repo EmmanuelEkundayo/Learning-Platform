@@ -1,0 +1,44 @@
+{
+  "id": "curse-of-dimensionality-01",
+  "slug": "curse-of-dimensionality",
+  "title": "Curse of Dimensionality",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "In d dimensions: (1) Volume of unit hypersphere → 0 as d→∞ relative to unit cube; (2) All pairwise distances concentrate: max-min distance → 0 as d→∞ (distance becomes meaningless); (3) Data becomes exponentially sparse — to maintain constant density, training data must grow exponentially with d. KNN, density estimation, and nearest-neighbour search all break down in high d.",
+    "analogy": "Packing oranges in a box: in 1D, 1 orange fits in a unit interval. In 2D, you need ~4 to cover corners. In 3D, ~8. In 100D, you'd need 2¹⁰⁰ oranges just to cover the corners of the hypercube — yet the oranges would each be almost empty since most of the hypercube's volume is near its corners, not the centre.",
+    "time_complexity": "KNN search: O(n · d) brute force — trees break down for d > 20",
+    "space_complexity": "O(n · d) to store data",
+    "when_to_use": [
+      "Justifying dimensionality reduction (PCA, UMAP, t-SNE) before clustering/KNN",
+      "Understanding why neural networks need large datasets in high d",
+      "Feature selection: remove irrelevant features to reduce effective dimensionality"
+    ],
+    "gotchas": [
+      "Intrinsic dimensionality is often much lower than the ambient dimension — embeddings exploit this",
+      "Squared Euclidean distances still rank-order correctly in practice for moderate d with normalised data",
+      "Neural networks partially overcome CoD via hierarchical feature learning"
+    ]
+  },
+  "visualization": {
+    "type": "vector-space",
+    "config": {
+      "mode": "curse-of-dimensionality",
+      "show_distance_concentration": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Demonstrate distance concentration in high dimensions.",
+    "starter_code": "import random, math\n\ndef distance_concentration(d, n=200, seed=42):\n    \"\"\"\n    Sample n random points uniformly in [0,1]^d.\n    Returns (min_dist, max_dist, ratio = min/max).\n    A ratio near 1 indicates distance concentration.\n    \"\"\"\n    random.seed(seed)\n    points = [[random.random() for _ in range(d)] for _ in range(n)]\n\n    def euclidean(a, b):\n        return math.sqrt(sum((ai-bi)**2 for ai,bi in zip(a,b)))\n\n    min_d, max_d = float('inf'), 0.0\n    for i in range(n):\n        for j in range(i+1, n):\n            dist = euclidean(points[i], points[j])\n            if dist < min_d: min_d = dist\n            if dist > max_d: max_d = dist\n\n    ratio = ___________\n    return min_d, max_d, ratio",
+    "solution": "min_d / max_d",
+    "hints": [
+      "The concentration ratio is min_dist / max_dist — as dimensionality increases, this ratio approaches 1."
+    ],
+    "test_code": "# Low dimensions: large spread\n_, _, r2  = distance_concentration(d=2)\n_, _, r10 = distance_concentration(d=10)\n_, _, r100 = distance_concentration(d=100)\n\n# Ratio should increase with dimension (concentrating toward 1)\nassert r2 < r10 < r100, f'Ratios: {r2:.3f}, {r10:.3f}, {r100:.3f}'\nassert r100 > 0.7, f'High-d distances should concentrate: ratio={r100:.3f}'\nassert r2 < 0.5, f'Low-d should have spread: ratio={r2:.3f}'\nprint('PASS')"
+  },
+  "related": ["knn-01", "umap-01", "feature-scaling-01", "bias-variance-tradeoff-01"],
+  "tags": ["curse-of-dimensionality", "high-dimensional", "distance-concentration", "sparsity", "KNN", "dimensionality-reduction"]
+}

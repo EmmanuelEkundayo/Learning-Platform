@@ -1,0 +1,44 @@
+{
+  "id": "adam-optimizer-01",
+  "slug": "adam-optimizer",
+  "title": "Adam Optimizer",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Adam combines momentum (1st moment mₜ = β₁mₜ₋₁ + (1−β₁)gₜ) and RMSprop (2nd moment vₜ = β₂vₜ₋₁ + (1−β₂)gₜ²). Bias correction: m̂ = m/(1−β₁ᵗ), v̂ = v/(1−β₂ᵗ). Update: θ ← θ − α·m̂/(√v̂ + ε). Per-parameter adaptive learning rates with momentum — converges fast and is robust to hyperparameter choice.",
+    "analogy": "A ball rolling downhill with both memory (momentum — keeps moving in recent direction) and adaptive grip (RMSprop — slow down in steep directions, speed up in flat ones). The bias correction inflates early estimates when mₜ and vₜ are initialised near zero — like correcting for a cold engine at startup.",
+    "time_complexity": "O(d) per parameter update",
+    "space_complexity": "O(2d) for first and second moment vectors",
+    "when_to_use": [
+      "Default optimiser for deep learning — works well across most architectures",
+      "Especially good for sparse gradients (NLP, embeddings)",
+      "AdamW (weight decay decoupled from gradient) preferred over Adam for regularised models"
+    ],
+    "gotchas": [
+      "Adam may generalise worse than SGD with momentum on some CV tasks — SGD can find flatter minima",
+      "Weight decay in Adam is coupled to the adaptive scaling — use AdamW for correct L2 regularisation",
+      "ε = 1e-8 default; increase to 1e-4 for very sparse gradients"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "adam",
+      "show_trajectory": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement one Adam optimizer step.",
+    "starter_code": "import math\n\ndef adam_step(params, grads, m, v, t, lr=1e-3, beta1=0.9, beta2=0.999, eps=1e-8):\n    \"\"\"\n    params: list of parameter values (modified in place)\n    grads : list of gradient values\n    m, v  : first and second moment lists (modified in place)\n    t     : current time step (1-indexed)\n    \"\"\"\n    for i in range(len(params)):\n        m[i] = beta1 * m[i] + (1 - beta1) * grads[i]\n        v[i] = beta2 * v[i] + (1 - beta2) * grads[i] ** 2\n        m_hat = m[i] / (1 - beta1 ** t)\n        v_hat = v[i] / (1 - beta2 ** t)\n        params[i] -= ___________\n    return params, m, v",
+    "solution": "lr * m_hat / (math.sqrt(v_hat) + eps)",
+    "hints": [
+      "Adam update: θ -= α · m̂ / (√v̂ + ε). Divide bias-corrected first moment by bias-corrected second moment's square root plus epsilon."
+    ],
+    "test_code": "import math\n\n# Minimise f(x) = x^2, grad = 2x, starting at x=5\nparams = [5.0]\nm = [0.0]; v = [0.0]\nfor t in range(1, 201):\n    grad = [2.0 * params[0]]\n    params, m, v = adam_step(params, grad, m, v, t, lr=0.1)\n\nassert abs(params[0]) < 0.1, f'Should converge near 0, got {params[0]:.4f}'\n\n# Minimise f(x,y) = x^2 + 10*y^2\nparams2 = [3.0, 3.0]; m2 = [0.0,0.0]; v2 = [0.0,0.0]\nfor t in range(1, 501):\n    g = [2*params2[0], 20*params2[1]]\n    params2, m2, v2 = adam_step(params2, g, m2, v2, t, lr=0.05)\nassert abs(params2[0]) < 0.1 and abs(params2[1]) < 0.1\nprint('PASS')"
+  },
+  "related": ["rmsprop-01", "adagrad-01", "stochastic-gradient-descent-01", "vanishing-exploding-gradients-01"],
+  "tags": ["Adam", "optimizer", "adaptive-learning-rate", "momentum", "bias-correction", "AdamW", "deep-learning"]
+}

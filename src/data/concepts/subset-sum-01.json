@@ -1,0 +1,44 @@
+{
+  "id": "subset-sum-01",
+  "slug": "subset-sum",
+  "title": "Subset Sum",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "dp[j] = True if some subset of processed items sums to j. For each item, iterate j from target down to item value: dp[j] |= dp[j - item]. Iterating backwards prevents using the same item twice (0/1 constraint).",
+    "analogy": "Checking whether a group of friends can split a restaurant bill exactly: try every combination of who contributes, keeping track of every reachable total. Each new person either joins or doesn't.",
+    "time_complexity": "O(n · target)",
+    "space_complexity": "O(target) for 1D bitset DP",
+    "when_to_use": [
+      "Partition equal subset sum",
+      "Target sum problems",
+      "NP-hard in general, but pseudo-polynomial with DP when target is bounded"
+    ],
+    "gotchas": [
+      "Iterate j from target DOWN to num — going up would allow reusing items (unbounded knapsack behaviour)",
+      "dp is a boolean array; alternatively use a Python set of reachable sums",
+      "Bitset optimisation: represent dp as a Python int and use bitwise OR with shifts for O(n · target/64)"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "dp-boolean",
+      "show_fill_order": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement subset sum using 1D boolean DP.",
+    "starter_code": "def subset_sum(nums, target):\n    dp = [False] * (target + 1)\n    dp[0] = True  # empty subset sums to 0\n    for num in nums:\n        for j in range(target, num - 1, -1):  # iterate backwards (0/1 knapsack)\n            dp[j] = dp[j] or ___________\n    return dp[target]",
+    "solution": "dp[j - num]",
+    "hints": [
+      "dp[j] becomes True if dp[j] was already True OR if dp[j - num] is True (we include num in the subset)"
+    ],
+    "test_code": "assert subset_sum([3,34,4,12,5,2], 9)  == True\nassert subset_sum([3,34,4,12,5,2], 30) == False\nassert subset_sum([], 0)                == True\nassert subset_sum([], 1)                == False\nassert subset_sum([1,2,3,4,5], 15)      == True   # sum of all\nassert subset_sum([1,2,3,4,5], 16)      == False\nprint('PASS')"
+  },
+  "related": ["dp-knapsack-01", "coin-change-01", "knapsack-unbounded-01", "bitmask-dp-01"],
+  "tags": ["subset-sum", "dynamic-programming", "0/1-knapsack", "boolean-dp", "NP-hard"]
+}

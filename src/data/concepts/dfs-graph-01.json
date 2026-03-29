@@ -1,0 +1,44 @@
+{
+  "id": "dfs-graph-01",
+  "slug": "dfs-graph",
+  "title": "Graph DFS",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Explore as far as possible along each branch before backtracking. Mark nodes visited to avoid cycles. Works on both directed and undirected graphs using a stack (recursive call stack or explicit).",
+    "analogy": "Exploring a cave system by always taking the leftmost unexplored tunnel until you hit a dead end, then backtracking to the last junction and taking the next tunnel.",
+    "time_complexity": "O(V + E) — each vertex and edge visited once",
+    "space_complexity": "O(V) for visited set + O(V) recursion stack",
+    "when_to_use": [
+      "Connectivity checks, path existence",
+      "Topological sort, cycle detection, SCC (with finish-time tracking)",
+      "Generating all paths or permutations via backtracking"
+    ],
+    "gotchas": [
+      "Always mark a node visited BEFORE recursing into it — not after — to handle back-edges correctly",
+      "For disconnected graphs, loop over all vertices as potential DFS roots",
+      "Recursive DFS may hit Python's recursion limit on large graphs — use an explicit stack if n > 10^4"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "dfs",
+      "show_stack": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement iterative DFS and return the visited order.",
+    "starter_code": "def dfs(graph, start):\n    \"\"\"\n    graph: adjacency list dict {node: [neighbours]}\n    Returns list of nodes in DFS visit order.\n    \"\"\"\n    visited = set()\n    order   = []\n    stack   = [start]\n    while stack:\n        node = stack.pop()\n        if node in visited:\n            continue\n        visited.add(node)\n        order.append(node)\n        # Push neighbours so the first neighbour is explored first\n        for nbr in reversed(___________):   # reverse to preserve left-to-right order\n            if nbr not in visited:\n                stack.append(nbr)\n    return order",
+    "solution": "graph[node]",
+    "hints": [
+      "Iterate over graph[node] to get the neighbours of the current node; reverse them before pushing so the first neighbour ends up on top of the stack"
+    ],
+    "test_code": "g = {0:[1,2], 1:[0,3,4], 2:[0,5], 3:[1], 4:[1], 5:[2]}\norder = dfs(g, 0)\nassert order[0] == 0, 'Start at 0'\nassert set(order) == {0,1,2,3,4,5}, 'All nodes visited'\nassert len(order) == 6\n# DFS from disconnected node still works via start param\ng2 = {0:[1], 1:[0], 2:[3], 3:[2]}\nassert set(dfs(g2, 0)) == {0,1}\nassert set(dfs(g2, 2)) == {2,3}\nprint('PASS')"
+  },
+  "related": ["bfs-01", "topological-sort-dfs-01", "cycle-detection-directed-01", "tarjans-scc-01"],
+  "tags": ["DFS", "graph-traversal", "depth-first-search", "iterative", "connectivity"]
+}

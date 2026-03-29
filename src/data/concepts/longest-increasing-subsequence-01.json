@@ -1,0 +1,44 @@
+{
+  "id": "longest-increasing-subsequence-01",
+  "slug": "longest-increasing-subsequence",
+  "title": "Longest Increasing Subsequence (LIS)",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Maintain a 'tails' array where tails[i] is the smallest tail element of all increasing subsequences of length i+1. For each new number, binary search for its position in tails and replace or extend — giving O(n log n) overall.",
+    "analogy": "Building stacks of cards in ascending order: place each new card on the leftmost stack whose top is >= the card, or start a new stack. The number of stacks is the LIS length. Greedy placement keeps each stack's top as small as possible.",
+    "time_complexity": "O(n log n) with binary search; O(n²) naïve DP",
+    "space_complexity": "O(n) for the tails array",
+    "when_to_use": [
+      "Patience sorting",
+      "Minimum number of increasing chains needed to cover a sequence (Dilworth's theorem: = LIS length)",
+      "Box stacking, chain of pairs problems reducible to LIS"
+    ],
+    "gotchas": [
+      "tails does NOT directly give the LIS itself — it gives the length. To reconstruct, track predecessors separately.",
+      "bisect_left finds the first position ≥ num; use bisect_right for non-strict (non-decreasing) sequences",
+      "The tails array is always sorted, enabling binary search"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "lis",
+      "show_tails": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement O(n log n) LIS using binary search on the tails array.",
+    "starter_code": "from bisect import bisect_left\n\ndef lis_length(nums):\n    \"\"\"\n    Returns the length of the longest strictly increasing subsequence.\n    \"\"\"\n    tails = []\n    for num in nums:\n        pos = bisect_left(tails, num)\n        if pos == len(tails):\n            tails.append(num)     # extend LIS\n        else:\n            tails[pos] = ___________  # replace with smaller tail\n    return len(tails)",
+    "solution": "num",
+    "hints": [
+      "Replace tails[pos] with num — a smaller tail at position pos allows future numbers more room to extend the subsequence"
+    ],
+    "test_code": "assert lis_length([10,9,2,5,3,7,101,18]) == 4   # [2,3,7,101] or [2,5,7,101]\nassert lis_length([0,1,0,3,2,3]) == 4              # [0,1,2,3]\nassert lis_length([7,7,7,7]) == 1                  # strictly increasing -> length 1\nassert lis_length([1,2,3,4,5]) == 5\nassert lis_length([5,4,3,2,1]) == 1\nassert lis_length([1]) == 1\nprint('PASS')"
+  },
+  "related": ["longest-common-subsequence-01", "patience-sort", "dp-knapsack-01", "binary-search-01"],
+  "tags": ["LIS", "longest-increasing-subsequence", "dynamic-programming", "binary-search", "tails-array", "O(n-log-n)"]
+}

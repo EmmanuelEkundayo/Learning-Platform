@@ -1,0 +1,44 @@
+{
+  "id": "cnn-pooling-01",
+  "slug": "cnn-pooling",
+  "title": "CNN — Pooling Layer",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Pooling reduces spatial dimensions by aggregating a local patch into a single value. Max pooling takes the maximum (preserves dominant features, translation invariant). Average pooling takes the mean (smooth representation). Global average pooling (GAP) collapses each feature map to a scalar — common before the final FC layer.",
+    "analogy": "Summarising a page by highlighting paragraphs: max pooling picks the most striking sentence in each paragraph (key feature), average pooling takes the gist of each paragraph. Both make the document shorter while preserving what matters.",
+    "time_complexity": "O(H · W · C) per layer",
+    "space_complexity": "O(H/s · W/s · C) output",
+    "when_to_use": [
+      "After conv layers to reduce spatial size and computation",
+      "Max pooling: when presence of a feature matters more than exact location",
+      "Global average pooling: in modern architectures (ResNet) as a parameter-free alternative to flattening"
+    ],
+    "gotchas": [
+      "Pooling discards spatial precision — use stride-2 convolutions instead when you need learnable downsampling",
+      "Max pooling gradients pass only through the winning neuron (max backward)",
+      "Overlap between pooling windows (stride < pool_size) provides more spatial coverage"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "cnn-pooling",
+      "show_pooling_window": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement 2D max pooling and average pooling.",
+    "starter_code": "def pool2d(X, pool_size=2, stride=2, mode='max'):\n    \"\"\"\n    X: 2D feature map (H x W)\n    mode: 'max' or 'avg'\n    \"\"\"\n    H, W = len(X), len(X[0])\n    oH   = (H - pool_size) // stride + 1\n    oW   = (W - pool_size) // stride + 1\n    out  = []\n    for i in range(oH):\n        row = []\n        for j in range(oW):\n            patch = [\n                X[i*stride + di][j*stride + dj]\n                for di in range(pool_size)\n                for dj in range(pool_size)\n            ]\n            if mode == 'max':\n                row.append(max(patch))\n            else:\n                row.append(___________)\n        out.append(row)\n    return out",
+    "solution": "sum(patch) / len(patch)",
+    "hints": [
+      "Average pooling: divide the sum of all patch values by the number of elements (pool_size²)."
+    ],
+    "test_code": "X = [[1,3,2,4],[5,6,7,8],[3,2,1,0],[9,8,7,6]]\n\n# Max pooling 2x2, stride 2\nm = pool2d(X, pool_size=2, stride=2, mode='max')\nassert m == [[6,8],[9,7]], f'Max pool wrong: {m}'\n\n# Avg pooling 2x2, stride 2\na = pool2d(X, pool_size=2, stride=2, mode='avg')\nassert a[0][0] == (1+3+5+6)/4 == 3.75\nassert a[0][1] == (2+4+7+8)/4 == 5.25\n\n# stride=1\nm2 = pool2d(X, pool_size=2, stride=1, mode='max')\nassert len(m2) == 3 and len(m2[0]) == 3\nprint('PASS')"
+  },
+  "related": ["cnn-convolution-01", "mlp-01", "batch-normalization-01"],
+  "tags": ["CNN", "pooling", "max-pooling", "average-pooling", "global-average-pooling", "spatial-reduction"]
+}

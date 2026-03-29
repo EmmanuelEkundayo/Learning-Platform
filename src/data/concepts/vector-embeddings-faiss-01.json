@@ -1,0 +1,44 @@
+{
+  "id": "vector-embeddings-faiss-01",
+  "slug": "vector-embeddings-faiss",
+  "title": "Vector Embeddings & FAISS",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Dense vector embeddings map items (text, images, users) to R^d where semantic similarity ≈ geometric proximity. FAISS (Facebook AI Similarity Search) enables billion-scale approximate nearest neighbour (ANN) search. Key indexes: Flat (exact, O(n·d)); IVF (inverted file — cluster vectors, search only nearest cluster centroids); HNSW (hierarchical navigable small world — graph-based, O(log n) query).",
+    "analogy": "A library catalogue that understands meaning: instead of exact keyword lookup, you describe what you want in any words, and the system finds books with similar meaning. FAISS is the index that lets this work at scale — instead of checking every book, it navigates a smart network of similarity pointers.",
+    "time_complexity": "Flat: O(n·d); IVF: O(n/nlist · d); HNSW: O(log n · d)",
+    "space_complexity": "O(n·d) for flat; O(n·d/compression_ratio) for IVF-PQ",
+    "when_to_use": [
+      "Semantic search, recommendation, duplicate detection at scale",
+      "RAG retrieval: find relevant chunks for LLM context",
+      "Face recognition, image search, molecular similarity"
+    ],
+    "gotchas": [
+      "ANN trades recall for speed — use recall@k metrics to tune nprobe (IVF) or ef (HNSW)",
+      "Normalise embeddings before cosine similarity — use inner product on L2-normalised vectors",
+      "Dimensionality reduction (PCA to 128d) before indexing speeds up FAISS without much recall loss"
+    ]
+  },
+  "visualization": {
+    "type": "vector-space",
+    "config": {
+      "mode": "faiss",
+      "show_clusters": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a brute-force flat vector index with L2 nearest-neighbour search.",
+    "starter_code": "import math\n\nclass FlatIndex:\n    \"\"\"\n    Brute-force exact nearest-neighbour index (FAISS Flat equivalent).\n    \"\"\"\n    def __init__(self):\n        self.vectors = []\n        self.ids     = []\n\n    def add(self, vectors, ids=None):\n        \"\"\"Add vectors (list of lists) to the index.\"\"\"\n        if ids is None:\n            ids = list(range(len(self.vectors), len(self.vectors)+len(vectors)))\n        self.vectors.extend(vectors)\n        self.ids.extend(ids)\n\n    def search(self, query, k):\n        \"\"\"\n        Returns (distances, ids) for k nearest neighbours by L2 distance.\n        \"\"\"\n        def l2(a, b):\n            return sum((ai-bi)**2 for ai,bi in zip(a,b))  # squared L2\n        scored = sorted(\n            zip(self.ids, self.vectors),\n            key=lambda iv: ___________\n        )\n        top_k = scored[:k]\n        return [l2(query, v) for _, v in top_k], [i for i, _ in top_k]",
+    "solution": "l2(query, iv[1])",
+    "hints": [
+      "Sort by L2 distance from the query to each stored vector: l2(query, vector)."
+    ],
+    "test_code": "idx = FlatIndex()\nvecs = [[0,0],[1,0],[2,0],[3,0],[4,0]]\nidx.add(vecs, ids=[10,11,12,13,14])\n\ndists, ids = idx.search(query=[1.5,0], k=2)\nassert set(ids) == {11,12}, f'Expected ids 11,12, got {ids}'\nassert all(d >= 0 for d in dists)\nassert dists[0] <= dists[1]  # sorted ascending\n\n# Query exactly on a vector\ndists2, ids2 = idx.search([0,0], k=1)\nassert ids2 == [10] and dists2[0] == 0.0\nprint('PASS')"
+  },
+  "related": ["rag-retrieval-augmented-generation-01", "word2vec-cbow-01", "umap-01", "curse-of-dimensionality-01"],
+  "tags": ["FAISS", "vector-embeddings", "ANN", "nearest-neighbour", "IVF", "HNSW", "semantic-search"]
+}

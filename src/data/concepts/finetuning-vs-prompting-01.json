@@ -1,0 +1,44 @@
+{
+  "id": "finetuning-vs-prompting-01",
+  "slug": "finetuning-vs-prompting",
+  "title": "Fine-Tuning vs Prompting",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Prompting (in-context learning): provide examples or instructions in the context window — zero parameters updated, inference-only. Fine-tuning: update model weights on task-specific data — modifies the model. PEFT (parameter-efficient fine-tuning): LoRA adds low-rank adapter matrices ΔW = BA (where B ∈ R^{d×r}, A ∈ R^{r×k}, r << d) — only A,B are trained, reducing trainable params by 1000×.",
+    "analogy": "Teaching an expert with post-it notes (prompting) vs sending them back to school (fine-tuning). Post-its are instant and reversible but limited by the expert's reading ability. School changes the expert permanently and works even for complex skills, but costs time and compute. LoRA is like a targeted refresher course — just enough to specialise.",
+    "time_complexity": "Prompting: O(T·d²·L) inference; Fine-tuning: O(n·T·d²·L) training",
+    "space_complexity": "Prompting: O(L·d²) model only; LoRA: +O(r·(d_in+d_out)) per layer",
+    "when_to_use": [
+      "Prompting: rapid prototyping, few-shot tasks, general instructions",
+      "Fine-tuning: consistent format/style, domain-specific knowledge, latency-sensitive deployment",
+      "LoRA: fine-tuning large models (7B+) on consumer GPUs"
+    ],
+    "gotchas": [
+      "Fine-tuned models can catastrophically forget general capabilities — use LoRA or mix general data in",
+      "Prompt length is limited by context window — in-context examples are expensive at inference",
+      "LoRA rank r=4-16 is typically enough; too high r → overfitting, too low → underfitting"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "finetuning-vs-prompting",
+      "show_comparison": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a LoRA forward pass: W_effective = W_frozen + B @ A * scale.",
+    "starter_code": "def lora_forward(x, W_frozen, B, A, alpha, r):\n    \"\"\"\n    LoRA forward: y = x @ W_frozen.T + x @ A.T @ B.T * (alpha/r)\n    x       : input vector (d_in,)\n    W_frozen: frozen weight matrix (d_out, d_in)\n    B       : LoRA matrix (d_out, r)\n    A       : LoRA matrix (r, d_in)\n    alpha   : LoRA scaling hyperparameter\n    r       : LoRA rank\n    Returns output vector (d_out,).\n    \"\"\"\n    d_out = len(W_frozen)\n    d_in  = len(x)\n    # Base output\n    base = [sum(W_frozen[i][j]*x[j] for j in range(d_in)) for i in range(d_out)]\n    # LoRA: low-rank update\n    Ax   = [sum(A[k][j]*x[j] for j in range(d_in)) for k in range(r)]\n    BAx  = [sum(B[i][k]*Ax[k] for k in range(r)) for i in range(d_out)]\n    scale = ___________\n    return [base[i] + scale * BAx[i] for i in range(d_out)]",
+    "solution": "alpha / r",
+    "hints": [
+      "LoRA scaling factor: alpha/r — alpha controls the magnitude of the adaptation relative to the rank."
+    ],
+    "test_code": "# 4-in, 3-out, rank=2\nW = [[1.0,0,0,0],[0,1.0,0,0],[0,0,1.0,0]]\nB = [[0.1,0.2],[0.3,0.4],[0.5,0.6]]\nA = [[1.0,0,0,0],[0,1.0,0,0]]\nx = [1.0,2.0,3.0,4.0]\n\ny = lora_forward(x, W, B, A, alpha=4, r=2)\nassert len(y) == 3\n# Base = [1,2,3], lora adds something\nbase = [1.0, 2.0, 3.0]\nassert y != base  # LoRA modifies output\n\n# With B or A all zeros: output = base\nB0 = [[0]*2 for _ in range(3)]\ny0 = lora_forward(x, W, B0, A, alpha=4, r=2)\nassert y0 == base\nprint('PASS')"
+  },
+  "related": ["bert-01", "gpt-01", "rlhf-01", "transfer-learning-01"],
+  "tags": ["fine-tuning", "prompting", "LoRA", "PEFT", "in-context-learning", "few-shot", "LLM", "adapter"]
+}

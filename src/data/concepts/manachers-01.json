@@ -1,0 +1,46 @@
+{
+  "id": "manachers-01",
+  "slug": "manachers",
+  "title": "Manacher's Algorithm",
+  "domain": "DSA",
+  "category": "Arrays & Strings",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Expand palindromes around every center in O(n) by reusing mirror-symmetry: if center c has palindrome radius r, every center inside that radius has a known minimum expansion.",
+    "analogy": "You've already measured how far a spotlight shines from the middle of a stage. Any performer standing inside that spotlight's edge has a pre-known minimum visibility range — you only need to re-check if they might be visible even further.",
+    "time_complexity": "O(n) — each character is the center of an expansion at most once total",
+    "space_complexity": "O(n) for the radius array",
+    "when_to_use": [
+      "Longest palindromic substring in O(n) — beats the O(n²) expand-around-center approach",
+      "Counting all palindromic substrings in O(n)",
+      "When palindrome queries need to be answered online after O(n) preprocessing"
+    ],
+    "gotchas": [
+      "Transform s into '#a#b#a#' (insert separators) to unify odd and even-length palindromes — otherwise you need two separate cases",
+      "The radius p[i] in the transformed string equals the length of the palindrome in the original: len = p[i] (after transformation, subtract 1 for the separator)",
+      "When i > right boundary of the current widest palindrome, you must expand from scratch — the mirror trick only applies inside the boundary"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "manachers",
+      "show_center": true,
+      "show_radius": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the expand-around-center helper (O(n²) approach) that Manacher's improves upon. Return the palindrome length.",
+    "starter_code": "def longest_palindrome(s):\n    def expand(l, r):\n        \"\"\"Expand outward while s[l] == s[r]. Return palindrome length.\"\"\"\n        while l >= 0 and r < len(s) and s[l] == s[r]:\n            l -= 1\n            r += 1\n        # After loop: l and r are one step OUTSIDE the palindrome\n        return ___________\n\n    best = 1\n    for i in range(len(s)):\n        odd  = expand(i, i)        # odd-length center\n        even = expand(i, i + 1)    # even-length center\n        best = ___________\n    return best",
+    "solution": "return r - l - 1          # r and l overshot by 1 each: length = r - l - 1\nbest = max(best, odd, even)",
+    "hints": [
+      "After the while loop, l and r have gone one step too far — the actual palindrome runs from l+1 to r-1, so its length is (r-1) - (l+1) + 1 = r - l - 1",
+      "Check both odd (single center) and even (two-character center) expansions, then take the maximum of all three values"
+    ],
+    "test_code": "assert longest_palindrome('babad')   == 3, '\"bab\" or \"aba\" length 3'\nassert longest_palindrome('cbbd')    == 2, '\"bb\" length 2'\nassert longest_palindrome('a')       == 1, 'Single char'\nassert longest_palindrome('racecar') == 7, 'Whole string is palindrome'\nassert longest_palindrome('abcba')   == 5, 'Whole string'\nassert longest_palindrome('aacecaaa') == 7, '\"aacecaa\" length 7'\nprint('PASS')"
+  },
+  "related": ["z-algorithm-01", "string-hashing-01", "kmp-01"],
+  "tags": ["manachers", "palindrome", "string", "O(n)", "center-expansion"]
+}

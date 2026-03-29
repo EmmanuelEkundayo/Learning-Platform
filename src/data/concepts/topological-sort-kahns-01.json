@@ -1,0 +1,45 @@
+{
+  "id": "topological-sort-kahns-01",
+  "slug": "topological-sort-kahns",
+  "title": "Topological Sort — Kahn's (BFS)",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Start with all nodes of in-degree 0 (no prerequisites). Process them, reducing neighbours' in-degrees by 1. When a neighbour reaches in-degree 0, it becomes ready. If all nodes are processed, the order is valid; fewer nodes means a cycle exists.",
+    "analogy": "Scheduling tasks: start every task with no dependencies, cross it off, then check if any remaining task now has all its dependencies completed — keep picking those until done. If some tasks never become available, there's a circular dependency.",
+    "time_complexity": "O(V + E)",
+    "space_complexity": "O(V) for in-degree array and queue",
+    "when_to_use": [
+      "Build order / compilation dependencies",
+      "Course scheduling with prerequisites",
+      "Detecting cycles in directed graphs (result length < V means cycle)"
+    ],
+    "gotchas": [
+      "If the output order has fewer than V nodes, the graph has a cycle — topological sort is undefined for cyclic graphs",
+      "Multiple valid topological orderings exist for most DAGs — Kahn's gives one based on processing order",
+      "A priority queue instead of a plain queue gives lexicographically smallest ordering"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "topological-bfs",
+      "show_indegree": true,
+      "show_queue": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Kahn's topological sort. Return the order, or [] if a cycle exists.",
+    "starter_code": "from collections import deque\n\ndef topological_sort_kahns(n, adj):\n    \"\"\"\n    n   : number of vertices (0..n-1)\n    adj : adjacency list {u: [v, ...]}\n    Returns topological order list, or [] if cycle detected.\n    \"\"\"\n    indegree = [0] * n\n    for u in adj:\n        for v in adj[u]:\n            indegree[v] += 1\n\n    queue = deque(u for u in range(n) if indegree[u] == 0)\n    order = []\n\n    while queue:\n        u = queue.popleft()\n        order.append(u)\n        for v in adj[u]:\n            indegree[v] -= 1\n            if ___________:          # v is now ready\n                queue.append(v)\n\n    return order if len(order) == n else []",
+    "solution": "indegree[v] == 0",
+    "hints": [
+      "After decrementing indegree[v], check if it has reached 0 — that means all its prerequisites have been processed and it can now be enqueued"
+    ],
+    "test_code": "adj  = {0:[1,2], 1:[3], 2:[3], 3:[], 4:[3]}\nresult = topological_sort_kahns(5, adj)\nassert len(result) == 5, 'All nodes in output'\n# Verify ordering: for every edge u->v, u appears before v\npos = {v:i for i,v in enumerate(result)}\nfor u in adj:\n    for v in adj[u]:\n        assert pos[u] < pos[v], f'{u} should come before {v}'\n\n# Cycle detection\nadj2 = {0:[1], 1:[2], 2:[0]}\nassert topological_sort_kahns(3, adj2) == []\nprint('PASS')"
+  },
+  "related": ["topological-sort-dfs-01", "cycle-detection-directed-01", "dfs-graph-01", "bfs-01"],
+  "tags": ["topological-sort", "kahns", "BFS", "DAG", "cycle-detection", "in-degree"]
+}

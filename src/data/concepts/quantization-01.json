@@ -1,0 +1,44 @@
+{
+  "id": "quantization-01",
+  "slug": "quantization",
+  "title": "Quantization",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Reduce model memory and speed up inference by representing weights/activations in low bit-width. Uniform quantization: q = round(x/scale + zero_point), where scale = (x_max−x_min)/(2^b−1). INT8 reduces memory by 4× vs FP32 with <1% accuracy loss. Post-training quantization (PTQ) requires no retraining; Quantization-aware training (QAT) simulates quantization during training for better accuracy.",
+    "analogy": "Compressing a photograph by reducing colour depth: from 16 million colours (FP32) to 256 colours (INT8). The image looks nearly identical for most uses and loads 4× faster. QAT is like training a painter to work within the colour constraint from the start.",
+    "time_complexity": "O(n) to quantize weights; O(n) inference with INT8 SIMD vs O(n) FP32",
+    "space_complexity": "FP32: 4 bytes/param → INT8: 1 byte/param; INT4: 0.5 bytes/param",
+    "when_to_use": [
+      "Edge deployment: mobile, embedded, IoT with limited memory",
+      "Inference acceleration: INT8 matrix multiply is 2-4× faster on modern hardware",
+      "LLM serving: 4-bit quantization (GPTQ, AWQ) enables 70B models on single GPU"
+    ],
+    "gotchas": [
+      "Outlier activations in LLMs break uniform quantization — use SmoothQuant to redistribute",
+      "INT4 per-group quantization: separate scale per group of 128 weights reduces error",
+      "QAT requires straight-through estimator (STE) to backpropagate through rounding"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "quantization",
+      "show_quantization_error": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement symmetric INT8 quantization and dequantization.",
+    "starter_code": "import math\n\ndef quantize_int8(tensor, scale=None):\n    \"\"\"\n    Symmetric INT8 quantization.\n    scale = max(|tensor|) / 127\n    Returns (quantized: list of ints, scale: float).\n    \"\"\"\n    if scale is None:\n        max_val = max(abs(x) for x in tensor)\n        scale   = max_val / 127.0 if max_val > 0 else 1.0\n    quantized = [max(-128, min(127, round(x / scale))) for x in tensor]\n    return quantized, scale\n\ndef dequantize_int8(quantized, scale):\n    \"\"\"\n    Reconstruct FP32 approximation from INT8 values.\n    \"\"\"\n    return [___________  for q in quantized]",
+    "solution": "q * scale",
+    "hints": [
+      "Dequantization simply multiplies the integer value by the scale: x_approx = q · scale."
+    ],
+    "test_code": "import math\n\ntensor = [0.5, -0.3, 1.2, -1.0, 0.0]\nq, scale = quantize_int8(tensor)\n\n# INT8 range\nassert all(-128 <= v <= 127 for v in q)\n# Scale = 1.2/127\nassert abs(scale - 1.2/127) < 1e-6\n\n# Dequantize\nrecon = dequantize_int8(q, scale)\nfor orig, r in zip(tensor, recon):\n    assert abs(orig - r) < 0.02, f'Quantization error too large: {orig:.4f} vs {r:.4f}'\n\n# Zero maps to zero\nassert dequantize_int8([0], scale)[0] == 0.0\nprint('PASS')"
+  },
+  "related": ["pruning-01", "knowledge-distillation-01", "transfer-learning-01", "few-shot-vs-zero-shot-01"],
+  "tags": ["quantization", "INT8", "INT4", "PTQ", "QAT", "model-compression", "inference-acceleration"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "isolation-forest-01",
+  "slug": "isolation-forest",
+  "title": "Isolation Forest",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Build an ensemble of random isolation trees: at each node, pick a random feature and a random split value between the feature's min and max. Anomalies are isolated near the root (short path length) because they occupy sparse regions; normal points buried deep in dense regions require many splits to isolate. Anomaly score = 2^(-avg_path / c(n)) where c(n) is the expected path length for n samples.",
+    "analogy": "Finding a needle in a haystack vs finding a person: the needle is isolated from other objects so random cuts quickly separate it. A person in a crowd takes many cuts to single out. Anomalies are needles — they're isolated quickly; normal points are people in crowds.",
+    "time_complexity": "O(n · t · log n) to build t trees of depth log n; O(t · log n) per query",
+    "space_complexity": "O(t · n) for all trees",
+    "when_to_use": [
+      "Unsupervised anomaly detection without labelled data",
+      "High-dimensional data where density estimation is expensive",
+      "Fast inference needed — each prediction is just averaging path lengths"
+    ],
+    "gotchas": [
+      "Contamination parameter sets the expected fraction of anomalies — tune with domain knowledge",
+      "Masking effect: dense clusters of anomalies may appear normal — use Extended Isolation Forest for robustness",
+      "Path length is averaged over all trees — more trees (default 100) reduce variance but increase cost"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "mode": "isolation-forest",
+      "show_anomaly_scores": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a minimal Isolation Tree and compute average path length for anomaly scoring.",
+    "starter_code": "import random\n\ndef c(n):\n    \"\"\"Expected path length for a failed search in a BST of n nodes.\"\"\"\n    if n <= 1: return 0\n    return 2 * (sum(1/i for i in range(1, n)) + 0.5772) - 2*(n-1)/n\n\nclass IsolationTree:\n    def __init__(self, max_depth):\n        self.max_depth = max_depth\n        self.tree = None\n\n    def fit(self, X, depth=0):\n        n, d = len(X), len(X[0])\n        if depth >= self.max_depth or n <= 1:\n            return {'type': 'leaf', 'size': n}\n        feat = random.randrange(d)\n        lo   = min(x[feat] for x in X)\n        hi   = max(x[feat] for x in X)\n        if lo == hi:\n            return {'type': 'leaf', 'size': n}\n        split = random.uniform(lo, hi)\n        left  = [x for x in X if x[feat] < split]\n        right = [x for x in X if x[feat] >= split]\n        return {\n            'type': 'node', 'feat': feat, 'split': split,\n            'left': self.fit(left, depth+1),\n            'right': self.fit(right, depth+1)\n        }\n\ndef path_length(x, node, depth=0):\n    if node['type'] == 'leaf':\n        return ___________\n    if x[node['feat']] < node['split']:\n        return path_length(x, node['left'],  depth+1)\n    else:\n        return path_length(x, node['right'], depth+1)\n\ndef anomaly_score(X_train, X_test, n_trees=50, max_depth=8):\n    n = len(X_train)\n    trees = []\n    for _ in range(n_trees):\n        t = IsolationTree(max_depth)\n        sample = random.choices(X_train, k=min(256, n))\n        trees.append(t.fit(sample))\n    scores = []\n    for x in X_test:\n        avg_pl = sum(path_length(x, t) for t in trees) / n_trees\n        scores.append(2 ** (-avg_pl / c(min(256, n))))\n    return scores",
+    "solution": "depth + c(node['size'])",
+    "hints": [
+      "At a leaf with size s, the point couldn't be further isolated — its effective path length is depth + c(s), where c(s) adjusts for the unbuilt subtree below"
+    ],
+    "test_code": "random.seed(42)\n# Normal cluster around origin, one anomaly far away\nX_normal = [[random.gauss(0,1), random.gauss(0,1)] for _ in range(100)]\nX_anom   = [[10.0, 10.0]]\nX_all    = X_normal + X_anom\n\nscores = anomaly_score(X_all, X_all, n_trees=100, max_depth=8)\n\n# Anomaly (last point) should have higher score than median of normals\nimport statistics\nnormal_scores = scores[:100]\nmed = statistics.median(normal_scores)\nassert scores[100] > med, f'Anomaly score {scores[100]:.4f} should exceed median {med:.4f}'\n# Most normal points should score below 0.6\nassert sum(s < 0.6 for s in normal_scores) > 70, 'Most normal points should have low anomaly score'\nprint('PASS')"
+  },
+  "related": ["dbscan-01", "one-class-svm-01", "gmm-em-01", "knn-01"],
+  "tags": ["isolation-forest", "anomaly-detection", "unsupervised", "path-length", "random-trees", "outlier"]
+}

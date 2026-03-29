@@ -1,0 +1,45 @@
+{
+  "id": "merge-linked-lists-01",
+  "slug": "merge-linked-lists",
+  "title": "Merge Sorted Linked Lists",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Compare the heads of two sorted lists, attach the smaller one to the result, and recurse — like merging two sorted decks of cards by always picking the smaller top card.",
+    "analogy": "Two checkout lines at a grocery store, both already ordered by arrival time. A manager redirects the next customer from whichever line has the earlier arrival — one combined line forms automatically.",
+    "time_complexity": "O(n + m)",
+    "space_complexity": "O(1) iterative with a dummy head; O(n + m) recursive due to call stack",
+    "when_to_use": [
+      "Merging two sorted linked lists (bottom half of merge sort on lists)",
+      "Merging k sorted lists — use a min-heap of size k, popping the smallest head each time",
+      "Interleaving two streams that are each individually sorted"
+    ],
+    "gotchas": [
+      "Use a dummy head node to avoid special-casing the first node — tail starts at dummy, result is dummy.next",
+      "After the loop one list will be non-empty; attach it in a single step (tail.next = l1 or l2), not another loop",
+      "For k-way merge with a heap, push (node.val, index, node) to break ties — pure node comparison crashes in Python 3"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "merge-lists",
+      "show_two_heads": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Merge two sorted linked lists into one sorted list. Use a dummy head to simplify the logic.",
+    "starter_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef merge_two_lists(l1, l2):\n    dummy = ListNode()\n    tail  = dummy\n    while l1 and l2:\n        if l1.val <= l2.val:\n            tail.next = l1\n            l1        = ___________\n        else:\n            tail.next = l2\n            l2        = ___________\n        tail = tail.next\n    tail.next = l1 if l1 else l2\n    return dummy.next",
+    "solution": "l1 = l1.next\nl2 = l2.next",
+    "hints": [
+      "After attaching a node to the result, advance that list's pointer to its next node",
+      "The dummy head trick means you never need to check if the result list is empty — just start appending to dummy"
+    ],
+    "test_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val; self.next = next\ndef make(vs):\n    d=ListNode(); c=d\n    for v in vs: c.next=ListNode(v); c=c.next\n    return d.next\ndef arr(h):\n    r=[]\n    while h: r.append(h.val); h=h.next\n    return r\nassert arr(merge_two_lists(make([1,2,4]),make([1,3,4]))) == [1,1,2,3,4,4]\nassert arr(merge_two_lists(make([]),make([])))            == []\nassert arr(merge_two_lists(make([]),make([0])))           == [0]\nassert arr(merge_two_lists(make([1,3,5]),make([2,4,6]))) == [1,2,3,4,5,6]\nprint('PASS')"
+  },
+  "related": ["reverse-linked-list-01", "fast-slow-pointers-01", "priority-queue-01"],
+  "tags": ["merge", "linked-list", "sorted", "two-pointer", "dummy-head"]
+}

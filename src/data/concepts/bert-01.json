@@ -1,0 +1,44 @@
+{
+  "id": "bert-01",
+  "slug": "bert",
+  "title": "BERT",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Bidirectional Encoder Representations from Transformers. Pre-train a transformer encoder on two tasks: Masked Language Modelling (MLM) — randomly mask 15% of tokens, predict them using bidirectional context; Next Sentence Prediction (NSP) — classify whether sentence B follows sentence A. Fine-tune the [CLS] representation or token representations for downstream tasks.",
+    "analogy": "A student who reads entire chapters with random words blanked out (MLM) — forced to understand context from both sides to fill the gap. After enough practice, they understand language deeply and can quickly learn new tasks (fine-tuning) like answering questions or classifying sentiment.",
+    "time_complexity": "O(T² · d) per forward pass — transformer encoder",
+    "space_complexity": "O(V · d) for token embeddings + O(L · d²) for L layers",
+    "when_to_use": [
+      "Token-level tasks: NER, POS tagging, extractive QA",
+      "Sentence-level tasks: sentiment, textual entailment, sentence similarity",
+      "Foundation model: fine-tune on <1000 examples for strong performance"
+    ],
+    "gotchas": [
+      "MLM masking strategy: 80% [MASK], 10% random token, 10% unchanged — prevents model relying solely on [MASK] signal",
+      "Max sequence length 512 — use Longformer or chunking for longer docs",
+      "NSP was found less useful in RoBERTa — removing it and training longer with more data often works better"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "bert-pretraining",
+      "show_masking": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the MLM token masking strategy.",
+    "starter_code": "import random\n\nMASK_ID  = 103\nCLS_ID   = 101\nSEP_ID   = 102\n\ndef mlm_mask(token_ids, vocab_size, mask_prob=0.15, seed=None):\n    \"\"\"\n    Apply BERT MLM masking to token_ids.\n    Returns (masked_ids, labels) where labels[i] = original id if masked else -100.\n    Strategy for each selected token:\n      80% -> MASK_ID\n      10% -> random token\n      10% -> unchanged\n    Special tokens ([CLS],[SEP]) are never masked.\n    \"\"\"\n    if seed is not None: random.seed(seed)\n    masked = list(token_ids)\n    labels = [-100] * len(token_ids)\n    for i, tid in enumerate(token_ids):\n        if tid in (CLS_ID, SEP_ID): continue\n        if random.random() < mask_prob:\n            labels[i] = tid\n            r = random.random()\n            if r < 0.8:\n                masked[i] = ___________\n            elif r < 0.9:\n                masked[i] = random.randint(0, vocab_size - 1)\n            # else: keep original\n    return masked, labels",
+    "solution": "MASK_ID",
+    "hints": [
+      "80% of selected tokens are replaced with the special [MASK] token (id=103)."
+    ],
+    "test_code": "random.seed(42)\nids = [101, 7592, 2003, 1037, 3231, 102]  # [CLS] hello is a test [SEP]\nmasked, labels = mlm_mask(ids, vocab_size=30522, seed=42)\n\n# CLS and SEP should never be masked\nassert masked[0] == 101 and labels[0] == -100\nassert masked[-1] == 102 and labels[-1] == -100\n\n# Masked positions have non -100 labels\nmasked_positions = [i for i in range(len(labels)) if labels[i] != -100]\nassert all(labels[i] == ids[i] for i in masked_positions)\n\n# Masked tokens are MASK_ID, random, or unchanged\nfor i in masked_positions:\n    assert masked[i] in [MASK_ID] + list(range(30522)) or masked[i] == ids[i]\nprint('PASS')"
+  },
+  "related": ["transformer-encoder-01", "attention-mechanism-01", "gpt-01", "finetuning-vs-prompting-01"],
+  "tags": ["BERT", "masked-language-model", "MLM", "NSP", "bidirectional", "pre-training", "fine-tuning"]
+}

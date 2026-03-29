@@ -1,0 +1,44 @@
+{
+  "id": "knn-01",
+  "slug": "knn",
+  "title": "K-Nearest Neighbours (KNN)",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "To classify a new point, find its k nearest training points by distance (Euclidean, cosine, etc.) and take a majority vote. KNN is a non-parametric, lazy learner — no model is trained; the entire training set is the model.",
+    "analogy": "Asking your k closest neighbours for a recommendation: if 4 out of 5 nearest neighbours prefer pizza over sushi, predict pizza. The quality of the prediction depends entirely on choosing the right k and having relevant neighbours.",
+    "time_complexity": "O(nd) per query (brute force); O(log n · d) with KD-tree for low d",
+    "space_complexity": "O(nd) to store all training data",
+    "when_to_use": [
+      "Low-dimensional data where geometric distance is meaningful",
+      "Quick baseline, anomaly detection, recommendation systems",
+      "When the decision boundary is highly non-linear and non-parametric"
+    ],
+    "gotchas": [
+      "Scale features before KNN — features with large range dominate the distance calculation",
+      "k too small → noisy, overfits; k too large → smooth, underfits. Use cross-validation to select k",
+      "Curse of dimensionality: in high dimensions, all points are approximately equidistant — KNN breaks down"
+    ]
+  },
+  "visualization": {
+    "type": "cluster-plot",
+    "config": {
+      "mode": "knn",
+      "show_neighbors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement KNN classification.",
+    "starter_code": "def euclidean(a, b):\n    return sum((ai-bi)**2 for ai,bi in zip(a,b)) ** 0.5\n\nclass KNN:\n    def fit(self, X, y):\n        self.X_train = X\n        self.y_train = y\n        return self\n\n    def predict_one(self, x, k):\n        distances = sorted(\n            range(len(self.X_train)),\n            key=lambda i: euclidean(x, self.X_train[i])\n        )\n        k_labels = [self.y_train[i] for i in ___________]\n        counts   = {}\n        for label in k_labels:\n            counts[label] = counts.get(label, 0) + 1\n        return max(counts, key=counts.get)\n\n    def predict(self, X, k=3):\n        return [self.predict_one(x, k) for x in X]",
+    "solution": "distances[:k]",
+    "hints": [
+      "Take the k nearest indices: distances[:k] — these are the indices sorted by ascending distance"
+    ],
+    "test_code": "X_tr = [[1,2],[1.5,1.8],[2,1],[5,5],[6,5],[5,6]]\ny_tr = ['A','A','A','B','B','B']\nknn  = KNN().fit(X_tr, y_tr)\nassert knn.predict([[1,1]],     k=3) == ['A']\nassert knn.predict([[5.5,5.5]], k=3) == ['B']\nassert knn.predict(X_tr,        k=3) == y_tr\nprint('PASS')"
+  },
+  "related": ["dbscan-01", "feature-scaling-01", "naive-bayes-01", "svm-kernel-01"],
+  "tags": ["KNN", "k-nearest-neighbours", "lazy-learner", "distance-based", "non-parametric"]
+}

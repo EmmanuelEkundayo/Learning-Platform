@@ -1,0 +1,46 @@
+{
+  "id": "doubly-linked-list-01",
+  "slug": "doubly-linked-list",
+  "title": "Doubly Linked List",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Each node holds pointers to both its successor and predecessor, enabling O(1) insertion and deletion anywhere — given the node — without traversal.",
+    "analogy": "A conga line where each dancer holds the hands of both the person in front and behind — anyone can step out instantly by having their neighbors grab each other's hands, and a new dancer can step in without reorganizing the whole line.",
+    "time_complexity": "O(1) insert/delete given a node reference; O(n) search",
+    "space_complexity": "O(n) — two pointers per node vs one in singly linked",
+    "when_to_use": [
+      "LRU cache — O(1) node removal from the middle of the list",
+      "Browser forward/back history — bidirectional traversal",
+      "Deque (double-ended queue) implementation — O(1) push/pop at both ends",
+      "Any scenario where you need to delete a node given only its reference, not its predecessor"
+    ],
+    "gotchas": [
+      "When inserting between nodes A and C, update all four pointers in the right order — setting the new node's prev/next first avoids losing references",
+      "When deleting, always check that prev and next are not None (you're not at a sentinel boundary) before updating",
+      "Use dummy head and tail sentinels to eliminate edge cases for empty list or end-of-list operations — the LRU cache pattern exploits this"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "mode": "doubly-linked-list",
+      "show_prev_next": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete the doubly linked list insert_after method. Insert a new node immediately after the given node.",
+    "starter_code": "class DLLNode:\n    def __init__(self, val):\n        self.val  = val\n        self.prev = None\n        self.next = None\n\nclass DoublyLinkedList:\n    def __init__(self):\n        self.head = DLLNode(None)  # dummy head\n        self.tail = DLLNode(None)  # dummy tail\n        self.head.next = self.tail\n        self.tail.prev = self.head\n\n    def insert_after(self, node, val):\n        \"\"\"Insert a new node with val immediately after node.\"\"\"\n        new_node      = DLLNode(val)\n        new_node.prev = node\n        new_node.next = node.next\n        node.next.prev = ___________\n        node.next      = ___________\n        return new_node\n\n    def to_list(self):\n        r, c = [], self.head.next\n        while c is not self.tail:\n            r.append(c.val); c = c.next\n        return r",
+    "solution": "node.next.prev = new_node\nnode.next      = new_node",
+    "hints": [
+      "The node after new_node (currently node.next) must point its prev to new_node before you overwrite node.next",
+      "Update in this order: new_node.prev, new_node.next, then old_successor.prev, then node.next"
+    ],
+    "test_code": "dll = DoublyLinkedList()\na = dll.insert_after(dll.head, 1)\nb = dll.insert_after(a, 2)\nc = dll.insert_after(b, 3)\nassert dll.to_list() == [1,2,3], 'Insert three nodes'\nmid = dll.insert_after(a, 10)\nassert dll.to_list() == [1,10,2,3], 'Insert in middle'\nassert mid.prev.val == 1 and mid.next.val == 2, 'Prev/next pointers correct'\nprint('PASS')"
+  },
+  "related": ["lru-cache-01", "reverse-linked-list-01", "xor-linked-list-01"],
+  "tags": ["doubly-linked-list", "linked-list", "prev-next", "O(1)-delete", "deque"]
+}

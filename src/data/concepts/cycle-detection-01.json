@@ -1,0 +1,47 @@
+{
+  "id": "cycle-detection-01",
+  "slug": "cycle-detection",
+  "title": "Linked List Cycle Detection",
+  "domain": "DSA",
+  "category": "Linked Lists",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Fast pointer moves twice as fast as slow — if there's a cycle, fast will lap slow inside it; if not, fast falls off the end.",
+    "analogy": "Two runners on a track: if the track is circular, the faster runner will eventually catch up to the slower one. If the track is straight, the faster runner finishes first and never meets the slower one again.",
+    "time_complexity": "O(n)",
+    "space_complexity": "O(1) — Floyd's algorithm needs no extra storage",
+    "when_to_use": [
+      "Detect whether a linked list has a cycle",
+      "Find the node where the cycle begins (reset one pointer to head after meeting, advance both by 1)",
+      "Find the length of the cycle (count steps from meeting point back to itself)",
+      "Detect cycles in any sequence defined by a next-state function (e.g., rho algorithm for factoring)"
+    ],
+    "gotchas": [
+      "Check `fast and fast.next` before advancing fast — dereferencing fast.next when fast is None is a runtime error",
+      "Meeting point is NOT the cycle start — to find the start, move one pointer to head and advance both one step at a time; they meet at the entry",
+      "A hash-set approach is O(n) time and O(n) space — Floyd's is always preferred unless you need the actual nodes visited"
+    ]
+  },
+  "visualization": {
+    "type": "array-pointers",
+    "config": {
+      "mode": "cycle-detection",
+      "show_slow": true,
+      "show_fast": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Detect whether a linked list has a cycle using Floyd's fast/slow pointer algorithm.",
+    "starter_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val = val\n        self.next = next\n\ndef has_cycle(head):\n    slow = fast = head\n    while fast and fast.next:\n        slow = slow.next\n        fast = ___________\n        if slow is fast:\n            return True\n    return False",
+    "solution": "fast = fast.next.next",
+    "hints": [
+      "Fast moves two steps per iteration: fast = fast.next.next",
+      "If fast and slow ever point to the same node, a cycle exists — check with `is` (identity), not `==` (value equality)"
+    ],
+    "test_code": "class ListNode:\n    def __init__(self, val=0, next=None):\n        self.val=val; self.next=next\n# No cycle\ndef make(vs):\n    d=ListNode(); c=d\n    for v in vs: c.next=ListNode(v); c=c.next\n    return d.next\nassert has_cycle(make([1,2,3,4])) == False, 'No cycle'\nassert has_cycle(make([])) == False, 'Empty list'\nassert has_cycle(make([1])) == False, 'Single node, no cycle'\n# With cycle: 1->2->3->4->2\nn1=ListNode(1); n2=ListNode(2); n3=ListNode(3); n4=ListNode(4)\nn1.next=n2; n2.next=n3; n3.next=n4; n4.next=n2\nassert has_cycle(n1) == True, 'Cycle at node 2'\n# Self-loop\nn=ListNode(1); n.next=n\nassert has_cycle(n) == True, 'Self-loop'\nprint('PASS')"
+  },
+  "related": ["fast-slow-pointers-01", "reverse-linked-list-01", "lru-cache-01"],
+  "tags": ["cycle-detection", "floyd", "fast-slow", "linked-list", "O(1)-space"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "knowledge-distillation-01",
+  "slug": "knowledge-distillation",
+  "title": "Knowledge Distillation",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Train a small student model to mimic a large teacher model. Soft targets: instead of one-hot labels, use teacher's softened probabilities p_T(y|x; τ) = softmax(z_T/τ). Temperature τ > 1 spreads probability mass, revealing 'dark knowledge' (relative similarities between classes). Loss = α·CE(y_hard, y_student) + (1−α)·KL(p_T‖p_S) where both use temperature τ.",
+    "analogy": "A master craftsman teaching an apprentice: instead of just saying 'this is correct or wrong' (hard labels), the master explains why each approach is better or worse than alternatives (soft targets). The apprentice learns richer structure — knowing that a slightly-off attempt is much better than a completely wrong one.",
+    "time_complexity": "O(n · d_student²) per training step — student is smaller",
+    "space_complexity": "O(d_teacher + d_student) — need both models during distillation",
+    "when_to_use": [
+      "Model compression: deploy a small student that approaches teacher performance",
+      "Labelled data limited: use teacher soft labels to improve data efficiency",
+      "Ensemble distillation: compress an ensemble of models into one"
+    ],
+    "gotchas": [
+      "Teacher and student capacity gap: very small students cannot capture all teacher knowledge",
+      "Temperature τ: too high → all classes look equally likely; too low → approaches hard labels",
+      "Feature-level distillation (matching intermediate representations) often outperforms output-level"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "knowledge-distillation",
+      "show_soft_targets": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement temperature-scaled softmax for knowledge distillation.",
+    "starter_code": "import math\n\ndef softmax_temperature(logits, temperature):\n    \"\"\"\n    Temperature-scaled softmax: p_i = exp(z_i/T) / sum(exp(z_j/T))\n    Higher T -> softer distribution (more uniform)\n    T=1 -> standard softmax\n    \"\"\"\n    scaled = [z / temperature for z in logits]\n    m = max(scaled)\n    e = [math.exp(x - m) for x in scaled]\n    s = sum(e)\n    return [x/s for x in e]\n\ndef kl_divergence_distill(p_teacher, p_student):\n    \"\"\"\n    KL(p_teacher || p_student) = sum p_T * log(p_T / p_S)\n    Used as the distillation loss component.\n    \"\"\"\n    eps = 1e-10\n    return sum(\n        p_teacher[i] * math.log((p_teacher[i] + eps) / (___________  + eps))\n        for i in range(len(p_teacher))\n    )",
+    "solution": "p_student[i]",
+    "hints": [
+      "KL divergence: Σ p_T(i) · log(p_T(i) / p_S(i)) — divide teacher probability by student probability."
+    ],
+    "test_code": "import math\n\n# Temperature=1: standard softmax\np1 = softmax_temperature([1,2,3], temperature=1)\np_std = softmax_temperature([1,2,3], temperature=1)\nassert all(abs(a-b) < 1e-9 for a,b in zip(p1, p_std))\n\n# Higher temperature: more uniform\np_cold = softmax_temperature([1,2,3], temperature=0.1)\np_warm = softmax_temperature([1,2,3], temperature=10.0)\nassert p_warm[2] - p_warm[0] < p_cold[2] - p_cold[0]  # more spread\n\n# Perfect match: KL = 0\np = [0.1, 0.7, 0.2]\nassert abs(kl_divergence_distill(p, p)) < 1e-6\n\n# Non-negative KL\nq = [0.3, 0.4, 0.3]\nassert kl_divergence_distill(p, q) >= 0\nprint('PASS')"
+  },
+  "related": ["pruning-01", "quantization-01", "transfer-learning-01", "mixture-of-experts-01"],
+  "tags": ["knowledge-distillation", "soft-targets", "temperature", "KL-divergence", "model-compression", "teacher-student"]
+}

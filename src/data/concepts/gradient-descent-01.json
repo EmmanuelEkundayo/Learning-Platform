@@ -1,0 +1,48 @@
+{
+  "id": "gradient-descent-01",
+  "slug": "gradient-descent",
+  "title": "Gradient Descent",
+  "domain": "ML",
+  "category": "Foundations",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Repeatedly move in the direction that most steeply reduces your loss — like always stepping downhill in the fog.",
+    "analogy": "You're blindfolded on a hilly landscape trying to reach the lowest valley. You feel the ground slope under your feet and take a step in the downhill direction, then repeat.",
+    "time_complexity": "O(n × d) per epoch (n samples, d parameters)",
+    "space_complexity": "O(d) for parameters and gradients",
+    "when_to_use": [
+      "Training any differentiable model (neural nets, linear regression, logistic regression)",
+      "When a closed-form solution is too expensive or doesn't exist",
+      "Choose mini-batch SGD in practice; full-batch GD only for small datasets"
+    ],
+    "gotchas": [
+      "Learning rate too high → loss diverges or oscillates; too low → training is painfully slow",
+      "Gradient descent finds local minima, not guaranteed global minima — but in deep learning this is usually fine",
+      "Always normalize/standardize features first — vastly different scales make the loss landscape elongated and hard to navigate"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "dimensions": "2d",
+      "show_trajectory": true,
+      "show_gradient_arrow": true,
+      "show_loss_curve": true,
+      "step_annotations": true,
+      "learning_rate_slider": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Complete one step of gradient descent for linear regression. Update each parameter by moving against the gradient.",
+    "starter_code": "def gradient_descent_step(X, y, weights, bias, lr):\n    n = len(y)\n    predictions = X @ weights + bias\n    errors = predictions - y\n\n    # Gradients\n    dw = (1 / n) * X.T @ errors\n    db = (1 / n) * errors.sum()\n\n    # Parameter updates\n    weights = ___________\n    bias    = ___________\n    return weights, bias",
+    "solution": "weights = weights - lr * dw\nbias    = bias    - lr * db",
+    "hints": [
+      "Moving against the gradient means subtracting it, scaled by the learning rate",
+      "The learning rate lr controls how large a step you take — it multiplies the gradient before subtracting"
+    ],
+    "test_code": "import numpy as np\nX = np.array([[1.,2.],[3.,4.],[5.,6.]])\ny = np.array([5.,11.,17.])\nw = np.array([1.,1.]); b = 1.\nnw,nb = gradient_descent_step(X,y,w,b,lr=0.01)\nassert nw.shape == (2,), f'weights shape: {nw.shape}'\nloss_before = ((X@w+b-y)**2).mean()\nloss_after  = ((X@nw+nb-y)**2).mean()\nassert loss_after < loss_before, f'Loss must decrease: {loss_before:.4f} -> {loss_after:.4f}'\nprint('PASS')"
+  },
+  "related": ["backpropagation-01", "sgd-variants-01", "loss-functions-01"],
+  "tags": ["optimization", "gradient-descent", "loss", "learning-rate", "SGD", "training"]
+}

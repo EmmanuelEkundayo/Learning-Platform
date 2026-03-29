@@ -1,0 +1,44 @@
+{
+  "id": "cycle-detection-directed-01",
+  "slug": "cycle-detection-directed",
+  "title": "Cycle Detection — Directed Graph",
+  "domain": "DSA",
+  "category": "Graphs",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "A directed graph has a cycle iff DFS finds a back-edge — an edge to a node currently in the recursion stack (GRAY). Use 3-colour marking: WHITE (unvisited), GRAY (in current DFS path), BLACK (fully processed).",
+    "analogy": "Walking through a maze and marking your trail with chalk. If you encounter a chalked section before erasing it, you've walked in a loop. Once you've fully explored a dead end and backtracked, you erase that section's chalk.",
+    "time_complexity": "O(V + E)",
+    "space_complexity": "O(V)",
+    "when_to_use": [
+      "Validating that a DAG has no cycles before topological sort",
+      "Detecting circular dependencies in build systems or imports",
+      "Deadlock detection in resource allocation graphs"
+    ],
+    "gotchas": [
+      "In directed graphs, a cross-edge (to a BLACK node) is NOT a cycle — only back-edges (GRAY neighbours) are",
+      "Undirected cycle detection uses a simpler visited+parent approach (see cycle-detection-undirected)",
+      "Kahn's topological sort is an alternative cycle detector: if output size < V, a cycle exists"
+    ]
+  },
+  "visualization": {
+    "type": "graph-traversal",
+    "config": {
+      "mode": "cycle-directed",
+      "show_colors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Detect a cycle in a directed graph using 3-colour DFS.",
+    "starter_code": "def has_cycle_directed(n, adj):\n    WHITE, GRAY, BLACK = 0, 1, 2\n    color = [WHITE] * n\n\n    def dfs(u):\n        color[u] = GRAY\n        for v in adj.get(u, []):\n            if color[v] == GRAY:    # back-edge -> cycle\n                return True\n            if color[v] == WHITE and ___________:\n                return True\n        color[u] = BLACK\n        return False\n\n    return any(dfs(u) for u in range(n) if color[u] == WHITE)",
+    "solution": "dfs(v)",
+    "hints": [
+      "Recurse into WHITE (unvisited) neighbours: if dfs(v) returns True, propagate True upward immediately"
+    ],
+    "test_code": "# DAG — no cycle\nadj1 = {0:[1,2], 1:[3], 2:[3], 3:[]}\nassert not has_cycle_directed(4, adj1)\n\n# Cycle: 0->1->2->0\nadj2 = {0:[1], 1:[2], 2:[0]}\nassert has_cycle_directed(3, adj2)\n\n# Self-loop\nadj3 = {0:[0]}\nassert has_cycle_directed(1, adj3)\n\n# Disconnected, one component cyclic\nadj4 = {0:[1], 1:[0], 2:[3], 3:[]}\nassert has_cycle_directed(4, adj4)\nprint('PASS')"
+  },
+  "related": ["topological-sort-dfs-01", "topological-sort-kahns-01", "tarjans-scc-01", "cycle-detection-undirected-01"],
+  "tags": ["cycle-detection", "directed-graph", "DFS", "three-color", "back-edge", "DAG"]
+}

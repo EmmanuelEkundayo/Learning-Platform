@@ -1,0 +1,44 @@
+{
+  "id": "counting-sort-01",
+  "slug": "counting-sort",
+  "title": "Counting Sort",
+  "domain": "DSA",
+  "category": "Sorting & Searching",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Count how many times each distinct value appears, then use prefix sums to compute each value's starting position in the output. Scatter input elements into their correct positions using these positions — no comparisons needed.",
+    "analogy": "Sorting a bag of marbles by colour: first count how many of each colour you have, then lay them out in colour order using those counts. No comparing individual marbles — just counting and placing.",
+    "time_complexity": "O(n + k) where k is the range of values",
+    "space_complexity": "O(k) for the count array",
+    "when_to_use": [
+      "Integers (or values mappable to integers) in a known, small range",
+      "As a subroutine in radix sort",
+      "When O(n log n) comparison-based sorting is too slow and k is small"
+    ],
+    "gotchas": [
+      "Only works for discrete, bounded values — not for floating-point or unbounded ranges",
+      "Stable counting sort: iterate the input right-to-left when scattering, decrement count[val] after placing",
+      "If values can be negative, shift all values by the minimum to make them non-negative"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "counting-sort",
+      "show_counts": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement counting sort for non-negative integers. Build the count array then reconstruct the sorted array.",
+    "starter_code": "def counting_sort(arr):\n    if not arr:\n        return arr\n    max_val = max(arr)\n    count = [0] * (max_val + 1)\n\n    for val in arr:\n        count[val] += 1\n\n    # Reconstruct sorted array from counts\n    result = []\n    for val, freq in enumerate(___________):\n        result.extend([val] * freq)\n    return result",
+    "solution": "count",
+    "hints": [
+      "Enumerate the count array: for each (value, frequency), append that value freq times to the result"
+    ],
+    "test_code": "assert counting_sort([4,2,2,8,3,3,1]) == [1,2,2,3,3,4,8]\nassert counting_sort([1]) == [1]\nassert counting_sort([]) == []\nassert counting_sort([0,0,0]) == [0,0,0]\nassert counting_sort([5,4,3,2,1,0]) == [0,1,2,3,4,5]\nprint('PASS')"
+  },
+  "related": ["radix-sort-01", "bucket-sort-01", "bubble-sort-01", "prefix-sum-01"],
+  "tags": ["counting-sort", "sorting", "non-comparison", "integer-sort", "O(n+k)"]
+}

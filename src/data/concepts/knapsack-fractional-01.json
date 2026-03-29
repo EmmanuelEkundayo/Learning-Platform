@@ -1,0 +1,44 @@
+{
+  "id": "knapsack-fractional-01",
+  "slug": "knapsack-fractional",
+  "title": "Fractional Knapsack",
+  "domain": "DSA",
+  "category": "Dynamic Programming",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Unlike 0/1 knapsack, you can take fractions of items. The greedy strategy — sort by value/weight ratio, take as much of the best-ratio item as fits, then the next — is provably optimal because partial items are allowed.",
+    "analogy": "Filling a backpack with gold, silver, and copper dust: you pour in as much of the most valuable metal as the bag holds, then switch to the next. Since you can pour partial amounts, greedy is always optimal.",
+    "time_complexity": "O(n log n) — dominated by sorting",
+    "space_complexity": "O(1) ignoring sort",
+    "when_to_use": [
+      "Resource allocation where fractional amounts are possible",
+      "Linear programming relaxation of 0/1 knapsack",
+      "When the problem explicitly allows partial items"
+    ],
+    "gotchas": [
+      "Greedy ONLY works when fractions are allowed — 0/1 knapsack requires DP",
+      "Sort by value/weight in DESCENDING order — highest ratio first",
+      "Take min(remaining_capacity, item_weight) of each item"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "greedy-sort",
+      "show_ratios": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement fractional knapsack using a greedy value/weight ratio sort.",
+    "starter_code": "def fractional_knapsack(weights, values, capacity):\n    \"\"\"\n    Returns maximum value (float) achievable with fractional items allowed.\n    \"\"\"\n    items = sorted(zip(values, weights),\n                   key=lambda x: ___________,   # sort by ratio descending\n                   reverse=True)\n    total = 0.0\n    remaining = capacity\n    for val, wt in items:\n        if remaining <= 0:\n            break\n        take = min(remaining, wt)\n        total += take * (val / wt)\n        remaining -= take\n    return total",
+    "solution": "x[0] / x[1]",
+    "hints": [
+      "Sort by the value-to-weight ratio: key=lambda x: x[0] / x[1] — higher ratio = better value per unit weight"
+    ],
+    "test_code": "import math\nresult = fractional_knapsack([10,20,30],[60,100,120], 50)\nassert math.isclose(result, 240.0), f'Got {result}'  # take all 30, all 20, 10/10 of 10 -> 120+100+20=240\nassert fractional_knapsack([5],[10], 3) == 6.0  # 3/5 * 10 = 6\nassert fractional_knapsack([1],[1], 0) == 0.0\nassert fractional_knapsack([2,2],[4,4], 3) == 6.0  # 1.5 full items\nprint('PASS')"
+  },
+  "related": ["dp-knapsack-01", "knapsack-unbounded-01", "subset-sum-01", "memoization-vs-tabulation-01"],
+  "tags": ["fractional-knapsack", "greedy", "knapsack", "value-weight-ratio", "O(n-log-n)"]
+}

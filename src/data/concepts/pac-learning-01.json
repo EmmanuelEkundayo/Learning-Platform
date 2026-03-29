@@ -1,0 +1,44 @@
+{
+  "id": "pac-learning-01",
+  "slug": "pac-learning",
+  "title": "PAC Learning",
+  "domain": "ML",
+  "category": "Optimization & Theory",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Probably Approximately Correct (PAC): a hypothesis class H is PAC-learnable if there exists an algorithm that, for any ε>0 (error) and δ>0 (failure probability), produces h with R(h) ≤ ε with probability ≥ 1−δ using m = O((log|H|+log(1/δ))/ε) samples (finite H) or O((VCdim+log(1/δ))/ε) (infinite H). The sample complexity quantifies 'how much data is enough'.",
+    "analogy": "Learning to sort cards by suit with examples: you need enough shuffled examples (sample complexity) so that with high probability (1-δ), your rule is nearly always correct (error ≤ ε). The PAC framework makes 'enough' precise and algorithm-independent.",
+    "time_complexity": "Concept-class specific — ERM on finite H: O(m · |H|) ; polynomial-time PAC learning requires efficient ERM",
+    "space_complexity": "O(m · d) for training data",
+    "when_to_use": [
+      "Theoretical analysis of how much training data a model requires",
+      "Justifying why simple models generalise better than complex ones with limited data",
+      "Connecting VC dimension to practical sample complexity estimates"
+    ],
+    "gotchas": [
+      "PAC bounds are often loose — they give worst-case guarantees, not typical behaviour",
+      "Agnostic PAC: target not in H — bound holds relative to best h in H",
+      "Computationally efficient PAC learning is not always possible — ERM may be NP-hard for some H"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "pac-learning",
+      "show_sample_complexity": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Compute the PAC sample complexity bound for a finite hypothesis class.",
+    "starter_code": "import math\n\ndef pac_sample_complexity(H_size, epsilon, delta):\n    \"\"\"\n    PAC sample complexity for a finite hypothesis class |H|.\n    m >= (1/epsilon) * (ln|H| + ln(1/delta))\n    Returns the minimum number of samples needed.\n    \"\"\"\n    return math.ceil(___________)",
+    "solution": "(1 / epsilon) * (math.log(H_size) + math.log(1 / delta))",
+    "hints": [
+      "PAC bound: m ≥ (1/ε) · (ln|H| + ln(1/δ)). Use math.log for natural logarithm."
+    ],
+    "test_code": "import math\n\n# Standard parameters\nm = pac_sample_complexity(H_size=1000, epsilon=0.05, delta=0.05)\nassert isinstance(m, int)\nassert m > 0\n\n# More data needed for smaller error\nm_tight = pac_sample_complexity(1000, 0.01, 0.05)\nm_loose = pac_sample_complexity(1000, 0.1,  0.05)\nassert m_tight > m_loose\n\n# More data needed for higher confidence\nm_conf  = pac_sample_complexity(1000, 0.05, 0.001)\nm_less  = pac_sample_complexity(1000, 0.05, 0.5)\nassert m_conf > m_less\n\n# Larger hypothesis class needs more data\nm_big   = pac_sample_complexity(10**6, 0.05, 0.05)\nm_small = pac_sample_complexity(10,    0.05, 0.05)\nassert m_big > m_small\nprint('PASS')"
+  },
+  "related": ["vc-dimension-01", "no-free-lunch-theorem-01", "bias-variance-tradeoff-01", "cross-validation-01"],
+  "tags": ["PAC-learning", "sample-complexity", "generalisation", "probably-approximately-correct", "ML-theory", "VC-dimension"]
+}

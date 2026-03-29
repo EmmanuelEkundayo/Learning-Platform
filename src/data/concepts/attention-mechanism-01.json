@@ -1,0 +1,44 @@
+{
+  "id": "attention-mechanism-01",
+  "slug": "attention-mechanism",
+  "title": "Attention Mechanism",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Instead of squeezing all encoder information into one vector, attention lets the decoder look at all encoder hidden states and compute a weighted sum. Alignment score: e_ij = score(sᵢ, hⱼ). Weights: αᵢⱼ = softmax(eᵢⱼ). Context vector: cᵢ = Σⱼ αᵢⱼhⱼ. Scaled dot-product (Transformer): score(Q,K) = QKᵀ / √dₖ.",
+    "analogy": "Looking up a word in a dictionary where every word simultaneously 'votes' on relevance: the query (what you're looking for) attends to all keys (index entries), computes relevance scores, and takes a weighted combination of the values (definitions). High-scoring keys contribute more to the final answer.",
+    "time_complexity": "O(T² · d) for self-attention over T tokens",
+    "space_complexity": "O(T²) for the attention weight matrix",
+    "when_to_use": [
+      "Seq2seq: replace context vector bottleneck with attended encoder states",
+      "Self-attention: each token attends to all others in the same sequence",
+      "Cross-attention: decoder attends to encoder; used in transformers"
+    ],
+    "gotchas": [
+      "Quadratic cost in sequence length T² — use sparse/linear attention for long sequences",
+      "Scale dot products by √dₖ to prevent softmax saturation in high dimensions",
+      "Causal masking: for auto-regressive generation, mask future positions to -∞ before softmax"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "attention",
+      "show_weights": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement scaled dot-product attention.",
+    "starter_code": "import math\n\ndef softmax(v):\n    m = max(v)\n    e = [math.exp(x - m) for x in v]\n    s = sum(e)\n    return [x/s for x in e]\n\ndef scaled_dot_product_attention(Q, K, V):\n    \"\"\"\n    Q: (n_q, d_k)  queries\n    K: (n_k, d_k)  keys\n    V: (n_k, d_v)  values\n    Returns attended output (n_q, d_v) and weights (n_q, n_k).\n    \"\"\"\n    d_k  = len(Q[0])\n    scale = ___________\n    # Compute scores: (n_q, n_k)\n    scores = [\n        [sum(Q[i][l]*K[j][l] for l in range(d_k)) / scale\n         for j in range(len(K))]\n        for i in range(len(Q))\n    ]\n    weights = [softmax(row) for row in scores]\n    # Weighted sum of values\n    d_v = len(V[0])\n    out = [\n        [sum(weights[i][j]*V[j][m] for j in range(len(V))) for m in range(d_v)]\n        for i in range(len(Q))\n    ]\n    return out, weights",
+    "solution": "math.sqrt(d_k)",
+    "hints": [
+      "Scale the dot products by √dₖ to prevent the softmax from saturating when d_k is large."
+    ],
+    "test_code": "import math\n# 2 queries, 3 keys/values, d_k=4, d_v=2\nQ = [[1,0,0,0],[0,1,0,0]]\nK = [[1,0,0,0],[0,1,0,0],[0,0,1,0]]\nV = [[1,0],[0,1],[0,0]]\nout, w = scaled_dot_product_attention(Q, K, V)\nassert len(out) == 2 and len(out[0]) == 2\n# Q[0] matches K[0] best -> w[0][0] highest\nassert w[0][0] > w[0][1] > w[0][2]\n# Q[1] matches K[1] best\nassert w[1][1] > w[1][0]\n# Weights sum to 1\nassert all(abs(sum(row)-1.0) < 1e-9 for row in w)\nprint('PASS')"
+  },
+  "related": ["seq2seq-01", "transformer-encoder-01", "transformer-decoder-01", "bert-01"],
+  "tags": ["attention", "scaled-dot-product", "query-key-value", "self-attention", "cross-attention", "transformers"]
+}

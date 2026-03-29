@@ -1,0 +1,44 @@
+{
+  "id": "bubble-sort-01",
+  "slug": "bubble-sort",
+  "title": "Bubble Sort",
+  "domain": "DSA",
+  "category": "Sorting & Searching",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Repeatedly scan the array and swap adjacent elements that are out of order. Each pass bubbles the largest unsorted element to its final position. An early-exit flag makes it O(n) on already-sorted input.",
+    "analogy": "Bubbles rising in a glass: heavier elements sink, lighter ones float up. After each full pass, the biggest bubble has settled at the top. Repeat until no swaps happen.",
+    "time_complexity": "O(n²) average and worst case; O(n) best case with early-exit optimisation",
+    "space_complexity": "O(1) — in-place",
+    "when_to_use": [
+      "Teaching sorting concepts and swap mechanics",
+      "Nearly-sorted arrays where O(n) best case matters",
+      "When simplicity outweighs performance (tiny arrays)"
+    ],
+    "gotchas": [
+      "Without the early-exit flag, bubble sort is always O(n²) even on sorted input",
+      "The inner loop bound shrinks by 1 each outer pass — already-placed elements need not be re-examined",
+      "Stable sort: equal elements never swap, preserving relative order"
+    ]
+  },
+  "visualization": {
+    "type": "array-bars",
+    "config": {
+      "mode": "bubble-sort",
+      "highlight_swaps": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement bubble sort with early-exit optimisation.",
+    "starter_code": "def bubble_sort(arr):\n    n = len(arr)\n    for i in range(n):\n        swapped = False\n        for j in range(0, n - i - 1):   # unsorted region shrinks each pass\n            if arr[j] > arr[j + 1]:\n                arr[j], arr[j + 1] = ___________\n                swapped = True\n        if not swapped:                  # already sorted\n            break\n    return arr",
+    "solution": "arr[j + 1], arr[j]",
+    "hints": [
+      "Swap arr[j] and arr[j+1] using Python's tuple swap: arr[j], arr[j+1] = arr[j+1], arr[j]"
+    ],
+    "test_code": "assert bubble_sort([64,34,25,12,22,11,90]) == [11,12,22,25,34,64,90]\nassert bubble_sort([1]) == [1]\nassert bubble_sort([]) == []\nassert bubble_sort([3,2,1]) == [1,2,3]\nassert bubble_sort([1,2,3]) == [1,2,3]  # already sorted\nprint('PASS')"
+  },
+  "related": ["selection-sort-01", "insertion-sort-01", "binary-search-01", "counting-sort-01"],
+  "tags": ["bubble-sort", "sorting", "comparison-sort", "in-place", "stable", "O(n^2)"]
+}

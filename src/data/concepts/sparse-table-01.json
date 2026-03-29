@@ -1,0 +1,44 @@
+{
+  "id": "sparse-table-01",
+  "slug": "sparse-table",
+  "title": "Sparse Table (Static RMQ)",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Precompute table[i][j] = min (or max, or GCD) of the range [i, i+2^j - 1]. For idempotent operations (min/max/GCD), any query [l, r] can be answered by two overlapping windows of size 2^k where k = floor(log2(r-l+1)) — overlapping doesn't double-count since min is idempotent.",
+    "analogy": "Pre-measuring every possible 'power-of-two length' ruler on a number line. To find the minimum of any range, grab the two rulers of the right size that together cover the range — even if they overlap, taking the min of two mins is still the min.",
+    "time_complexity": "O(n log n) build; O(1) query for idempotent operations; O(log n) query for non-idempotent (sum)",
+    "space_complexity": "O(n log n)",
+    "when_to_use": [
+      "Static RMQ (no updates) — faster than segment tree for read-only ranges",
+      "LCA with Euler tour: reduce LCA to RMQ on the tour array",
+      "Any offline range aggregate on an immutable array"
+    ],
+    "gotchas": [
+      "Only supports STATIC arrays — no updates allowed (use segment tree for dynamic)",
+      "O(1) query only works for idempotent operations (min, max, GCD, AND, OR) — NOT for sum",
+      "Precompute log2 table to avoid floating-point log calls during queries"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "sparse-table",
+      "show_levels": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement a sparse table for O(1) range minimum queries.",
+    "starter_code": "import math\n\nclass SparseTable:\n    def __init__(self, arr):\n        n    = len(arr)\n        LOG  = max(1, n.bit_length())\n        self.table = [[0]*n for _ in range(LOG)]\n        self.log2  = [0] * (n + 1)\n        for i in range(2, n + 1):\n            self.log2[i] = self.log2[i // 2] + 1\n\n        self.table[0] = arr[:]\n        for j in range(1, LOG):\n            for i in range(n - (1 << j) + 1):\n                self.table[j][i] = min(\n                    self.table[j-1][i],\n                    self.table[j-1][i + (1 << (j-1))]\n                )\n\n    def query(self, l, r):\n        \"\"\"Minimum of arr[l..r] (0-indexed, inclusive) in O(1).\"\"\"\n        k = self.log2[r - l + 1]\n        return min(self.table[k][l],\n                   self.table[k][___________])",
+    "solution": "r - (1 << k) + 1",
+    "hints": [
+      "The right window starts at r - (1<<k) + 1 so that it exactly covers [r-(2^k)+1, r] — together with [l, l+2^k-1] these two windows cover [l, r]"
+    ],
+    "test_code": "arr = [2,4,3,1,6,7,8,9,1,7]\nst  = SparseTable(arr)\nassert st.query(0,9) == 1\nassert st.query(0,3) == 1\nassert st.query(4,8) == 1\nassert st.query(4,7) == 6\nassert st.query(0,2) == 2\nassert st.query(2,2) == 3   # single element\n\n# Brute force verification\nimport random; random.seed(7)\nfor _ in range(200):\n    l = random.randint(0, 9); r = random.randint(l, 9)\n    assert st.query(l, r) == min(arr[l:r+1])\nprint('PASS')"
+  },
+  "related": ["segment-tree-01", "fenwick-tree-01", "euler-tour-01", "lowest-common-ancestor-01"],
+  "tags": ["sparse-table", "RMQ", "range-minimum-query", "O(1)-query", "static", "idempotent"]
+}

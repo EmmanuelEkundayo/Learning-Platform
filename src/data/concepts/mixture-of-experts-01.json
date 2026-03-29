@@ -1,0 +1,44 @@
+{
+  "id": "mixture-of-experts-01",
+  "slug": "mixture-of-experts",
+  "title": "Mixture of Experts (MoE)",
+  "domain": "ML",
+  "category": "Applied ML",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "Replace the FFN in each transformer layer with E expert FFNs and a router that selects top-k experts per token: g(x) = softmax(W_r · x), route to top-k. Only k experts activate per token → computation scales with k not E. Sparse MoE (Mixtral, GPT-4): E=8-64 experts, k=2 — model capacity grows with E but FLOPs stay constant. Load balancing loss prevents all tokens routing to the same expert.",
+    "analogy": "A hospital with specialists: instead of every patient seeing all doctors (dense FFN), a triage nurse (router) sends each patient to the 2 most relevant specialists (top-2 routing). The hospital can hire many specialists without proportionally increasing cost per patient — capacity grows, not per-visit cost.",
+    "time_complexity": "O(n · k · d_expert) per forward pass vs O(n · E · d_expert) for dense",
+    "space_complexity": "O(E · d²_expert) weights, but only O(k · d²_expert) active",
+    "when_to_use": [
+      "Scaling model capacity without proportionally increasing FLOPs",
+      "Tasks with diverse subdomains that benefit from specialisation",
+      "Large-scale training where per-sample compute budget is fixed"
+    ],
+    "gotchas": [
+      "Expert collapse: without load balancing loss, router sends everything to 1-2 experts",
+      "Communication overhead: in distributed training, expert parallelism requires all-to-all communication",
+      "Top-1 routing (Switch Transformer) is more efficient but less expressive than top-2"
+    ]
+  },
+  "visualization": {
+    "type": "heatmap-grid",
+    "config": {
+      "mode": "mixture-of-experts",
+      "show_routing": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement top-k expert routing for a MoE layer.",
+    "starter_code": "import math\n\ndef softmax(v):\n    m = max(v); e = [math.exp(x-m) for x in v]; s = sum(e)\n    return [x/s for x in e]\n\ndef moe_route(x, W_router, experts, top_k):\n    \"\"\"\n    x       : input vector (d_model,)\n    W_router: router weight matrix (n_experts, d_model)\n    experts : list of callables, each expert(x) -> vector\n    top_k   : number of experts to activate\n    Returns weighted combination of top-k expert outputs.\n    \"\"\"\n    n_experts = len(experts)\n    d_out     = len(experts[0](x))  # output dim\n\n    # Compute router logits and probabilities\n    logits = [sum(W_router[e][j]*x[j] for j in range(len(x))) for e in range(n_experts)]\n    probs  = softmax(logits)\n\n    # Select top-k experts\n    top_k_idx = sorted(range(n_experts), key=lambda i: probs[i], reverse=True)[:top_k]\n\n    # Re-normalise weights among selected experts\n    top_probs = [probs[i] for i in top_k_idx]\n    total     = sum(top_probs)\n    weights   = [p / total for p in top_probs]\n\n    # Weighted sum of expert outputs\n    output = [0.0] * d_out\n    for w, eidx in zip(weights, top_k_idx):\n        expert_out = experts[eidx](x)\n        for j in range(d_out):\n            output[j] += ___________\n    return output",
+    "solution": "w * expert_out[j]",
+    "hints": [
+      "Weight each expert's output by its normalised routing probability: w * expert_output[j]."
+    ],
+    "test_code": "import math\n\n# 3 experts: identity, double, negate\nexpert_fns = [\n    lambda x: x,\n    lambda x: [2*v for v in x],\n    lambda x: [-v for v in x]\n]\n\n# Router strongly prefers expert 0\nW_router = [[10,0,0],[0,1,0],[0,0,1]]  # 3 experts, 3-dim input\nx = [1.0, 0.0, 0.0]\n\nout = moe_route(x, W_router, expert_fns, top_k=1)\n# Top-1 selects expert 0 (identity): output ≈ x\nassert abs(out[0] - 1.0) < 0.01, f'Expected ~1, got {out[0]}'\n\n# Top-2 with equal routing\nW_eq = [[1,0,0],[1,0,0],[-10,0,0]]  # experts 0,1 tied\nout2 = moe_route(x, W_eq, expert_fns, top_k=2)\nassert all(v >= 0 for v in out2)  # blend of identity and double\nprint('PASS')"
+  },
+  "related": ["gpt-01", "transformer-encoder-01", "knowledge-distillation-01", "finetuning-vs-prompting-01"],
+  "tags": ["mixture-of-experts", "MoE", "sparse-routing", "top-k", "load-balancing", "Mixtral", "scaling"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "weight-initialization-01",
+  "slug": "weight-initialization",
+  "title": "Weight Initialization",
+  "domain": "ML",
+  "category": "Neural Networks",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Bad initialization breaks training: zero weights make all neurons identical (symmetry problem); too-large weights cause exploding activations; too-small cause vanishing gradients. Xavier init scales by 1/√(fanᵢₙ + fanₒᵤₜ) — keeps variance constant for tanh/sigmoid. He init scales by √(2/fanᵢₙ) — accounts for ReLU zeroing half its inputs.",
+    "analogy": "Tuning a radio before broadcasting: start too loud and you clip the signal (exploding); start too quiet and you lose the signal in noise (vanishing). Xavier/He initialization finds the right initial volume so the signal propagates cleanly through all layers.",
+    "time_complexity": "O(Σ dₗ · dₗ₊₁) — one-time cost at startup",
+    "space_complexity": "O(Σ dₗ · dₗ₊₁) for weight matrices",
+    "when_to_use": [
+      "He init: ReLU and variants (Leaky ReLU, ELU) — accounts for half-zeroed activations",
+      "Xavier/Glorot: Tanh, Sigmoid activations",
+      "Orthogonal init: RNNs — preserves gradient norms across time steps"
+    ],
+    "gotchas": [
+      "Never initialise all weights to zero — symmetry means all neurons learn the same thing",
+      "Bias can safely start at zero (or small constant) — only weights need careful init",
+      "With batch normalisation, exact init matters less, but still helps convergence speed"
+    ]
+  },
+  "visualization": {
+    "type": "neural-net-diagram",
+    "config": {
+      "mode": "weight-initialization",
+      "show_distributions": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Xavier and He weight initialization.",
+    "starter_code": "import random, math\n\ndef xavier_uniform(fan_in, fan_out):\n    \"\"\"\n    Xavier uniform init: U(-limit, limit) where limit = sqrt(6 / (fan_in + fan_out)).\n    Returns a fan_in x fan_out weight matrix.\n    \"\"\"\n    limit = math.sqrt(6.0 / (fan_in + fan_out))\n    return [[random.uniform(-limit, limit) for _ in range(fan_out)]\n            for _ in range(fan_in)]\n\ndef he_normal(fan_in, fan_out):\n    \"\"\"\n    He normal init: N(0, std) where std = sqrt(2 / fan_in).\n    Returns a fan_in x fan_out weight matrix.\n    \"\"\"\n    std = ___________\n    return [[random.gauss(0, std) for _ in range(fan_out)]\n            for _ in range(fan_in)]",
+    "solution": "math.sqrt(2.0 / fan_in)",
+    "hints": [
+      "He init std = sqrt(2 / fan_in). The factor 2 compensates for ReLU discarding ~half the activations."
+    ],
+    "test_code": "import math, random\nrandom.seed(42)\n\n# Xavier: values in [-limit, limit]\nW_x = xavier_uniform(128, 64)\nlimit = math.sqrt(6.0 / (128 + 64))\nassert all(-limit <= W_x[i][j] <= limit for i in range(128) for j in range(64))\n\n# He: check std approx sqrt(2/fan_in)\nW_h = he_normal(128, 64)\nvals = [W_h[i][j] for i in range(128) for j in range(64)]\nmean = sum(vals)/len(vals)\nvar  = sum((v-mean)**2 for v in vals)/len(vals)\nexpected_std = math.sqrt(2.0/128)\nassert abs(math.sqrt(var) - expected_std) < 0.02, f'std mismatch: {math.sqrt(var):.4f} vs {expected_std:.4f}'\nassert len(W_h) == 128 and len(W_h[0]) == 64\nprint('PASS')"
+  },
+  "related": ["mlp-01", "batch-normalization-01", "vanishing-exploding-gradients-01", "activation-functions-01"],
+  "tags": ["weight-initialization", "Xavier", "He-init", "Glorot", "symmetry-breaking", "deep-learning"]
+}

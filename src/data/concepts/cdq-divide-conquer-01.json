@@ -1,0 +1,44 @@
+{
+  "id": "cdq-divide-conquer-01",
+  "slug": "cdq-divide-conquer",
+  "title": "CDQ Divide and Conquer",
+  "domain": "DSA",
+  "category": "Advanced DSA",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "CDQ (陈丹琦) D&C solves problems where updates from the left half affect queries in the right half. Split events into left and right halves by time, recurse on each, then count cross contributions (left updates → right queries) efficiently using a sorted merge or BIT.",
+    "analogy": "Counting how many earlier emails influenced later decisions: split emails into first-half and second-half by date, handle each half recursively, then efficiently count all cases where a first-half email influenced a second-half decision.",
+    "time_complexity": "O(n log² n) for 3D partial order; O(n log n) for 2D",
+    "space_complexity": "O(n log n)",
+    "when_to_use": [
+      "3D partial order counting (count pairs (A,B) where A.x≤B.x, A.y≤B.y, A.z≤B.z)",
+      "Dynamic range queries where offline processing is acceptable",
+      "Eliminating one dimension of a multi-dimensional DP problem"
+    ],
+    "gotchas": [
+      "CDQ D&C only works OFFLINE — queries must be known in advance",
+      "After CDQ, the array is sorted by y — careful not to use original order for the next level",
+      "Often combined with a BIT on the z-dimension to count cross contributions in O(n log n)"
+    ]
+  },
+  "visualization": {
+    "type": "matrix-grid",
+    "config": {
+      "mode": "cdq-dc",
+      "show_cross_contributions": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Count inversions using CDQ D&C (equivalent to 2D partial order): count pairs (i,j) where i < j but arr[i] > arr[j].",
+    "starter_code": "def count_inversions(arr):\n    \"\"\"\n    Count inversions in arr using merge sort (equivalent to CDQ D&C on 2D).\n    Returns (sorted_arr, inversion_count).\n    \"\"\"\n    if len(arr) <= 1:\n        return arr[:], 0\n    mid = len(arr) // 2\n    left,  left_inv  = count_inversions(arr[:mid])\n    right, right_inv = count_inversions(arr[mid:])\n\n    merged = []\n    inv    = left_inv + right_inv\n    i = j  = 0\n    while i < len(left) and j < len(right):\n        if left[i] <= right[j]:\n            merged.append(left[i]); i += 1\n        else:\n            # All remaining left elements form inversions with right[j]\n            inv += ___________\n            merged.append(right[j]); j += 1\n    merged += left[i:] + right[j:]\n    return merged, inv",
+    "solution": "len(left) - i",
+    "hints": [
+      "When right[j] < left[i], all elements left[i..end] are greater than right[j] and appear earlier — each is an inversion. Count = len(left) - i"
+    ],
+    "test_code": "_, inv = count_inversions([2,4,1,3,5])\nassert inv == 3  # (2,1),(4,1),(4,3)\n\n_, inv2 = count_inversions([5,4,3,2,1])\nassert inv2 == 10  # n*(n-1)/2 for reverse sorted\n\n_, inv3 = count_inversions([1,2,3,4,5])\nassert inv3 == 0\n\n_, inv4 = count_inversions([1])\nassert inv4 == 0\nprint('PASS')"
+  },
+  "related": ["persistent-segment-tree-01", "fenwick-tree-01", "merge-linked-lists-01", "divide-conquer-dp-01"],
+  "tags": ["CDQ-divide-conquer", "offline", "3D-partial-order", "inversions", "merge-sort"]
+}

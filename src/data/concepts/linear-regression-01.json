@@ -1,0 +1,44 @@
+{
+  "id": "linear-regression-01",
+  "slug": "linear-regression",
+  "title": "Linear Regression",
+  "domain": "ML",
+  "category": "Classical ML",
+  "difficulty": "beginner",
+  "card": {
+    "intuition": "Fit a hyperplane ŷ = Xw to minimise sum of squared residuals. Closed-form: w = (XᵀX)⁻¹Xᵀy (normal equation). Gradient: ∇w = Xᵀ(Xw - y). Assumes linear relationship between features and target, Gaussian noise, and no perfect multicollinearity.",
+    "analogy": "Finding the best-fit line through a scatter plot: tilt and shift the line until the total squared vertical distance from each point to the line is minimised.",
+    "time_complexity": "O(nd²) for normal equation; O(nd) per gradient step",
+    "space_complexity": "O(nd) for data, O(d) for weights",
+    "when_to_use": [
+      "Predicting a continuous target with a linear relationship",
+      "Interpretable baseline model (coefficient = feature importance)",
+      "Ridge/Lasso regression as regularised extensions"
+    ],
+    "gotchas": [
+      "XᵀX may be singular if features are linearly dependent — add Ridge regularisation (XᵀX + λI)⁻¹",
+      "Linear regression is a special case of GLM (Gaussian family, identity link)",
+      "Assumes residuals are i.i.d. Gaussian — check with residual plots"
+    ]
+  },
+  "visualization": {
+    "type": "decision-boundary",
+    "config": {
+      "mode": "linear-regression",
+      "show_residuals": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement the normal equation for linear regression: w = (XᵀX)⁻¹Xᵀy.",
+    "starter_code": "def mat_mul(A, B):\n    ra,ca,rb,cb = len(A),len(A[0]),len(B),len(B[0])\n    return [[sum(A[i][k]*B[k][j] for k in range(ca)) for j in range(cb)] for i in range(ra)]\n\ndef transpose(A):\n    return [[A[i][j] for i in range(len(A))] for j in range(len(A[0]))]\n\ndef inv2x2(A):\n    det = A[0][0]*A[1][1] - A[0][1]*A[1][0]\n    return [[A[1][1]/det, -A[0][1]/det],[-A[1][0]/det, A[0][0]/det]]\n\ndef normal_equation(X, y):\n    \"\"\"\n    X: n x d feature matrix (list of lists)\n    y: n-vector of targets\n    Returns weight vector w (d-vector).\n    Assumes d=2 for simplicity (uses inv2x2).\n    \"\"\"\n    Xt  = transpose(X)\n    XtX = mat_mul(Xt, X)\n    Xty = [sum(Xt[i][k]*y[k] for k in range(len(y))) for i in range(len(Xt))]\n    XtX_inv = ___________\n    w = [sum(XtX_inv[i][j]*Xty[j] for j in range(len(Xty))) for i in range(len(XtX_inv))]\n    return w",
+    "solution": "inv2x2(XtX)",
+    "hints": [
+      "Invert XᵀX using inv2x2(XtX), then multiply by Xᵀy to get the normal equation solution"
+    ],
+    "test_code": "import math\n# y = 2*x1 + 3*x2 exactly\nX = [[1,0],[0,1],[1,1],[2,1],[1,2]]\ny = [2,3,5,7,8]\nw = normal_equation(X, y)\nassert math.isclose(w[0], 2.0, abs_tol=0.01), f'w0={w[0]}'\nassert math.isclose(w[1], 3.0, abs_tol=0.01), f'w1={w[1]}'\nprint('PASS')"
+  },
+  "related": ["logistic-regression-01", "l1-l2-regularization-01", "gradient-descent-01", "feature-scaling-01"],
+  "tags": ["linear-regression", "normal-equation", "MSE", "supervised", "regression", "OLS"]
+}

@@ -1,0 +1,44 @@
+{
+  "id": "thompson-sampling-01",
+  "slug": "thompson-sampling",
+  "title": "Thompson Sampling",
+  "domain": "ML",
+  "category": "Reinforcement Learning",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "Bayesian bandit: maintain a Beta(α, β) posterior over each arm's success probability. At each round, sample θᵢ ~ Beta(αᵢ, βᵢ) for all arms, then pull arm with highest sample. Update: on reward 1 (success) increment α; on reward 0 (failure) increment β. Naturally balances exploration (uncertain arms have wide Beta → high chance of large sample) and exploitation.",
+    "analogy": "Hiring the best candidate by running a mental lottery: for each applicant, draw a score from your current belief about their ability (Beta distribution). The applicant with the highest draw gets the position today. After evaluating them, update your belief — a bad hire widens your uncertainty back, a good one narrows it.",
+    "time_complexity": "O(k) per round",
+    "space_complexity": "O(k) for Beta parameters",
+    "when_to_use": [
+      "Binary reward bandits: click/no-click, conversion/no-conversion",
+      "Often outperforms UCB1 empirically for ad selection and A/B testing",
+      "Extends naturally to contextual bandits and Bayesian deep RL"
+    ],
+    "gotchas": [
+      "Beta-Bernoulli conjugacy only for binary rewards — use Gaussian Thompson Sampling for continuous rewards",
+      "Tends to under-explore early when priors are informative — use diffuse prior Beta(1,1) to start",
+      "Computationally simple but lacks UCB's worst-case regret guarantees"
+    ]
+  },
+  "visualization": {
+    "type": "loss-landscape",
+    "config": {
+      "mode": "thompson-sampling",
+      "show_posteriors": true,
+      "step_annotations": true
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Implement Thompson Sampling for Bernoulli bandits.",
+    "starter_code": "import random\n\ndef beta_sample(alpha, beta_param):\n    \"\"\"Sample from Beta(alpha, beta) using Gamma variates.\"\"\"\n    x = random.gammavariate(alpha, 1.0)\n    y = random.gammavariate(beta_param, 1.0)\n    return x / (x + y)\n\nclass ThompsonBandit:\n    def __init__(self, k):\n        self.alpha = [1.0] * k   # successes + 1 (uniform prior)\n        self.beta  = [1.0] * k   # failures  + 1\n        self.k     = k\n\n    def select(self):\n        \"\"\"Sample theta from each arm's posterior, return argmax.\"\"\"\n        samples = [beta_sample(self.alpha[i], self.beta[i]) for i in range(self.k)]\n        return ___________\n\n    def update(self, arm, reward):\n        \"\"\"reward: 1 (success) or 0 (failure).\"\"\"\n        if reward == 1:\n            self.alpha[arm] += 1\n        else:\n            self.beta[arm]  += 1",
+    "solution": "max(range(self.k), key=lambda i: samples[i])",
+    "hints": [
+      "Select the arm whose sampled theta is highest — argmax over the list of samples."
+    ],
+    "test_code": "import random\nrandom.seed(99)\n\n# Arm 1 has p=0.8, others p=0.2\nprobs = [0.2, 0.8, 0.2]\nbandit = ThompsonBandit(k=3)\n\nfor _ in range(600):\n    arm = bandit.select()\n    reward = 1 if random.random() < probs[arm] else 0\n    bandit.update(arm, reward)\n\n# Best arm (1) should have most successes\nassert bandit.alpha[1] > bandit.alpha[0]\nassert bandit.alpha[1] > bandit.alpha[2]\n# Posterior mean for arm 1 should be close to 0.8\nmean1 = bandit.alpha[1] / (bandit.alpha[1] + bandit.beta[1])\nassert mean1 > 0.65, f'Posterior mean for best arm: {mean1:.3f}'\nprint('PASS')"
+  },
+  "related": ["multi-armed-bandit-01", "monte-carlo-tree-search-01", "markov-decision-process-01", "gmm-em-01"],
+  "tags": ["thompson-sampling", "Bayesian-bandit", "Beta-distribution", "posterior", "exploration-exploitation", "A/B-testing"]
+}
