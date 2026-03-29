@@ -1,0 +1,47 @@
+{
+  "id": "named-entity-recognizer",
+  "slug": "named-entity-recognizer",
+  "title": "Named Entity Recognizer (NER)",
+  "category": "AI-ML",
+  "difficulty": "beginner",
+  "stack": [
+    "Python",
+    "spaCy",
+    "Pandas"
+  ],
+  "estimated_time": "60 mins",
+  "overview": {
+    "what": "An information extraction tool that identifies and categorizes key entities in text, such as names of persons, organizations, locations, and dates. It's the foundation for automated data entry and content tagging.",
+    "how_it_works": "The system uses a pre-trained statistical model from spaCy that has been optimized for named entity recognition. It processes tokens in context and applies transition-based parsing to assign entity labels with high precision.",
+    "what_you_learn": [
+      "Using professional NLP pipelines",
+      "Extracting and filtering entities",
+      "Visualizing entities with displaCy",
+      "Handling batch text processing with Pandas"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Dependencies for the Entity Recognizer.",
+      "code": "spacy\npandas"
+    },
+    {
+      "filename": "ner_pipeline.py",
+      "language": "python",
+      "description": "Core entity extraction logic using spaCy.",
+      "code": "import spacy\n\nnlp = spacy.load(\"en_core_web_sm\")\n\ndef extract_entities(text):\n    doc = nlp(text)\n    results = []\n    for ent in doc.ents:\n        results.append({\n            \"text\": ent.text,\n            \"label\": ent.label_,\n            \"explanation\": spacy.explain(ent.label_)\n        })\n    return results\n\n# Example\n# entities = extract_entities(\"Apple is looking at buying U.K. startup for $1 billion\")\n# for e in entities: print(f\"{e['text']} -> {e['label']}\")"
+    }
+  ],
+  "concepts_used": [
+    "word2vec-cbow",
+    "bert"
+  ],
+  "tags": [
+    "nlp",
+    "information-extraction",
+    "spacy",
+    "entities"
+  ]
+}

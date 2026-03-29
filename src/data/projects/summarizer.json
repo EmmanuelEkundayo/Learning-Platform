@@ -1,0 +1,48 @@
+{
+  "id": "summarizer",
+  "slug": "summarizer",
+  "title": "Smart Text Summarizer",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "Transformers",
+    "NLTK",
+    "PyTorch"
+  ],
+  "estimated_time": "120 mins",
+  "overview": {
+    "what": "A dual-mode summarization tool that can condense long articles into short, readable summaries. It supports both extractive (picking key sentences) and abstractive (rewriting content) methods.",
+    "how_it_works": "The abstractive mode uses the BART or T5 transformer architecture, which is pre-trained on large text-summary datasets. The model encodes the entire input document and decodes it into a significantly shorter, more concise version while maintaining the core meaning.",
+    "what_you_learn": [
+      "Extractive vs Abstractive summarization",
+      "Using Sequence-to-Sequence (Seq2Seq) models",
+      "Handling long-document chunking for LLMs",
+      "Understanding ROUGE evaluation metrics"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Transformers and NLTK for summarization.",
+      "code": "transformers\ntorch\nnltk"
+    },
+    {
+      "filename": "summarizer_engine.py",
+      "language": "python",
+      "description": "Abstractive summarization using the pipeline API.",
+      "code": "from transformers import pipeline\n\nsummarizer = pipeline(\"summarization\", model=\"facebook/bart-large-cnn\")\n\ndef get_summary(text, max_len=130, min_len=30):\n    summary = summarizer(text, max_length=max_len, min_length=min_len, do_sample=False)\n    return summary[0]['summary_text']\n\n# Example\n# text = \"... long article here ...\"\n# print(get_summary(text))"
+    }
+  ],
+  "concepts_used": [
+    "transformer-encoder",
+    "word2vec-cbow"
+  ],
+  "tags": [
+    "summarization",
+    "nlp",
+    "transformers",
+    "bart"
+  ]
+}

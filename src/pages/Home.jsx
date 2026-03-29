@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect, useRef } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useConceptStore }  from '../store/conceptStore.js'
+import { useProjectStore }  from '../store/projectStore.js'
 import { useProgressStore } from '../store/progressStore.js'
 
 // ─── domain chip styles (shared across search dropdown + concept rows) ───────
@@ -17,6 +18,7 @@ const DOMAIN_CHIP = {
 
 export default function Home() {
   const concepts = useConceptStore(s => s.concepts)
+  const projects = useProjectStore(s => s.projects)
   const progress = useProgressStore(s => s.progress)
 
   // Progress totals
@@ -49,6 +51,11 @@ export default function Home() {
     }
     return result.slice(0, 4)
   }, [concepts, progress])
+
+  // "Featured Projects" — 3 beginners
+  const featuredProjects = useMemo(() => {
+    return projects.filter(p => p.difficulty === 'beginner').slice(0, 3)
+  }, [projects])
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-16 space-y-14">
@@ -88,6 +95,15 @@ export default function Home() {
           subtitle="One beginner pick per domain — concepts you haven't opened yet"
           concepts={startHereConcepts}
           progress={progress}
+        />
+      )}
+
+      {/* ── Featured Projects ── */}
+      {featuredProjects.length > 0 && (
+        <ProjectSection
+          title="Featured Projects"
+          subtitle="Real-world applications to level up your skills"
+          projects={featuredProjects}
         />
       )}
 
@@ -361,5 +377,58 @@ function SearchIcon({ className }) {
       <circle cx="6.5" cy="6.5" r="4.5" />
       <path d="M10 10l3 3" strokeLinecap="round" />
     </svg>
+  )
+}
+
+// ─── Project section ─────────────────────────────────────────────────────────
+
+function ProjectSection({ title, subtitle, projects }) {
+  const CAT_COLORS = {
+    'Frontend':           'bg-frontend-500/20 text-frontend-400 border-frontend-500/50',
+    'Backend':            'bg-backend-500/20 text-backend-400 border-backend-500/50',
+    'AI-ML':              'bg-ml-500/20 text-ml-400 border-ml-500/50',
+    'Full-stack':         'bg-dsa-500/20 text-dsa-400 border-dsa-500/50',
+    'Web Scraping':       'bg-se-500/20 text-se-400 border-se-500/50',
+    'Distributed Systems': 'bg-orange-500/20 text-orange-400 border-orange-500/50',
+  }
+
+  return (
+    <section className="space-y-4">
+      <div>
+        <h2 className="text-sm font-semibold text-gray-200">{title}</h2>
+        <p className="text-xs text-gray-500">{subtitle}</p>
+      </div>
+      <div className="grid grid-cols-1 gap-3">
+        {projects.map(p => (
+          <Link
+            key={p.id}
+            to={`/project/${p.slug}`}
+            className="flex flex-col sm:flex-row sm:items-center gap-4 px-4 py-4 rounded-xl border border-surface-600 bg-surface-800
+                       hover:border-surface-400 hover:bg-surface-700 transition-all duration-100 group"
+          >
+            <div className="flex-1 space-y-1">
+              <div className="flex items-center gap-2">
+                <span className={`text-[9px] font-black uppercase tracking-tighter px-1.5 py-0.5 rounded border ${CAT_COLORS[p.category] || ''}`}>
+                  {p.category}
+                </span>
+                <h3 className="text-sm font-bold text-gray-100 group-hover:text-white transition-colors">{p.title}</h3>
+              </div>
+              <p className="text-xs text-gray-400 line-clamp-1">{p.overview.what}</p>
+            </div>
+            <div className="flex items-center gap-4 shrink-0">
+               <div className="flex gap-1">
+                 {p.stack.slice(0, 2).map(s => (
+                   <span key={s} className="text-[10px] bg-surface-600 px-1.5 py-0.5 rounded text-gray-300">{s}</span>
+                 ))}
+               </div>
+               <span className="text-xs font-bold text-violet-400 group-hover:translate-x-1 transition-transform">→</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+      <Link to="/projects" className="inline-block text-xs text-gray-500 hover:text-gray-300 transition-colors">
+        View all projects catalog →
+      </Link>
+    </section>
   )
 }

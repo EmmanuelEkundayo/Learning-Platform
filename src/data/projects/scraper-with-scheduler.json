@@ -1,0 +1,49 @@
+{
+  "id": "scraper-with-scheduler",
+  "slug": "scraper-with-scheduler",
+  "title": "Industrial Data Pipeline",
+  "category": "Web Scraping",
+  "difficulty": "advanced",
+  "stack": [
+    "Python",
+    "Scrapy",
+    "Redis",
+    "PostgreSQL",
+    "Cron"
+  ],
+  "estimated_time": "180 mins",
+  "overview": {
+    "what": "A production-grade scraping pipeline designed for recurring large-scale data collection. It features automatic scheduling via Cron, deduplication to avoid rescraping known URLs, and structured storage in a relational database.",
+    "how_it_works": "The pipeline uses Scrapy for efficient multi-threaded crawling. Scrapy-Redis ensures that crawled URLs are persisted in Redis allowing for resumeable jobs. Extracted items are passed through a custom pipeline that saves them to PostgreSQL, and the entire process is triggered by a periodic Cron job.",
+    "what_you_learn": [
+      "Building robust spiders with Scrapy",
+      "Distributed deduplication with Redis",
+      "Writing data pipelines for SQL storage",
+      "Scheduling recurring jobs with Cron"
+    ]
+  },
+  "files": [
+    {
+      "filename": "spider.py",
+      "language": "python",
+      "description": "Scrapy spider with custom item fields.",
+      "code": "import scrapy\n\nclass MySpider(scrapy.Spider):\n    name = 'myspider'\n    start_urls = ['http://target.com']\n\n    def parse(self, response):\n        for item in response.css('.item'):\n            yield {\n                'name': item.css('::text').get(),\n                'price': item.css('.price::text').get()\n            }"
+    },
+    {
+      "filename": "pipelines.py",
+      "language": "python",
+      "description": "Data persistence pipeline into PostgreSQL.",
+      "code": "import psycopg2\n\nclass PostgresPipeline:\n    def open_spider(self, spider):\n        self.conn = psycopg2.connect(\"dbname=scraper user=admin\")\n        self.cur = self.conn.cursor()\n\n    def process_item(self, item, spider):\n        self.cur.execute(\n            \"INSERT INTO results (name, price) VALUES (%s, %s)\",\n            (item['name'], item['price'])\n        )\n        self.conn.commit()\n        return item"
+    }
+  ],
+  "concepts_used": [
+    "database-transactions",
+    "connection-pooling"
+  ],
+  "tags": [
+    "scrapy",
+    "postgresql",
+    "redis",
+    "data-engineering"
+  ]
+}

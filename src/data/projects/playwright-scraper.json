@@ -1,0 +1,41 @@
+{
+  "id": "playwright-scraper",
+  "slug": "playwright-scraper",
+  "title": "Dynamic JS Site Scraper",
+  "category": "Web Scraping",
+  "difficulty": "intermediate",
+  "stack": [
+    "Node.js",
+    "Playwright",
+    "Headless Browser"
+  ],
+  "estimated_time": "90 mins",
+  "overview": {
+    "what": "An advanced scraper built for modern Single Page Applications (SPAs). It can handle JavaScript-rendered content, simulate user interactions (clicking, scrolling), and navigate through paginated results.",
+    "how_it_works": "The script launches a headless Chromium instance using Playwright. It waits for specific elements to appear using 'is-visible' checks, ensuring that asynchronous data has loaded before attempting to scrape. It also captures screenshots automatically if a timeout occurs.",
+    "what_you_learn": [
+      "Automating headless browsers with Playwright",
+      "Handling dynamic content and wait states",
+      "Simulating user clicks and pagination",
+      "Error handling with automated screenshots"
+    ]
+  },
+  "files": [
+    {
+      "filename": "playwright_scraper.js",
+      "language": "javascript",
+      "description": "Headless browser script with interaction and screenshots.",
+      "code": "const { chromium } = require('playwright');\n\n(async () => {\n  const browser = await chromium.launch();\n  const page = await browser.newPage();\n\n  try {\n    await page.goto('https://infinite-scroll-site.com', { waitUntil: 'networkidle' });\n    \n    // Scroll to bottom to trigger JS load\n    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));\n    await page.waitForTimeout(2000);\n\n    const data = await page.$$eval('.item', items => \n      items.map(it => it.innerText)\n    );\n    console.log(data);\n  } catch (err) {\n    await page.screenshot({ path: 'error.png' });\n  } finally {\n    await browser.close();\n  }\n})();"
+    }
+  ],
+  "concepts_used": [
+    "browser-caching",
+    "event-loop-browser"
+  ],
+  "tags": [
+    "playwright",
+    "dynamic-content",
+    "automation",
+    "screenshots"
+  ]
+}

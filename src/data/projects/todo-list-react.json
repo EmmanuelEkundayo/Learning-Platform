@@ -1,0 +1,40 @@
+{
+  "id": "todo-list-react",
+  "slug": "todo-list-react",
+  "title": "Todo List in React",
+  "category": "Frontend",
+  "difficulty": "beginner",
+  "stack": [
+    "React",
+    "JavaScript",
+    "CSS"
+  ],
+  "estimated_time": "45 mins",
+  "overview": {
+    "what": "A classic beginner project that covers the fundamentals of React state management and component structure. You'll build a functional Todo application where users can add, toggle, and delete tasks.",
+    "how_it_works": "The application uses React's useState hook to manage an array of todo items. Each item is an object with a unique ID, text, and completion status. The UI re-renders automatically whenever the state is updated.",
+    "what_you_learn": [
+      "Managing complex state arrays in React",
+      "Form handling and event listeners",
+      "Conditional rendering for completed items",
+      "Component modularization"
+    ]
+  },
+  "files": [
+    {
+      "filename": "App.jsx",
+      "language": "jsx",
+      "description": "The main component managing the todo state and layout.",
+      "code": "import { useState } from 'react';\n\nexport default function App() {\n  const [todos, setTodos] = useState([]);\n  const [input, setInput] = useState('');\n\n  const addTodo = (e) => {\n    e.preventDefault();\n    if (!input.trim()) return;\n    setTodos([...todos, { id: Date.now(), text: input, done: false }]);\n    setInput('');\n  };\n\n  const toggle = (id) => {\n    setTodos(todos.map(t => t.id === id ? { ...t, done: !t.done } : t));\n  };\n\n  return (\n    <div className=\"p-8 max-w-md mx-auto\">\n      <h1 className=\"text-2xl font-bold mb-4\">My Tasks</h1>\n      <form onSubmit={addTodo} className=\"flex gap-2 mb-6\">\n        <input \n          value={input} \n          onChange={e => setInput(e.target.value)}\n          className=\"flex-1 bg-gray-800 border border-gray-700 px-3 py-2 rounded\"\n          placeholder=\"What needs to be done?\"\n        />\n        <button className=\"bg-violet-600 px-4 py-2 rounded font-medium\">Add</button>\n      </form>\n      <ul className=\"space-y-2\">\n        {todos.map(todo => (\n          <li \n            key={todo.id} \n            onClick={() => toggle(todo.id)}\n            className={`p-3 rounded bg-gray-800 cursor-pointer ${todo.done ? 'opacity-50 line-through' : ''}`}\n          >\n            {todo.text}\n          </li>\n        ))}\n      </ul>\n    </div>\n  );\n}"
+    }
+  ],
+  "concepts_used": [
+    "usestate-internals",
+    "component-lifecycle"
+  ],
+  "tags": [
+    "react",
+    "state",
+    "beginner"
+  ]
+}

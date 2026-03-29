@@ -1,0 +1,47 @@
+{
+  "id": "semantic-search",
+  "slug": "semantic-search",
+  "title": "Smart Semantic Search",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "Sentence-Transformers",
+    "FAISS",
+    "NumPy"
+  ],
+  "estimated_time": "90 mins",
+  "overview": {
+    "what": "A search engine that understands the meaning and context of queries instead of just matching keywords. It allows users to find documents based on 'intent' and 'conceptual similarity'.",
+    "how_it_works": "The project uses the SBERT (Sentence-BERT) architecture to map sentences into a semantic vector space. FAISS is then used to perform highly efficient k-Nearest Neighbor (k-NN) searches to find the most conceptually similar documents to the user's query.",
+    "what_you_learn": [
+      "Semantic vs Keyword search principles",
+      "Sentence-Transformers embeddings",
+      "Indexing large datasets with FAISS",
+      "Scoring and ranking results by similarity"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Required libraries for semantic search.",
+      "code": "sentence-transformers\nfaiss-cpu\nnumpy"
+    },
+    {
+      "filename": "search_engine.py",
+      "language": "python",
+      "description": "Embedding and similarity search implementation.",
+      "code": "from sentence_transformers import SentenceTransformer\nimport faiss\nimport numpy as np\n\nclass SemanticSearch:\n    def __init__(self, corpus):\n        self.model = SentenceTransformer('all-MiniLM-L6-v2')\n        self.corpus = corpus\n        self.embeddings = self.model.encode(corpus)\n        \n        self.index = faiss.IndexFlatL2(self.embeddings.shape[1])\n        self.index.add(self.embeddings.astype('float32'))\n\n    def query(self, text, k=3):\n        q_emb = self.model.encode([text])\n        distances, indices = self.index.search(q_emb.astype('float32'), k)\n        return [(self.corpus[idx], distances[0][i]) for i, idx in enumerate(indices[0])]\n\n# Usage\n# engine = SemanticSearch([\"I love fruits\", \"Coding is fun\", \"Apple is a tech giant\"])\n# print(engine.query(\"I like eating apples\"))"
+    }
+  ],
+  "concepts_used": [
+    "vector-embeddings-faiss"
+  ],
+  "tags": [
+    "search",
+    "embeddings",
+    "faiss",
+    "sbert"
+  ]
+}

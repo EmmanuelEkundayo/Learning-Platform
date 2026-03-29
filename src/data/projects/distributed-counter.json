@@ -1,0 +1,46 @@
+{
+  "id": "distributed-counter",
+  "slug": "distributed-counter",
+  "title": "Atomic Distributed Counter",
+  "category": "Distributed Systems",
+  "difficulty": "intermediate",
+  "stack": [
+    "Node.js",
+    "Redis",
+    "Docker"
+  ],
+  "estimated_time": "60 mins",
+  "overview": {
+    "what": "A project demonstrating how to manage shared state across multiple application instances without race conditions. It specifically tackles the problem of incrementing a global counter from multiple servers simultaneously.",
+    "how_it_works": "The system avoids standard 'read-modify-write' cycles which are prone to race conditions in distributed environments. Instead, it uses the Redis `INCR` command, which is an atomic operation. This ensures that even if 1,000 requests hit different servers at once, the counter increments correctly by 1,000.",
+    "what_you_learn": [
+      "Identifying race conditions in distributed state",
+      "Using Redis atomic operations (INCR/DECR)",
+      "Deploying multiple app instances with Docker Compose",
+      "Testing concurrency with load simulation scripts"
+    ]
+  },
+  "files": [
+    {
+      "filename": "app.js",
+      "language": "javascript",
+      "description": "Node.js app using Redis atomic increment.",
+      "code": "const express = require('express');\nconst redis = require('redis');\nconst client = redis.createClient({ url: process.env.REDIS_URL });\n\nconst app = express();\n\napp.get('/hit', async (req, res) => {\n  // Atomic increment - no race condition possible\n  const count = await client.incr('global_counter');\n  res.send(`Visitor #${count}`);\n});\n\nclient.connect().then(() => {\n  app.listen(3000, () => console.log('Instance started'));\n});"
+    },
+    {
+      "filename": "docker-compose.yml",
+      "language": "yaml",
+      "description": "Multi-instance setup with Redis.",
+      "code": "services:\n  redis:\n    image: redis:alpine\n  app1:\n    build: .\n    environment:\n      - REDIS_URL=redis://redis:6379\n  app2:\n    build: .\n    environment:\n      - REDIS_URL=redis://redis:6379"
+    }
+  ],
+  "concepts_used": [
+    "redis-caching-patterns"
+  ],
+  "tags": [
+    "distributed-systems",
+    "redis",
+    "concurrency",
+    "docker"
+  ]
+}

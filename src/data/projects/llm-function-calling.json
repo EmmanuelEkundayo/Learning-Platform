@@ -1,0 +1,47 @@
+{
+  "id": "llm-function-calling",
+  "slug": "llm-function-calling",
+  "title": "LLM Function Calling",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "OpenAI API",
+    "JSON Schema"
+  ],
+  "estimated_time": "90 mins",
+  "overview": {
+    "what": "A project demonstrating how to give an LLM 'tools' to interact with external data. This enables the model to perform real-world actions like checking the weather or solving complex math problems that exceed its internal capabilities.",
+    "how_it_works": "The developer defines functions using JSON schemas that describe their purpose and parameters. The LLM then 'chooses' to call a function when relevant, returns the arguments, and the developer executes the code manually before feeding the result back to the LLM.",
+    "what_you_learn": [
+      "Defining JSON schemas for function calls",
+      "Managing the multi-turn tool calling loop",
+      "Integrating external APIs with LLMs",
+      "Handling hallucinated tool arguments"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "OpenAI SDK for tool-calling.",
+      "code": "openai"
+    },
+    {
+      "filename": "functions.py",
+      "language": "python",
+      "description": "Function definitions and tool-call handlers.",
+      "code": "import json\nimport openai\n\ndef get_weather(location):\n    return f\"The weather in {location} is 25°C and sunny.\"\n\ntools = [\n    {\n        \"type\": \"function\",\n        \"function\": {\n            \"name\": \"get_weather\",\n            \"description\": \"Get the current weather in a location\",\n            \"parameters\": {\n                \"type\": \"object\",\n                \"properties\": {\n                    \"location\": {\"type\": \"string\"}\n                },\n                \"required\": [\"location\"]\n            }\n        }\n    }\n]\n\n# Main loop would handle tool selection and execution"
+    }
+  ],
+  "concepts_used": [
+    "gpt",
+    "few-shot-vs-zero-shot"
+  ],
+  "tags": [
+    "agents",
+    "function-calling",
+    "openai",
+    "api"
+  ]
+}

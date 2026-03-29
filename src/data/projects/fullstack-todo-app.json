@@ -1,0 +1,51 @@
+{
+  "id": "fullstack-todo-app",
+  "slug": "fullstack-todo-app",
+  "title": "Enterprise Full-stack Todo",
+  "category": "Full-stack",
+  "difficulty": "intermediate",
+  "stack": [
+    "React",
+    "Express.js",
+    "PostgreSQL",
+    "Prisma",
+    "JWT"
+  ],
+  "estimated_time": "180 mins",
+  "overview": {
+    "what": "A production-ready Todo application with a dedicated backend API and persistent database storage. It includes user authentication, secure route protection, and a clean separation of concerns between the React frontend and Express backend.",
+    "how_it_works": "The app uses a 3-tier architecture. The React frontend communicates with an Express API via REST. Data persistence is handled by PostgreSQL through the Prisma ORM, and security is enforced using JWT tokens stored in HTTP-only cookies.",
+    "what_you_learn": [
+      "Building and connecting a 3-tier architecture",
+      "Using an ORM (Prisma) for database migrations",
+      "Secure authentication with JWT and bcrypt",
+      "Creating RESTful API endpoints for CRUD"
+    ]
+  },
+  "files": [
+    {
+      "filename": "server.js",
+      "language": "javascript",
+      "description": "Express server setup with Prisma integration.",
+      "code": "const express = require('express');\nconst { PrismaClient } = require('@prisma/client');\nconst prisma = new PrismaClient();\nconst app = express();\n\napp.use(express.json());\n\napp.get('/api/todos', async (req, res) => {\n  const todos = await prisma.todo.findMany();\n  res.json(todos);\n});\n\napp.post('/api/todos', async (req, res) => {\n  const todo = await prisma.todo.create({ data: req.body });\n  res.json(todo);\n});\n\napp.listen(3000, () => console.log('API running on port 3000'));"
+    },
+    {
+      "filename": "schema.prisma",
+      "language": "text",
+      "description": "Prisma schema for the PostgreSQL database.",
+      "code": "datasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel Todo {\n  id        Int      @id @default(autoincrement())\n  title     String\n  completed Boolean  @default(false)\n  createdAt DateTime @default(now())\n}"
+    }
+  ],
+  "concepts_used": [
+    "jwt-authentication",
+    "database-transactions",
+    "rest-principles"
+  ],
+  "tags": [
+    "full-stack",
+    "react",
+    "express",
+    "postgresql",
+    "auth"
+  ]
+}

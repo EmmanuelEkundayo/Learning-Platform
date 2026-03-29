@@ -1,0 +1,47 @@
+{
+  "id": "chatbot-openai",
+  "slug": "chatbot-openai",
+  "title": "Stateful AI Chatbot",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "OpenAI SDK",
+    "JSON"
+  ],
+  "estimated_time": "90 mins",
+  "overview": {
+    "what": "A robust chatbot implementation that maintains conversation state across multiple turns. It allows users to have natural, contextual discussions with an AI by managing a rolling window of history.",
+    "how_it_works": "The chatbot stores the conversation history as a list of message objects (role and content). Each new user query appends the previous history to the prompt, ensuring the model 'remembers' earlier parts of the interaction.",
+    "what_you_learn": [
+      "Managing multi-turn conversation state",
+      "Implementing system prompts and personas",
+      "Handling API rate limits and errors",
+      "Token management and history pruning"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Required libraries for the OpenAI chatbot.",
+      "code": "openai\npython-dotenv"
+    },
+    {
+      "filename": "chatbot.py",
+      "language": "python",
+      "description": "Main chatbot loop with history management.",
+      "code": "import openai\nimport os\n\nclass AIChatbot:\n    def __init__(self, system_prompt=\"You are a helpful assistant.\"):\n        self.history = [{\"role\": \"system\", \"content\": system_prompt}]\n\n    def get_response(self, user_input):\n        self.history.append({\"role\": \"user\", \"content\": user_input})\n        \n        response = openai.ChatCompletion.create(\n            model=\"gpt-3.5-turbo\",\n            messages=self.history\n        )\n        \n        assistant_msg = response.choices[0].message.content\n        self.history.append({\"role\": \"assistant\", \"content\": assistant_msg})\n        return assistant_msg\n\n# Usage\n# bot = AIChatbot()\n# print(bot.get_response(\"Hello!\"))"
+    }
+  ],
+  "concepts_used": [
+    "gpt",
+    "few-shot-vs-zero-shot"
+  ],
+  "tags": [
+    "chatbot",
+    "openai",
+    "stateful",
+    "nlp"
+  ]
+}

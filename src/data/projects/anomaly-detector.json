@@ -1,0 +1,48 @@
+{
+  "id": "anomaly-detector",
+  "slug": "anomaly-detector",
+  "title": "AI Anomaly Detector",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "Scikit-Learn",
+    "Pandas",
+    "Matplotlib"
+  ],
+  "estimated_time": "75 mins",
+  "overview": {
+    "what": "A data monitoring tool that automatically flags unusual patterns or outliers in time-series data. It is commonly used for fraud detection, equipment failure monitoring, and network security.",
+    "how_it_works": "The project implements the Isolation Forest algorithm, which works by explicitly isolating anomalies instead of profiling normal points. Since anomalies are 'few and different', they are easier to isolate in a tree-based structure, resulting in shorter path lengths.",
+    "what_you_learn": [
+      "Unsupervised learning for outlier detection",
+      "Isolation Forest logic and parameters",
+      "Data preprocessing for time-series",
+      "Visualizing anomalies in datasets"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Libraries for anomaly detection.",
+      "code": "scikit-learn\npandas\nmatplotlib"
+    },
+    {
+      "filename": "detector.py",
+      "language": "python",
+      "description": "Isolation Forest implementation and visualization.",
+      "code": "import pandas as pd\nfrom sklearn.ensemble import IsolationForest\nimport matplotlib.pyplot as plt\n\ndef detect_anomalies(data_frame, contamination=0.1):\n    model = IsolationForest(contamination=contamination, random_state=42)\n    data_frame['anomaly'] = model.fit_predict(data_frame[['value']])\n    \n    # -1 is anomaly, 1 is normal\n    anomalies = data_frame[data_frame['anomaly'] == -1]\n    return anomalies\n\n# Visualization helper would go here"
+    }
+  ],
+  "concepts_used": [
+    "isolation-forest",
+    "decision-tree"
+  ],
+  "tags": [
+    "anomaly-detection",
+    "unsupervised-learning",
+    "time-series",
+    "scikit-learn"
+  ]
+}

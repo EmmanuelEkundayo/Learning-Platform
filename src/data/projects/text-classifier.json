@@ -1,0 +1,47 @@
+{
+  "id": "text-classifier",
+  "slug": "text-classifier",
+  "title": "Zero-Shot Text Classifier",
+  "category": "AI-ML",
+  "difficulty": "beginner",
+  "stack": [
+    "Python",
+    "Transformers",
+    "Scikit-Learn"
+  ],
+  "estimated_time": "60 mins",
+  "overview": {
+    "what": "A sentiment analysis tool that classifies text into positive, negative, or neutral categories without needing a dedicated training dataset. It leverages large pre-trained models for immediate zero-shot classification.",
+    "how_it_works": "The system uses the Natural Language Inference (NLI) approach, where the model evaluates how well a premise (the text) fits a hypothesis (e.g., 'This text is positive'). It returns a probability distribution across defined labels.",
+    "what_you_learn": [
+      "Zero-shot classification techniques",
+      "Using Hugging Face Transformers",
+      "Evaluating model confidence scores",
+      "Handling batch text processing"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Dependencies for the classifier.",
+      "code": "transformers\ntorch\npandas"
+    },
+    {
+      "filename": "classifier.py",
+      "language": "python",
+      "description": "Zero-shot inference using the pipeline API.",
+      "code": "from transformers import pipeline\n\nclassifier = pipeline(\"zero-shot-classification\", model=\"facebook/bart-large-mnli\")\n\ndef classify_sentiment(text):\n    candidate_labels = [\"positive\", \"negative\", \"neutral\"]\n    res = classifier(text, candidate_labels)\n    return res['labels'][0], res['scores'][0]\n\n# Example\n# label, score = classify_sentiment(\"This platform is amazing!\")\n# print(f\"{label} ({score:.2f})\")"
+    }
+  ],
+  "concepts_used": [
+    "bert",
+    "transformer-encoder"
+  ],
+  "tags": [
+    "nlp",
+    "sentiment-analysis",
+    "transformers",
+    "classification"
+  ]
+}

@@ -1,0 +1,46 @@
+{
+  "id": "vector-database-demo",
+  "slug": "vector-database-demo",
+  "title": "Vector DB with ChromaDB",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "ChromaDB",
+    "Sentence-Transformers"
+  ],
+  "estimated_time": "75 mins",
+  "overview": {
+    "what": "A hands-on demonstration of a modern vector database. It shows how to store embedded documents, query them by semantic similarity, and use metadata filtering to narrow down search results.",
+    "how_it_works": "ChromaDB acts as an on-disk vector store. It automatically generates embeddings for added text strings and builds an efficient index for k-NN queries. It also supports 'where' clauses for traditional metadata-based filtering alongside vector search.",
+    "what_you_learn": [
+      "Installing and configuring a vector database",
+      "Automatic vs Manual embedding generation",
+      "Semantic search with metadata filters",
+      "Collection management and persistence"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Vector DB and embedding libraries.",
+      "code": "chromadb\nsentence-transformers"
+    },
+    {
+      "filename": "database.py",
+      "language": "python",
+      "description": "Storing and querying embedded documents.",
+      "code": "import chromadb\n\nclient = chromadb.Client()\ncollection = client.create_collection(name=\"my_collection\")\n\ndef add_doc(doc_id, content, metadata):\n    collection.add(\n        documents=[content],\n        metadatas=[metadata],\n        ids=[doc_id]\n    )\n\ndef search(query_text):\n    return collection.query(\n        query_texts=[query_text],\n        n_results=2\n    )\n\n# add_doc(\"id1\", \"The car is red\", {\"color\": \"red\"})\n# print(search(\"Find me red vehicles\"))"
+    }
+  ],
+  "concepts_used": [
+    "vector-embeddings-faiss"
+  ],
+  "tags": [
+    "vector-db",
+    "chromadb",
+    "embeddings",
+    "retrieval"
+  ]
+}

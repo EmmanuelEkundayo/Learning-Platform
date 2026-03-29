@@ -1,0 +1,41 @@
+{
+  "id": "basic-web-scraper",
+  "slug": "basic-web-scraper",
+  "title": "Static Content Scraper",
+  "category": "Web Scraping",
+  "difficulty": "beginner",
+  "stack": [
+    "Node.js",
+    "Axios",
+    "Cheerio"
+  ],
+  "estimated_time": "45 mins",
+  "overview": {
+    "what": "A foundational web scraping tool that extracts structured data from static HTML pages. It's ideal for scraping blogs, news sites, or product catalogs that don't rely heavily on client-side JavaScript rendering.",
+    "how_it_works": "The scraper uses Axios to download the raw HTML of a target URL. It then loads this HTML into Cheerio, which provides a jQuery-like syntax for traversing the DOM and selecting specific elements by CSS selectors or class names.",
+    "what_you_learn": [
+      "Making HTTP requests with Axios",
+      "Parsing HTML content with Cheerio",
+      "Using CSS selectors for data extraction",
+      "Exporting scraped data to JSON format"
+    ]
+  },
+  "files": [
+    {
+      "filename": "scraper.js",
+      "language": "javascript",
+      "description": "The main scraping script with selector logic.",
+      "code": "const axios = require('axios');\nconst cheerio = require('cheerio');\nconst fs = require('fs');\n\nasync function scrape() {\n  const { data } = await axios.get('https://example-blog.com');\n  const $ = cheerio.load(data);\n  const posts = [];\n\n  $('.post').each((i, el) => {\n    posts.push({\n      title: $(el).find('h2').text(),\n      link: $(el).find('a').attr('href'),\n      excerpt: $(el).find('.excerpt').text()\n    });\n  });\n\n  fs.writeFileSync('posts.json', JSON.stringify(posts, null, 2));\n}\n\nscrape();"
+    }
+  ],
+  "concepts_used": [
+    "dom-internals",
+    "promises-internals"
+  ],
+  "tags": [
+    "scraping",
+    "cheerio",
+    "axios",
+    "automation"
+  ]
+}

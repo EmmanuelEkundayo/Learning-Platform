@@ -1,0 +1,43 @@
+{
+  "id": "blog-platform",
+  "slug": "blog-platform",
+  "title": "Modern Next.js Blog",
+  "category": "Full-stack",
+  "difficulty": "intermediate",
+  "stack": [
+    "Next.js",
+    "MDX",
+    "Tailwind CSS",
+    "Lucide Icons"
+  ],
+  "estimated_time": "120 mins",
+  "overview": {
+    "what": "A high-performance personal blog built with the Next.js App Router. It supports markdown-based content with MDX for interactive components within posts, features automatic RSS generation, and is optimized for SEO.",
+    "how_it_works": "The platform uses static site generation (SSG) to pre-render posts at build time. It parses MDX files from a local directory using `next-mdx-remote`, extracting frontmatter for metadata and using Tailwind Typography for consistent styling.",
+    "what_you_learn": [
+      "Next.js App Router and Static Generation",
+      "Parsing MDX with frontmatter",
+      "Building a dynamic tag-based filtering system",
+      "SEO optimization with Meta tags and RSS"
+    ]
+  },
+  "files": [
+    {
+      "filename": "page.js",
+      "language": "javascript",
+      "description": "Main blog index with static data fetching.",
+      "code": "import { getAllPosts } from '@/lib/api';\nimport PostCard from '@/components/PostCard';\n\nexport default async function BlogIndex() {\n  const posts = await getAllPosts();\n\n  return (\n    <div className=\"max-w-4xl mx-auto py-12 px-4\">\n      <h1 className=\"text-4xl font-bold mb-8\">Latest Writing</h1>\n      <div className=\"grid gap-8\">\n        {posts.map(post => (\n          <PostCard key={post.slug} {...post} />\n        ))}\n      </div>\n    </div>\n  );\n}"
+    }
+  ],
+  "concepts_used": [
+    "render-pipeline",
+    "critical-rendering-path"
+  ],
+  "tags": [
+    "nextjs",
+    "mdx",
+    "blog",
+    "static-generation",
+    "seo"
+  ]
+}

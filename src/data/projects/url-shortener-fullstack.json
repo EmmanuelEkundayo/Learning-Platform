@@ -1,0 +1,41 @@
+{
+  "id": "url-shortener-fullstack",
+  "slug": "url-shortener-fullstack",
+  "title": "URL Shortener & Analytics",
+  "category": "Full-stack",
+  "difficulty": "intermediate",
+  "stack": [
+    "React",
+    "Express.js",
+    "Redis",
+    "Nanoid"
+  ],
+  "estimated_time": "120 mins",
+  "overview": {
+    "what": "A high-performance URL shortening service that provides custom short links and detailed click analytics. It uses Redis for ultra-fast redirection and storage of hit counts.",
+    "how_it_works": "The API generates a unique short ID using `nanoid` and stores the mapping in a Redis hash. When a user visits the short URL, the server performs an O(1) lookup in Redis, increments a click counter, and performs a 301 redirection to the original URL.",
+    "what_you_learn": [
+      "Using Redis for high-speed key-value storage",
+      "Implementing 301/302 HTTP redirections",
+      "Managing atomic increments in Redis",
+      "Building an analytics dashboard UI"
+    ]
+  },
+  "files": [
+    {
+      "filename": "api.js",
+      "language": "javascript",
+      "description": "Shortening logic and Redis integration.",
+      "code": "const express = require('express');\nconst redis = require('redis');\nconst { nanoid } = require('nanoid');\nconst client = redis.createClient();\n\nconst app = express();\n\napp.post('/shorten', async (req, res) => {\n  const { url } = req.body;\n  const id = nanoid(6);\n  await client.hSet('urls', id, url);\n  res.json({ shortUrl: `http://loc.al/${id}` });\n});\n\napp.get('/:id', async (req, res) => {\n  const url = await client.hGet('urls', req.params.id);\n  if (url) {\n    await client.hIncrBy('clicks', req.params.id, 1);\n    res.redirect(url);\n  } else {\n    res.status(404).send('Not found');\n  }\n});"
+    }
+  ],
+  "concepts_used": [
+    "redis-caching-patterns"
+  ],
+  "tags": [
+    "utility",
+    "redis",
+    "url-shortener",
+    "analytics"
+  ]
+}

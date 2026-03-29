@@ -10,6 +10,8 @@ export const useProgressStore = create(
     (set, get) => ({
       // Record<slug, ConceptProgress>
       progress: {},
+      interacted_concepts: [], // persisted
+      show_support_modal: false, // not persisted (triggered in session)
 
       markViewed(slug) {
         set((state) => ({
@@ -27,7 +29,18 @@ export const useProgressStore = create(
       recordAttempt(slug, passed) {
         set((state) => {
           const prev = state.progress[slug] ?? {}
+          const newInteracted = [...state.interacted_concepts]
+          if (!newInteracted.includes(slug)) {
+            newInteracted.push(slug)
+          }
+
+          // Trigger support modal logic
+          const hasCompletedSupport = localStorage.getItem('completed_support') === 'true'
+          const shouldShowModal = !hasCompletedSupport && newInteracted.length >= 3
+
           return {
+            interacted_concepts: newInteracted,
+            show_support_modal: shouldShowModal,
             progress: {
               ...state.progress,
               [slug]: {
@@ -39,6 +52,10 @@ export const useProgressStore = create(
             },
           }
         })
+      },
+
+      dismissSupportModal() {
+        set({ show_support_modal: false })
       },
 
       setConfidence(slug, confidence) {

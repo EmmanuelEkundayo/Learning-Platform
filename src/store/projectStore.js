@@ -1,0 +1,33 @@
+import { create } from 'zustand'
+
+/**
+ * Project store — holds the loaded project catalog in memory.
+ * Data comes from /src/data/projects/*.json (imported at build time).
+ */
+export const useProjectStore = create((set, get) => ({
+  projects: [],
+  loaded: false,
+
+  setProjects(projects) {
+    set({ projects, loaded: true })
+  },
+
+  getProjectBySlug(slug) {
+    return get().projects.find((p) => p.slug === slug) ?? null
+  },
+
+  getProjectsByCategory(category) {
+    if (category === 'All') return get().projects
+    return get().projects.filter((p) => p.category === category)
+  },
+
+  search(query) {
+    const q = query.toLowerCase()
+    return get().projects.filter(
+      (p) =>
+        p.title.toLowerCase().includes(q) ||
+        p.tags.some((t) => t.toLowerCase().includes(q)) ||
+        p.category.toLowerCase().includes(q)
+    )
+  },
+}))

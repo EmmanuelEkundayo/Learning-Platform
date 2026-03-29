@@ -1,0 +1,41 @@
+{
+  "id": "linear-regression-python",
+  "slug": "linear-regression-python",
+  "title": "Linear Regression from Scratch",
+  "category": "AI-ML",
+  "difficulty": "beginner",
+  "stack": [
+    "Python",
+    "NumPy",
+    "Math"
+  ],
+  "estimated_time": "60 mins",
+  "overview": {
+    "what": "Implement a simple linear regression model from scratch using gradient descent. This project helps visualize how a model 'learns' a line of best fit for a set of data points.",
+    "how_it_works": "We use the Mean Squared Error (MSE) loss function and calculate gradients to iteratively update the slope and intercept parameters. This minimizes the error between predictions and actual targets.",
+    "what_you_learn": [
+      "Mathematical foundations of linear regression",
+      "Implementing gradient descent manually",
+      "Vectorized operations with NumPy",
+      "Loss function minimization"
+    ]
+  },
+  "files": [
+    {
+      "filename": "model.py",
+      "language": "python",
+      "description": "Pure Python implementation of the Linear Regression class.",
+      "code": "import numpy as np\n\nclass LinearRegression:\n    def __init__(self, lr=0.01, iterations=1000):\n        self.lr = lr\n        self.iterations = iterations\n        self.w = None\n        self.b = None\n\n    def fit(self, X, y):\n        n_samples, n_features = X.shape\n        self.w = np.zeros(n_features)\n        self.b = 0\n\n        for _ in range(self.iterations):\n            y_pred = np.dot(X, self.w) + self.b\n            \n            dw = (1 / n_samples) * np.dot(X.T, (y_pred - y))\n            db = (1 / n_samples) * np.sum(y_pred - y)\n\n            self.w -= self.lr * dw\n            self.b -= self.lr * db\n\n    def predict(self, X):\n        return np.dot(X, self.w) + self.b"
+    }
+  ],
+  "concepts_used": [
+    "linear-regression",
+    "gradient-descent",
+    "loss-functions"
+  ],
+  "tags": [
+    "ml",
+    "python",
+    "math"
+  ]
+}

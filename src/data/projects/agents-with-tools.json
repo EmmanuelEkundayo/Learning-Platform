@@ -1,0 +1,47 @@
+{
+  "id": "agents-with-tools",
+  "slug": "agents-with-tools",
+  "title": "Autonomous AI Agents",
+  "category": "AI-ML",
+  "difficulty": "advanced",
+  "stack": [
+    "Python",
+    "LangChain",
+    "DuckDuckGo Search API"
+  ],
+  "estimated_time": "180 mins",
+  "overview": {
+    "what": "An implementation of an autonomous agent loop that can solve complex multi-step tasks. The agent has access to a search engine and a calculator, and can 'reason' through which tool to use next to reach a goal.",
+    "how_it_works": "The agent follows the ReAct (Reason + Act) pattern. It generates a Thought (plan), selects an Action (tool call), receives an Observation (tool result), and repeats this loop until it has enough information to deliver a Final Answer.",
+    "what_you_learn": [
+      "The ReAct reasoning loop pattern",
+      "Defining and registering custom tools",
+      "Managing agent-executor memory",
+      "Debugging complex agent logs"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "LangChain and search dependencies.",
+      "code": "langchain\nduckduckgo-search\nopenai"
+    },
+    {
+      "filename": "agent.py",
+      "language": "python",
+      "description": "Agent initialization and ReAct loop configuration.",
+      "code": "from langchain.agents import load_tools, initialize_agent, AgentType\nfrom langchain.llms import OpenAI\n\ndef create_agent():\n    llm = OpenAI(temperature=0)\n    tools = load_tools([\"ddg-search\", \"llm-math\"], llm=llm)\n    \n    agent = initialize_agent(\n        tools, \n        llm, \n        agent=AgentType.ZERO_SHOT_REACT_DESCRIPTION, \n        verbose=True\n    )\n    return agent\n\n# Example\n# agent = create_agent()\n# agent.run(\"What is the current capital of France and its population squared?\")"
+    }
+  ],
+  "concepts_used": [
+    "gpt",
+    "few-shot-vs-zero-shot"
+  ],
+  "tags": [
+    "agents",
+    "react-pattern",
+    "langchain",
+    "automation"
+  ]
+}

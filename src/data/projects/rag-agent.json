@@ -1,0 +1,49 @@
+{
+  "id": "rag-agent",
+  "slug": "rag-agent",
+  "title": "Retrieval-Augmented Generation (RAG) Agent",
+  "category": "AI-ML",
+  "difficulty": "advanced",
+  "stack": [
+    "Python",
+    "LangChain",
+    "PyPDF",
+    "FAISS",
+    "Sentence-Transformers"
+  ],
+  "estimated_time": "150 mins",
+  "overview": {
+    "what": "A sophisticated RAG pipeline that can ingest PDF documents, break them into semantic chunks, and retrieve the most relevant context to answer user queries using a Large Language Model (LLM).",
+    "how_it_works": "The system embeds document chunks into a high-dimensional vector space using sentence-transformers. These embeddings are stored in a FAISS index. When a query arrives, it is also embedded, and a similarity search finds the nearest neighbor chunks to provide context for the LLM's response.",
+    "what_you_learn": [
+      "Document chunking and overlapping strategies",
+      "Vector embeddings and similarity search",
+      "Building a retrieval-augmented prompt",
+      "Managing vector databases with FAISS"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Python dependencies for the RAG pipeline.",
+      "code": "langchain\npypdf\nfaiss-cpu\nsentence-transformers\nopenai"
+    },
+    {
+      "filename": "rag_pipeline.py",
+      "language": "python",
+      "description": "Core logic for ingestion, embedding, and retrieval.",
+      "code": "from langchain.document_loaders import PyPDFLoader\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain.embeddings import HuggingFaceEmbeddings\nfrom langchain.vectorstores import FAISS\nfrom langchain.chains import RetrievalQA\nfrom langchain.llms import OpenAI\n\ndef build_rag_system(pdf_path):\n    # 1. Load\n    loader = PyPDFLoader(pdf_path)\n    documents = loader.load()\n\n    # 2. Split\n    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)\n    texts = text_splitter.split_documents(documents)\n\n    # 3. Embed & Store\n    embeddings = HuggingFaceEmbeddings(model_name=\"all-MiniLM-L6-v2\")\n    vectorstore = FAISS.from_documents(texts, embeddings)\n\n    # 4. Chain\n    qa = RetrievalQA.from_chain_type(\n        llm=OpenAI(),\n        chain_type=\"stuff\",\n        retriever=vectorstore.as_retriever()\n    )\n    return qa"
+    }
+  ],
+  "concepts_used": [
+    "vector-embeddings-faiss",
+    "gpt"
+  ],
+  "tags": [
+    "rag",
+    "nlp",
+    "llm",
+    "embeddings"
+  ]
+}

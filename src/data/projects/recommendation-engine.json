@@ -1,0 +1,45 @@
+{
+  "id": "recommendation-engine",
+  "slug": "recommendation-engine",
+  "title": "Movie Recommendation Engine",
+  "category": "AI-ML",
+  "difficulty": "advanced",
+  "stack": [
+    "Python",
+    "Pandas",
+    "Scikit-Learn",
+    "NumPy"
+  ],
+  "estimated_time": "150 mins",
+  "overview": {
+    "what": "A personalized recommendation system using the Collaborative Filtering approach. It predicts a user's interest in items based on the preferences of similar users, a technique used by Netflix and Amazon.",
+    "how_it_works": "The engine constructs a user-item rating matrix and calculates the cosine similarity between users. It then identifies the 'top neighbors' for a target user and recommends the highest-rated items that the user hasn't seen yet.",
+    "what_you_learn": [
+      "User-Item matrix factorization principles",
+      "Distance metrics for recommendation (Cosine)",
+      "Matrix sparsity and cold-start problems",
+      "Ranking and filtering recommendation sets"
+    ]
+  },
+  "files": [
+    {
+      "filename": "requirements.txt",
+      "language": "text",
+      "description": "Data processing and similarity libraries.",
+      "code": "pandas\nscikit-learn\nnumpy"
+    },
+    {
+      "filename": "recommender.py",
+      "language": "python",
+      "description": "Collaborative filtering logic using cosine similarity.",
+      "code": "import pandas as pd\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\ndef get_recommendations(user_ratings, target_user_idx):\n    # Calculate similarities\n    similarity_matrix = cosine_similarity(user_ratings)\n    user_sim = similarity_matrix[target_user_idx]\n    \n    # Weighted ratings\n    scores = user_sim.dot(user_ratings) / np.array([np.abs(user_sim).sum()])\n    return scores"
+    }
+  ],
+  "concepts_used": [],
+  "tags": [
+    "recommendations",
+    "collaborative-filtering",
+    "numpy",
+    "personalization"
+  ]
+}

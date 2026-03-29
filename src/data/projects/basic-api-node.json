@@ -1,0 +1,40 @@
+{
+  "id": "basic-api-node",
+  "slug": "basic-api-node",
+  "title": "Basic API in Node.js",
+  "category": "Backend",
+  "difficulty": "beginner",
+  "stack": [
+    "Node.js",
+    "Express",
+    "JavaScript"
+  ],
+  "estimated_time": "30 mins",
+  "overview": {
+    "what": "Build a basic RESTful API that serves JSON data. This project introduces routing, middleware, and request/response handling in a Node.js environment.",
+    "how_it_works": "Using the Express framework, we define endpoints that listen for HTTP requests. The server processes these requests and returns the appropriate HTTP status codes and JSON payloads.",
+    "what_you_learn": [
+      "Setting up an Express server",
+      "Defining RESTful routes (GET, POST)",
+      "Working with JSON middleware",
+      "Handling HTTP status codes"
+    ]
+  },
+  "files": [
+    {
+      "filename": "server.js",
+      "language": "javascript",
+      "description": "The entry point for the Express server and route definitions.",
+      "code": "const express = require('express');\nconst app = express();\nconst port = 3000;\n\napp.use(express.json());\n\nlet items = [\n  { id: 1, name: 'Sample Item' }\n];\n\napp.get('/api/items', (req, res) => {\n  res.json(items);\n});\n\napp.post('/api/items', (req, res) => {\n  const newItem = { id: Date.now(), ...req.body };\n  items.push(newItem);\n  res.status(201).json(newItem);\n});\n\napp.listen(port, () => {\n  console.log(`Server running at http://localhost:${port}`);\n});"
+    }
+  ],
+  "concepts_used": [
+    "rest-principles",
+    "middleware-patterns"
+  ],
+  "tags": [
+    "node",
+    "express",
+    "backend"
+  ]
+}

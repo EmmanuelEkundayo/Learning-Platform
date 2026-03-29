@@ -1,0 +1,48 @@
+{
+  "id": "realtime-dashboard",
+  "slug": "realtime-dashboard",
+  "title": "Real-time Metrics Dashboard",
+  "category": "Full-stack",
+  "difficulty": "advanced",
+  "stack": [
+    "React",
+    "Socket.io",
+    "Chart.js",
+    "Express"
+  ],
+  "estimated_time": "150 mins",
+  "overview": {
+    "what": "A live-updating monitoring dashboard that visualizes system metrics in real-time. It features a server-push architecture that updates charts every second without page refreshes.",
+    "how_it_works": "The server uses Socket.io to establish a persistent bi-directional connection with the client. A backend interval generates mock metrics and broadcasts them to all connected clients, where Chart.js dynamically updates the line graph.",
+    "what_you_learn": [
+      "Managing WebSocket connections with Socket.io",
+      "Real-time event broadcasting logic",
+      "Handling high-frequency data updates in React",
+      "Building live-updating charts with Chart.js"
+    ]
+  },
+  "files": [
+    {
+      "filename": "server.js",
+      "language": "javascript",
+      "description": "Socket.io server with metrics broadcasting.",
+      "code": "const server = require('http').createServer();\nconst io = require('socket.io')(server);\n\nio.on('connection', socket => {\n  console.log('Client connected');\n});\n\nsetInterval(() => {\n  const metrics = {\n    cpu: Math.random() * 100,\n    memory: 40 + Math.random() * 20,\n    timestamp: Date.now()\n  };\n  io.emit('metrics_update', metrics);\n}, 1000);\n\nserver.listen(4000);"
+    },
+    {
+      "filename": "Dashboard.jsx",
+      "language": "jsx",
+      "description": "React component listening for socket events.",
+      "code": "import { useEffect, useState } from 'react';\nimport io from 'socket.io-client';\n\nconst socket = io('http://localhost:4000');\n\nexport default function Dashboard() {\n  const [data, setData] = useState([]);\n\n  useEffect(() => {\n    socket.on('metrics_update', (newMetric) => {\n      setData(prev => [...prev.slice(-19), newMetric]);\n    });\n    return () => socket.off('metrics_update');\n  }, []);\n\n  return (\n    <div className=\"p-8\">\n      <h2 className=\"text-2xl font-bold mb-6\">System Overview</h2>\n      {/* Chart component would use the data state */}\n    </div>\n  );\n}"
+    }
+  ],
+  "concepts_used": [
+    "websockets",
+    "event-loop-browser"
+  ],
+  "tags": [
+    "real-time",
+    "websockets",
+    "dashboard",
+    "metrics"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "id": "distributed-cache-demo",
+  "slug": "distributed-cache-demo",
+  "title": "Consistent Hashing Cache",
+  "category": "Distributed Systems",
+  "difficulty": "advanced",
+  "stack": [
+    "Python",
+    "Hashlib",
+    "Consistent-Hashing"
+  ],
+  "estimated_time": "150 mins",
+  "overview": {
+    "what": "A simulation of a distributed caching layer that uses a Consistent Hashing ring to route keys to specific cache nodes. It demonstrates how systems like Memcached or DynamoDB minimize data reshuffling when nodes leave or join the cluster.",
+    "how_it_works": "Unlike standard modulo hashing (which reassigns all keys when the number of nodes changes), consistent hashing maps both nodes and keys to a large circular range. Moving a node only affects k/n keys, significantly reducing cache misses during scaling events.",
+    "what_you_learn": [
+      "Implementing the Consistent Hashing algorithm",
+      "Visualizing key distribution across a ring",
+      "Simulating node failure and rebalancing",
+      "Using virtual nodes to improve balance"
+    ]
+  },
+  "files": [
+    {
+      "filename": "hashing_ring.py",
+      "language": "python",
+      "description": "Consistent hashing ring implementation.",
+      "code": "import hashlib\n\nclass ConsistentHashRing:\n    def __init__(self, nodes=None, replicas=3):\n        self.replicas = replicas\n        self.ring = {}\n        self.sorted_keys = []\n        if nodes:\n            for node in nodes: self.add_node(node)\n\n    def add_node(self, node):\n        for i in range(self.replicas):\n            key = self._hash(f\"{node}:{i}\")\n            self.ring[key] = node\n            self.sorted_keys.append(key)\n        self.sorted_keys.sort()\n\n    def get_node(self, key):\n        h = self._hash(key)\n        for node_key in self.sorted_keys:\n            if h <= node_key: return self.ring[node_key]\n        return self.ring[self.sorted_keys[0]]\n\n    def _hash(self, key):\n        return int(hashlib.md5(key.encode()).hexdigest(), 16)"
+    }
+  ],
+  "concepts_used": [
+    "consistent-hashing",
+    "redis-data-structures"
+  ],
+  "tags": [
+    "distributed-systems",
+    "algorithms",
+    "caching",
+    "hashing"
+  ]
+}

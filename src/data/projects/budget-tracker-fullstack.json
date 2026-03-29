@@ -1,0 +1,48 @@
+{
+  "id": "budget-tracker-fullstack",
+  "slug": "budget-tracker-fullstack",
+  "title": "Full-stack Budget Monitor",
+  "category": "Full-stack",
+  "difficulty": "intermediate",
+  "stack": [
+    "React",
+    "Express.js",
+    "SQLite3",
+    "PapaParse"
+  ],
+  "estimated_time": "150 mins",
+  "overview": {
+    "what": "A comprehensive personal finance application that helps users manage income and expenses. It features monthly summaries by category and allows users to export their transaction data as CSV files for external analysis.",
+    "how_it_works": "Transactions are stored in an SQLite database. The backend uses SQL aggregation queries to calculate category totals for the frontend. The CSV export is handled by `PapaParse` on the client-side to transform the JSON response into a downloadable file.",
+    "what_you_learn": [
+      "Relational database design for finance",
+      "Writing SQL aggregate queries (SUM, GROUP BY)",
+      "Implementing file exports in web apps",
+      "Managing category-based filtering logic"
+    ]
+  },
+  "files": [
+    {
+      "filename": "db.js",
+      "language": "javascript",
+      "description": "SQLite initialization and transaction logic.",
+      "code": "const sqlite3 = require('sqlite3').verbose();\nconst db = new sqlite3.Database('./budget.db');\n\ndb.serialize(() => {\n  db.run(`CREATE TABLE IF NOT EXISTS expenses (\n    id INTEGER PRIMARY KEY AUTOINCREMENT,\n    amount REAL,\n    category TEXT,\n    date TEXT\n  )`);\n});\n\nmodule.exports = db;"
+    },
+    {
+      "filename": "Summary.jsx",
+      "language": "jsx",
+      "description": "Frontend component for data export and visualization.",
+      "code": "import Papa from 'papaparse';\n\nexport default function Summary({ transactions }) {\n  const exportCSV = () => {\n    const csv = Papa.unparse(transactions);\n    const blob = new Blob([csv], { type: 'text/csv' });\n    const url = URL.createObjectURL(blob);\n    const link = document.createElement('a');\n    link.href = url;\n    link.download = 'budget_report.csv';\n    link.click();\n  };\n\n  return (\n    <button onClick={exportCSV} className=\"bg-green-600 text-white px-4 py-2 rounded-lg\">\n      Export to CSV\n    </button>\n  );\n}"
+    }
+  ],
+  "concepts_used": [
+    "database-transactions",
+    "sql-injection"
+  ],
+  "tags": [
+    "finance",
+    "sqlite",
+    "full-stack",
+    "productivity"
+  ]
+}

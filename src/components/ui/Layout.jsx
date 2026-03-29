@@ -1,7 +1,9 @@
 import { Outlet, NavLink, Link } from 'react-router-dom'
+import SupportModal from './SupportModal'
 
 const NAV_LINKS = [
   { to: '/browse',     label: 'Browse'     },
+  { to: '/projects',   label: 'Projects'   },
   { to: '/review',     label: 'Review'     },
   { to: '/playground', label: 'Playground' },
 ]
@@ -40,6 +42,7 @@ export default function Layout() {
       </header>
 
       <main className="flex-1">
+        <SupportModal />
         <Outlet />
       </main>
 
