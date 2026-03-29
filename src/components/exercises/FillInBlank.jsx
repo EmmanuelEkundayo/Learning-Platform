@@ -46,7 +46,7 @@ const EDITOR_OPTIONS = {
 }
 
 function monacoBeforeMount(monaco) {
-  monaco.editor.defineTheme('techcheats-dark', {
+  monaco.editor.defineTheme('lbf-dark', {
     base: 'vs-dark',
     inherit: true,
     rules: [
@@ -235,7 +235,7 @@ export default function FillInBlank({ exercise, concept, domain = 'DSA', onPass,
         <Editor
           height={editorHeight}
           language="python"
-          theme="techcheats-dark"
+          theme="lbf-dark"
           value={code}
           onChange={handleCodeChange}
           onMount={(ed) => { editorRef.current = ed }}

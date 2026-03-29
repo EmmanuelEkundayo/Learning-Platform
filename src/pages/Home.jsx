@@ -57,8 +57,8 @@ export default function Home() {
       <div className="flex flex-col items-center gap-6">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight">
-            <span className="text-dsa-500">Tech</span>
-            <span className="text-ml-500"> Cheats</span>
+            <span className="text-dsa-500">Learn</span>
+            <span className="text-ml-500"> Blazingly Fast</span>
           </h1>
           <p className="text-gray-500 text-sm mt-1">200+ CS & ML concepts. Under 5 min each.</p>
         </div>
