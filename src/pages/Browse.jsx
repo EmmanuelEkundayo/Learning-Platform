@@ -3,6 +3,7 @@ import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useConceptStore }  from '../store/conceptStore.js'
 import { useProgressStore } from '../store/progressStore.js'
+import { searchConcepts } from '../utils/search.js'
 
 // ─── constants ─────────────────────────────────────────────────────────────
 
@@ -34,20 +35,14 @@ export default function Browse() {
 
   // Apply all filters
   const filtered = useMemo(() => {
-    const q = query.toLowerCase().trim()
-    return concepts.filter(c => {
+    const searchResults = searchConcepts(query)
+    return searchResults.filter(c => {
       if (domain !== 'All' && c.domain !== domain) return false
       if (category !== 'All' && c.category !== category) return false
       if (difficulty !== 'All' && c.difficulty !== difficulty) return false
-      if (q) {
-        const inTitle    = c.title.toLowerCase().includes(q)
-        const inTags     = c.tags?.some(t => t.toLowerCase().includes(q))
-        const inCategory = c.category.toLowerCase().includes(q)
-        if (!inTitle && !inTags && !inCategory) return false
-      }
       return true
     })
-  }, [concepts, query, domain, category, difficulty])
+  }, [query, domain, category, difficulty])
 
   const totalShown = filtered.length
   const totalAll   = concepts.length
@@ -105,6 +100,7 @@ export default function Browse() {
           labels={{ 'Software Engineering': 'SE' }}
           value={domain}
           onChange={setDomain}
+          concepts={concepts}
           colorFn={v =>
             v === 'DSA'                  ? 'dsa'      :
             v === 'ML'                   ? 'ml'       :
@@ -223,17 +219,21 @@ function StatusDot({ passed, viewed }) {
   return null
 }
 
-function PillGroup({ options, labels = {}, value, onChange, colorFn }) {
+function PillGroup({ options, labels = {}, value, onChange, colorFn, concepts = [] }) {
+  const getCompletedDomains = useProgressStore(s => s.getCompletedDomains)
+  const completed = getCompletedDomains(concepts)
+
   return (
     <div className="flex rounded-lg border border-surface-600 overflow-hidden">
       {options.map(opt => {
         const active = value === opt
         const color  = colorFn?.(opt)
+        const isComplete = completed.includes(opt)
         return (
           <button
             key={opt}
             onClick={() => onChange(opt)}
-            className={`px-3 py-1.5 text-xs font-medium transition-colors border-r last:border-r-0 border-surface-600 whitespace-nowrap
+            className={`px-3 py-1.5 text-xs font-medium transition-colors border-r last:border-r-0 border-surface-600 whitespace-nowrap flex items-center gap-1.5
               ${active
                 ? color === 'dsa'      ? 'bg-dsa-600 text-white'
                 : color === 'ml'       ? 'bg-ml-500 text-white'
@@ -248,6 +248,7 @@ function PillGroup({ options, labels = {}, value, onChange, colorFn }) {
               }`}
           >
             {labels[opt] ?? opt}
+            {isComplete && <span className="text-yellow-400">✦</span>}
           </button>
         )
       })}

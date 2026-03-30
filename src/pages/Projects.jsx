@@ -2,6 +2,7 @@ import { useState, useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useProjectStore } from '../store/projectStore.js'
+import { searchProjects } from '../utils/search.js'
 
 const CATEGORIES = [
   'All', 
@@ -37,14 +38,10 @@ export default function Projects() {
   const projects = useProjectStore(s => s.projects)
 
   const filtered = useMemo(() => {
-    return projects.filter(p => {
-      const matchCat = category === 'All' || p.category === category
-      const matchSearch = !query.trim() || 
-        p.title.toLowerCase().includes(query.toLowerCase()) ||
-        p.tags.some(t => t.toLowerCase().includes(query.toLowerCase()))
-      return matchCat && matchSearch
-    })
-  }, [projects, category, query])
+    const searchResults = searchProjects(query)
+    if (category === 'All') return searchResults
+    return searchResults.filter(p => p.category === category)
+  }, [category, query])
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-8">

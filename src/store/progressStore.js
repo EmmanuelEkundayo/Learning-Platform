@@ -11,19 +11,42 @@ export const useProgressStore = create(
       // Record<slug, ConceptProgress>
       progress: {},
       interacted_concepts: [], // persisted
+      completion_dates: {},    // Record<domain, timestamp>
       show_support_modal: false, // not persisted (triggered in session)
+      leaderboard_opted_in: null, // null = not asked, true = opted in, false = declined
+      active_roadmap_slug: null,  // slug of the currently followed roadmap
+      streak: { count: 0, last_date: null },
 
       markViewed(slug) {
-        set((state) => ({
-          progress: {
-            ...state.progress,
-            [slug]: {
-              ...state.progress[slug],
-              viewed: true,
-              last_seen: Date.now(),
+        set((state) => {
+          const today = new Date().toISOString().split('T')[0]
+          let nextStreak = { ...state.streak }
+
+          if (state.streak.last_date !== today) {
+            const yesterday = new Date()
+            yesterday.setDate(yesterday.getDate() - 1)
+            const yesterdayStr = yesterday.toISOString().split('T')[0]
+            
+            if (state.streak.last_date === yesterdayStr) {
+              nextStreak.count += 1
+            } else {
+              nextStreak.count = 1
+            }
+            nextStreak.last_date = today
+          }
+
+          return {
+            streak: nextStreak,
+            progress: {
+              ...state.progress,
+              [slug]: {
+                ...state.progress[slug],
+                viewed: true,
+                last_seen: Date.now(),
+              },
             },
-          },
-        }))
+          }
+        })
       },
 
       recordAttempt(slug, passed) {
@@ -38,20 +61,88 @@ export const useProgressStore = create(
           const hasCompletedSupport = localStorage.getItem('completed_support') === 'true'
           const shouldShowModal = !hasCompletedSupport && newInteracted.length >= 3
 
+          // Leaderboard logic
+          const passedCount = Object.values(state.progress).filter(p => p.exercise_passed).length + (passed ? 1 : 0)
+          const shouldPromptLeaderboard = state.leaderboard_opted_in === null && passedCount === 10
+
+          const nextProgress = {
+            ...state.progress,
+            [slug]: {
+              ...prev,
+              exercise_attempts: (prev.exercise_attempts ?? 0) + 1,
+              exercise_passed: prev.exercise_passed || passed,
+              last_seen: Date.now(),
+            },
+          }
+
+          // Auto-sync
+          if (state.leaderboard_opted_in === true && passed) {
+            get().syncLeaderboard(nextProgress)
+          }
+
           return {
             interacted_concepts: newInteracted,
             show_support_modal: shouldShowModal,
-            progress: {
-              ...state.progress,
-              [slug]: {
-                ...prev,
-                exercise_attempts: (prev.exercise_attempts ?? 0) + 1,
-                exercise_passed: prev.exercise_passed || passed,
-                last_seen: Date.now(),
-              },
-            },
+            leaderboard_prompt_pending: shouldPromptLeaderboard,
+            progress: nextProgress
           }
         })
+      },
+
+      setLeaderboardOptIn(optedIn, userData = {}) {
+        set({ leaderboard_opted_in: optedIn, leaderboard_prompt_pending: false })
+        if (optedIn) {
+           get().syncLeaderboard(get().progress, userData)
+        }
+      },
+
+      setActiveRoadmap: (slug) => set({ active_roadmap_slug: slug }),
+
+      getRoadmapProgress: (roadmap) => {
+        if (!roadmap) return null
+        const progress = get().progress
+        const allConcepts = roadmap.phases.flatMap(p => p.concepts)
+        const total = allConcepts.length
+        const completed = allConcepts.filter(slug => progress[slug]?.exercise_passed).length
+        const percentage = total > 0 ? Math.round((completed / total) * 100) : 0
+        
+        let nextConcept = null
+        for (const slug of allConcepts) {
+          if (!progress[slug]?.exercise_passed) {
+            nextConcept = slug
+            break
+          }
+        }
+        
+        return { completed, total, percentage, nextConcept }
+      },
+
+      async syncLeaderboard(progressData, userData = {}) {
+        const { streak } = get()
+        const passedCount = Object.values(progressData).filter(p => p.exercise_passed).length
+        
+        // This requires authStore info which we'll pass in from the component 
+        // OR we can just use the provided userData if syncing for the first time.
+        // For auto-sync, we'll need to fetch authStore state.
+        // Since we can't easily access other stores' state directly in the middle of an action 
+        // with standard Zustand (without 'get' of that store), we'll pass it from the component.
+        
+        if (!userData.email) return // skip if no info provided yet
+
+        try {
+          fetch('/api/leaderboard/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              ...userData,
+              concepts_passed: passedCount,
+              streak: streak.count,
+              opted_in: true
+            })
+          })
+        } catch (err) {
+          console.error('Failed to sync leaderboard', err)
+        }
       },
 
       dismissSupportModal() {
@@ -115,6 +206,37 @@ export const useProgressStore = create(
           if (p.exercise_passed)  summary[domain].passed++
         }
         return summary
+      },
+
+      /**
+       * Returns a list of domains where ALL concepts have been passed.
+       * Also updates completion_dates if a new completion is detected.
+       */
+      getCompletedDomains(concepts) {
+        const { progress, completion_dates } = get()
+        const domains = [...new Set(concepts.map(c => c.domain))]
+        const completed = []
+        const newDates = { ...completion_dates }
+        let changed = false
+
+        for (const d of domains) {
+          const domainConcepts = concepts.filter(c => c.domain === d)
+          const isComplete = domainConcepts.length > 0 && domainConcepts.every(c => progress[c.slug]?.exercise_passed)
+          
+          if (isComplete) {
+            completed.push(d)
+            if (!newDates[d]) {
+              newDates[d] = Date.now()
+              changed = true
+            }
+          }
+        }
+
+        if (changed) {
+          set({ completion_dates: newDates })
+        }
+
+        return completed
       },
     }),
     { name: 'learnblazinglyfast-progress' }

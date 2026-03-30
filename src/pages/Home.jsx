@@ -4,6 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useConceptStore }  from '../store/conceptStore.js'
 import { useProjectStore }  from '../store/projectStore.js'
 import { useProgressStore } from '../store/progressStore.js'
+import { useAuthStore }     from '../store/authStore.js'
+import { generateCertificate } from '../utils/generateCertificate.js'
+import { searchAll } from '../utils/search.js'
+import { getDailyConcept, isDailyHidden, hideDailyForToday } from '../utils/dailyConcept.js'
+import NameModal from '../components/ui/NameModal.jsx'
 
 // ─── domain chip styles (shared across search dropdown + concept rows) ───────
 const DOMAIN_CHIP = {
@@ -71,7 +76,15 @@ export default function Home() {
         </div>
 
         <ConceptSearch />
+
+        <StreakBadge streak={useProgressStore(s => s.streak)} />
       </div>
+
+      <DailyConceptCard 
+        concepts={concepts} 
+        viewedSlugs={useProgressStore(s => Object.keys(s.progress))} 
+        progress={progress}
+      />
 
       {/* ── Progress ── */}
       {total > 0 && (
@@ -98,6 +111,9 @@ export default function Home() {
         />
       )}
 
+      {/* ── Testimonials Strip ── */}
+      <TestimonialsStrip />
+
       {/* ── Featured Projects ── */}
       {featuredProjects.length > 0 && (
         <ProjectSection
@@ -117,6 +133,9 @@ export default function Home() {
         </div>
       )}
 
+      {/* ── Achievements ── */}
+      <AchievementsSection concepts={concepts} />
+
     </div>
   )
 }
@@ -133,16 +152,13 @@ function ConceptSearch() {
   const inputRef  = useRef(null)
 
   const results = useMemo(() => {
-    if (!query.trim()) return []
-    const q = query.toLowerCase()
-    return concepts
-      .filter(c =>
-        c.title.toLowerCase().includes(q) ||
-        c.tags?.some(t => t.toLowerCase().includes(q)) ||
-        c.category.toLowerCase().includes(q)
-      )
-      .slice(0, 8)
-  }, [query, concepts])
+    return searchAll(query)
+  }, [query])
+
+  const flatResults = [
+    ...results.concepts.map(c => ({ ...c, type: 'concept' })),
+    ...results.projects.map(p => ({ ...p, type: 'project' }))
+  ]
 
   // Close on outside click
   useEffect(() => {
@@ -154,7 +170,7 @@ function ConceptSearch() {
   }, [])
 
   function handleKeyDown(e) {
-    if (!open || results.length === 0) {
+    if (!open || flatResults.length === 0) {
       if (e.key === 'Enter' && query.trim()) {
         navigate(`/browse?q=${encodeURIComponent(query.trim())}`)
         setOpen(false)
@@ -163,13 +179,14 @@ function ConceptSearch() {
     }
     if (e.key === 'ArrowDown') {
       e.preventDefault()
-      setSelected(s => (s + 1) % results.length)
+      setSelected(s => (s + 1) % flatResults.length)
     } else if (e.key === 'ArrowUp') {
       e.preventDefault()
-      setSelected(s => (s <= 0 ? results.length - 1 : s - 1))
+      setSelected(s => (s <= 0 ? flatResults.length - 1 : s - 1))
     } else if (e.key === 'Enter') {
-      if (selected >= 0 && results[selected]) {
-        navigate(`/concept/${results[selected].slug}`)
+      if (selected >= 0 && flatResults[selected]) {
+        const item = flatResults[selected]
+        navigate(item.type === 'concept' ? `/concept/${item.slug}` : `/project/${item.slug}`)
         setQuery(''); setOpen(false)
       } else {
         navigate(`/browse?q=${encodeURIComponent(query.trim())}`)
@@ -216,31 +233,47 @@ function ConceptSearch() {
 
       {/* Dropdown */}
       <AnimatePresence>
-        {open && results.length > 0 && (
+        {open && flatResults.length > 0 && (
           <motion.div
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
             transition={{ duration: 0.1 }}
-            className="absolute top-full mt-1.5 w-full bg-surface-800 border border-surface-600 rounded-xl overflow-hidden shadow-2xl z-50"
+            className="absolute top-full mt-1.5 w-full bg-surface-800 border border-surface-600 rounded-xl overflow-hidden shadow-2xl z-50 p-1"
           >
-            {results.map((c, i) => (
-              <button
-                key={c.slug}
-                onMouseDown={() => pick(c.slug)}
-                className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm text-left transition-colors
-                  ${i === selected ? 'bg-surface-700' : 'hover:bg-surface-700'}`}
-              >
-                <span className={`shrink-0 text-xs px-1.5 py-0.5 rounded font-semibold ${DOMAIN_CHIP[c.domain] ?? 'bg-gray-500/25 text-gray-400'}`}>
-                  {c.domain === 'Software Engineering' ? 'SE' : c.domain}
-                </span>
-                <span className="text-gray-100 flex-1 truncate">{c.title}</span>
-                <span className="text-gray-500 text-xs shrink-0">{c.category}</span>
-              </button>
-            ))}
+            {results.concepts.length > 0 && (
+              <div className="mb-1">
+                <div className="px-3 py-1.5 text-[10px] font-bold text-gray-600 uppercase tracking-widest">Concepts</div>
+                {results.concepts.map((c, i) => (
+                  <SearchRow 
+                    key={c.slug}
+                    item={c}
+                    type="concept"
+                    isActive={selected === i}
+                    onClick={() => { navigate(`/concept/${c.slug}`); setQuery(''); setOpen(false); }}
+                  />
+                ))}
+              </div>
+            )}
+
+            {results.projects.length > 0 && (
+              <div className="mt-1 border-t border-surface-700/50 pt-1">
+                <div className="px-3 py-1.5 text-[10px] font-bold text-gray-600 uppercase tracking-widest">Projects</div>
+                {results.projects.map((p, i) => (
+                  <SearchRow 
+                    key={p.slug}
+                    item={p}
+                    type="project"
+                    isActive={selected === (results.concepts.length + i)}
+                    onClick={() => { navigate(`/project/${p.slug}`); setQuery(''); setOpen(false); }}
+                  />
+                ))}
+              </div>
+            )}
+
             <button
               onMouseDown={() => { navigate(`/browse?q=${encodeURIComponent(query.trim())}`); setOpen(false) }}
-              className="w-full px-4 py-2 text-xs text-gray-500 hover:text-gray-300 border-t border-surface-700 text-left transition-colors"
+              className="w-full px-3 py-2 text-xs text-blue-400 hover:text-blue-300 border-t border-surface-700/50 text-left transition-colors font-medium"
             >
               Browse all results for "{query}" →
             </button>
@@ -255,6 +288,32 @@ function ConceptSearch() {
         </p>
       )}
     </div>
+  )
+}
+
+function SearchRow({ item, type, isActive, onClick }) {
+  const isConcept = type === 'concept'
+  return (
+    <button
+      onMouseDown={onClick}
+      className={`w-full flex items-center gap-3 px-3 py-2 rounded-lg text-sm text-left transition-colors
+        ${isActive ? 'bg-surface-700 text-white' : 'text-gray-300 hover:bg-surface-700/50 hover:text-white'}`}
+    >
+      <div className={`shrink-0 w-6 h-6 rounded flex items-center justify-center text-[10px] font-bold
+        ${isConcept ? 'bg-blue-600/20 text-blue-400' : 'bg-purple-600/20 text-purple-400'}`}>
+        {isConcept ? 'C' : 'P'}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center gap-2">
+          <span className="truncate font-medium">{item.title}</span>
+          <span className={`text-[9px] px-1.5 py-0.5 rounded font-bold uppercase tracking-tight
+            ${isConcept ? (DOMAIN_CHIP[item.domain] || 'bg-gray-500/20') : 'bg-purple-600/10 text-purple-400'}`}>
+            {isConcept ? (item.domain === 'Software Engineering' ? 'SE' : item.domain) : item.category}
+          </span>
+        </div>
+      </div>
+      <span className="text-[10px] text-gray-500 shrink-0">{isConcept ? item.category : item.estimated_time}</span>
+    </button>
   )
 }
 
@@ -430,5 +489,296 @@ function ProjectSection({ title, subtitle, projects }) {
         View all projects catalog →
       </Link>
     </section>
+  )
+}
+
+// ─── Testimonials Strip ──────────────────────────────────────────────────────
+
+function TestimonialsStrip() {
+  const [reviews, setReviews] = useState([])
+  const [index, setIndex] = useState(0)
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    async function fetchReviews() {
+      try {
+        const res = await fetch('/api/reviews')
+        if (!res.ok) throw new Error()
+        const data = await res.json()
+        setReviews(data)
+      } catch (err) {
+        console.error('Failed to fetch reviews')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchReviews()
+  }, [])
+
+  useEffect(() => {
+    if (reviews.length <= 3) return
+    const timer = setInterval(() => {
+      setIndex(prev => (prev + 3 >= reviews.length ? 0 : prev + 3))
+    }, 6000)
+    return () => clearInterval(timer)
+  }, [reviews])
+
+  if (loading || reviews.length === 0) return null
+
+  const visible = reviews.slice(index, index + 3)
+
+  return (
+    <section className="space-y-6 py-4">
+      <div className="text-center">
+        <h2 className="text-lg font-bold text-white">What developers are saying</h2>
+        <p className="text-xs text-gray-500">Real feedback from our community</p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <AnimatePresence mode="wait">
+          {visible.map((r, i) => (
+            <motion.div
+              key={r.submitted_at + i}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              transition={{ duration: 0.5, delay: i * 0.1 }}
+            >
+              <TestimonialCard review={r} />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+      
+      {reviews.length > 3 && (
+        <div className="flex justify-center gap-1.5">
+          {Array.from({ length: Math.ceil(reviews.length / 3) }).map((_, i) => (
+            <div 
+              key={i} 
+              className={`h-1 rounded-full transition-all duration-300 ${i === Math.floor(index / 3) ? 'w-4 bg-blue-500' : 'w-1 bg-surface-600'}`} 
+            />
+          ))}
+        </div>
+      )}
+    </section>
+  )
+}
+
+function TestimonialCard({ review }) {
+  const [expanded, setExpanded] = useState(false)
+  const isLong = review.review_text.length > 200
+  const text = !expanded && isLong ? review.review_text.slice(0, 200) + '...' : review.review_text
+
+  return (
+    <div className="bg-surface-800 border border-surface-700 p-5 rounded-xl h-full flex flex-col space-y-4 shadow-xl">
+      <div className="flex gap-0.5 text-yellow-500">
+        {[...Array(5)].map((_, i) => (
+          <span key={i} className="text-xs">★</span>
+        ))}
+      </div>
+
+      <p className="text-sm text-gray-300 italic leading-relaxed flex-1">
+        "{text}"
+        {!expanded && isLong && (
+          <button 
+            onClick={() => setExpanded(true)}
+            className="text-blue-400 hover:text-blue-300 ml-1 text-xs not-italic font-medium"
+          >
+            read more
+          </button>
+        )}
+      </p>
+
+      <div className="pt-4 border-t border-surface-700/50">
+        <div className="font-bold text-sm text-white">{review.first_name}</div>
+        <div className="text-[11px] text-gray-500 uppercase tracking-widest">{review.occupation}</div>
+        <div className="mt-2 text-[10px] text-blue-400 font-medium">
+          Explored {review.concepts_seen_count} concepts
+        </div>
+      </div>
+    </div>
+  )
+}
+
+// ─── Achievements section ────────────────────────────────────────────────────
+
+function AchievementsSection({ concepts }) {
+  const getCompletedDomains = useProgressStore(s => s.getCompletedDomains)
+  const completionDates = useProgressStore(s => s.completion_dates)
+  const userName = useAuthStore(s => s.userName)
+  
+  const completed = getCompletedDomains(concepts)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [pendingDomain, setPendingDomain] = useState(null)
+
+  if (completed.length === 0) return null
+
+  const handleDownload = (domain) => {
+    if (!userName) {
+      setPendingDomain(domain)
+      setModalOpen(true)
+      return
+    }
+    
+    const count = concepts.filter(c => c.domain === domain).length
+    const date = completionDates[domain] || Date.now()
+    generateCertificate(domain, userName, count, date)
+  }
+
+  const handleNameSubmit = (name) => {
+    setModalOpen(false)
+    if (pendingDomain) {
+      const count = concepts.filter(c => c.domain === pendingDomain).length
+      const date = completionDates[pendingDomain] || Date.now()
+      generateCertificate(pendingDomain, name, count, date)
+      setPendingDomain(null)
+    }
+  }
+
+  return (
+    <section className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-sm font-semibold text-gray-200">Your Achievements</h2>
+          <p className="text-xs text-gray-500">Mastery certificates for completed domains</p>
+        </div>
+        <Link to="/certificates" className="text-xs text-blue-400 hover:text-blue-300">
+          View All →
+        </Link>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {completed.map(domain => {
+          const count = concepts.filter(c => c.domain === domain).length
+          const date = completionDates[domain] || Date.now()
+          return (
+            <div key={domain} className="bg-surface-800 border border-surface-700 p-4 rounded-xl flex flex-col gap-3 shadow-lg">
+              <div className="flex justify-between items-start">
+                <div className="flex items-center gap-2">
+                  <span className="text-yellow-400 text-lg">✦</span>
+                  <div className="font-bold text-white text-sm">{domain}</div>
+                </div>
+                <div className="text-[10px] text-gray-500 font-medium">
+                  {new Date(date).toLocaleDateString()}
+                </div>
+              </div>
+              <p className="text-xs text-gray-400">Mastered all {count} concepts</p>
+              <button
+                onClick={() => handleDownload(domain)}
+                className="mt-1 w-full py-2 bg-surface-700 hover:bg-surface-600 text-white rounded-lg text-xs font-bold transition-all border border-surface-600"
+              >
+                Download Certificate
+              </button>
+            </div>
+          )
+        })}
+      </div>
+
+      <NameModal 
+        isOpen={modalOpen} 
+        onSubmit={handleNameSubmit} 
+        onCancel={() => { setModalOpen(false); setPendingDomain(null) }} 
+      />
+    </section>
+  )
+}
+
+// ─── Daily Concept Card ──────────────────────────────────────────────────────
+
+function DailyConceptCard({ concepts, viewedSlugs, progress }) {
+  const [hidden, setHidden] = useState(isDailyHidden())
+  const concept = useMemo(() => getDailyConcept(concepts, viewedSlugs), [concepts, viewedSlugs])
+  const navigate = useNavigate()
+
+  if (!concept || hidden) {
+    if (hidden) {
+      return (
+        <div className="text-center py-4 border border-surface-700/50 rounded-xl bg-surface-800/30">
+          <p className="text-[10px] text-gray-600 uppercase tracking-widest font-bold">See tomorrow's concept after midnight ✺</p>
+        </div>
+      )
+    }
+    return null
+  }
+
+  const prog = progress[concept.slug] ?? {}
+  const isViewed = prog.viewed
+  const DOMAIN_ACCENT = {
+    DSA: 'border-dsa-500',
+    ML: 'border-ml-500',
+    Frontend: 'border-frontend-500',
+    Backend: 'border-backend-500',
+    'Software Engineering': 'border-se-500',
+  }
+
+  const handleSkip = () => {
+    hideDailyForToday()
+    setHidden(true)
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className={`relative bg-surface-800 border border-surface-700 rounded-2xl p-6 shadow-2xl border-l-[6px] ${DOMAIN_ACCENT[concept.domain] || 'border-gray-500'}`}
+    >
+      <div className="flex justify-between items-start mb-4">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-black bg-gray-700 text-gray-300 px-2 py-0.5 rounded tracking-tighter">DAILY CONCEPT</span>
+            <span className="text-[10px] text-gray-500 font-bold">{new Date().toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}</span>
+          </div>
+          <h2 className="text-2xl font-bold text-white tracking-tight flex items-center gap-2 text-left">
+            {concept.title}
+            {isViewed && <span className="text-green-500 text-lg">✓</span>}
+          </h2>
+          <p className="text-gray-400 text-sm italic text-left">"{concept.card.intuition}"</p>
+        </div>
+        <button 
+          onClick={handleSkip}
+          className="text-gray-600 hover:text-gray-400 text-xs font-bold uppercase tracking-widest transition-colors shrink-0 ml-4"
+        >
+          Skip today
+        </button>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-2 mb-6 text-[10px] font-bold uppercase tracking-widest">
+        <span className={`px-2 py-0.5 rounded border ${DOMAIN_CHIP[concept.domain]}`}>{concept.domain}</span>
+        <span className="bg-surface-700 text-gray-400 px-2 py-0.5 rounded border border-surface-600 font-mono tracking-tight">{concept.category}</span>
+        <span className={`px-2 py-0.5 rounded border ${DIFF_STYLE_INNER[concept.difficulty]}`}>{concept.difficulty}</span>
+      </div>
+
+      <button
+        onClick={() => navigate(`/concept/${concept.slug}`)}
+        className={`w-full py-3 rounded-xl font-bold transition-all transform hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2
+          ${isViewed ? 'bg-surface-700 text-gray-300 border border-surface-600 hover:bg-surface-600' : 'bg-white text-black hover:bg-gray-200'}`}
+      >
+        {isViewed ? 'Review again →' : 'Start Learning →'}
+      </button>
+    </motion.div>
+  )
+}
+
+const DIFF_STYLE_INNER = {
+  beginner: 'bg-green-900/10 text-green-400 border-green-800/30',
+  intermediate: 'bg-yellow-900/10 text-yellow-400 border-yellow-800/30',
+  advanced: 'bg-red-900/10 text-red-400 border-red-800/30',
+}
+
+// ─── Streak Badge ────────────────────────────────────────────────────────────
+
+function StreakBadge({ streak }) {
+  if (!streak || streak.count <= 1) return null
+  return (
+    <motion.div 
+      initial={{ scale: 0.9, opacity: 0 }}
+      animate={{ scale: 1, opacity: 1 }}
+      className="flex items-center gap-2 bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/20 px-3 py-1 rounded-full"
+    >
+      <span className="text-sm">🔥</span>
+      <span className="text-[10px] font-black text-orange-400 uppercase tracking-widest">
+        {streak.count} day streak
+      </span>
+    </motion.div>
   )
 }

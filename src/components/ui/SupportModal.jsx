@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { useProgressStore } from '../../store/progressStore.js'
+import { useAuthStore } from '../../store/authStore.js'
 import toast from 'react-hot-toast'
 
 export default function SupportModal() {
   const show = useProgressStore((s) => s.show_support_modal)
   const interacted = useProgressStore((s) => s.interacted_concepts)
   const dismiss = useProgressStore((s) => s.dismissSupportModal)
+  const setUserEmail = useAuthStore((s) => s.setUserEmail)
 
   const [formData, setFormData] = useState({
     name: '',
@@ -18,22 +20,44 @@ export default function SupportModal() {
 
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [wordCount, setWordCount] = useState(0)
+  const [errors, setErrors] = useState({})
+  const [showErrors, setShowErrors] = useState(false)
 
   useEffect(() => {
     const words = formData.review_text.trim().split(/\s+/).filter(w => w.length > 0)
     setWordCount(words.length)
   }, [formData.review_text])
 
-  const isValid = 
+  const validate = () => {
+    const newErrors = {}
+    if (!formData.name.trim()) newErrors.name = 'Name is required'
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required'
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format'
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone is required'
+    } else if (formData.phone.replace(/\D/g, '').length < 10) {
+      newErrors.phone = 'Phone must be at least 10 digits'
+    }
+    if (!formData.occupation.trim()) newErrors.occupation = 'Occupation is required'
+    if (wordCount < 30) newErrors.review = `Minimum 30 words required (${wordCount}/30)`
+    
+    setErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const isValid = wordCount >= 30 && 
     formData.name.trim() && 
-    formData.email.trim() && 
-    formData.phone.trim() && 
-    formData.occupation.trim() && 
-    wordCount >= 10
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) &&
+    formData.phone.replace(/\D/g, '').length >= 10 &&
+    formData.occupation.trim()
 
   async function handleSubmit(e) {
     e.preventDefault()
-    if (!isValid || isSubmitting) return
+    setShowErrors(true)
+    if (!validate() || isSubmitting) return
 
     setIsSubmitting(true)
 
@@ -52,6 +76,7 @@ export default function SupportModal() {
 
       if (!res.ok) throw new Error('Submission failed')
 
+      setUserEmail(formData.email)
       localStorage.setItem('completed_support', 'true')
       toast.success(`Thank you, ${formData.name} — your review means a lot ✦`)
       dismiss()
@@ -84,63 +109,67 @@ export default function SupportModal() {
             <div>
               <label className="block text-sm text-gray-400 mb-1">Full Name</label>
               <input
-                required
                 type="text"
                 placeholder="Your name"
-                className="w-full bg-surface-900 border border-surface-600 focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors"
+                className={`w-full bg-surface-900 border ${errors.name && showErrors ? 'border-red-500' : 'border-surface-600'} focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors`}
                 value={formData.name}
                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
               />
+              {errors.name && showErrors && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
             </div>
 
             <div>
               <label className="block text-sm text-gray-400 mb-1">Email Address</label>
               <input
-                required
                 type="email"
                 placeholder="you@example.com"
-                className="w-full bg-surface-900 border border-surface-600 focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors"
+                className={`w-full bg-surface-900 border ${errors.email && showErrors ? 'border-red-500' : 'border-surface-600'} focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors`}
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               />
+              {errors.email && showErrors && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
             </div>
 
             <div>
               <label className="block text-sm text-gray-400 mb-1">Phone Number</label>
               <input
-                required
                 type="tel"
-                placeholder="+234 xxx xxx xxxx"
-                className="w-full bg-surface-900 border border-surface-600 focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors"
+                placeholder="10+ digits recommended"
+                className={`w-full bg-surface-900 border ${errors.phone && showErrors ? 'border-red-500' : 'border-surface-600'} focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors`}
                 value={formData.phone}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
               />
+              {errors.phone && showErrors && <p className="text-red-500 text-xs mt-1">{errors.phone}</p>}
             </div>
 
             <div>
               <label className="block text-sm text-gray-400 mb-1">Occupation</label>
               <input
-                required
                 type="text"
                 placeholder="e.g. Software Engineer, Student"
-                className="w-full bg-surface-900 border border-surface-600 focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors"
+                className={`w-full bg-surface-900 border ${errors.occupation && showErrors ? 'border-red-500' : 'border-surface-600'} focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors`}
                 value={formData.occupation}
                 onChange={(e) => setFormData({ ...formData, occupation: e.target.value })}
               />
+              {errors.occupation && showErrors && <p className="text-red-500 text-xs mt-1">{errors.occupation}</p>}
             </div>
 
             <div>
               <label className="block text-sm text-gray-400 mb-1">Your Review</label>
               <textarea
-                required
-                placeholder="What were you struggling with before? What clicked after using Learn Blazingly Fast?"
-                className="w-full bg-surface-900 border border-surface-600 focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors min-h-[120px] resize-none"
+                placeholder="What were you struggling with before? What clicked after using Learn Blazingly Fast? (Min 30 words)"
+                className={`w-full bg-surface-900 border ${errors.review && showErrors ? 'border-red-500' : 'border-surface-600'} focus:border-blue-500 outline-none rounded-lg p-3 text-white transition-colors min-h-[120px] resize-none`}
                 value={formData.review_text}
                 onChange={(e) => setFormData({ ...formData, review_text: e.target.value })}
               />
-              <p className={`text-xs mt-1 text-right ${wordCount >= 10 ? 'text-blue-400' : 'text-gray-500'}`}>
-                {wordCount} / 10 words minimum
-              </p>
+              <div className="flex justify-between items-center mt-1">
+                {errors.review && showErrors ? (
+                  <p className="text-red-500 text-xs">{errors.review}</p>
+                ) : <div />}
+                <p className={`text-xs ${wordCount >= 30 ? 'text-blue-400' : 'text-gray-500'}`}>
+                  {wordCount} / 30 words minimum
+                </p>
+              </div>
             </div>
 
             <button
