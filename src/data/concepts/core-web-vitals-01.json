@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "vitals-threshold-matrix",
-      "show_lcp_fid_cls_inp": true,
-      "show_good_needs_improvement_poor": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Navigation",
+          "sub": "User opens page",
+          "annotation": "Browser starts loading — performance timeline begins."
+        },
+        {
+          "label": "LCP",
+          "sub": "Largest paint",
+          "annotation": "Largest Contentful Paint: time until largest image/text visible. Target < 2.5s."
+        },
+        {
+          "label": "FID / INP",
+          "sub": "First input",
+          "annotation": "Interaction to Next Paint: latency of first user interaction. Target < 200ms."
+        },
+        {
+          "label": "CLS",
+          "sub": "Layout shifts",
+          "annotation": "Cumulative Layout Shift: unexpected visual shifts. Target < 0.1."
+        },
+        {
+          "label": "Score",
+          "sub": "Lighthouse audit",
+          "annotation": "Vitals aggregated into performance score. Affects SEO ranking."
+        }
+      ]
     }
   },
   "exercise": {

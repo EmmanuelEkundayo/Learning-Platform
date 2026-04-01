@@ -23,10 +23,38 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "jwt-structure-flow",
-      "show_header_payload_signature": true,
-      "show_verification_logic": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Login",
+          "sub": "POST /auth",
+          "annotation": "Client sends credentials to auth endpoint."
+        },
+        {
+          "label": "Validate",
+          "sub": "Check hash",
+          "annotation": "Server verifies password hash against stored bcrypt hash."
+        },
+        {
+          "label": "Sign JWT",
+          "sub": "header.payload.sig",
+          "annotation": "Server signs JWT with secret (HS256) or private key (RS256). Payload: userId, exp."
+        },
+        {
+          "label": "Return",
+          "sub": "200 + token",
+          "annotation": "Token returned — stored in httpOnly cookie or memory (not localStorage)."
+        },
+        {
+          "label": "Request",
+          "sub": "Authorization: Bearer",
+          "annotation": "Client sends JWT in Authorization header on protected routes."
+        },
+        {
+          "label": "Verify",
+          "sub": "Signature + exp",
+          "annotation": "Server verifies signature and expiry — stateless, no DB lookup."
+        }
+      ]
     }
   },
   "exercise": {

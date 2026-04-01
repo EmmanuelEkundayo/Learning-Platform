@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "contrast-ratio-calc",
-      "show_aa_vs_aaa_thresholds": true,
-      "show_color_blindness_simulation": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Foreground",
+          "sub": "Text colour",
+          "annotation": "Measure foreground colour relative luminance (R,G,B formula)."
+        },
+        {
+          "label": "Background",
+          "sub": "BG colour",
+          "annotation": "Measure background colour relative luminance."
+        },
+        {
+          "label": "Ratio",
+          "sub": "(L1+0.05)/(L2+0.05)",
+          "annotation": "Calculate contrast ratio using WCAG formula."
+        },
+        {
+          "label": "AA check",
+          "sub": "4.5:1 normal",
+          "annotation": "AA standard: 4.5:1 for normal text, 3:1 for large text (18pt+)."
+        },
+        {
+          "label": "AAA check",
+          "sub": "7:1 enhanced",
+          "annotation": "AAA enhanced: 7:1 for normal text. Higher bar for maximum accessibility."
+        }
+      ]
     }
   },
   "exercise": {

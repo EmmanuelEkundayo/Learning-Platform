@@ -24,6 +24,7 @@
   "visualization": {
     "type": "array-pointers",
     "config": {
+      "mode": "binary-search",
       "array_size": 12,
       "sorted": true,
       "show_lo_hi_mid": true,

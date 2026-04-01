@@ -23,10 +23,33 @@
   "visualization": {
     "type": "array-bars",
     "config": {
-      "mode": "process-thread-comparison",
-      "show_shared_memory": true,
-      "show_isolation": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Process",
+          "sub": "OS creates",
+          "annotation": "Process: independent execution unit. Own memory space, file handles."
+        },
+        {
+          "label": "Fork",
+          "sub": "Copy-on-write",
+          "annotation": "fork() creates child process. Memory shared copy-on-write until mutation."
+        },
+        {
+          "label": "Thread",
+          "sub": "Shared memory",
+          "annotation": "Thread: lightweight execution unit within a process. Shares heap with siblings."
+        },
+        {
+          "label": "Context switch",
+          "sub": "Threads cheaper",
+          "annotation": "Thread context switch cheaper than process (no MMU flush)."
+        },
+        {
+          "label": "Hazards",
+          "sub": "Race conditions",
+          "annotation": "Shared memory → race conditions. Use locks, atomics, message passing."
+        }
+      ]
     }
   },
   "exercise": {

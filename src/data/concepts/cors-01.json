@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "cors-preflight",
-      "show_options_request": true,
-      "show_origin_header": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Browser",
+          "items": [
+            "Origin: A"
+          ]
+        },
+        {
+          "label": "Preflight",
+          "items": [
+            "OPTIONS request",
+            "ACAO headers"
+          ]
+        },
+        {
+          "label": "Server",
+          "items": [
+            "Allow list check",
+            "Response headers"
+          ]
+        },
+        {
+          "label": "Actual Request",
+          "items": [
+            "GET / POST",
+            "With CORS headers"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Browser detects cross-origin request and sends OPTIONS preflight."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Preflight asks: can Origin A use method X with headers Y?"
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Server responds with Access-Control-Allow-Origin if origin permitted."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Browser sends actual request only if preflight was approved."
+        }
+      ]
     }
   },
   "exercise": {

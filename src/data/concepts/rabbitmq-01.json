@@ -23,10 +23,56 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rabbitmq-exchange-routing",
-      "show_direct_fanout_topic": true,
-      "show_queue_bindings": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Producer",
+          "items": [
+            "Publish msg"
+          ]
+        },
+        {
+          "label": "Exchange",
+          "items": [
+            "Direct / Topic / Fanout"
+          ]
+        },
+        {
+          "label": "Queue(s)",
+          "items": [
+            "Durable queue",
+            "Bindings"
+          ]
+        },
+        {
+          "label": "Consumer(s)",
+          "items": [
+            "Process",
+            "Ack"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Producer publishes message to an exchange, not directly to a queue."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Exchange routes message to bound queues based on type and routing key."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Queue durably stores messages until consumer acks."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Consumer processes message and sends ack — message deleted on ack."
+        }
+      ]
     }
   },
   "exercise": {

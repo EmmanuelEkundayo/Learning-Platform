@@ -23,10 +23,45 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "proxy-interception-cycle",
-      "show_lazy_instantiation_trigger": true,
-      "show_access_denied_flow": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Calls Subject"
+          ]
+        },
+        {
+          "label": "Proxy",
+          "items": [
+            "Access control",
+            "Caching / Logging"
+          ]
+        },
+        {
+          "label": "Real Subject",
+          "items": [
+            "Actual object"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client holds a reference to the proxy, not the real subject."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Proxy intercepts the call — applies caching, access control, or logging."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Proxy forwards to real subject only when necessary."
+        }
+      ]
     }
   },
   "exercise": {

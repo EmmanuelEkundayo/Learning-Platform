@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "test-execution-flow",
-      "show_mocking_depth": true,
-      "show_environment_realism": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Unit",
+          "sub": "Isolated function",
+          "annotation": "Unit test: single function/class, all dependencies mocked. Fast, cheap."
+        },
+        {
+          "label": "Integration",
+          "sub": "Multiple modules",
+          "annotation": "Integration test: two or more real modules working together (e.g. service + DB)."
+        },
+        {
+          "label": "E2E",
+          "sub": "Full stack",
+          "annotation": "E2E test: real browser + real server + real DB. Slow but highest confidence."
+        },
+        {
+          "label": "Trade-offs",
+          "sub": "Speed vs coverage",
+          "annotation": "Units fast but miss integration bugs. E2E catches most bugs but expensive."
+        },
+        {
+          "label": "Pyramid",
+          "sub": "70 / 20 / 10",
+          "annotation": "Aim for ~70% unit, ~20% integration, ~10% E2E by test count."
+        }
+      ]
     }
   },
   "exercise": {

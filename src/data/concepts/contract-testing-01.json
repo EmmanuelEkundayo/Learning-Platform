@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "contract-pact-lifecycle",
-      "show_consumer_expectation_recording": true,
-      "show_provider_verification_replay": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Consumer",
+          "sub": "Define contract",
+          "annotation": "Consumer writes contract: \"I expect endpoint X to return shape Y\"."
+        },
+        {
+          "label": "Pact file",
+          "sub": "Publish",
+          "annotation": "Contract (pact file) published to Pact Broker."
+        },
+        {
+          "label": "Provider",
+          "sub": "Verify contract",
+          "annotation": "Provider CI downloads and runs verification against the contract."
+        },
+        {
+          "label": "Pass / Fail",
+          "sub": "CI gate",
+          "annotation": "Provider fails CI if it can't satisfy the consumer contract."
+        },
+        {
+          "label": "Deploy",
+          "sub": "Can-I-Deploy",
+          "annotation": "Both sides check Pact Broker compatibility before deploying."
+        }
+      ]
     }
   },
   "exercise": {

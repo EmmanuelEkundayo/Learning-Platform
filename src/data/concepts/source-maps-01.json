@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "minified-to-original-trace",
-      "show_sourcemap_lookup_index": true,
-      "show_devtools_reconstruction": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Source",
+          "sub": "TypeScript / JSX",
+          "annotation": "Original source written in TypeScript, JSX, or other transpiled language."
+        },
+        {
+          "label": "Compile",
+          "sub": "Transpile + bundle",
+          "annotation": "Build tool transpiles and bundles — output is minified JS."
+        },
+        {
+          "label": "Source map",
+          "sub": ".map file",
+          "annotation": "Source map file generated: maps minified positions to original file:line."
+        },
+        {
+          "label": "Browser",
+          "sub": "DevTools loads map",
+          "annotation": "Browser DevTools loads source map — shows original source in debugger."
+        },
+        {
+          "label": "Error",
+          "sub": "Mapped stack trace",
+          "annotation": "Runtime error stack trace mapped to original file and line number."
+        }
+      ]
     }
   },
   "exercise": {

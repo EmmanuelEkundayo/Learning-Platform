@@ -6,45 +6,12 @@ import { useInterval } from '../../hooks/useInterval.js'
 const SPEED_MS = { 0.5: 1600, 1: 800, 1.5: 533, 2: 400, 3: 267 }
 const DEFAULT_ARRAY  = [2, 5, 8, 12, 16, 23, 38, 45, 56, 72, 91, 99]
 const DEFAULT_TARGET = 23
-
-function generateSteps(arr, target) {
-  const steps = []
-  let lo = 0, hi = arr.length - 1
-
-  steps.push({
-    lo, hi, mid: null, found: false, done: false,
-    annotation: `Search for ${target} in sorted array of ${arr.length} elements. lo=0, hi=${hi}.`,
-  })
-
-  while (lo <= hi) {
-    const mid = lo + Math.floor((hi - lo) / 2)
-    if (arr[mid] === target) {
-      steps.push({ lo, hi, mid, found: true, done: true,
-        annotation: `arr[${mid}] = ${arr[mid]} == ${target} ✓  Found at index ${mid}!` })
-      break
-    } else if (arr[mid] < target) {
-      steps.push({ lo, hi, mid, found: false, done: false,
-        annotation: `arr[${mid}]=${arr[mid]} < ${target} → search right half. lo = mid+1 = ${mid + 1}` })
-      lo = mid + 1
-    } else {
-      steps.push({ lo, hi, mid, found: false, done: false,
-        annotation: `arr[${mid}]=${arr[mid]} > ${target} → search left half. hi = mid-1 = ${mid - 1}` })
-      hi = mid - 1
-    }
-  }
-
-  if (lo > hi) {
-    steps.push({ lo, hi, mid: null, found: false, done: true,
-      annotation: `lo (${lo}) > hi (${hi}) — ${target} not in array. Return -1.` })
-  }
-
-  return steps
-}
+import { getSteps } from '../../utils/algorithms/registry.js'
 
 export default function ArrayPointers({ config = {} }) {
   const arr    = DEFAULT_ARRAY
   const target = DEFAULT_TARGET
-  const steps  = useMemo(() => generateSteps(arr, target), [])
+  const steps  = useMemo(() => getSteps('search', config.mode, arr, target), [arr, target, config.mode])
 
   const [step,    setStep]    = useState(0)
   const [playing, setPlaying] = useState(false)

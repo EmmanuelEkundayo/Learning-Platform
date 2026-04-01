@@ -23,10 +23,49 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "round-robin-routing",
-      "show_server_health_checks": true,
-      "show_traffic_distribution": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Clients",
+          "items": [
+            "User 1",
+            "User 2",
+            "User 3"
+          ]
+        },
+        {
+          "label": "Load Balancer",
+          "items": [
+            "Algorithm",
+            "Health checks"
+          ]
+        },
+        {
+          "label": "Server Pool",
+          "items": [
+            "Server A",
+            "Server B",
+            "Server C"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "All client traffic arrives at the load balancer."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "LB applies algorithm (round-robin, least-conn, IP-hash) and checks health."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Request forwarded to a healthy server. Failed servers removed automatically."
+        }
+      ]
     }
   },
   "exercise": {

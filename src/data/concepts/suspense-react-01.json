@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "suspense-waterfall-fix",
-      "show_fallback_transition": true,
-      "show_data_resolution": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Render",
+          "sub": "Component tree",
+          "annotation": "React renders the component tree."
+        },
+        {
+          "label": "Suspend",
+          "sub": "Promise thrown",
+          "annotation": "Suspending component throws a Promise (data not ready yet)."
+        },
+        {
+          "label": "Boundary",
+          "sub": "Nearest Suspense",
+          "annotation": "React catches the thrown Promise at the nearest Suspense boundary."
+        },
+        {
+          "label": "Fallback",
+          "sub": "Show spinner",
+          "annotation": "Suspense renders the fallback (spinner/skeleton) while promise is pending."
+        },
+        {
+          "label": "Resolve",
+          "sub": "Re-render",
+          "annotation": "Promise resolves — React re-renders the boundary with actual content."
+        }
+      ]
     }
   },
   "exercise": {

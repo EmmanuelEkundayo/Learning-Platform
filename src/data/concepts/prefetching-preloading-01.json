@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "priority-resource-loading",
-      "show_preloader_vs_prefetcher": true,
-      "show_network_idle_trigger": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Analyse",
+          "sub": "Critical resources",
+          "annotation": "Identify render-critical resources: fonts, hero image, key scripts."
+        },
+        {
+          "label": "Preload",
+          "sub": "<link rel=preload>",
+          "annotation": "Preload: fetch high-priority resource early — same page, critical path."
+        },
+        {
+          "label": "Prefetch",
+          "sub": "<link rel=prefetch>",
+          "annotation": "Prefetch: fetch likely-needed next-page resource during idle time."
+        },
+        {
+          "label": "DNS prefetch",
+          "sub": "Resolve early",
+          "annotation": "dns-prefetch resolves third-party hostnames before they're needed."
+        },
+        {
+          "label": "Preconnect",
+          "sub": "TCP + TLS early",
+          "annotation": "preconnect opens TCP + TLS to origin before the request is made."
+        }
+      ]
     }
   },
   "exercise": {

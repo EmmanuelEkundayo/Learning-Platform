@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "random-input-fuzzing-flow",
-      "show_counterexample_shrinking": true,
-      "show_invariant_verification_loop": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Define",
+          "sub": "Property spec",
+          "annotation": "Define a property that must hold for ALL inputs: e.g. sort(x).length === x.length."
+        },
+        {
+          "label": "Generate",
+          "sub": "Random inputs",
+          "annotation": "Framework generates hundreds of random inputs satisfying type constraints."
+        },
+        {
+          "label": "Run",
+          "sub": "Test each input",
+          "annotation": "Property tested against every generated input."
+        },
+        {
+          "label": "Shrink",
+          "sub": "Minimal failing case",
+          "annotation": "On failure, framework shrinks input to minimal failing example."
+        },
+        {
+          "label": "Fix",
+          "sub": "Edge case found",
+          "annotation": "Edge case surfaced. Fix the implementation. Add the case to regression suite."
+        }
+      ]
     }
   },
   "exercise": {

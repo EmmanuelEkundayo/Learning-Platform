@@ -23,10 +23,56 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "oauth2-auth-code-flow",
-      "show_redirects": true,
-      "show_access_token_exchange": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "User",
+          "items": [
+            "Browser"
+          ]
+        },
+        {
+          "label": "Client App",
+          "items": [
+            "Frontend",
+            "Backend"
+          ]
+        },
+        {
+          "label": "Auth Server",
+          "items": [
+            "Authorize endpoint",
+            "Token endpoint"
+          ]
+        },
+        {
+          "label": "Resource Server",
+          "items": [
+            "Protected API"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "User clicks \"Login with Google\" — client redirects to auth server."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "User authenticates and grants permissions on auth server consent screen."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Auth server issues access token (+ refresh token) to client backend."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Client sends Bearer token to resource server. Server validates and responds."
+        }
+      ]
     }
   },
   "exercise": {

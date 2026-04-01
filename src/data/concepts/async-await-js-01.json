@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "yield-resume-flow",
-      "show_generator_transform": true,
-      "show_microtask_suspension": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Call async fn",
+          "sub": "Invoked",
+          "annotation": "Calling an async function starts execution synchronously until first await."
+        },
+        {
+          "label": "await fetch()",
+          "sub": "Suspend",
+          "annotation": "Execution suspends — event loop is freed for other tasks."
+        },
+        {
+          "label": "Network I/O",
+          "sub": "Web API",
+          "annotation": "Browser handles the network request in background thread."
+        },
+        {
+          "label": "Response ready",
+          "sub": "Promise resolves",
+          "annotation": "Response arrives — continuation queued as microtask."
+        },
+        {
+          "label": "Resume",
+          "sub": "data = res.json()",
+          "annotation": "Async function resumes, parses response, continues normally."
+        }
+      ]
     }
   },
   "exercise": {

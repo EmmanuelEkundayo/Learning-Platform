@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "chaos-test-execution",
-      "show_injection_vs_recovery_metrics": true,
-      "show_steady_state_monitoring": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Baseline",
+          "sub": "Steady state",
+          "annotation": "Measure normal system behaviour — define steady-state hypothesis."
+        },
+        {
+          "label": "Hypothesis",
+          "sub": "What survives?",
+          "annotation": "State what should remain true when failures are introduced."
+        },
+        {
+          "label": "Inject Fault",
+          "sub": "Kill instance",
+          "annotation": "Inject failure: kill a pod, add latency, cut a network link."
+        },
+        {
+          "label": "Observe",
+          "sub": "Metrics/logs",
+          "annotation": "Watch metrics — does the system degrade gracefully?"
+        },
+        {
+          "label": "Learn",
+          "sub": "Fix weak point",
+          "annotation": "Hypothesis validated or broken. Fix found weakness, re-run."
+        }
+      ]
     }
   },
   "exercise": {

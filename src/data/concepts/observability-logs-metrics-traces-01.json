@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "observability-data-correllation",
-      "show_logs_to_metrics_agg": true,
-      "show_trace_id_linkage": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Request",
+          "sub": "Enters system",
+          "annotation": "HTTP request hits service A."
+        },
+        {
+          "label": "Logs",
+          "sub": "Structured events",
+          "annotation": "Service logs structured events: level, message, context, trace-id."
+        },
+        {
+          "label": "Metrics",
+          "sub": "Counters/histograms",
+          "annotation": "Service increments counters, records histogram latencies (Prometheus)."
+        },
+        {
+          "label": "Trace",
+          "sub": "Span created",
+          "annotation": "Distributed trace span created. Propagated to service B via headers."
+        },
+        {
+          "label": "Correlate",
+          "sub": "Trace-id",
+          "annotation": "trace-id ties logs + spans + metrics together for a single request."
+        }
+      ]
     }
   },
   "exercise": {

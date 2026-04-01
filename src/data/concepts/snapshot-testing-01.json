@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "code-mismatch-diff",
-      "show_html_structure_diff": true,
-      "show_update_baseline_workflow": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "First run",
+          "sub": "Snapshot created",
+          "annotation": "First test run: render component, serialize output, save to .snap file."
+        },
+        {
+          "label": "Next run",
+          "sub": "Compare snapshot",
+          "annotation": "Subsequent runs: render component, compare to saved snapshot."
+        },
+        {
+          "label": "Match",
+          "sub": "Test passes",
+          "annotation": "Output matches snapshot — component unchanged."
+        },
+        {
+          "label": "Mismatch",
+          "sub": "Test fails",
+          "annotation": "Output differs — intentional change or regression?"
+        },
+        {
+          "label": "Update",
+          "sub": "jest --updateSnapshot",
+          "annotation": "Intentional change: update snapshot. Regression: fix the bug."
+        }
+      ]
     }
   },
   "exercise": {

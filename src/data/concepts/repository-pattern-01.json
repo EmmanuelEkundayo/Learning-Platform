@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "repository-abstraction",
-      "show_controller_to_repo_to_db": true,
-      "show_data_mapping": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Service",
+          "sub": "Calls repo",
+          "annotation": "Business logic calls repository interface: repo.findById(id)."
+        },
+        {
+          "label": "Repo interface",
+          "sub": "Abstraction",
+          "annotation": "Repository interface hides data access details from the service."
+        },
+        {
+          "label": "Concrete repo",
+          "sub": "DB queries",
+          "annotation": "Concrete implementation translates calls to SQL/ORM queries."
+        },
+        {
+          "label": "Return domain",
+          "sub": "Domain objects",
+          "annotation": "Raw DB rows mapped to domain entities before returning."
+        },
+        {
+          "label": "Test swap",
+          "sub": "In-memory repo",
+          "annotation": "Tests inject in-memory repository — no real DB needed."
+        }
+      ]
     }
   },
   "exercise": {

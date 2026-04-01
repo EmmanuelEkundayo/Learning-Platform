@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "font-display-modes",
-      "show_fout_vs_foit": true,
-      "show_subsetting_impact": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Discover",
+          "sub": "CSS @font-face",
+          "annotation": "Browser parses @font-face — font not downloaded yet (lazy)."
+        },
+        {
+          "label": "FOIT/FOUT",
+          "sub": "Text renders",
+          "annotation": "Font loading delay causes invisible text (FOIT) or fallback swap (FOUT)."
+        },
+        {
+          "label": "Preload",
+          "sub": "<link rel=preload>",
+          "annotation": "Preloading font hints browser to fetch early — reduces FOIT."
+        },
+        {
+          "label": "Subsetting",
+          "sub": "unicode-range",
+          "annotation": "Only load glyphs needed for the page language — smaller file."
+        },
+        {
+          "label": "font-display",
+          "sub": "swap strategy",
+          "annotation": "font-display: swap shows fallback immediately, swaps when ready."
+        }
+      ]
     }
   },
   "exercise": {

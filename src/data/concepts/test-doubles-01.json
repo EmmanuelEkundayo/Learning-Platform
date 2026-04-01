@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "test-double-taxonomy",
-      "show_stub_vs_mock_vs_fake": true,
-      "show_interaction_verification_flow": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Identify",
+          "sub": "Collaborator",
+          "annotation": "Identify which collaborator to replace: DB, email, external API."
+        },
+        {
+          "label": "Dummy",
+          "sub": "Never called",
+          "annotation": "Dummy: passed but never used — satisfies parameter signature."
+        },
+        {
+          "label": "Stub",
+          "sub": "Fixed return",
+          "annotation": "Stub: returns preset value. Use when you need a specific response."
+        },
+        {
+          "label": "Mock",
+          "sub": "Behaviour verify",
+          "annotation": "Mock: records calls — assert it was called with correct args."
+        },
+        {
+          "label": "Fake",
+          "sub": "Working impl",
+          "annotation": "Fake: simplified working implementation, e.g. in-memory DB."
+        }
+      ]
     }
   },
   "exercise": {

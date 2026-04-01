@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "version-increment-scenarios",
-      "show_breaking_change_bump": true,
-      "show_backwards_compatibility_rules": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "MAJOR",
+          "sub": "Breaking change",
+          "annotation": "Bump MAJOR (1.x.x → 2.0.0) for breaking API changes."
+        },
+        {
+          "label": "MINOR",
+          "sub": "New feature",
+          "annotation": "Bump MINOR (x.1.x → x.2.0) for backward-compatible new features."
+        },
+        {
+          "label": "PATCH",
+          "sub": "Bug fix",
+          "annotation": "Bump PATCH (x.x.1 → x.x.2) for backward-compatible bug fixes."
+        },
+        {
+          "label": "Pre-release",
+          "sub": "1.0.0-beta.1",
+          "annotation": "Pre-release tags: alpha, beta, rc — lower precedence than release."
+        },
+        {
+          "label": "Range",
+          "sub": "^1.2.3 ~1.2.3",
+          "annotation": "^ allows minor+patch updates. ~ allows only patch updates. = pins exact."
+        }
+      ]
     }
   },
   "exercise": {

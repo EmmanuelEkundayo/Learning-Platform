@@ -23,10 +23,63 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "gateway-routing",
-      "show_aggregated_response": true,
-      "show_security_layer": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Clients",
+          "items": [
+            "Browser",
+            "Mobile",
+            "CLI"
+          ]
+        },
+        {
+          "label": "Gateway",
+          "items": [
+            "Auth",
+            "Rate Limit",
+            "Router",
+            "SSL Term"
+          ]
+        },
+        {
+          "label": "Services",
+          "items": [
+            "User Svc",
+            "Order Svc",
+            "Payment Svc"
+          ]
+        },
+        {
+          "label": "Data",
+          "items": [
+            "PostgreSQL",
+            "Redis",
+            "S3"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client sends request to single gateway entry point."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Gateway authenticates, rate-limits, and routes to correct service."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Microservice handles domain logic."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Service reads/writes its own data store."
+        }
+      ]
     }
   },
   "exercise": {

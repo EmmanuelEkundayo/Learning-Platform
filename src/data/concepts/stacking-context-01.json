@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "z-index-resolution-tree",
-      "show_context_creation_triggers": true,
-      "show_local_vs_global_stacking": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Triggers",
+          "sub": "position + z-index",
+          "annotation": "Stacking context created by: position+z-index, opacity<1, transform, filter."
+        },
+        {
+          "label": "Local order",
+          "sub": "Within context",
+          "annotation": "z-index only competes within the same stacking context — not globally."
+        },
+        {
+          "label": "Paint order",
+          "sub": "7-step rule",
+          "annotation": "Background → negative z → block flow → floats → inline → z=0 → positive z."
+        },
+        {
+          "label": "Isolation",
+          "sub": "isolation: isolate",
+          "annotation": "isolation: isolate forces a new context — prevents z-index fights with other layers."
+        },
+        {
+          "label": "Debug",
+          "sub": "Layers panel",
+          "annotation": "Chrome DevTools Layers panel visualises each stacking context as a layer."
+        }
+      ]
     }
   },
   "exercise": {

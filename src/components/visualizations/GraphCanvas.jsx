@@ -4,11 +4,11 @@ import { motion, AnimatePresence } from 'framer-motion'
 import StepControls from './StepControls.jsx'
 import { useInterval } from '../../hooks/useInterval.js'
 import {
-  generateBfsSteps,
+  getSteps,
   DEFAULT_GRAPH_NODES,
   DEFAULT_GRAPH_EDGES,
   DEFAULT_GRAPH_ADJACENCY,
-} from '../../utils/algorithms/bfsSteps.js'
+} from '../../utils/algorithms/registry.js'
 
 // ─── colour palette ──────────────────────────────────────────────────────────
 const C = {
@@ -43,7 +43,7 @@ export default function GraphCanvas({ config = {}, data }) {
   const directed   = config.directed ?? false
 
   // ── steps ──────────────────────────────────────────────────────────────
-  const steps = useMemo(() => generateBfsSteps(adjacency, startNode), [adjacency, startNode])
+  const steps = useMemo(() => getSteps('graph', config.mode, adjacency, startNode), [adjacency, startNode, config.mode])
 
   const [step,    setStep]    = useState(0)
   const [playing, setPlaying] = useState(false)

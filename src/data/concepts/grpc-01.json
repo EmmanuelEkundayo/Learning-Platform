@@ -23,10 +23,47 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rpc-flow",
-      "show_protobuff_serialization": true,
-      "show_binary_transfer": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Stub (generated)",
+            "Proto types"
+          ]
+        },
+        {
+          "label": "gRPC Channel",
+          "items": [
+            "HTTP/2",
+            "Binary frames"
+          ]
+        },
+        {
+          "label": "Server",
+          "items": [
+            "Service impl",
+            "Proto handler"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client uses generated stub — calls look like local function calls."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Request serialised to Protobuf binary, sent over HTTP/2 multiplexed stream."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Server deserialises, runs handler, returns typed Protobuf response."
+        }
+      ]
     }
   },
   "exercise": {

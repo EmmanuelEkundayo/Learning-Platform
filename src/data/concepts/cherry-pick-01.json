@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "commit-extraction-flow",
-      "show_hash_change_warning": true,
-      "show_target_branch_integration": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Find Commit",
+          "sub": "git log",
+          "annotation": "Identify the commit hash to cherry-pick from another branch."
+        },
+        {
+          "label": "Switch Branch",
+          "sub": "git checkout",
+          "annotation": "Switch to the target branch that needs the change."
+        },
+        {
+          "label": "Cherry-pick",
+          "sub": "git cherry-pick <hash>",
+          "annotation": "Apply only that commit's diff onto the current branch."
+        },
+        {
+          "label": "Conflicts?",
+          "sub": "Resolve if any",
+          "annotation": "Resolve any merge conflicts introduced by the isolated patch."
+        },
+        {
+          "label": "New Commit",
+          "sub": "Different SHA",
+          "annotation": "New commit created with same changes but different parent — new SHA."
+        }
+      ]
     }
   },
   "exercise": {

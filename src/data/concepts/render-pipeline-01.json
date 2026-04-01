@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "render-steps-flow",
-      "show_dom_cssom_merge": true,
-      "show_layout_paint_composite": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Parse",
+          "sub": "HTML + CSS",
+          "annotation": "Browser parses HTML → DOM. CSS → CSSOM."
+        },
+        {
+          "label": "Render tree",
+          "sub": "Merge",
+          "annotation": "DOM + CSSOM merged into render tree (only visible nodes)."
+        },
+        {
+          "label": "Layout",
+          "sub": "Geometry",
+          "annotation": "Layout (reflow): compute exact position and size of each box."
+        },
+        {
+          "label": "Paint",
+          "sub": "Draw calls",
+          "annotation": "Paint: generate draw calls per layer (background, border, text)."
+        },
+        {
+          "label": "Composite",
+          "sub": "GPU assembly",
+          "annotation": "Compositor assembles layers on GPU and displays frame."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rest-naming-conventions",
-      "show_verb_resource_mapping": true,
-      "show_pluralization_rule": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Resources",
+          "sub": "Noun URIs",
+          "annotation": "URIs identify resources (nouns): /users/:id, /posts/:id/comments."
+        },
+        {
+          "label": "HTTP verbs",
+          "sub": "GET POST PUT DELETE",
+          "annotation": "HTTP methods express intent: GET=read, POST=create, PUT=replace, PATCH=update, DELETE=remove."
+        },
+        {
+          "label": "Status codes",
+          "sub": "Semantic response",
+          "annotation": "200 OK, 201 Created, 400 Bad Request, 404 Not Found, 409 Conflict."
+        },
+        {
+          "label": "HATEOAS",
+          "sub": "Links in response",
+          "annotation": "Response includes links to related actions — client discovers API dynamically."
+        },
+        {
+          "label": "Versioning",
+          "sub": "/v1/ prefix",
+          "annotation": "Version in URL or header — never break existing clients."
+        }
+      ]
     }
   },
   "exercise": {

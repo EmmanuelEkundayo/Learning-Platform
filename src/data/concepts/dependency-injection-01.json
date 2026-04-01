@@ -23,10 +23,48 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "di-container-flow",
-      "show_dependency_graph": true,
-      "show_inversion_of_control": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "DI Container",
+          "items": [
+            "Bindings",
+            "Lifecycle"
+          ]
+        },
+        {
+          "label": "Injected Into",
+          "items": [
+            "Controller",
+            "Service"
+          ]
+        },
+        {
+          "label": "Dependencies",
+          "items": [
+            "DB Repo",
+            "Email Svc",
+            "Logger"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "DI container holds bindings: interface → implementation."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Container injects resolved dependencies into consumer constructors."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Dependencies are concrete implementations — swappable for tests."
+        }
+      ]
     }
   },
   "exercise": {

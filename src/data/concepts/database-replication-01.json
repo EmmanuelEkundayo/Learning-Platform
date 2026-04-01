@@ -23,10 +23,47 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "leader-follower-flow",
-      "show_replication_lag": true,
-      "show_failover": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "App",
+          "items": [
+            "Write → Primary",
+            "Read → Replica"
+          ]
+        },
+        {
+          "label": "Primary",
+          "items": [
+            "Writes",
+            "WAL / binlog"
+          ]
+        },
+        {
+          "label": "Replica(s)",
+          "items": [
+            "Async / Sync copy",
+            "Read-only"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "App routes writes to primary, reads to replicas."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Primary commits write and appends to Write-Ahead Log."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Replicas stream and apply log entries — slight replication lag."
+        }
+      ]
     }
   },
   "exercise": {

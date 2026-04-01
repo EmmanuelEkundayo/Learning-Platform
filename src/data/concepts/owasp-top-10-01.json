@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "risk-impact-matrix",
-      "show_vulnerability_categories": true,
-      "show_severity_labels": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Input",
+          "sub": "Untrusted data",
+          "annotation": "All external input is untrusted: headers, body, cookies, query strings."
+        },
+        {
+          "label": "Injection",
+          "sub": "Parameterise",
+          "annotation": "A03 Injection: use parameterised queries, never string-concatenate SQL."
+        },
+        {
+          "label": "Auth",
+          "sub": "Strong sessions",
+          "annotation": "A07 Auth failures: bcrypt passwords, httpOnly cookies, MFA."
+        },
+        {
+          "label": "XSS",
+          "sub": "Encode output",
+          "annotation": "A03 XSS: HTML-encode output, CSP headers, avoid innerHTML."
+        },
+        {
+          "label": "Logging",
+          "sub": "Monitor anomalies",
+          "annotation": "A09 Logging failures: log all auth events, alert on anomalies."
+        }
+      ]
     }
   },
   "exercise": {

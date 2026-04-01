@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "reflow-trigger-comparison",
-      "show_geometrical_changes": true,
-      "show_visual_only_changes": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "DOM change",
+          "sub": "Style / layout",
+          "annotation": "JavaScript changes element style or DOM structure."
+        },
+        {
+          "label": "Recalc styles",
+          "sub": "Cascade",
+          "annotation": "Browser recalculates computed styles for affected elements."
+        },
+        {
+          "label": "Reflow",
+          "sub": "Layout pass",
+          "annotation": "Reflow: geometry recalculated — position, size. Expensive, propagates up."
+        },
+        {
+          "label": "Repaint",
+          "sub": "Pixels drawn",
+          "annotation": "Repaint: visual update without layout change (color, shadow). Cheaper."
+        },
+        {
+          "label": "Composite",
+          "sub": "GPU layer",
+          "annotation": "transform/opacity changes skip reflow+repaint — handled by compositor."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,70 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "ports-and-adapters-topology",
-      "show_driving_vs_driven_sides": true,
-      "show_adapter_plug_anim": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Driving Adapters",
+          "items": [
+            "HTTP Controller",
+            "CLI",
+            "Test"
+          ]
+        },
+        {
+          "label": "Input Ports",
+          "items": [
+            "Use case interfaces"
+          ]
+        },
+        {
+          "label": "Domain Core",
+          "items": [
+            "Business logic",
+            "Entities"
+          ]
+        },
+        {
+          "label": "Output Ports",
+          "items": [
+            "Repo interface",
+            "Event interface"
+          ]
+        },
+        {
+          "label": "Driven Adapters",
+          "items": [
+            "PostgreSQL",
+            "Kafka",
+            "SMTP"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Driving adapters (HTTP, CLI) trigger application use cases."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Input ports: interfaces defining what the application offers."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Domain core: pure business logic, no framework or I/O dependencies."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Output ports: interfaces the domain needs (repo, events)."
+        },
+        {
+          "active_layer": 4,
+          "annotation": "Driven adapters implement output ports — swappable without touching domain."
+        }
+      ]
     }
   },
   "exercise": {

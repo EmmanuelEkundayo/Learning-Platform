@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "tab-index-traversal-map",
-      "show_focus_trapping_boundaries": true,
-      "show_custom_key_mapping": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Tab order",
+          "sub": "DOM order",
+          "annotation": "Tab key moves focus through interactive elements in DOM order."
+        },
+        {
+          "label": "Focus ring",
+          "sub": ":focus-visible",
+          "annotation": "Focused element shows visible focus indicator via :focus-visible."
+        },
+        {
+          "label": "Trap focus",
+          "sub": "Modal / dialog",
+          "annotation": "Dialog traps focus inside — Tab wraps, Escape closes."
+        },
+        {
+          "label": "Arrow keys",
+          "sub": "Widget roles",
+          "annotation": "Composite widgets (menu, tabs) handle arrow keys internally per ARIA pattern."
+        },
+        {
+          "label": "Skip links",
+          "sub": "Bypass blocks",
+          "annotation": "\"Skip to main\" link lets keyboard users bypass repeated navigation."
+        }
+      ]
     }
   },
   "exercise": {

@@ -24,10 +24,74 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "middleware-onion",
-      "show_next_chain": true,
-      "show_short_circuit": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Request",
+          "items": [
+            "HTTP req"
+          ]
+        },
+        {
+          "label": "MW 1",
+          "items": [
+            "Logger"
+          ]
+        },
+        {
+          "label": "MW 2",
+          "items": [
+            "Auth"
+          ]
+        },
+        {
+          "label": "MW 3",
+          "items": [
+            "Rate Limit"
+          ]
+        },
+        {
+          "label": "Handler",
+          "items": [
+            "Business logic"
+          ]
+        },
+        {
+          "label": "Response",
+          "items": [
+            "HTTP res"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Request enters middleware chain."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Logger MW records request details, calls next()."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Auth MW validates JWT, calls next() or returns 401."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Rate Limit MW checks quota, calls next() or returns 429."
+        },
+        {
+          "active_layer": 4,
+          "annotation": "Handler processes business logic and sends response."
+        },
+        {
+          "active_layer": 5,
+          "annotation": "Response flows back through middleware for post-processing."
+        }
+      ]
     }
   },
   "exercise": {

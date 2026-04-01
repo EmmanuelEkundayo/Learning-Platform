@@ -23,10 +23,28 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "lazy-vs-eager-waterfall",
-      "show_network_roundtrips": true,
-      "show_memory_usage": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Eager Load",
+          "sub": "All upfront",
+          "annotation": "Eager: load all data/modules at startup. Fast after — slow initial."
+        },
+        {
+          "label": "Lazy Load",
+          "sub": "On demand",
+          "annotation": "Lazy: load data/module only when first needed. Faster startup."
+        },
+        {
+          "label": "Trade-off",
+          "sub": "First access latency",
+          "annotation": "Lazy introduces latency on first access. Eager wastes resources for unused items."
+        },
+        {
+          "label": "Hybrid",
+          "sub": "Prefetch idle",
+          "annotation": "Best practice: lazy load + prefetch during idle time for likely-needed items."
+        }
+      ]
     }
   },
   "exercise": {

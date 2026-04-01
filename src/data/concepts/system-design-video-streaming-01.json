@@ -23,10 +23,56 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "video-ingestion-pipeline",
-      "show_transcoding_workers": true,
-      "show_cdn_edge_caching": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Upload",
+          "items": [
+            "Raw video file"
+          ]
+        },
+        {
+          "label": "Transcoding",
+          "items": [
+            "FFmpeg workers",
+            "360p/720p/1080p"
+          ]
+        },
+        {
+          "label": "CDN",
+          "items": [
+            "Edge PoPs",
+            "HLS segments"
+          ]
+        },
+        {
+          "label": "Player",
+          "items": [
+            "Adaptive bitrate"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "User uploads raw video to object storage."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Transcoding pipeline generates multiple resolutions and HLS/DASH segments."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Segments pushed to CDN edge nodes close to users."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Player uses adaptive bitrate — switches quality based on bandwidth."
+        }
+      ]
     }
   },
   "exercise": {

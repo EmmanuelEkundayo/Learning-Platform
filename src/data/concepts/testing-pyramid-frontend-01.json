@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "testing-pyramid-layers",
-      "show_speed_vs_cost": true,
-      "show_typical_quantities": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Unit tests",
+          "sub": "Many — fast",
+          "annotation": "Unit tests: test single functions/hooks in isolation. Hundreds, milliseconds."
+        },
+        {
+          "label": "Component",
+          "sub": "RTL render",
+          "annotation": "Component tests: render in jsdom, interact, assert on DOM. Dozens."
+        },
+        {
+          "label": "Integration",
+          "sub": "API + UI",
+          "annotation": "Integration tests: frontend + mock API. Validate flows end-to-end."
+        },
+        {
+          "label": "E2E",
+          "sub": "Few — slow",
+          "annotation": "E2E (Playwright/Cypress): real browser, real server. Few, minutes."
+        },
+        {
+          "label": "Balance",
+          "sub": "Pyramid shape",
+          "annotation": "More units, fewer E2E. E2E are fragile and slow — use sparingly."
+        }
+      ]
     }
   },
   "exercise": {

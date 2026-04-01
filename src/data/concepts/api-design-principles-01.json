@@ -23,10 +23,60 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "api-request-consistency-check",
-      "show_naming_conventions": true,
-      "show_meaningful_error_codes": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Browser",
+            "Mobile",
+            "Service"
+          ]
+        },
+        {
+          "label": "API Layer",
+          "items": [
+            "Versioning",
+            "Validation",
+            "Docs"
+          ]
+        },
+        {
+          "label": "Business Logic",
+          "items": [
+            "Controllers",
+            "Services"
+          ]
+        },
+        {
+          "label": "Data",
+          "items": [
+            "DB",
+            "Cache"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client sends a well-formed HTTP request."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "API layer enforces versioning, validates input, returns errors early."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Business logic processes the request."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Data layer persists or retrieves results."
+        }
+      ]
     }
   },
   "exercise": {

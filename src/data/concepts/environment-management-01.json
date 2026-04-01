@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "environment-promotion-flow",
-      "show_config_variations": true,
-      "show_data_anonymization": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Dev",
+          "sub": ".env.local",
+          "annotation": "Local dev uses .env.local — secrets never committed to git."
+        },
+        {
+          "label": "CI",
+          "sub": "Injected vars",
+          "annotation": "CI injects env vars at build time from secrets manager."
+        },
+        {
+          "label": "Staging",
+          "sub": "Staging config",
+          "annotation": "Staging mirrors prod config but with non-prod endpoints."
+        },
+        {
+          "label": "Prod",
+          "sub": "Secret manager",
+          "annotation": "Production reads from HashiCorp Vault / AWS Secrets Manager at runtime."
+        },
+        {
+          "label": "Rotate",
+          "sub": "Zero downtime",
+          "annotation": "Secrets rotated in manager — no code change or redeploy needed."
+        }
+      ]
     }
   },
   "exercise": {

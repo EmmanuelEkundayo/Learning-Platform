@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "event-log-playback",
-      "show_event_store": true,
-      "show_state_reconstruction": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Command",
+          "sub": "PlaceOrder",
+          "annotation": "Command arrives — validated against current state."
+        },
+        {
+          "label": "Event",
+          "sub": "OrderPlaced",
+          "annotation": "If valid, an immutable domain event is appended to the event store."
+        },
+        {
+          "label": "Event Store",
+          "sub": "Append-only",
+          "annotation": "Events never updated or deleted — the log is the source of truth."
+        },
+        {
+          "label": "Projection",
+          "sub": "Rebuild state",
+          "annotation": "Current state is derived by replaying events from the log."
+        },
+        {
+          "label": "Read Model",
+          "sub": "Query view",
+          "annotation": "Separate read model (projection) updated by event handlers for queries."
+        }
+      ]
     }
   },
   "exercise": {

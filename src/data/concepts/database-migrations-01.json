@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "migration-history",
-      "show_up_down_scripts": true,
-      "show_version_tracking": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Dev",
+          "items": [
+            "Write migration",
+            ".sql / .js"
+          ]
+        },
+        {
+          "label": "Migration Tool",
+          "items": [
+            "Knex / Flyway",
+            "Version table"
+          ]
+        },
+        {
+          "label": "DB Schema",
+          "items": [
+            "Apply ALTER",
+            "Track version"
+          ]
+        },
+        {
+          "label": "Rollback",
+          "items": [
+            "down()"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Developer writes versioned migration file — up() and down() methods."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Migration tool checks schema_versions table to find pending migrations."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Applies pending migrations in order. Each tracked in version table."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Rollback runs down() in reverse order to undo changes."
+        }
+      ]
     }
   },
   "exercise": {

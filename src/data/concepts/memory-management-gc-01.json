@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "mark-and-sweep-flow",
-      "show_root_reachability": true,
-      "show_memory_compaction": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Allocate",
+          "sub": "new Object()",
+          "annotation": "Object allocated on heap — counted as reachable from root."
+        },
+        {
+          "label": "GC roots",
+          "sub": "Stack + globals",
+          "annotation": "GC starts from roots: stack variables, global references."
+        },
+        {
+          "label": "Mark",
+          "sub": "Reachability trace",
+          "annotation": "Mark-and-sweep traces all reachable objects from roots."
+        },
+        {
+          "label": "Sweep",
+          "sub": "Collect unreachable",
+          "annotation": "Unreachable objects swept — memory reclaimed."
+        },
+        {
+          "label": "Compact",
+          "sub": "Defragment heap",
+          "annotation": "Compaction moves live objects together — reduces fragmentation."
+        }
+      ]
     }
   },
   "exercise": {

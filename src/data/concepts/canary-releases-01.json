@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "incremental-traffic-ramp",
-      "show_error_threshold_abort": true,
-      "show_user_segmentation": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Traffic",
+          "items": [
+            "100% requests"
+          ]
+        },
+        {
+          "label": "Load Balancer",
+          "items": [
+            "Routing Rules",
+            "5% / 95% split"
+          ]
+        },
+        {
+          "label": "Canary",
+          "items": [
+            "New v2",
+            "5% traffic"
+          ]
+        },
+        {
+          "label": "Stable",
+          "items": [
+            "Old v1",
+            "95% traffic"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "All traffic enters the load balancer."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "LB splits by percentage — small slice goes to canary."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Canary runs new version. Metrics compared vs. stable."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Stable version serves the majority until canary is validated."
+        }
+      ]
     }
   },
   "exercise": {

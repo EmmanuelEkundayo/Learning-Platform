@@ -23,10 +23,64 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "solid-violation-vs-fix",
-      "show_srp_split": true,
-      "show_ocp_extension_point": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "SRP",
+          "items": [
+            "One reason to change"
+          ]
+        },
+        {
+          "label": "OCP",
+          "items": [
+            "Open for extension"
+          ]
+        },
+        {
+          "label": "LSP",
+          "items": [
+            "Substitutable subtypes"
+          ]
+        },
+        {
+          "label": "ISP",
+          "items": [
+            "Lean interfaces"
+          ]
+        },
+        {
+          "label": "DIP",
+          "items": [
+            "Depend on abstractions"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "SRP: each class has one responsibility — one reason to be modified."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "OCP: add new behaviour via extension (new classes), not modification."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "LSP: subclasses must honour the contract of their parent class."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "ISP: clients should not depend on methods they don't use."
+        },
+        {
+          "active_layer": 4,
+          "annotation": "DIP: high-level modules depend on interfaces, not concrete classes."
+        }
+      ]
     }
   },
   "exercise": {

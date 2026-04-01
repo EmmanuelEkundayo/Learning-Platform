@@ -23,10 +23,58 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "csrf-malicious-form",
-      "show_cookie_auto_send": true,
-      "show_csrf_token_fix": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Attacker",
+          "items": [
+            "Malicious form",
+            "img src trick"
+          ]
+        },
+        {
+          "label": "Victim Browser",
+          "items": [
+            "Session cookie",
+            "Auto-attaches"
+          ]
+        },
+        {
+          "label": "Server",
+          "items": [
+            "CSRF token check",
+            "SameSite cookie"
+          ]
+        },
+        {
+          "label": "Defense",
+          "items": [
+            "Token validation",
+            "Origin check"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Attacker crafts a request that triggers a state-changing action."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Browser auto-attaches session cookies to cross-site requests."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Server must verify CSRF token in request body or custom header."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "SameSite=Strict cookies and Origin validation block the attack."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rest-api-flow",
-      "show_verbs": true,
-      "show_statelessness": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Stateless request"
+          ]
+        },
+        {
+          "label": "Uniform Interface",
+          "items": [
+            "Resource URI",
+            "HTTP verbs",
+            "Representations"
+          ]
+        },
+        {
+          "label": "Server",
+          "items": [
+            "Process",
+            "Respond"
+          ]
+        },
+        {
+          "label": "Cache",
+          "items": [
+            "Cache-Control headers"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client sends self-contained request — no server session required."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Uniform interface: resource identified by URI, manipulated via standard verbs."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Server processes and returns representation (JSON/XML). No client state stored."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Response marked cacheable/non-cacheable via Cache-Control. Intermediaries can cache."
+        }
+      ]
     }
   },
   "exercise": {

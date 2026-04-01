@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "propagation-delay",
-      "show_divergent_states": true,
-      "show_eventual_convergence": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Write",
+          "sub": "Primary node",
+          "annotation": "Write committed to primary node. Immediately visible there."
+        },
+        {
+          "label": "Replicate",
+          "sub": "Async lag",
+          "annotation": "Change asynchronously propagated to replica nodes — lag exists."
+        },
+        {
+          "label": "Stale Read",
+          "sub": "Replica returns old",
+          "annotation": "Read on replica may return old value during propagation window."
+        },
+        {
+          "label": "Converge",
+          "sub": "All nodes sync",
+          "annotation": "Given no new writes, all nodes eventually converge to same value."
+        },
+        {
+          "label": "Read-your-writes",
+          "sub": "Sticky session",
+          "annotation": "Strategy: route user reads to primary or track vector clock."
+        }
+      ]
     }
   },
   "exercise": {

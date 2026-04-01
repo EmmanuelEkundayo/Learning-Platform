@@ -23,10 +23,38 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "thread-interleaving",
-      "show_urgent_vs_non_urgent": true,
-      "show_rendering_interruptions": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Work Units",
+          "sub": "Fiber tree",
+          "annotation": "React breaks render work into small fiber units that can be interrupted."
+        },
+        {
+          "label": "Start Render",
+          "sub": "beginWork",
+          "annotation": "React starts rendering — interruptible, runs during idle time."
+        },
+        {
+          "label": "Interrupt",
+          "sub": "Higher priority",
+          "annotation": "Urgent update (user input) interrupts current render."
+        },
+        {
+          "label": "Process Urgent",
+          "sub": "Sync lane",
+          "annotation": "Urgent work completes first — user sees immediate response."
+        },
+        {
+          "label": "Resume",
+          "sub": "Continue fiber",
+          "annotation": "React resumes the interrupted low-priority render from where it paused."
+        },
+        {
+          "label": "Commit",
+          "sub": "Flush to DOM",
+          "annotation": "Commit phase: all DOM changes applied atomically — never half-rendered."
+        }
+      ]
     }
   },
   "exercise": {

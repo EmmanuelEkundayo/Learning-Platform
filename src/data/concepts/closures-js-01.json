@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "scope-capture-flow",
-      "show_execution_context": true,
-      "show_environment_records": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Define fn",
+          "sub": "Outer scope",
+          "annotation": "Outer function defines variables in its local scope."
+        },
+        {
+          "label": "Inner fn",
+          "sub": "Captures env",
+          "annotation": "Inner function defined — it captures a reference to outer scope variables."
+        },
+        {
+          "label": "Return fn",
+          "sub": "Scope lives on",
+          "annotation": "Outer function returns the inner function. Outer scope NOT garbage collected."
+        },
+        {
+          "label": "Call later",
+          "sub": "fn() invoked",
+          "annotation": "Inner function called later — still has access to outer variables."
+        },
+        {
+          "label": "Mutation",
+          "sub": "Shared state",
+          "annotation": "Mutations to captured variables are visible across all closures sharing that scope."
+        }
+      ]
     }
   },
   "exercise": {

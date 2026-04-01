@@ -23,10 +23,56 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "version-diversion",
-      "show_v1_vs_v2_response": true,
-      "show_routing_logic": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "/v1/users",
+            "/v2/users"
+          ]
+        },
+        {
+          "label": "Router",
+          "items": [
+            "Version Detection",
+            "Route Table"
+          ]
+        },
+        {
+          "label": "v1 Handler",
+          "items": [
+            "Legacy Schema"
+          ]
+        },
+        {
+          "label": "v2 Handler",
+          "items": [
+            "New Schema"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client specifies version via URL path, header, or query param."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Router detects version and dispatches to correct handler."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "v1 handler maintains backward-compatible response."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "v2 handler returns new schema without breaking old clients."
+        }
+      ]
     }
   },
   "exercise": {

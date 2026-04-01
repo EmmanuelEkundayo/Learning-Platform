@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "intersection-observer-trigger",
-      "show_viewport_containment": true,
-      "show_dynamic_asset_fetch": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Page Load",
+          "sub": "Viewport check",
+          "annotation": "Initial render: only load assets in the viewport."
+        },
+        {
+          "label": "IntersectionObserver",
+          "sub": "Watch elements",
+          "annotation": "Observer watches off-screen images and components."
+        },
+        {
+          "label": "Enters viewport",
+          "sub": "Threshold met",
+          "annotation": "Element scrolls into view — observer callback fires."
+        },
+        {
+          "label": "Fetch",
+          "sub": "Load resource",
+          "annotation": "Image src set or component chunk fetched now."
+        },
+        {
+          "label": "Render",
+          "sub": "Content appears",
+          "annotation": "Resource loaded and rendered — user sees content just in time."
+        }
+      ]
     }
   },
   "exercise": {

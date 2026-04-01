@@ -23,10 +23,33 @@
   "visualization": {
     "type": "loss-landscape",
     "config": {
-      "mode": "flame-graph-view",
-      "show_cpu_hotspots": true,
-      "show_call_stack_depth": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Baseline",
+          "sub": "Measure first",
+          "annotation": "Establish baseline metrics before optimising — never guess."
+        },
+        {
+          "label": "Profile",
+          "sub": "CPU / heap",
+          "annotation": "CPU profiler shows hot functions. Heap snapshot shows allocations."
+        },
+        {
+          "label": "Identify",
+          "sub": "Hot path",
+          "annotation": "Find the bottleneck: 80% of time in 20% of code."
+        },
+        {
+          "label": "Optimise",
+          "sub": "Targeted fix",
+          "annotation": "Optimise only the hot path. Premature optimisation wastes time."
+        },
+        {
+          "label": "Verify",
+          "sub": "Re-benchmark",
+          "annotation": "Re-run benchmark to confirm improvement. Compare before/after numbers."
+        }
+      ]
     }
   },
   "exercise": {

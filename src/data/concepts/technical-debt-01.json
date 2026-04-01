@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "technical-debt-quadrant",
-      "show_intentional_vs_accidental": true,
-      "show_maintenance_overhead_growth": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Shortcut",
+          "sub": "Fast delivery",
+          "annotation": "Team takes shortcut to ship fast — incurs technical debt."
+        },
+        {
+          "label": "Debt grows",
+          "sub": "Slower over time",
+          "annotation": "Each feature takes longer. Code harder to understand and change."
+        },
+        {
+          "label": "Measure",
+          "sub": "Tech debt ratio",
+          "annotation": "Quantify: static analysis estimates remediation cost vs. codebase size."
+        },
+        {
+          "label": "Prioritise",
+          "sub": "Risk × impact",
+          "annotation": "Prioritise by: How often is this code changed? What's the blast radius?"
+        },
+        {
+          "label": "Pay down",
+          "sub": "Refactor sprints",
+          "annotation": "Allocate 20% of sprint capacity to debt reduction. Track trend."
+        }
+      ]
     }
   },
   "exercise": {

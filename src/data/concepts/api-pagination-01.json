@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "offset-vs-cursor",
-      "show_db_pointer": true,
-      "show_page_overlap": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "GET /items?cursor=X"
+          ]
+        },
+        {
+          "label": "API",
+          "items": [
+            "Parse cursor",
+            "Apply limit"
+          ]
+        },
+        {
+          "label": "DB Query",
+          "items": [
+            "WHERE id > X",
+            "LIMIT 20"
+          ]
+        },
+        {
+          "label": "Response",
+          "items": [
+            "items[]",
+            "next_cursor"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client requests page with cursor from previous response."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "API decodes cursor and builds query."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "DB fetches next N rows efficiently via index."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Response includes items and next cursor for subsequent page."
+        }
+      ]
     }
   },
   "exercise": {

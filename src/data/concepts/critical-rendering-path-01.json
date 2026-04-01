@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "crp-optimization",
-      "show_network_waterfall": true,
-      "show_render_blocking_assets": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "HTML",
+          "sub": "Parse → DOM",
+          "annotation": "Parser builds DOM tree from HTML bytes. Blocks on synchronous scripts."
+        },
+        {
+          "label": "CSS",
+          "sub": "Parse → CSSOM",
+          "annotation": "CSS downloaded and parsed into CSSOM. Render-blocking."
+        },
+        {
+          "label": "Render Tree",
+          "sub": "DOM + CSSOM",
+          "annotation": "Render tree combines visible DOM nodes with computed styles."
+        },
+        {
+          "label": "Layout",
+          "sub": "Geometry calc",
+          "annotation": "Browser computes position and size of every render tree node."
+        },
+        {
+          "label": "Paint",
+          "sub": "Pixels to screen",
+          "annotation": "Pixels drawn in layers. Compositor combines layers onto screen."
+        }
+      ]
     }
   },
   "exercise": {

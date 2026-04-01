@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "refactor-step-by-step-transformation",
-      "show_logic_preserving_ops": true,
-      "show_test_suite_safety_check": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Identify",
+          "sub": "Code smell",
+          "annotation": "Identify a code smell: duplication, long method, magic numbers."
+        },
+        {
+          "label": "Test first",
+          "sub": "Green baseline",
+          "annotation": "Ensure tests pass before touching code — safety net."
+        },
+        {
+          "label": "Small step",
+          "sub": "One change",
+          "annotation": "Apply one refactoring at a time: extract method, rename, inline."
+        },
+        {
+          "label": "Run tests",
+          "sub": "Still green?",
+          "annotation": "Tests must stay green after every step — refactoring not behaviour change."
+        },
+        {
+          "label": "Repeat",
+          "sub": "Clean design",
+          "annotation": "Iterate until design is clean. Commit after each safe step."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "merge-vs-rebase-comparison",
-      "show_merge_commit_creation": true,
-      "show_linear_rebase_rewriting": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Feature branch",
+          "sub": "Diverged from main",
+          "annotation": "Feature branch has commits not in main, and main has moved forward."
+        },
+        {
+          "label": "Merge",
+          "sub": "git merge main",
+          "annotation": "Merge: creates merge commit — preserves branch history and context."
+        },
+        {
+          "label": "Merge commit",
+          "sub": "Non-linear history",
+          "annotation": "History shows when branches diverged and merged — non-linear."
+        },
+        {
+          "label": "Rebase",
+          "sub": "git rebase main",
+          "annotation": "Rebase: replays feature commits on top of latest main — linear history."
+        },
+        {
+          "label": "New SHAs",
+          "sub": "Rewritten commits",
+          "annotation": "Rebased commits get new hashes. Never rebase shared branches."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "mock-interception-cycle",
-      "show_real_vs_mock_response": true,
-      "show_msw_v_jest_mock": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Identify dep",
+          "sub": "Isolate unit",
+          "annotation": "Identify which dependency to replace — HTTP, module, or class."
+        },
+        {
+          "label": "Stub",
+          "sub": "Return value",
+          "annotation": "Stub returns a fixed value — simplest mock. No behaviour verification."
+        },
+        {
+          "label": "Mock",
+          "sub": "Spy + assert",
+          "annotation": "Mock records calls — verify it was called with correct args."
+        },
+        {
+          "label": "MSW",
+          "sub": "Intercept fetch",
+          "annotation": "Mock Service Worker intercepts at network level — realistic HTTP mocking."
+        },
+        {
+          "label": "Teardown",
+          "sub": "Restore after test",
+          "annotation": "Restore mocks after each test — prevent test pollution."
+        }
+      ]
     }
   },
   "exercise": {

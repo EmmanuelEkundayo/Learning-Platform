@@ -23,10 +23,49 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "repo-boundary-comparison",
-      "show_cross_project_dependency": true,
-      "show_ci_pipeline_isolation": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Monorepo",
+          "items": [
+            "packages/",
+            "Shared tooling",
+            "Atomic commits"
+          ]
+        },
+        {
+          "label": "Build Tool",
+          "items": [
+            "Nx / Turborepo",
+            "Affected detection"
+          ]
+        },
+        {
+          "label": "Polyrepo",
+          "items": [
+            "Separate repos",
+            "Independent CI",
+            "Version contracts"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Monorepo: all packages in one repo. Refactors, shared code, atomic commits."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Build tool detects affected packages — only rebuilds what changed."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Polyrepo: independent versioning and deployment cadence per service."
+        }
+      ]
     }
   },
   "exercise": {

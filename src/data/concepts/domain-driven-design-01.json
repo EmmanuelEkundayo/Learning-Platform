@@ -23,10 +23,59 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "bounded-context-map",
-      "show_ubiquitous_language_sync": true,
-      "show_aggregate_boundaries": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "UI / API",
+          "items": [
+            "Controllers",
+            "DTOs"
+          ]
+        },
+        {
+          "label": "Application Layer",
+          "items": [
+            "Use Cases",
+            "Commands"
+          ]
+        },
+        {
+          "label": "Domain Layer",
+          "items": [
+            "Aggregates",
+            "Entities",
+            "Value Objects"
+          ]
+        },
+        {
+          "label": "Infrastructure",
+          "items": [
+            "Repositories",
+            "Event Bus"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "UI/API: thin layer — translates HTTP to application commands."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Application layer orchestrates use cases without domain logic."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Domain layer contains all business rules — no framework dependencies."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Infrastructure: persistence, messaging — implements domain interfaces."
+        }
+      ]
     }
   },
   "exercise": {

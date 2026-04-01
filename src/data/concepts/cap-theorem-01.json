@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "cap-triangle",
-      "show_tradeoffs": true,
-      "show_partition_scenario": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Write",
+          "sub": "Node A",
+          "annotation": "Client writes value to Node A."
+        },
+        {
+          "label": "Replicate",
+          "sub": "A → B",
+          "annotation": "Node A tries to replicate to Node B."
+        },
+        {
+          "label": "Partition!",
+          "sub": "Network split",
+          "annotation": "Network partition — A and B cannot communicate."
+        },
+        {
+          "label": "CP choice",
+          "sub": "Reject write",
+          "annotation": "Consistent system rejects the write until partition heals (C + P)."
+        },
+        {
+          "label": "AP choice",
+          "sub": "Accept stale",
+          "annotation": "Available system accepts reads on B returning stale data (A + P)."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,16 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "fiber-work-loop",
-      "show_priority_levels": [
-        "Immediate",
-        "UserBlocking",
-        "Normal",
-        "Low",
-        "Idle"
-      ],
-      "show_work_in_progress_tree": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Update",
+          "sub": "setState called",
+          "annotation": "State change triggers a re-render request."
+        },
+        {
+          "label": "Work loop",
+          "sub": "Fiber units",
+          "annotation": "Fiber reconciler breaks work into units — each fiber = one component."
+        },
+        {
+          "label": "Render phase",
+          "sub": "Interruptible",
+          "annotation": "Render phase: pure computation, can be interrupted by higher-priority work."
+        },
+        {
+          "label": "Lanes",
+          "sub": "Priority queue",
+          "annotation": "Updates assigned to lanes: sync, transition, background. Urgent lanes run first."
+        },
+        {
+          "label": "Commit",
+          "sub": "Uninterruptible",
+          "annotation": "Commit phase: DOM mutations applied atomically — never interrupted."
+        }
+      ]
     }
   },
   "exercise": {

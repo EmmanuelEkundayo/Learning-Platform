@@ -23,10 +23,62 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "gateway-proxy-topology",
-      "show_auth_interceptor": true,
-      "show_service_aggregation": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Clients",
+          "items": [
+            "Web",
+            "Mobile",
+            "Partners"
+          ]
+        },
+        {
+          "label": "API Gateway",
+          "items": [
+            "Auth",
+            "Rate Limit",
+            "SSL",
+            "Routing"
+          ]
+        },
+        {
+          "label": "Services",
+          "items": [
+            "User",
+            "Orders",
+            "Search",
+            "Payments"
+          ]
+        },
+        {
+          "label": "Data Stores",
+          "items": [
+            "Each service owns DB"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "All external clients talk to the single gateway endpoint."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Gateway handles cross-cutting concerns: auth, TLS, rate limiting, routing."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Gateway routes to appropriate microservice by path/header."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Each microservice owns its data — no shared DB."
+        }
+      ]
     }
   },
   "exercise": {

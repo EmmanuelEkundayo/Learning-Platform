@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "cors-preflight-check",
-      "show_options_request": true,
-      "show_origin_header_validation": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Attacker Site",
+          "items": [
+            "evil.com"
+          ]
+        },
+        {
+          "label": "Victim Browser",
+          "items": [
+            "Stored cookies",
+            "CORS fetch"
+          ]
+        },
+        {
+          "label": "Target API",
+          "items": [
+            "Origin check",
+            "Policy"
+          ]
+        },
+        {
+          "label": "Defense",
+          "items": [
+            "Allowlist",
+            "CSRF token"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Attacker page tries to make credentialed request to target API."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Browser sends request with victim's cookies automatically."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Target API must validate Origin header against allowlist."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "SameSite cookies + strict CORS allowlist prevent exploitation."
+        }
+      ]
     }
   },
   "exercise": {

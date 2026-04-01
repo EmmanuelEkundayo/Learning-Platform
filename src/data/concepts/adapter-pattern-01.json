@@ -23,10 +23,44 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "adapter-glue-mapping",
-      "show_interface_translation": true,
-      "show_delegation_flow": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Your Code"
+          ]
+        },
+        {
+          "label": "Adapter",
+          "items": [
+            "Wrapper Class"
+          ]
+        },
+        {
+          "label": "Adaptee",
+          "items": [
+            "Legacy/3rd-party API"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client calls the target interface it expects."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Adapter translates the call — implements target, delegates to adaptee."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Adaptee runs using its own incompatible interface. Client never knows."
+        }
+      ]
     }
   },
   "exercise": {

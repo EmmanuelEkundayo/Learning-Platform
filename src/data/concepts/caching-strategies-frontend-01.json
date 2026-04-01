@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "sw-strategy-comparison",
-      "show_cache_vs_network_latency": true,
-      "show_fallback_scenarios": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Request",
+          "sub": "Browser fetch",
+          "annotation": "Browser makes request for a resource."
+        },
+        {
+          "label": "Cache Check",
+          "sub": "Cache-Control",
+          "annotation": "Browser checks cache: is there a fresh stored response?"
+        },
+        {
+          "label": "Cache Hit",
+          "sub": "Serve local",
+          "annotation": "Fresh cached response served immediately — no network."
+        },
+        {
+          "label": "Revalidate",
+          "sub": "ETag / 304",
+          "annotation": "Stale resource: conditional request sent. 304 Not Modified = serve cache."
+        },
+        {
+          "label": "Cache Miss",
+          "sub": "Fetch + store",
+          "annotation": "No cache: full network request. Response stored for future use."
+        }
+      ]
     }
   },
   "exercise": {

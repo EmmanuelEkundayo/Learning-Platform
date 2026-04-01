@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "image-format-comparison",
-      "show_compression_artifacts": true,
-      "show_resolution_switching": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Source",
+          "sub": "Original PNG/JPEG",
+          "annotation": "Large original image uploaded or referenced."
+        },
+        {
+          "label": "Format",
+          "sub": "WebP / AVIF",
+          "annotation": "Convert to modern format — WebP ~30% smaller, AVIF ~50% smaller."
+        },
+        {
+          "label": "Responsive",
+          "sub": "srcset sizes",
+          "annotation": "Multiple sizes generated. Browser picks smallest that fits display."
+        },
+        {
+          "label": "Lazy Load",
+          "sub": "loading=lazy",
+          "annotation": "Off-screen images deferred — only load as user scrolls near."
+        },
+        {
+          "label": "CDN",
+          "sub": "Serve from edge",
+          "annotation": "Optimised images served from CDN edge — low latency worldwide."
+        }
+      ]
     }
   },
   "exercise": {

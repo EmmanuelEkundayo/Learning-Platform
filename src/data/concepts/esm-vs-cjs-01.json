@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "module-system-comparison",
-      "show_sync_vs_async_loading": true,
-      "show_tree_shaking_compatibility": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "CJS require()",
+          "sub": "Runtime load",
+          "annotation": "require() executes synchronously at runtime — dynamic, conditional loads OK."
+        },
+        {
+          "label": "CJS exports",
+          "sub": "module.exports",
+          "annotation": "Module exports assigned to module.exports — object reference, mutable."
+        },
+        {
+          "label": "ESM import",
+          "sub": "Parse-time",
+          "annotation": "import statements resolved at parse time — static analysis possible."
+        },
+        {
+          "label": "ESM Tree-shake",
+          "sub": "Dead code elim",
+          "annotation": "Bundlers eliminate unused named exports — impossible with CJS."
+        },
+        {
+          "label": "Interop",
+          "sub": "require(esm)?",
+          "annotation": "CJS cannot require() ESM directly. ESM can import CJS (default export only)."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "helm-template-rendering",
-      "show_values_substitution": true,
-      "show_version_rollbacks": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Chart",
+          "items": [
+            "templates/",
+            "values.yaml"
+          ]
+        },
+        {
+          "label": "Helm CLI",
+          "items": [
+            "helm install",
+            "helm upgrade"
+          ]
+        },
+        {
+          "label": "Kubernetes API",
+          "items": [
+            "Apply manifests"
+          ]
+        },
+        {
+          "label": "Release",
+          "items": [
+            "Deployed objects",
+            "Revision history"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Chart: versioned package of Kubernetes YAML templates + default values."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Helm CLI renders templates with values, sends to Kubernetes API."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Kubernetes creates/updates resources (Deployments, Services, etc.)."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Release stored in cluster — helm rollback uses revision history."
+        }
+      ]
     }
   },
   "exercise": {

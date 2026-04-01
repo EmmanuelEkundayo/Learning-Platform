@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "container-vs-viewport-query",
-      "show_parent_size_trigger": true,
-      "show_component_reappearance": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Container",
+          "sub": "Set @container",
+          "annotation": "Parent element declared as a containment context."
+        },
+        {
+          "label": "Child Renders",
+          "sub": "Measures parent",
+          "annotation": "Browser measures the container's inline size."
+        },
+        {
+          "label": "@container rule",
+          "sub": "Width check",
+          "annotation": "@container (min-width: 400px) rule evaluated."
+        },
+        {
+          "label": "Apply Styles",
+          "sub": "Conditional CSS",
+          "annotation": "Styles applied based on container size — not viewport."
+        },
+        {
+          "label": "Resize",
+          "sub": "Re-evaluate",
+          "annotation": "Container resizes (e.g. sidebar collapses) — styles re-evaluated automatically."
+        }
+      ]
     }
   },
   "exercise": {

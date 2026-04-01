@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "user-centric-querying",
-      "show_accessibility_tree_lookup": true,
-      "show_event_firing_sim": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Render",
+          "sub": "render(<Component>)",
+          "annotation": "Component rendered into jsdom — realistic DOM environment."
+        },
+        {
+          "label": "Query",
+          "sub": "getByRole / Text",
+          "annotation": "Query by accessibility role, label, or text — as a user would find it."
+        },
+        {
+          "label": "Interact",
+          "sub": "userEvent.click",
+          "annotation": "Simulate user interactions: click, type, keyboard."
+        },
+        {
+          "label": "Assert",
+          "sub": "expect().toBeInDoc",
+          "annotation": "Assert on DOM state — visible text, ARIA state, form values."
+        },
+        {
+          "label": "Clean up",
+          "sub": "afterEach",
+          "annotation": "DOM and state cleaned up automatically after each test."
+        }
+      ]
     }
   },
   "exercise": {

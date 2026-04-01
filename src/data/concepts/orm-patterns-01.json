@@ -22,10 +22,58 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "orm-pattern-comparison",
-      "show_active_record_save": true,
-      "show_data_mapper_repository": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "App Code",
+          "items": [
+            "user.save()",
+            "User.findAll()"
+          ]
+        },
+        {
+          "label": "ORM Layer",
+          "items": [
+            "Model mapping",
+            "Query builder"
+          ]
+        },
+        {
+          "label": "SQL Generated",
+          "items": [
+            "INSERT INTO users...",
+            "SELECT * FROM..."
+          ]
+        },
+        {
+          "label": "Database",
+          "items": [
+            "PostgreSQL",
+            "MySQL"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "App code works with objects — no raw SQL."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "ORM maps model methods to SQL, handles escaping and parameterization."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Generated SQL sent to the database driver."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Database executes query, results mapped back to model objects."
+        }
+      ]
     }
   },
   "exercise": {

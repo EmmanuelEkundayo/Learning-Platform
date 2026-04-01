@@ -23,10 +23,56 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "network-driver-topology",
-      "show_bridge_vs_overlay": true,
-      "show_dns_resolution_internal": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Container A",
+          "items": [
+            "app:3000"
+          ]
+        },
+        {
+          "label": "Bridge Network",
+          "items": [
+            "Virtual switch",
+            "docker0"
+          ]
+        },
+        {
+          "label": "Container B",
+          "items": [
+            "db:5432"
+          ]
+        },
+        {
+          "label": "Host",
+          "items": [
+            "Port mapping",
+            "-p 3000:3000"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Container A connects to virtual bridge network on start."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Bridge network provides DNS — containers resolve each other by name."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Container B reachable by its service name within the network."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Host port mapping exposes container ports to the outside world."
+        }
+      ]
     }
   },
   "exercise": {

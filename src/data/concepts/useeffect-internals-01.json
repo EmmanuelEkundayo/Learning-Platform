@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "effect-cleanup-render-cycle",
-      "show_diffing_dependencies": true,
-      "show_cleanup_execution": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Render",
+          "sub": "Component runs",
+          "annotation": "Component function runs — effects NOT yet executed."
+        },
+        {
+          "label": "Commit",
+          "sub": "DOM updated",
+          "annotation": "React commits DOM changes. Browser paints."
+        },
+        {
+          "label": "Effect runs",
+          "sub": "After paint",
+          "annotation": "useEffect callback runs after paint — does not block browser."
+        },
+        {
+          "label": "Deps check",
+          "sub": "Stale closure?",
+          "annotation": "On re-render: React checks dependency array. Changed deps → cleanup + re-run."
+        },
+        {
+          "label": "Cleanup",
+          "sub": "Return fn",
+          "annotation": "Cleanup function (return () => ...) runs before re-run and on unmount."
+        }
+      ]
     }
   },
   "exercise": {

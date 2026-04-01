@@ -23,10 +23,33 @@
   "visualization": {
     "type": "graph-traversal",
     "config": {
-      "mode": "branch-topology-animation",
-      "show_gitflow_vs_trunk": true,
-      "show_hotfix_redirection": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Main",
+          "sub": "Protected branch",
+          "annotation": "Main/master is always deployable. Direct commits blocked."
+        },
+        {
+          "label": "Feature Branch",
+          "sub": "git checkout -b",
+          "annotation": "Developer creates short-lived feature branch from main."
+        },
+        {
+          "label": "Commits",
+          "sub": "Local work",
+          "annotation": "Iterative commits on feature branch — isolated from others."
+        },
+        {
+          "label": "Pull Request",
+          "sub": "Code review",
+          "annotation": "PR opened — CI runs, team reviews, discussions happen."
+        },
+        {
+          "label": "Merge",
+          "sub": "Squash / merge",
+          "annotation": "Approved PR merged to main. Feature branch deleted."
+        }
+      ]
     }
   },
   "exercise": {

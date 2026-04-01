@@ -23,10 +23,33 @@
   "visualization": {
     "type": "loss-landscape",
     "config": {
-      "mode": "memory-growth-over-time",
-      "show_leak_accumulation": true,
-      "show_garbage_collection_spikes": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Allocate",
+          "sub": "Object created",
+          "annotation": "Object allocated — heap grows. Expected."
+        },
+        {
+          "label": "Reference held",
+          "sub": "GC cannot free",
+          "annotation": "Unintended reference kept (global, closure, listener) — GC can't collect."
+        },
+        {
+          "label": "Heap grows",
+          "sub": "RSS increases",
+          "annotation": "Heap grows with each request/operation but never shrinks. OOM eventually."
+        },
+        {
+          "label": "Detect",
+          "sub": "Heap snapshot",
+          "annotation": "Take heap snapshots over time — growing object counts identify leak source."
+        },
+        {
+          "label": "Fix",
+          "sub": "Remove reference",
+          "annotation": "Remove stale reference: clear map/set, removeEventListener, nullify variable."
+        }
+      ]
     }
   },
   "exercise": {

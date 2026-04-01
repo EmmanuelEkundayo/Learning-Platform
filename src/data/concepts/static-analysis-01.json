@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "risk-severity-matrix",
-      "show_common_linter_rules": true,
-      "show_ast_node_traversal": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Source",
+          "sub": "Code file",
+          "annotation": "Source file fed to static analyser."
+        },
+        {
+          "label": "Parse",
+          "sub": "AST built",
+          "annotation": "Code parsed into Abstract Syntax Tree without executing."
+        },
+        {
+          "label": "Rules",
+          "sub": "Pattern match",
+          "annotation": "Rules engine traverses AST — matches patterns (unused vars, type errors, security)."
+        },
+        {
+          "label": "Report",
+          "sub": "File:line:col",
+          "annotation": "Violations reported with file, line, column, and severity."
+        },
+        {
+          "label": "Fix",
+          "sub": "CI gate",
+          "annotation": "CI blocks merge on errors. Warnings flagged for human review."
+        }
+      ]
     }
   },
   "exercise": {

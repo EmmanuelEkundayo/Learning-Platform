@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "acid-lifecycle",
-      "show_commit_rollback": true,
-      "show_isolation_levels": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Begin Txn",
+          "sub": "START",
+          "annotation": "Transaction starts — DB records a begin marker in the WAL."
+        },
+        {
+          "label": "Execute",
+          "sub": "SQL ops",
+          "annotation": "Multiple reads/writes run. Changes held in memory — not yet committed."
+        },
+        {
+          "label": "Validate",
+          "sub": "Integrity checks",
+          "annotation": "DB checks constraints, foreign keys, and isolation rules."
+        },
+        {
+          "label": "Commit",
+          "sub": "COMMIT",
+          "annotation": "Changes durably written to disk (Durability). Visible atomically (Atomicity)."
+        },
+        {
+          "label": "Rollback",
+          "sub": "on error",
+          "annotation": "Any failure reverts ALL changes — database returns to prior state (Atomicity)."
+        }
+      ]
     }
   },
   "exercise": {

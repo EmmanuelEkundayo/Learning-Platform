@@ -23,10 +23,46 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "strategy-interface-interchange",
-      "show_runtime_swap": true,
-      "show_if_else_elimination": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Context",
+          "items": [
+            "Uses strategy"
+          ]
+        },
+        {
+          "label": "Strategy Interface",
+          "items": [
+            "execute(data)"
+          ]
+        },
+        {
+          "label": "Concrete Strategies",
+          "items": [
+            "QuickSort",
+            "MergeSort",
+            "InsertionSort"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Context holds a reference to the current strategy object."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "All strategies implement the same interface — context calls execute()."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Concrete strategy runs its algorithm. Swap strategy at runtime without changing context."
+        }
+      ]
     }
   },
   "exercise": {

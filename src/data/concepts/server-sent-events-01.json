@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "sse-stream",
-      "show_one_way_flow": true,
-      "show_event_stream_header": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Client",
+          "sub": "EventSource(url)",
+          "annotation": "Client opens persistent HTTP connection via EventSource API."
+        },
+        {
+          "label": "Server",
+          "sub": "text/event-stream",
+          "annotation": "Server responds with Content-Type: text/event-stream. Connection held open."
+        },
+        {
+          "label": "Push",
+          "sub": "data: payload\\n\\n",
+          "annotation": "Server pushes data: ... events anytime. No polling needed."
+        },
+        {
+          "label": "Reconnect",
+          "sub": "Auto-retry",
+          "annotation": "On disconnect, EventSource automatically reconnects with Last-Event-ID."
+        },
+        {
+          "label": "One-way",
+          "sub": "Server → Client",
+          "annotation": "SSE is one-way: server → client only. Use WebSockets for bidirectional."
+        }
+      ]
     }
   },
   "exercise": {

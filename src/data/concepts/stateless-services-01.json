@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "stateless-vs-stateful-flow",
-      "show_session_stickiness_problem": true,
-      "show_external_state_store_redis": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Request",
+          "sub": "Any instance",
+          "annotation": "Request arrives — routed to any available instance (no affinity needed)."
+        },
+        {
+          "label": "No session",
+          "sub": "JWT / context in req",
+          "annotation": "All state passed in the request (JWT, params) — server stores nothing."
+        },
+        {
+          "label": "Process",
+          "sub": "Compute + DB",
+          "annotation": "Instance computes and reads/writes external state store (DB, cache)."
+        },
+        {
+          "label": "Respond",
+          "sub": "Return",
+          "annotation": "Response returned. Instance forgets everything about this request."
+        },
+        {
+          "label": "Scale",
+          "sub": "Add/remove freely",
+          "annotation": "Instances added or removed at any time — zero state migration."
+        }
+      ]
     }
   },
   "exercise": {

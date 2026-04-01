@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "viewport-resizing-simulation",
-      "show_media_query_active_state": true,
-      "show_content_reflow": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Viewport",
+          "sub": "meta viewport",
+          "annotation": "Set <meta name=\"viewport\"> — tells mobile to use device width."
+        },
+        {
+          "label": "Fluid layout",
+          "sub": "Relative units",
+          "annotation": "Use %, rem, vw instead of fixed px — layout scales naturally."
+        },
+        {
+          "label": "Breakpoints",
+          "sub": "@media queries",
+          "annotation": "Media queries apply styles at specific viewport width thresholds."
+        },
+        {
+          "label": "Images",
+          "sub": "srcset sizes",
+          "annotation": "Responsive images: provide multiple sizes, browser picks optimal."
+        },
+        {
+          "label": "Test",
+          "sub": "DevTools emulation",
+          "annotation": "Test at common breakpoints — mobile-first approach recommended."
+        }
+      ]
     }
   },
   "exercise": {

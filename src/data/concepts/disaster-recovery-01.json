@@ -23,10 +23,58 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rpo-rto-timeline",
-      "show_hot_vs_cold_site_switch": true,
-      "show_data_consistency_sync": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Primary Region",
+          "items": [
+            "Live traffic",
+            "Primary DB"
+          ]
+        },
+        {
+          "label": "Replication",
+          "items": [
+            "Async / Sync",
+            "Backup jobs"
+          ]
+        },
+        {
+          "label": "DR Region",
+          "items": [
+            "Warm standby",
+            "Replica DB"
+          ]
+        },
+        {
+          "label": "Failover",
+          "items": [
+            "DNS switch",
+            "Traffic reroute"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Primary region serves all traffic normally."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Continuous replication copies data to DR region within RPO target."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "DR region runs warm standby — ready to accept traffic quickly."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "On disaster: DNS updated, traffic rerouted to DR within RTO window."
+        }
+      ]
     }
   },
   "exercise": {

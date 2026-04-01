@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rebase-todo-list-edit",
-      "show_squash_logic": true,
-      "show_pick_vs_edit_result": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Choose range",
+          "sub": "git rebase -i HEAD~N",
+          "annotation": "Open interactive rebase for last N commits."
+        },
+        {
+          "label": "Editor opens",
+          "sub": "Pick / squash list",
+          "annotation": "Editor shows commit list. Change \"pick\" to squash/edit/reword/drop."
+        },
+        {
+          "label": "Squash",
+          "sub": "Combine commits",
+          "annotation": "squash merges commit into previous — prompts for combined message."
+        },
+        {
+          "label": "Reword",
+          "sub": "Edit message",
+          "annotation": "reword pauses to let you edit the commit message."
+        },
+        {
+          "label": "New history",
+          "sub": "Force push",
+          "annotation": "Rewritten commits get new SHAs. Force push required for shared branches."
+        }
+      ]
     }
   },
   "exercise": {

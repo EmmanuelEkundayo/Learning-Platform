@@ -23,10 +23,64 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "sharding-routing",
-      "show_shard_key_logic": true,
-      "show_multiple_nodes": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "App",
+          "items": [
+            "Shard key: userId"
+          ]
+        },
+        {
+          "label": "Shard Router",
+          "items": [
+            "Hash / Range map"
+          ]
+        },
+        {
+          "label": "Shard 0",
+          "items": [
+            "userId 0–33%"
+          ]
+        },
+        {
+          "label": "Shard 1",
+          "items": [
+            "userId 33–66%"
+          ]
+        },
+        {
+          "label": "Shard 2",
+          "items": [
+            "userId 66–100%"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "App provides shard key (e.g. userId) with every query."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Router applies hash or range function to determine target shard."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Shard 0 handles its partition independently."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Shard 1 handles its partition independently."
+        },
+        {
+          "active_layer": 4,
+          "annotation": "Cross-shard queries require scatter-gather — expensive, avoid."
+        }
+      ]
     }
   },
   "exercise": {

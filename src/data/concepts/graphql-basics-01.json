@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "graphql-query",
-      "show_exact_fields": true,
-      "show_single_endpoint": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Query",
+          "sub": "Client sends",
+          "annotation": "Client sends typed query — declares exactly what fields it needs."
+        },
+        {
+          "label": "Parse",
+          "sub": "AST built",
+          "annotation": "Server parses query into AST, validates against schema."
+        },
+        {
+          "label": "Resolve",
+          "sub": "Resolver chain",
+          "annotation": "Each field resolved by its resolver function — fetch from DB/service."
+        },
+        {
+          "label": "DataLoader",
+          "sub": "Batch N+1",
+          "annotation": "DataLoader batches and deduplicates sub-resolver DB calls."
+        },
+        {
+          "label": "Response",
+          "sub": "Shape matches query",
+          "annotation": "Response JSON exactly mirrors query structure — no over/under-fetching."
+        }
+      ]
     }
   },
   "exercise": {

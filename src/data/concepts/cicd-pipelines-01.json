@@ -23,10 +23,58 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "ci-cd-pipeline-flow",
-      "show_build_test_deploy_stages": true,
-      "show_failure_feedback_loop": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Dev",
+          "items": [
+            "git push"
+          ]
+        },
+        {
+          "label": "CI",
+          "items": [
+            "Build",
+            "Test",
+            "Lint"
+          ]
+        },
+        {
+          "label": "CD Staging",
+          "items": [
+            "Deploy",
+            "Smoke Test"
+          ]
+        },
+        {
+          "label": "CD Prod",
+          "items": [
+            "Blue/Green",
+            "Deploy"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Developer pushes code to feature branch."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "CI runs: compile, unit tests, linting. Fails fast on errors."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Deploy to staging automatically. Run integration/smoke tests."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Approved build promoted to production with zero-downtime strategy."
+        }
+      ]
     }
   },
   "exercise": {

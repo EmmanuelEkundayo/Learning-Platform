@@ -3,9 +3,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import StepControls from './StepControls.jsx'
 import { useInterval } from '../../hooks/useInterval.js'
 import {
-  generateKnapsackSteps,
+  getSteps,
   DEFAULT_KNAPSACK,
-} from '../../utils/algorithms/knapsackSteps.js'
+} from '../../utils/algorithms/registry.js'
 
 const SPEED_MS = { 0.5: 1400, 1: 700, 1.5: 467, 2: 350, 3: 233 }
 
@@ -21,8 +21,8 @@ export default function MatrixGrid({ config = {}, data }) {
   )
 
   const steps = useMemo(
-    () => generateKnapsackSteps(knapsack.weights, knapsack.values, knapsack.W),
-    [knapsack]
+    () => getSteps('dp', config.mode, knapsack.weights, knapsack.values, knapsack.W),
+    [knapsack, config.mode]
   )
 
   const [step,    setStep]    = useState(0)

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "animation-loop-sync",
-      "show_refresh_rate_cycles": true,
-      "show_raf_vs_settimeout": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Schedule",
+          "sub": "rAF(callback)",
+          "annotation": "requestAnimationFrame schedules callback before next browser paint."
+        },
+        {
+          "label": "Vsync",
+          "sub": "60fps budget",
+          "annotation": "Browser waits for vsync — typically 16.67ms frame budget."
+        },
+        {
+          "label": "Callback fires",
+          "sub": "Before paint",
+          "annotation": "rAF callback runs — reads layout, applies DOM changes."
+        },
+        {
+          "label": "Paint",
+          "sub": "Frame rendered",
+          "annotation": "Browser paints the frame. Smooth animation at display refresh rate."
+        },
+        {
+          "label": "Next frame",
+          "sub": "Call rAF again",
+          "annotation": "For continuous animation, call rAF again inside the callback."
+        }
+      ]
     }
   },
   "exercise": {

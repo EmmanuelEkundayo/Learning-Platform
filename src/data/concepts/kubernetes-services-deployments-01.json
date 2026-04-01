@@ -23,10 +23,58 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "svc-to-pod-routing",
-      "show_label_selector_matching": true,
-      "show_rolling_update_progression": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Deployment",
+          "items": [
+            "Desired replicas",
+            "Rolling update"
+          ]
+        },
+        {
+          "label": "ReplicaSet",
+          "items": [
+            "Actual pods",
+            "Self-heal"
+          ]
+        },
+        {
+          "label": "Pods",
+          "items": [
+            "App container",
+            "Sidecar"
+          ]
+        },
+        {
+          "label": "Service",
+          "items": [
+            "ClusterIP / LB",
+            "kube-proxy rules"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Deployment declares desired state: 3 replicas of image v2."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "ReplicaSet ensures pod count matches. Replaces crashed pods automatically."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Pods are the smallest deployable unit — one or more containers sharing network."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Service provides stable DNS + virtual IP — load-balances across pod IPs via iptables."
+        }
+      ]
     }
   },
   "exercise": {

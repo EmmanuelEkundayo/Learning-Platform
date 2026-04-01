@@ -23,10 +23,60 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "container-engine-layers",
-      "show_namespaces_cgroups": true,
-      "show_union_fs_layers": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Dockerfile",
+          "items": [
+            "FROM",
+            "RUN",
+            "COPY"
+          ]
+        },
+        {
+          "label": "Image Layers",
+          "items": [
+            "Layer cache",
+            "Read-only"
+          ]
+        },
+        {
+          "label": "Container",
+          "items": [
+            "Writable layer",
+            "Namespaces",
+            "cgroups"
+          ]
+        },
+        {
+          "label": "Runtime",
+          "items": [
+            "runc",
+            "containerd"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Dockerfile: each instruction creates an immutable image layer."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Layers cached — unchanged layers reuse cache on rebuild."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Container adds a thin writable layer on top of read-only image layers."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "OCI runtime (runc) creates namespaces and cgroups to isolate the process."
+        }
+      ]
     }
   },
   "exercise": {

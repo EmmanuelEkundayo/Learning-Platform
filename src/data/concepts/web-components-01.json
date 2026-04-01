@@ -23,11 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "web-component-pillars",
-      "show_custom_elements": true,
-      "show_shadow_dom": true,
-      "show_html_templates": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Define",
+          "sub": "customElements.define",
+          "annotation": "CustomElement class extends HTMLElement. Registered with customElements.define."
+        },
+        {
+          "label": "Shadow DOM",
+          "sub": "attachShadow()",
+          "annotation": "Shadow root attached — encapsulates DOM and CSS inside the element."
+        },
+        {
+          "label": "Template",
+          "sub": "<template>",
+          "annotation": "<template> element defines reusable HTML that is not rendered until cloned."
+        },
+        {
+          "label": "Slots",
+          "sub": "<slot>",
+          "annotation": "<slot> projects Light DOM children into Shadow DOM positions."
+        },
+        {
+          "label": "Use",
+          "sub": "<my-element>",
+          "annotation": "Element used in any HTML — framework-agnostic. Lifecycle callbacks fire."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "variable-inheritance-chain",
-      "show_scope_resolution": true,
-      "show_runtime_update_flow": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Define",
+          "sub": ":root { --color: }",
+          "annotation": "Custom properties declared in :root (or any element) — scoped to subtree."
+        },
+        {
+          "label": "Cascade",
+          "sub": "Inherited",
+          "annotation": "Custom props cascade and inherit like regular properties."
+        },
+        {
+          "label": "Use",
+          "sub": "var(--color)",
+          "annotation": "var() reads the property — fallback value optional: var(--x, red)."
+        },
+        {
+          "label": "Override",
+          "sub": "Local scope",
+          "annotation": "Any descendant can redefine the property — creates local scope."
+        },
+        {
+          "label": "JS access",
+          "sub": "getPropertyValue",
+          "annotation": "JS can read/write custom properties at runtime for dynamic theming."
+        }
+      ]
     }
   },
   "exercise": {

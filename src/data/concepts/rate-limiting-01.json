@@ -23,10 +23,56 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "token-bucket",
-      "show_tokens": true,
-      "show_429_response": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Requests"
+          ]
+        },
+        {
+          "label": "Rate Limiter",
+          "items": [
+            "Token bucket",
+            "Sliding window"
+          ]
+        },
+        {
+          "label": "Counter Store",
+          "items": [
+            "Redis",
+            "Per client key"
+          ]
+        },
+        {
+          "label": "Upstream",
+          "items": [
+            "API / Service"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client sends requests."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Rate limiter checks counter in Redis for client's key."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Under limit: forward. Over limit: return 429 Too Many Requests."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Upstream protected from overload. Counter resets per window."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,15 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "this-resolution-priority",
-      "show_four_rules": [
-        "New",
-        "Explicit",
-        "Implicit",
-        "Default"
-      ],
-      "show_arrow_function_lexical": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Default",
+          "sub": "global / undefined",
+          "annotation": "Default binding: standalone call → this = window (sloppy) or undefined (strict)."
+        },
+        {
+          "label": "Implicit",
+          "sub": "obj.method()",
+          "annotation": "Implicit: method called on object → this = that object."
+        },
+        {
+          "label": "Explicit",
+          "sub": ".call/.apply/.bind",
+          "annotation": "Explicit: call(ctx) / apply(ctx) / bind(ctx) set this manually."
+        },
+        {
+          "label": "new binding",
+          "sub": "new Ctor()",
+          "annotation": "new: creates fresh object, sets this to it, returns it."
+        },
+        {
+          "label": "Arrow fn",
+          "sub": "Lexical this",
+          "annotation": "Arrow function: no own this — inherits from surrounding lexical scope."
+        }
+      ]
     }
   },
   "exercise": {

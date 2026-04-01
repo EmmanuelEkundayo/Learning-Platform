@@ -23,10 +23,54 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "decorator-wrapping-layers",
-      "show_recursive_delegation": true,
-      "show_dynamic_composition": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "Calls interface"
+          ]
+        },
+        {
+          "label": "Decorator C",
+          "items": [
+            "Logging wrapper"
+          ]
+        },
+        {
+          "label": "Decorator B",
+          "items": [
+            "Auth wrapper"
+          ]
+        },
+        {
+          "label": "Core Component",
+          "items": [
+            "Real behaviour"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client calls the outermost decorator — same interface as core."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Decorator C adds logging, calls inner."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Decorator B adds auth check, calls inner."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Core component runs its actual logic. Decorators stack without subclassing."
+        }
+      ]
     }
   },
   "exercise": {

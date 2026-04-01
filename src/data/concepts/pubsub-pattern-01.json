@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "fan-out-flow",
-      "show_topics_and_subscribers": true,
-      "show_message_cloning": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Publisher",
+          "sub": "Emit event",
+          "annotation": "Publisher emits event to the event bus — no knowledge of subscribers."
+        },
+        {
+          "label": "Event Bus",
+          "sub": "Route by topic",
+          "annotation": "Bus routes message to all subscribers of that topic."
+        },
+        {
+          "label": "Subscriber A",
+          "sub": "Handle event",
+          "annotation": "Subscriber A processes independently."
+        },
+        {
+          "label": "Subscriber B",
+          "sub": "Handle event",
+          "annotation": "Subscriber B processes independently — fully decoupled."
+        },
+        {
+          "label": "Decouple",
+          "sub": "Add/remove freely",
+          "annotation": "New subscribers added without changing publisher code."
+        }
+      ]
     }
   },
   "exercise": {

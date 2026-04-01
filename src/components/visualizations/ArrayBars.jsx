@@ -3,9 +3,9 @@ import * as d3 from 'd3'
 import StepControls from './StepControls.jsx'
 import { useInterval } from '../../hooks/useInterval.js'
 import {
-  generateQuicksortSteps,
-  DEFAULT_SORT_ARRAY,
-} from '../../utils/algorithms/quicksortSteps.js'
+  getSteps,
+  DEFAULT_SORT_ARRAY
+} from '../../utils/algorithms/registry.js'
 
 const SPEED_MS = { 0.5: 1400, 1: 700, 1.5: 467, 2: 350, 3: 233 }
 
@@ -32,8 +32,8 @@ export default function ArrayBars({ config = {}, data }) {
     [data]
   )
   const steps = useMemo(
-    () => generateQuicksortSteps(inputArray),
-    [inputArray]
+    () => getSteps('sorting', config.mode, inputArray),
+    [inputArray, config.mode]
   )
 
   const [step,    setStep]    = useState(0)

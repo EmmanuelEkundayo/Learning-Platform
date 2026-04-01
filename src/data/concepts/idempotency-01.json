@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "idempotency-key-flow",
-      "show_header_key": true,
-      "show_cache_lookup": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Request",
+          "sub": "Idempotency-Key header",
+          "annotation": "Client sends request with unique Idempotency-Key."
+        },
+        {
+          "label": "Check",
+          "sub": "Key in store?",
+          "annotation": "Server checks Redis/DB: has this key been processed before?"
+        },
+        {
+          "label": "Already done",
+          "sub": "Return cached",
+          "annotation": "Key found: return cached response immediately — don't re-process."
+        },
+        {
+          "label": "Process",
+          "sub": "Execute op",
+          "annotation": "New key: execute the operation normally."
+        },
+        {
+          "label": "Store",
+          "sub": "Save result",
+          "annotation": "Store result keyed by Idempotency-Key. Retries return same response."
+        }
+      ]
     }
   },
   "exercise": {

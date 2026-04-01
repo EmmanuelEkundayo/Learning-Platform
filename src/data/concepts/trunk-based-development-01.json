@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "trunk-vs-gitflow-diff",
-      "show_short_lived_branches": true,
-      "show_continuous_integration_pulse": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Commit",
+          "sub": "Direct to main",
+          "annotation": "Developer commits small, complete change directly to main (trunk)."
+        },
+        {
+          "label": "CI",
+          "sub": "Runs immediately",
+          "annotation": "CI triggered on every commit — build and tests must pass before merge."
+        },
+        {
+          "label": "Feature flags",
+          "sub": "Incomplete work",
+          "annotation": "Incomplete features hidden behind feature flags — merged but not active."
+        },
+        {
+          "label": "Release",
+          "sub": "Any commit",
+          "annotation": "Any green commit on main is potentially releasable."
+        },
+        {
+          "label": "No long branches",
+          "sub": "Max 1 day",
+          "annotation": "Feature branches last < 1 day. No long-lived branches to merge."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,87 @@
   "visualization": {
     "type": "state-diagram",
     "config": {
-      "mode": "worker-main-communication",
-      "show_message_passing": true,
-      "show_thread_isolation": true,
-      "step_annotations": true
+      "states": [
+        {
+          "id": "main",
+          "label": "Main Thread",
+          "sub": "UI + JS"
+        },
+        {
+          "id": "spawn",
+          "label": "Spawn",
+          "sub": "new Worker()"
+        },
+        {
+          "id": "worker",
+          "label": "Worker",
+          "sub": "background JS"
+        },
+        {
+          "id": "msg_out",
+          "label": "postMessage",
+          "sub": "main → worker"
+        },
+        {
+          "id": "msg_in",
+          "label": "onmessage",
+          "sub": "worker → main"
+        }
+      ],
+      "transitions": [
+        {
+          "from": "main",
+          "to": "spawn",
+          "label": "create"
+        },
+        {
+          "from": "spawn",
+          "to": "worker",
+          "label": "initialise"
+        },
+        {
+          "from": "main",
+          "to": "msg_out",
+          "label": "postMessage()"
+        },
+        {
+          "from": "msg_out",
+          "to": "worker",
+          "label": "MessageEvent"
+        },
+        {
+          "from": "worker",
+          "to": "msg_in",
+          "label": "postMessage()"
+        },
+        {
+          "from": "msg_in",
+          "to": "main",
+          "label": "onmessage cb"
+        }
+      ],
+      "steps": [
+        {
+          "active_state": "main",
+          "annotation": "Main thread: runs all UI code. Blocking work here freezes the page."
+        },
+        {
+          "active_state": "spawn",
+          "annotation": "new Worker(\"worker.js\") creates a background thread with its own JS runtime."
+        },
+        {
+          "active_state": "worker",
+          "annotation": "Worker has no DOM access. Ideal for CPU-intensive work: parsing, image processing, crypto."
+        },
+        {
+          "active_state": "msg_out",
+          "annotation": "main.postMessage(data) — data is structured-cloned (deep copy) to the worker."
+        },
+        {
+          "active_state": "msg_in",
+          "annotation": "worker.postMessage(result) — result flows back. Main thread updates UI with the result."
+        }
+      ]
     }
   },
   "exercise": {

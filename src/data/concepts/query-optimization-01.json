@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "explain-plan-exec",
-      "show_cost_estimation": true,
-      "show_index_scan_vs_seq_scan": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Slow query",
+          "sub": "EXPLAIN ANALYZE",
+          "annotation": "Run EXPLAIN ANALYZE to see the query plan and actual times."
+        },
+        {
+          "label": "Seq scan",
+          "sub": "No index",
+          "annotation": "Sequential scan: reading every row. Bad for large tables with filters."
+        },
+        {
+          "label": "Add index",
+          "sub": "B-tree on col",
+          "annotation": "Add index on filter/sort column. Planner switches to index scan."
+        },
+        {
+          "label": "Covering index",
+          "sub": "Include columns",
+          "annotation": "Include projected columns in index — query satisfied without heap fetch."
+        },
+        {
+          "label": "Verify",
+          "sub": "Re-EXPLAIN",
+          "annotation": "Re-run EXPLAIN ANALYZE — confirm index used and rows examined reduced."
+        }
+      ]
     }
   },
   "exercise": {

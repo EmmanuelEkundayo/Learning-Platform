@@ -23,10 +23,55 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "tls-termination-handshake",
-      "show_encryption_boundary": true,
-      "show_cpu_savings": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client",
+          "items": [
+            "HTTPS request"
+          ]
+        },
+        {
+          "label": "Terminator",
+          "items": [
+            "Load Balancer",
+            "Decrypt TLS"
+          ]
+        },
+        {
+          "label": "Internal Network",
+          "items": [
+            "Plain HTTP"
+          ]
+        },
+        {
+          "label": "Backend",
+          "items": [
+            "App servers"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client sends encrypted HTTPS request."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Load balancer / proxy holds the TLS certificate and decrypts traffic."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Decrypted traffic travels over the trusted internal network as HTTP."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Backend servers handle plain HTTP — no TLS overhead per server."
+        }
+      ]
     }
   },
   "exercise": {

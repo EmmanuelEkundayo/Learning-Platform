@@ -23,10 +23,47 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "proxy-request-forwarding",
-      "show_header_translation": true,
-      "show_internal_ip_hiding": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Internet",
+          "items": [
+            "Clients"
+          ]
+        },
+        {
+          "label": "Reverse Proxy",
+          "items": [
+            "Nginx / Caddy",
+            "SSL Term",
+            "Compression"
+          ]
+        },
+        {
+          "label": "Backend Pool",
+          "items": [
+            "App Server 1",
+            "App Server 2"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "All traffic hits reverse proxy — backends never exposed directly."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Proxy terminates TLS, compresses, rate-limits, and forwards."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Backend servers receive plain HTTP from proxy's private network."
+        }
+      ]
     }
   },
   "exercise": {

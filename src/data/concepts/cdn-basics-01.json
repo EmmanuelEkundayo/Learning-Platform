@@ -23,10 +23,46 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "geographical-latency",
-      "show_edge_nodes": true,
-      "show_origin_fallthrough": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "User",
+          "items": [
+            "Browser"
+          ]
+        },
+        {
+          "label": "Edge PoP",
+          "items": [
+            "Cache Hit?",
+            "Nearest DC"
+          ]
+        },
+        {
+          "label": "Origin",
+          "items": [
+            "Web Server",
+            "Object Store"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "User requests asset — DNS resolves to nearest CDN edge node."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Edge checks cache. HIT: serves immediately. MISS: fetches from origin."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Origin serves asset; edge caches it with TTL for future requests."
+        }
+      ]
     }
   },
   "exercise": {

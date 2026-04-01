@@ -23,10 +23,48 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "k8s-cluster-components",
-      "show_apiserver_etcd_scheduler": true,
-      "show_kubelet_proxy": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "kubectl",
+          "items": [
+            "CLI / YAML"
+          ]
+        },
+        {
+          "label": "Control Plane",
+          "items": [
+            "API Server",
+            "Scheduler",
+            "etcd"
+          ]
+        },
+        {
+          "label": "Worker Nodes",
+          "items": [
+            "kubelet",
+            "kube-proxy",
+            "Pods"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "kubectl submits desired state (YAML manifest) to the API server."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Control plane: scheduler picks node, controller reconciles actual vs desired."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "kubelet on worker node pulls image and runs the pod containers."
+        }
+      ]
     }
   },
   "exercise": {

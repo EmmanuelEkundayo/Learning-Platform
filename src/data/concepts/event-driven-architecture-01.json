@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "event-bus-mesh",
-      "show_loose_coupling": true,
-      "show_event_types": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Event",
+          "sub": "Produced",
+          "annotation": "Producer emits event: \"order.placed\" with payload."
+        },
+        {
+          "label": "Event Bus",
+          "sub": "Kafka / SNS",
+          "annotation": "Event persisted to durable event bus / message broker."
+        },
+        {
+          "label": "Subscribers",
+          "sub": "Fan-out",
+          "annotation": "Multiple consumers independently subscribe to the event."
+        },
+        {
+          "label": "Process",
+          "sub": "Each consumer",
+          "annotation": "Each consumer processes at its own pace — fully decoupled."
+        },
+        {
+          "label": "Replay",
+          "sub": "Event log",
+          "annotation": "Events stored permanently — consumers can replay from any offset."
+        }
+      ]
     }
   },
   "exercise": {

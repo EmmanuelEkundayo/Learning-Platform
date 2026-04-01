@@ -23,14 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "worker-pool-distribution",
-      "show_task_status": [
-        "Pending",
-        "Processing",
-        "Completed"
-      ],
-      "show_concurrency_scaling": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Enqueue",
+          "sub": "Add job",
+          "annotation": "Producer adds job to queue with payload and priority."
+        },
+        {
+          "label": "Persist",
+          "sub": "Redis / DB",
+          "annotation": "Job persisted durably — survives worker restart."
+        },
+        {
+          "label": "Worker",
+          "sub": "Poll / listen",
+          "annotation": "Worker process picks up job — moves to \"active\" state."
+        },
+        {
+          "label": "Execute",
+          "sub": "Run job fn",
+          "annotation": "Job handler runs. On error: retried with backoff up to max attempts."
+        },
+        {
+          "label": "Complete",
+          "sub": "Remove job",
+          "annotation": "On success: job removed from queue. Result stored if needed."
+        }
+      ]
     }
   },
   "exercise": {

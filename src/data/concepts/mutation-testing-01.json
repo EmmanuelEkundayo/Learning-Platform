@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "mutant-kill-vs-survival",
-      "show_operator_inversion_logic": true,
-      "show_test_score_calculation": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Original tests",
+          "sub": "Test suite runs",
+          "annotation": "Run existing test suite — all tests pass (green baseline)."
+        },
+        {
+          "label": "Generate mutants",
+          "sub": "Modify source",
+          "annotation": "Mutation tool generates variants: flip operators, change values, remove lines."
+        },
+        {
+          "label": "Run tests",
+          "sub": "Per mutant",
+          "annotation": "Full test suite re-run for each mutant."
+        },
+        {
+          "label": "Killed",
+          "sub": "Test caught it",
+          "annotation": "Mutant killed: at least one test fails — tests are effective."
+        },
+        {
+          "label": "Survived",
+          "sub": "Gap in coverage",
+          "annotation": "Mutant survives: no test caught the change — write a better test."
+        }
+      ]
     }
   },
   "exercise": {

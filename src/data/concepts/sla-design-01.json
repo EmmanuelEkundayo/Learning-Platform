@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "reliability-stack-mapping",
-      "show_sli_vs_slo_vs_sla": true,
-      "show_error_budget_burn": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Define",
+          "sub": "SLI + SLO",
+          "annotation": "Define SLIs (measured metrics) and SLOs (targets): 99.9% uptime."
+        },
+        {
+          "label": "Error budget",
+          "sub": "Remaining allowance",
+          "annotation": "Error budget = 1 - SLO. 0.1% = 43.8 min/month downtime allowed."
+        },
+        {
+          "label": "Measure",
+          "sub": "Real traffic",
+          "annotation": "Measure SLIs from real user traffic — synthetic monitors miss edge cases."
+        },
+        {
+          "label": "Burn rate",
+          "sub": "Alert on rate",
+          "annotation": "Alert when error budget burns faster than expected — incident in progress."
+        },
+        {
+          "label": "Review",
+          "sub": "Monthly meeting",
+          "annotation": "SLA review: adjust SLOs, prioritise reliability work if budget exhausted."
+        }
+      ]
     }
   },
   "exercise": {

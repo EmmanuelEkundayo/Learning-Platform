@@ -22,10 +22,64 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "packet-flow",
-      "show_handshake": true,
-      "show_retransmission": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "TCP",
+          "items": [
+            "3-way handshake",
+            "Ordered delivery",
+            "Retransmit"
+          ]
+        },
+        {
+          "label": "Use Cases",
+          "items": [
+            "HTTP/1.1",
+            "SMTP",
+            "SSH",
+            "File transfer"
+          ]
+        },
+        {
+          "label": "UDP",
+          "items": [
+            "No handshake",
+            "No order",
+            "No retransmit"
+          ]
+        },
+        {
+          "label": "Use Cases",
+          "items": [
+            "DNS",
+            "Video call",
+            "Gaming",
+            "QUIC"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "TCP: connection-oriented. SYN → SYN-ACK → ACK before any data."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "TCP use cases: anything needing reliability and ordering."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "UDP: connectionless. Fire and forget. Lower latency, no guarantees."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "UDP use cases: real-time where fresh data beats old retransmit."
+        }
+      ]
     }
   },
   "exercise": {

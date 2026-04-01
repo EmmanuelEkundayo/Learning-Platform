@@ -23,9 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "dns-lookup",
-      "show_recursive_steps": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Browser",
+          "items": [
+            "example.com"
+          ]
+        },
+        {
+          "label": "OS Cache",
+          "items": [
+            "hosts file",
+            "DNS cache"
+          ]
+        },
+        {
+          "label": "Recursive Resolver",
+          "items": [
+            "ISP DNS"
+          ]
+        },
+        {
+          "label": "Root / TLD / Auth",
+          "items": [
+            ".",
+            ".com NS",
+            "example.com NS"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Browser requests example.com IP."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "OS checks local cache and hosts file first. On miss, asks resolver."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Recursive resolver checks its own cache. On miss, begins traversal."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Resolver queries root → TLD → authoritative NS. Returns A record."
+        }
+      ]
     }
   },
   "exercise": {

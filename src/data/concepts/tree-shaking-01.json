@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "dead-code-elimination-flow",
-      "show_import_usage_tracking": true,
-      "show_side_effect_preservation": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "ES modules",
+          "sub": "Static imports",
+          "annotation": "Tree-shaking requires ES module static imports — no dynamic require()."
+        },
+        {
+          "label": "Entry point",
+          "sub": "Module graph",
+          "annotation": "Bundler builds a module dependency graph from the entry point."
+        },
+        {
+          "label": "Mark used",
+          "sub": "Live bindings",
+          "annotation": "Bundler marks all exported bindings that are actually imported."
+        },
+        {
+          "label": "Eliminate",
+          "sub": "Dead code",
+          "annotation": "Unused exports removed — not included in the output bundle."
+        },
+        {
+          "label": "sideEffects",
+          "sub": "package.json flag",
+          "annotation": "\"sideEffects\": false signals all modules are safe to tree-shake."
+        }
+      ]
     }
   },
   "exercise": {

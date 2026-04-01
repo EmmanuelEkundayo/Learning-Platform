@@ -23,10 +23,59 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "onion-architecture-view",
-      "show_dependency_direction_inward": true,
-      "show_entity_core_protection": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Frameworks",
+          "items": [
+            "React",
+            "Express",
+            "DB Driver"
+          ]
+        },
+        {
+          "label": "Interface Adapters",
+          "items": [
+            "Controllers",
+            "Presenters",
+            "Gateways"
+          ]
+        },
+        {
+          "label": "Use Cases",
+          "items": [
+            "Application Logic"
+          ]
+        },
+        {
+          "label": "Entities",
+          "items": [
+            "Business Rules",
+            "Domain Models"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Outer ring: frameworks and I/O. Most volatile — can be swapped."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Adapters translate between use-case format and external format."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Use cases contain application-specific business rules."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Entities: core business logic, no dependencies. Most stable ring."
+        }
+      ]
     }
   },
   "exercise": {

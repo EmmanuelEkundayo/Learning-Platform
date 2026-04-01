@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "code-transformation-pipeline",
-      "show_ast_parsing": true,
-      "show_esnext_vs_es5_output": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Source",
+          "sub": "ES2024 / JSX",
+          "annotation": "Modern JS or JSX written by developer."
+        },
+        {
+          "label": "Parse",
+          "sub": "AST created",
+          "annotation": "Babel parses source into Abstract Syntax Tree."
+        },
+        {
+          "label": "Transform",
+          "sub": "Plugin chain",
+          "annotation": "Each Babel plugin traverses and transforms the AST."
+        },
+        {
+          "label": "Generate",
+          "sub": "ES5 output",
+          "annotation": "Babel generates ES5-compatible code from the transformed AST."
+        },
+        {
+          "label": "Bundle",
+          "sub": "Webpack / Vite",
+          "annotation": "Transpiled code bundled with other modules for the browser."
+        }
+      ]
     }
   },
   "exercise": {

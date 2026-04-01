@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "rsc-client-boundary",
-      "show_server_vs_client_components": true,
-      "show_zero_bundle_impact": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Request",
+          "sub": "Server receives",
+          "annotation": "Client navigates — server receives request."
+        },
+        {
+          "label": "RSC render",
+          "sub": "On server",
+          "annotation": "Server Components render on the server: DB queries, no JS bundle shipped."
+        },
+        {
+          "label": "Serialise",
+          "sub": "RSC wire format",
+          "annotation": "React serialises component tree (not HTML) to wire format."
+        },
+        {
+          "label": "Client",
+          "sub": "Merge tree",
+          "annotation": "Client merges server tree with interactive Client Components."
+        },
+        {
+          "label": "No hydration",
+          "sub": "For SC",
+          "annotation": "Server Components never hydrate — zero client-side JS for static parts."
+        }
+      ]
     }
   },
   "exercise": {

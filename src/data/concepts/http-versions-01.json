@@ -23,10 +23,49 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "http-evolution",
-      "show_multiplexing": true,
-      "show_handshake": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "HTTP/1.1",
+          "items": [
+            "1 req/connection",
+            "Head-of-line blocking"
+          ]
+        },
+        {
+          "label": "HTTP/2",
+          "items": [
+            "Multiplexed streams",
+            "Header compression",
+            "Server push"
+          ]
+        },
+        {
+          "label": "HTTP/3",
+          "items": [
+            "QUIC / UDP",
+            "0-RTT",
+            "Built-in TLS"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "HTTP/1.1: one outstanding request per connection. 6-connection workaround needed."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "HTTP/2: multiple requests in-flight on one TCP connection. HPACK header compression."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "HTTP/3: QUIC over UDP eliminates TCP head-of-line blocking. Faster handshake."
+        }
+      ]
     }
   },
   "exercise": {

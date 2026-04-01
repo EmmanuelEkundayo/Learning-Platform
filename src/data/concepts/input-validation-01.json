@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "validation-pipeline",
-      "show_schema_check": true,
-      "show_type_coercion": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Input arrives",
+          "sub": "User / API data",
+          "annotation": "Untrusted data arrives at the system boundary."
+        },
+        {
+          "label": "Type check",
+          "sub": "Schema validate",
+          "annotation": "Type, format, and length validated against schema (Zod, Joi)."
+        },
+        {
+          "label": "Whitelist",
+          "sub": "Allowed values",
+          "annotation": "Allowlist validation preferred over blacklist — reject unknown."
+        },
+        {
+          "label": "Sanitise",
+          "sub": "Strip HTML",
+          "annotation": "Sanitise for output context: HTML encode, SQL parameterise."
+        },
+        {
+          "label": "Reject",
+          "sub": "400 Bad Request",
+          "annotation": "Invalid input rejected with descriptive error — never silently dropped."
+        }
+      ]
     }
   },
   "exercise": {

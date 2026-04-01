@@ -23,10 +23,48 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "command-undo-stack",
-      "show_execute_vs_unexecute": true,
-      "show_history_rollback_anim": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Invoker",
+          "items": [
+            "Button",
+            "Scheduler"
+          ]
+        },
+        {
+          "label": "Command",
+          "items": [
+            "execute()",
+            "undo()"
+          ]
+        },
+        {
+          "label": "Receiver",
+          "items": [
+            "Editor",
+            "DB",
+            "API"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Invoker holds a command object and calls execute() — no coupling to receiver."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Command object encapsulates the action, its params, and undo logic."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Receiver performs the actual work. Invoker never calls it directly."
+        }
+      ]
     }
   },
   "exercise": {

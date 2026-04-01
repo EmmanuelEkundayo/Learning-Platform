@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "incident-lifecycle-flow",
-      "show_detection_to_resolution_delta": true,
-      "show_blameless_postmortem_steps": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Alert",
+          "sub": "PagerDuty fires",
+          "annotation": "Alert triggered — on-call engineer paged within SLO breach window."
+        },
+        {
+          "label": "Triage",
+          "sub": "Assess severity",
+          "annotation": "Responder identifies scope: which services affected, how many users."
+        },
+        {
+          "label": "Mitigate",
+          "sub": "Stop the bleeding",
+          "annotation": "Immediate mitigation: rollback, feature flag off, traffic shift."
+        },
+        {
+          "label": "Resolve",
+          "sub": "Root cause fix",
+          "annotation": "Root cause identified and fixed. System returns to steady state."
+        },
+        {
+          "label": "Post-mortem",
+          "sub": "Blameless review",
+          "annotation": "Blameless post-mortem: timeline, contributing factors, action items."
+        }
+      ]
     }
   },
   "exercise": {

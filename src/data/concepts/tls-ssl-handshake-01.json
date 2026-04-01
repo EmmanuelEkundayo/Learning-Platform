@@ -23,10 +23,60 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "tls-1.2-vs-1.3",
-      "show_handshake_steps": true,
-      "show_certificates": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Client Hello",
+          "items": [
+            "TLS version",
+            "Cipher suites",
+            "Random"
+          ]
+        },
+        {
+          "label": "Server Hello",
+          "items": [
+            "Chosen cipher",
+            "Certificate",
+            "Random"
+          ]
+        },
+        {
+          "label": "Key Exchange",
+          "items": [
+            "ECDHE params",
+            "Pre-master secret"
+          ]
+        },
+        {
+          "label": "Encrypted",
+          "items": [
+            "Session keys",
+            "Application data"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Client Hello: advertises supported TLS versions and cipher suites."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Server Hello: selects cipher suite, sends certificate for authentication."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Key exchange: both sides derive session keys via ECDHE — no secret over wire."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Handshake complete. All application data encrypted with symmetric session keys."
+        }
+      ]
     }
   },
   "exercise": {

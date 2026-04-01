@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "github-actions-lifecycle",
-      "show_runner_spawning": true,
-      "show_secret_injection": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Push / PR",
+          "sub": "Event trigger",
+          "annotation": "Workflow triggered by git event: push, pull_request, schedule."
+        },
+        {
+          "label": "Runner",
+          "sub": "ubuntu-latest",
+          "annotation": "GitHub provisions a fresh virtual machine to run the job."
+        },
+        {
+          "label": "Checkout",
+          "sub": "actions/checkout",
+          "annotation": "Repository code checked out onto the runner."
+        },
+        {
+          "label": "Steps",
+          "sub": "Run commands",
+          "annotation": "Steps execute sequentially: install, build, test, deploy."
+        },
+        {
+          "label": "Artifacts",
+          "sub": "Upload / cache",
+          "annotation": "Build artifacts uploaded. Dependencies cached for next run."
+        }
+      ]
     }
   },
   "exercise": {

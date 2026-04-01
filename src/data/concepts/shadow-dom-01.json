@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "shadow-vs-light-dom",
-      "show_encapsulation_boundary": true,
-      "show_css_scoping": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Create",
+          "sub": "attachShadow()",
+          "annotation": "element.attachShadow({mode:open}) creates an isolated DOM subtree."
+        },
+        {
+          "label": "Shadow root",
+          "sub": "Boundary",
+          "annotation": "Shadow root is a boundary — styles and DOM inside don't leak out, and vice versa."
+        },
+        {
+          "label": "Slot",
+          "sub": "<slot>",
+          "annotation": "<slot> elements define where Light DOM children are projected into shadow."
+        },
+        {
+          "label": "Style",
+          "sub": "Scoped CSS",
+          "annotation": "CSS inside shadow root only affects shadow DOM — no cascade leakage."
+        },
+        {
+          "label": "::part",
+          "sub": "Expose styling hooks",
+          "annotation": "::part() CSS pseudo-element lets the outside style specific shadow parts."
+        }
+      ]
     }
   },
   "exercise": {

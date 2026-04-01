@@ -24,9 +24,33 @@
   "visualization": {
     "type": "loss-landscape",
     "config": {
-      "mode": "train-val-curves",
-      "show_gap": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Training",
+          "sub": "Model learns",
+          "annotation": "Model trained on training set — loss decreases."
+        },
+        {
+          "label": "Validate",
+          "sub": "Validation loss",
+          "annotation": "Track validation loss alongside training loss."
+        },
+        {
+          "label": "Underfit",
+          "sub": "Both losses high",
+          "annotation": "High train + val loss: model too simple — increase capacity or train longer."
+        },
+        {
+          "label": "Good fit",
+          "sub": "Both losses low",
+          "annotation": "Low train + val loss, small gap: generalises well."
+        },
+        {
+          "label": "Overfit",
+          "sub": "Val loss rises",
+          "annotation": "Train loss low, val loss climbs: memorising data. Add dropout/regularisation."
+        }
+      ]
     }
   },
   "exercise": {

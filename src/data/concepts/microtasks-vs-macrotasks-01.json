@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "queue-priority-execution",
-      "show_microtask_exhaustion": true,
-      "show_rendering_window": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Sync code",
+          "sub": "Call stack",
+          "annotation": "Synchronous code runs on call stack first."
+        },
+        {
+          "label": "Stack empty",
+          "sub": "Check microtasks",
+          "annotation": "When stack empties, microtask queue checked before anything else."
+        },
+        {
+          "label": "Microtasks",
+          "sub": "Drain all",
+          "annotation": "ALL microtasks drain: Promise .then, queueMicrotask, MutationObserver."
+        },
+        {
+          "label": "Render",
+          "sub": "Optional",
+          "annotation": "Browser may render (rAF) — only if microtask queue is empty."
+        },
+        {
+          "label": "Macrotask",
+          "sub": "One per loop",
+          "annotation": "ONE macrotask runs: setTimeout, setInterval, I/O callback. Then repeat."
+        }
+      ]
     }
   },
   "exercise": {

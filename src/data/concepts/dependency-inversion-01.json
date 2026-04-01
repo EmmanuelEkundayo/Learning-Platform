@@ -23,10 +23,45 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "dependency-graph-inversion",
-      "show_abstraction_layer_insertion": true,
-      "show_mock_swapping_demo": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "High-level",
+          "items": [
+            "OrderService"
+          ]
+        },
+        {
+          "label": "Abstraction",
+          "items": [
+            "IRepository interface"
+          ]
+        },
+        {
+          "label": "Low-level",
+          "items": [
+            "PostgresRepo",
+            "MongoRepo"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "High-level module defines what it needs via interface — no concrete deps."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Both high- and low-level modules depend on the abstraction."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Low-level implementations can be swapped without touching business logic."
+        }
+      ]
     }
   },
   "exercise": {

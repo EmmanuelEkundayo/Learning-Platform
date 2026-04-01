@@ -24,6 +24,7 @@
   "visualization": {
     "type": "graph-traversal",
     "config": {
+      "mode": "bfs",
       "nodes": 8,
       "directed": false,
       "weighted": false,

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "lighthouse-weight-distribution",
-      "show_performance_metrics": true,
-      "show_weighted_impact": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Audit",
+          "sub": "Lighthouse runs",
+          "annotation": "Lighthouse loads the page and collects metrics via Chrome DevTools."
+        },
+        {
+          "label": "Performance",
+          "sub": "LCP FID CLS",
+          "annotation": "Core Web Vitals measured — weighted into performance score (0-100)."
+        },
+        {
+          "label": "Accessibility",
+          "sub": "ARIA audit",
+          "annotation": "Checks colour contrast, ARIA roles, focus management."
+        },
+        {
+          "label": "Best Practices",
+          "sub": "Security / APIs",
+          "annotation": "Checks HTTPS, deprecated APIs, console errors."
+        },
+        {
+          "label": "SEO",
+          "sub": "Meta / crawlability",
+          "annotation": "Checks meta descriptions, viewport, structured data."
+        }
+      ]
     }
   },
   "exercise": {

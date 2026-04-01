@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "cqrs-split-flow",
-      "show_command_vs_query_path": true,
-      "show_read_db_sync": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Command",
+          "sub": "Write intent",
+          "annotation": "Command issued: CreateOrder — intent to change state, no return data."
+        },
+        {
+          "label": "Command handler",
+          "sub": "Validate + execute",
+          "annotation": "Handler validates command, applies business rules, updates write model."
+        },
+        {
+          "label": "Event emitted",
+          "sub": "OrderCreated",
+          "annotation": "Domain event published after state change."
+        },
+        {
+          "label": "Query",
+          "sub": "Read request",
+          "annotation": "Query issued: GetOrder — read-only, no side effects."
+        },
+        {
+          "label": "Read model",
+          "sub": "Optimised view",
+          "annotation": "Read model updated by event handler — optimised for query access patterns."
+        }
+      ]
     }
   },
   "exercise": {

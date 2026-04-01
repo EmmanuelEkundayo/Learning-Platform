@@ -23,15 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "keyframe-timeline-preview",
-      "show_easing_curves": [
-        "linear",
-        "ease-in",
-        "ease-out",
-        "cubic-bezier"
-      ],
-      "show_gpu_acceleration_status": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Keyframes",
+          "sub": "@keyframes def",
+          "annotation": "Define animation states with @keyframes — from/to or percentage stops."
+        },
+        {
+          "label": "Apply",
+          "sub": "animation: prop",
+          "annotation": "animation property applied to element: name, duration, easing, fill-mode."
+        },
+        {
+          "label": "Start",
+          "sub": "animation-delay",
+          "annotation": "Animation begins after delay. animationstart event fires."
+        },
+        {
+          "label": "Running",
+          "sub": "Compositor",
+          "annotation": "Browser runs on compositor thread — no layout or paint for transform/opacity."
+        },
+        {
+          "label": "End / Loop",
+          "sub": "fill-mode / count",
+          "annotation": "animation-fill-mode retains final state. iteration-count loops."
+        }
+      ]
     }
   },
   "exercise": {

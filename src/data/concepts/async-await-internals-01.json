@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "async-execution-flow",
-      "show_stack_vs_heap": true,
-      "show_event_loop_interaction": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "async fn",
+          "sub": "Returns Promise",
+          "annotation": "async function implicitly returns a Promise wrapping the return value."
+        },
+        {
+          "label": "await expr",
+          "sub": "Suspend fn",
+          "annotation": "await suspends the async function — execution returns to the caller."
+        },
+        {
+          "label": "Microtask Q",
+          "sub": "Promise resolves",
+          "annotation": "When awaited Promise settles, continuation enqueued as a microtask."
+        },
+        {
+          "label": "Resume",
+          "sub": "Fn continues",
+          "annotation": "Microtask queue drains — async function resumes from where it suspended."
+        },
+        {
+          "label": "Return",
+          "sub": "Resolve outer",
+          "annotation": "Function returns, outer Promise resolves with the return value."
+        }
+      ]
     }
   },
   "exercise": {

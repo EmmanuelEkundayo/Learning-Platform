@@ -23,10 +23,38 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "gherkin-to-code-mapping",
-      "show_given_when_then_logical_flow": true,
-      "show_stakeholder_sync_view": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Feature File",
+          "sub": "Gherkin syntax",
+          "annotation": "Stakeholder writes Given/When/Then scenarios in plain English."
+        },
+        {
+          "label": "Step Defs",
+          "sub": "Code binding",
+          "annotation": "Developer writes step definitions that match Gherkin phrases."
+        },
+        {
+          "label": "Run",
+          "sub": "Cucumber/Jest",
+          "annotation": "Test runner matches scenario steps to definitions and executes them."
+        },
+        {
+          "label": "Red",
+          "sub": "Fails first",
+          "annotation": "Scenario fails — no implementation yet. Drives development."
+        },
+        {
+          "label": "Implement",
+          "sub": "Write code",
+          "annotation": "Write code to satisfy the scenario. Run again."
+        },
+        {
+          "label": "Green",
+          "sub": "Passes",
+          "annotation": "All scenarios green — feature is done and documented as tests."
+        }
+      ]
     }
   },
   "exercise": {

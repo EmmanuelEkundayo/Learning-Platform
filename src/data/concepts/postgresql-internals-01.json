@@ -23,10 +23,58 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "mvcc-flow",
-      "show_xmin_xmax": true,
-      "show_visibility_map": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Query",
+          "items": [
+            "SQL string"
+          ]
+        },
+        {
+          "label": "Query Planner",
+          "items": [
+            "Parse",
+            "Analyse",
+            "Plan"
+          ]
+        },
+        {
+          "label": "Executor",
+          "items": [
+            "Seq scan / Index scan"
+          ]
+        },
+        {
+          "label": "Storage",
+          "items": [
+            "Buffer pool",
+            "WAL",
+            "Heap pages"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "SQL string received by parser — creates parse tree."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Planner analyses stats and chooses cheapest execution plan (seq vs index scan)."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Executor runs the plan: fetches pages, applies filters, sorts."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Buffer pool caches hot pages. WAL ensures durability before commit."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,33 @@
   "visualization": {
     "type": "array-bars",
     "config": {
-      "mode": "resource-pool",
-      "show_idle_vs_active": true,
-      "show_queueing": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "App Start",
+          "sub": "Pool created",
+          "annotation": "Pool initialised with min connections pre-opened to DB."
+        },
+        {
+          "label": "Request",
+          "sub": "Acquire conn",
+          "annotation": "Request asks pool for a connection — acquired in O(1)."
+        },
+        {
+          "label": "Query",
+          "sub": "Execute SQL",
+          "annotation": "Connection used to execute the query against the DB."
+        },
+        {
+          "label": "Release",
+          "sub": "Return to pool",
+          "annotation": "Connection returned to pool — not closed, ready for next request."
+        },
+        {
+          "label": "Pool Full",
+          "sub": "Wait / timeout",
+          "annotation": "If all connections busy, request queues until one is released."
+        }
+      ]
     }
   },
   "exercise": {

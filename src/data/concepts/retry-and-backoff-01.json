@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "backoff-multiplier",
-      "show_jitter_randomness": true,
-      "show_success_on_retry": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Request",
+          "sub": "Attempt 1",
+          "annotation": "Initial request sent."
+        },
+        {
+          "label": "503 received",
+          "sub": "Transient error",
+          "annotation": "Transient failure (503 / 429 / network timeout) — eligible for retry."
+        },
+        {
+          "label": "Wait",
+          "sub": "1s + jitter",
+          "annotation": "Wait base_delay * 2^attempt + random_jitter before next attempt."
+        },
+        {
+          "label": "Attempt 2",
+          "sub": "Retry",
+          "annotation": "Retry sent. Jitter prevents thundering herd from many clients retrying together."
+        },
+        {
+          "label": "Success / give up",
+          "sub": "Max retries",
+          "annotation": "Success: proceed. Max retries hit: fail with error to caller."
+        }
+      ]
     }
   },
   "exercise": {

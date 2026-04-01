@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "sql-injection-attack",
-      "show_malicious_query_construction": true,
-      "show_prepared_statement_fix": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Input",
+          "sub": "Malicious string",
+          "annotation": "Attacker enters: ' OR 1=1 -- in a form field."
+        },
+        {
+          "label": "Concat",
+          "sub": "Vulnerable code",
+          "annotation": "Vulnerable code: \"SELECT * FROM users WHERE name='\" + input + \"'\". Input terminates string and appends new SQL."
+        },
+        {
+          "label": "Exploit",
+          "sub": "Bypass auth / dump DB",
+          "annotation": "Injected SQL executes: returns all rows, drops tables, or exfiltrates data."
+        },
+        {
+          "label": "Parameterise",
+          "sub": "db.query(sql, [input])",
+          "annotation": "Fix: use parameterised queries — input treated as data, never as SQL."
+        },
+        {
+          "label": "ORM",
+          "sub": "Escape + map",
+          "annotation": "ORMs parameterise automatically. Never use raw string concatenation."
+        }
+      ]
     }
   },
   "exercise": {

@@ -23,10 +23,57 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "webhook-callback",
-      "show_event_trigger": true,
-      "show_retry_logic": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Event",
+          "items": [
+            "payment.completed"
+          ]
+        },
+        {
+          "label": "Provider",
+          "items": [
+            "Stripe / GitHub",
+            "POST to URL"
+          ]
+        },
+        {
+          "label": "Your Server",
+          "items": [
+            "Receive POST",
+            "Verify signature"
+          ]
+        },
+        {
+          "label": "Process",
+          "items": [
+            "Update DB",
+            "Send email"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Event occurs on the provider's platform."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Provider sends HTTP POST to your registered webhook URL."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Your server verifies HMAC signature to authenticate the payload."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Process the event — update DB, trigger downstream actions."
+        }
+      ]
     }
   },
   "exercise": {

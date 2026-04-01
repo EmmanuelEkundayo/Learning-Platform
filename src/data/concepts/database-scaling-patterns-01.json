@@ -23,10 +23,56 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "db-scaling-topology-view",
-      "show_master_slave_replication": true,
-      "show_shard_key_routing": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "App",
+          "items": [
+            "Query router"
+          ]
+        },
+        {
+          "label": "Read Replicas",
+          "items": [
+            "Replica 1",
+            "Replica 2"
+          ]
+        },
+        {
+          "label": "Shards",
+          "items": [
+            "Shard A (0-50)",
+            "Shard B (51-100)"
+          ]
+        },
+        {
+          "label": "Cache",
+          "items": [
+            "Redis"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "App layer decides routing strategy based on query type."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Read replicas absorb read traffic — offload primary."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Shards split data horizontally — each shard owns a range."
+        },
+        {
+          "active_layer": 3,
+          "annotation": "Cache sits in front — hot rows served without hitting DB."
+        }
+      ]
     }
   },
   "exercise": {

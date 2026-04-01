@@ -23,10 +23,33 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "saga-choreography-vs-orchestration",
-      "show_compensation_logic": true,
-      "show_service_hops": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Start saga",
+          "sub": "Orchestrator",
+          "annotation": "Saga orchestrator receives command: ProcessOrder."
+        },
+        {
+          "label": "Step 1",
+          "sub": "Reserve inventory",
+          "annotation": "Call inventory service: reserve items. Store compensation: release."
+        },
+        {
+          "label": "Step 2",
+          "sub": "Charge payment",
+          "annotation": "Call payment service: charge card. Store compensation: refund."
+        },
+        {
+          "label": "Step 3",
+          "sub": "Schedule delivery",
+          "annotation": "Call delivery service. All steps committed — saga complete."
+        },
+        {
+          "label": "Rollback",
+          "sub": "Compensate in reverse",
+          "annotation": "On any failure: execute compensating transactions in reverse order."
+        }
+      ]
     }
   },
   "exercise": {

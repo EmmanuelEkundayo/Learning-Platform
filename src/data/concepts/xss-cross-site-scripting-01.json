@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "xss-script-injection",
-      "show_stored_vs_reflected": true,
-      "show_session_cookie_theft": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Input",
+          "sub": "Malicious script",
+          "annotation": "Attacker injects <script>alert(document.cookie)</script> into input."
+        },
+        {
+          "label": "Stored",
+          "sub": "Persisted in DB",
+          "annotation": "Stored XSS: injected script saved in DB and served to other users."
+        },
+        {
+          "label": "Reflected",
+          "sub": "URL parameter",
+          "annotation": "Reflected XSS: script injected via URL query string — phishing link."
+        },
+        {
+          "label": "Executes",
+          "sub": "Victim's browser",
+          "annotation": "Victim loads page — script runs in their browser context."
+        },
+        {
+          "label": "Prevent",
+          "sub": "Encode + CSP",
+          "annotation": "Fix: HTML-encode output, use CSP headers, avoid innerHTML with user data."
+        }
+      ]
     }
   },
   "exercise": {

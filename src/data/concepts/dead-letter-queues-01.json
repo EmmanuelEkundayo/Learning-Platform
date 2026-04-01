@@ -23,10 +23,33 @@
   "visualization": {
     "type": "timeline-step",
     "config": {
-      "mode": "dlq-re-routing",
-      "show_retry_limit": true,
-      "show_manual_inspection": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "Message",
+          "sub": "Published to queue",
+          "annotation": "Producer publishes message to main queue."
+        },
+        {
+          "label": "Consume",
+          "sub": "Process attempt",
+          "annotation": "Consumer picks up message and attempts processing."
+        },
+        {
+          "label": "Failure",
+          "sub": "Nack / error",
+          "annotation": "Processing fails — message nacked or throws. Retry count incremented."
+        },
+        {
+          "label": "Max Retries",
+          "sub": "Retry limit hit",
+          "annotation": "After max retries, broker routes message to Dead Letter Queue."
+        },
+        {
+          "label": "DLQ",
+          "sub": "Inspect & replay",
+          "annotation": "Ops team inspects DLQ. Fix root cause and replay to main queue."
+        }
+      ]
     }
   },
   "exercise": {

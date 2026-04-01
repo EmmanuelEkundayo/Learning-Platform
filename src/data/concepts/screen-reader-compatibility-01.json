@@ -23,10 +23,33 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
-      "mode": "dom-to-accessibility-tree",
-      "show_node_roles_and_names": true,
-      "show_screen_reader_verbosity": true,
-      "step_annotations": true
+      "steps": [
+        {
+          "label": "DOM",
+          "sub": "Parsed",
+          "annotation": "Browser builds DOM and sends to accessibility tree."
+        },
+        {
+          "label": "Accessibility tree",
+          "sub": "AOM",
+          "annotation": "Accessibility Object Model derived: roles, names, states, properties."
+        },
+        {
+          "label": "ARIA",
+          "sub": "role / aria-label",
+          "annotation": "ARIA attributes patch the accessibility tree where HTML semantics fall short."
+        },
+        {
+          "label": "Screen reader",
+          "sub": "Announce",
+          "annotation": "Screen reader reads accessibility tree — announces role, name, state."
+        },
+        {
+          "label": "Keyboard",
+          "sub": "Navigate",
+          "annotation": "User navigates with keyboard — focus management must be explicit for SPAs."
+        }
+      ]
     }
   },
   "exercise": {

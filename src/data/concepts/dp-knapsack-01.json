@@ -24,6 +24,7 @@
   "visualization": {
     "type": "matrix-grid",
     "config": {
+      "mode": "knapsack",
       "rows_label": "items",
       "cols_label": "capacity",
       "show_recurrence": true,

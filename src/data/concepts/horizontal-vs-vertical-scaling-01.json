@@ -23,10 +23,48 @@
   "visualization": {
     "type": "architecture-diagram",
     "config": {
-      "mode": "scaling-comparison-topology",
-      "show_load_balancer_role": true,
-      "show_failure_blast_radius": true,
-      "step_annotations": true
+      "layers": [
+        {
+          "label": "Traffic",
+          "items": [
+            "Incoming load"
+          ]
+        },
+        {
+          "label": "Scale Up (Vertical)",
+          "items": [
+            "Bigger instance",
+            "32 CPU / 256 GB"
+          ]
+        },
+        {
+          "label": "Scale Out (Horizontal)",
+          "items": [
+            "LB",
+            "Node 1",
+            "Node 2",
+            "Node 3"
+          ]
+        }
+      ],
+      "steps": [
+        {
+          "active_layer": -1,
+          "annotation": "System overview — step through to trace the flow."
+        },
+        {
+          "active_layer": 0,
+          "annotation": "Traffic grows beyond current capacity."
+        },
+        {
+          "active_layer": 1,
+          "annotation": "Vertical: upgrade the single machine — faster but has a ceiling and causes downtime."
+        },
+        {
+          "active_layer": 2,
+          "annotation": "Horizontal: add more machines behind a load balancer — theoretically unlimited."
+        }
+      ]
     }
   },
   "exercise": {
