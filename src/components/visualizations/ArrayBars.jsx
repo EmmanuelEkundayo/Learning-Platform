@@ -4,7 +4,7 @@ import StepControls from './StepControls.jsx'
 import { useInterval } from '../../hooks/useInterval.js'
 import {
   getSteps,
-  DEFAULT_SORT_ARRAY
+  getDefaultSortArray,
 } from '../../utils/algorithms/registry.js'
 
 const SPEED_MS = { 0.5: 1400, 1: 700, 1.5: 467, 2: 350, 3: 233 }
@@ -28,8 +28,8 @@ export default function ArrayBars({ config = {}, data }) {
   const initDone = useRef(false)
 
   const inputArray = useMemo(
-    () => data?.array ?? DEFAULT_SORT_ARRAY,
-    [data]
+    () => data?.array ?? getDefaultSortArray(config.mode),
+    [data, config.mode]
   )
   const steps = useMemo(
     () => getSteps('sorting', config.mode, inputArray),

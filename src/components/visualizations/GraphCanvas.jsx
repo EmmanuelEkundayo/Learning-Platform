@@ -5,9 +5,7 @@ import StepControls from './StepControls.jsx'
 import { useInterval } from '../../hooks/useInterval.js'
 import {
   getSteps,
-  DEFAULT_GRAPH_NODES,
-  DEFAULT_GRAPH_EDGES,
-  DEFAULT_GRAPH_ADJACENCY,
+  getDefaultGraphData,
 } from '../../utils/algorithms/registry.js'
 
 // ─── colour palette ──────────────────────────────────────────────────────────
@@ -35,10 +33,11 @@ export default function GraphCanvas({ config = {}, data }) {
   const edgesRef = useRef(null) // d3 selection
   const initDone = useRef(false)
 
-  // ── graph data (use defaults; caller can override via `data` prop) ──────
-  const graphNodes = useMemo(() => data?.nodes ?? DEFAULT_GRAPH_NODES.map(n => ({ ...n })), [data])
-  const graphEdges = useMemo(() => data?.edges ?? DEFAULT_GRAPH_EDGES.map(e => ({ ...e })), [data])
-  const adjacency  = useMemo(() => data?.adjacency ?? DEFAULT_GRAPH_ADJACENCY, [data])
+  // ── graph data (use mode-specific defaults; caller can override via `data` prop) ──
+  const defaultGraph = useMemo(() => getDefaultGraphData(config.mode), [config.mode])
+  const graphNodes = useMemo(() => data?.nodes ?? defaultGraph.nodes.map(n => ({ ...n })), [data, defaultGraph])
+  const graphEdges = useMemo(() => data?.edges ?? defaultGraph.edges.map(e => ({ ...e })), [data, defaultGraph])
+  const adjacency  = useMemo(() => data?.adjacency ?? defaultGraph.adjacency, [data, defaultGraph])
   const startNode  = data?.start ?? 0
   const directed   = config.directed ?? false
 
