@@ -30,7 +30,7 @@ export async function generateCertificate(domain, userName, conceptCount, timest
     day: 'numeric',
     year: 'numeric',
   });
-  const certId = `ALGO-${domain.toUpperCase().replace(/\s+/g, '-')}-${timestamp.toString(36).toUpperCase()}`;
+  const certId = `LBF-${domain.toUpperCase().replace(/\s+/g, '-')}-${timestamp.toString(36).toUpperCase()}`;
 
   // 1. Background (dark)
   doc.setFillColor(15, 17, 23); // #0f1117

@@ -21,7 +21,7 @@ export async function generateShareCard(element, slug) {
     const image = canvas.toDataURL('image/png', 1.0);
     const link = document.createElement('a');
     link.href = image;
-    link.download = `${slug}-algolens.png`;
+    link.download = `${slug}-lbf.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);

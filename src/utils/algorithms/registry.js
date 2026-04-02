@@ -1,6 +1,11 @@
 import { generateQuicksortSteps, DEFAULT_SORT_ARRAY } from './quicksortSteps.js'
 import { generateBubbleSortSteps, generateSelectionSortSteps, generateInsertionSortSteps } from './sorting.js'
-import { generateBfsSteps, DEFAULT_GRAPH_ADJACENCY } from './bfsSteps.js'
+import {
+  generateBfsSteps,
+  DEFAULT_GRAPH_NODES,
+  DEFAULT_GRAPH_EDGES,
+  DEFAULT_GRAPH_ADJACENCY,
+} from './bfsSteps.js'
 import { generateDfsSteps, generateDijkstraSteps } from './graphAlgorithms.js'
 import { generateBinarySearchSteps, generateLinearSearchSteps } from './searchAlgorithms.js'
 import { generateKnapsackSteps, DEFAULT_KNAPSACK } from './knapsackSteps.js'
@@ -42,4 +47,10 @@ export function getSteps(type, mode, ...args) {
   return generator(...args)
 }
 
-export { DEFAULT_SORT_ARRAY, DEFAULT_GRAPH_ADJACENCY, DEFAULT_KNAPSACK }
+export {
+  DEFAULT_SORT_ARRAY,
+  DEFAULT_GRAPH_NODES,
+  DEFAULT_GRAPH_EDGES,
+  DEFAULT_GRAPH_ADJACENCY,
+  DEFAULT_KNAPSACK
+}

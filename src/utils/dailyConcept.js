@@ -13,7 +13,7 @@ export function getDailyConcept(concepts, viewedSlugs = []) {
   if (!concepts || concepts.length === 0) return null;
 
   const today = new Date().toISOString().split('T')[0];
-  const cacheKey = `algolens_daily_${today}`;
+  const cacheKey = `lbf_daily_${today}`;
   const cachedSlug = localStorage.getItem(cacheKey);
 
   // If we already picked one today, stick with it
@@ -42,7 +42,7 @@ export function getDailyConcept(concepts, viewedSlugs = []) {
  */
 export function isDailyHidden() {
   const today = new Date().toISOString().split('T')[0];
-  return localStorage.getItem(`algolens_daily_hidden_${today}`) === 'true';
+  return localStorage.getItem(`lbf_daily_hidden_${today}`) === 'true';
 }
 
 /**
@@ -50,5 +50,5 @@ export function isDailyHidden() {
  */
 export function hideDailyForToday() {
   const today = new Date().toISOString().split('T')[0];
-  localStorage.setItem(`algolens_daily_hidden_${today}`, 'true');
+  localStorage.setItem(`lbf_daily_hidden_${today}`, 'true');
 }

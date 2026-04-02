@@ -6,8 +6,8 @@ export const useNotesStore = create((set, get) => {
     const notes = {}
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i)
-      if (key && key.startsWith('algolens_notes_')) {
-        const slug = key.replace('algolens_notes_', '')
+      if (key && key.startsWith('lbf_notes_')) {
+        const slug = key.replace('lbf_notes_', '')
         notes[slug] = localStorage.getItem(key)
       }
     }
@@ -33,7 +33,7 @@ export const useNotesStore = create((set, get) => {
         return
       }
 
-      localStorage.setItem(`algolens_notes_${slug}`, text)
+      localStorage.setItem(`lbf_notes_${slug}`, text)
       set(s => {
         const newNotes = { ...s.notes, [slug]: text }
         return { 
@@ -44,7 +44,7 @@ export const useNotesStore = create((set, get) => {
     },
 
     deleteNote: (slug) => {
-      localStorage.removeItem(`algolens_notes_${slug}`)
+      localStorage.removeItem(`lbf_notes_${slug}`)
       set(s => {
         const newNotes = { ...s.notes }
         delete newNotes[slug]
