@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { generateShareCard } from '../utils/shareCard.js'
@@ -22,7 +22,7 @@ import StateDiagram      from '../components/visualizations/StateDiagram.jsx'
 import FillInBlank       from '../components/exercises/FillInBlank.jsx'
 import { complexityColor } from '../utils/complexity.js'
 import { useNotesStore } from '../store/notesStore.js'
-import { useState, useRef } from 'react'
+
 
 // ─── viz registry ──────────────────────────────────────────────────────────────
 const VIZ_MAP = {
@@ -77,8 +77,8 @@ function domainAccent(domain) {
 export default function Concept() {
   const { slug }        = useParams()
   const navigate        = useNavigate()
-  const getConcept      = useConceptStore(s => s.getBySlug)
-  const concept         = getConcept(slug)
+  const concept         = useConceptStore(s => s.concepts.find(c => c.slug === slug) ?? null)
+  const loaded          = useConceptStore(s => s.loaded)
   const markViewed      = useProgressStore(s => s.markViewed)
   const recordAttempt   = useProgressStore(s => s.recordAttempt)
   const setConfidence   = useProgressStore(s => s.setConfidence)
@@ -98,8 +98,9 @@ export default function Concept() {
     if (slug) markViewed(slug)
   }, [slug, markViewed])
 
-  // ── not found ──
+  // ── loading / not found ──
   if (!concept) {
+    if (!loaded) return null
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <p className="text-gray-500 font-mono text-sm mb-3">/{slug}</p>
@@ -351,14 +352,14 @@ function ShareMenu({ concept, accent }) {
   }, [])
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(`https://algolens.dev/concept/${concept.slug}`)
+    navigator.clipboard.writeText(`https://learnblazinglyfast.com/concept/${concept.slug}`)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
     setOpen(false)
   }
 
   const handleXShare = () => {
-    const text = encodeURIComponent(`Just learned ${concept.title} on @AlgoLens ✦\n${concept.card.intuition}\nalgolens.dev/concept/${concept.slug}`)
+    const text = encodeURIComponent(`Just learned ${concept.title} on @BlazinglyFast ✦\n${concept.card.intuition}\nlearnblazinglyfast.com/concept/${concept.slug}`)
     window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank')
     setOpen(false)
   }
@@ -473,7 +474,7 @@ function HiddenShareCard({ concept }) {
       </div>
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-        <span style={{ color: '#6b7280', fontSize: '14px', fontWeight: 'bold', letterSpacing: '1px' }}>AlgoLens</span>
+        <span style={{ color: '#6b7280', fontSize: '14px', fontWeight: 'bold', letterSpacing: '1px' }}>Learn Blazingly Fast</span>
         <span style={{ 
           background: `${accentColor}33`, 
           color: accentColor, 
@@ -505,7 +506,7 @@ function HiddenShareCard({ concept }) {
             <div style={{ color: '#3b82f6', fontSize: '13px', fontWeight: 'bold', fontFamily: 'monospace' }}>{concept.card.space_complexity}</div>
           </div>
         </div>
-        <span style={{ color: '#6b7280', fontSize: '12px', fontWeight: 'medium' }}>algolens.dev</span>
+        <span style={{ color: '#6b7280', fontSize: '12px', fontWeight: 'medium' }}>learnblazinglyfast.com</span>
       </div>
     </div>
   )
