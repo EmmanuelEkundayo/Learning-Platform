@@ -100,7 +100,22 @@ export default function Concept() {
 
   // ── loading / not found ──
   if (!concept) {
-    if (!loaded) return null
+    if (!loaded) {
+      return (
+        <div className="max-w-7xl mx-auto px-4 py-6 space-y-6 animate-pulse">
+          <div className="h-4 w-48 bg-surface-700 rounded" />
+          <div className="h-8 w-2/3 bg-surface-700 rounded" />
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <div className="h-4 w-24 bg-surface-700 rounded" />
+              <div className="h-20 bg-surface-700 rounded" />
+              <div className="h-16 bg-surface-700 rounded" />
+            </div>
+            <div className="h-64 bg-surface-700 rounded-lg" />
+          </div>
+        </div>
+      )
+    }
     return (
       <div className="max-w-7xl mx-auto px-4 py-20 text-center">
         <p className="text-gray-500 font-mono text-sm mb-3">/{slug}</p>
