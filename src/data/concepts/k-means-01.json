@@ -24,6 +24,7 @@
   "visualization": {
     "type": "cluster-plot",
     "config": {
+      "mode": "kmeans",
       "n_points": 60,
       "k": 3,
       "show_centroids": true,

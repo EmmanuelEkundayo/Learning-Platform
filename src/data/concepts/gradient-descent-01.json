@@ -24,6 +24,7 @@
   "visualization": {
     "type": "loss-landscape",
     "config": {
+      "mode": "gradient-descent",
       "dimensions": "2d",
       "show_trajectory": true,
       "show_gradient_arrow": true,

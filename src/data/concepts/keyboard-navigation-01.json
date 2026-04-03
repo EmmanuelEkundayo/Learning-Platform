@@ -23,6 +23,7 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
+      "mode": "keyboard-navigation",
       "steps": [
         {
           "label": "Tab order",

@@ -24,6 +24,7 @@
   "visualization": {
     "type": "loss-landscape",
     "config": {
+      "mode": "overfitting-underfitting",
       "steps": [
         {
           "label": "Training",

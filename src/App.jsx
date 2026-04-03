@@ -18,6 +18,8 @@ import Notes            from './pages/Notes.jsx'
 import Leaderboard from './pages/Leaderboard.jsx'
 import Roadmaps    from './pages/Roadmaps.jsx'
 import Roadmap     from './pages/Roadmap.jsx'
+import CheatSheets from './pages/CheatSheets.jsx'
+import CheatSheet  from './pages/CheatSheet.jsx'
 import { Toaster }      from 'react-hot-toast'
 
 export default function App() {
@@ -59,6 +61,8 @@ export default function App() {
           <Route path="/leaderboard"     element={<Leaderboard />} />
           <Route path="/roadmaps"        element={<Roadmaps />} />
           <Route path="/roadmaps/:slug"  element={<Roadmap />} />
+          <Route path="/cheatsheets"     element={<CheatSheets />} />
+          <Route path="/cheatsheets/:id" element={<CheatSheet />} />
         </Route>
       </Routes>
     </>

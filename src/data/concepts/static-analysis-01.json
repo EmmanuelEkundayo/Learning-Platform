@@ -23,6 +23,7 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
+      "mode": "static-analysis",
       "steps": [
         {
           "label": "Source",

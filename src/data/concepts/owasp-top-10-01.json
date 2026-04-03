@@ -23,6 +23,7 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
+      "mode": "owasp-top-10",
       "steps": [
         {
           "label": "Input",

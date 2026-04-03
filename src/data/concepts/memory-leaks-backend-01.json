@@ -23,6 +23,7 @@
   "visualization": {
     "type": "loss-landscape",
     "config": {
+      "mode": "memory-leaks-backend",
       "steps": [
         {
           "label": "Allocate",

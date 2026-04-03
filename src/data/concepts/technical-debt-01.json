@@ -23,6 +23,7 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
+      "mode": "technical-debt",
       "steps": [
         {
           "label": "Shortcut",

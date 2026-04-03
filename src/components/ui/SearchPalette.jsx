@@ -12,7 +12,8 @@ export default function SearchPalette({ isOpen, onClose }) {
   const results = searchAll(query)
   const flatResults = [
     ...results.concepts.map(c => ({ ...c, type: 'concept' })),
-    ...results.projects.map(p => ({ ...p, type: 'project' }))
+    ...results.projects.map(p => ({ ...p, type: 'project' })),
+    ...(results.cheatsheets || []).map(cs => ({ ...cs, type: 'cheatsheet' })),
   ]
 
   useEffect(() => {
@@ -33,10 +34,10 @@ export default function SearchPalette({ isOpen, onClose }) {
     } else if (e.key === 'Enter') {
       e.preventDefault()
       if (flatResults[selectedIndex]) {
-        navigate(flatResults[selectedIndex].type === 'concept' 
-          ? `/concept/${flatResults[selectedIndex].slug}` 
-          : `/project/${flatResults[selectedIndex].slug}`
-        )
+        const item = flatResults[selectedIndex]
+        if (item.type === 'concept') navigate(`/concept/${item.slug}`)
+        else if (item.type === 'project') navigate(`/project/${item.slug}`)
+        else if (item.type === 'cheatsheet') navigate(`/cheatsheets/${item.sheetId}`)
         onClose()
       }
     } else if (e.key === 'Escape') {
@@ -108,12 +109,27 @@ export default function SearchPalette({ isOpen, onClose }) {
                   <div>
                     <h4 className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 border-t border-surface-800 mt-2 pt-4">Projects</h4>
                     {results.projects.map((p, i) => (
-                      <ResultRow 
+                      <ResultRow
                         key={p.slug}
                         item={p}
                         type="project"
                         isSelected={selectedIndex === (results.concepts.length + i)}
                         onSelect={() => { navigate(`/project/${p.slug}`); onClose(); }}
+                      />
+                    ))}
+                  </div>
+                )}
+
+                {results.cheatsheets && results.cheatsheets.length > 0 && (
+                  <div>
+                    <h4 className="px-3 py-2 text-[10px] font-bold uppercase tracking-widest text-gray-600 border-t border-surface-800 mt-2 pt-4">Cheat Sheets</h4>
+                    {results.cheatsheets.map((cs, i) => (
+                      <ResultRow
+                        key={`${cs.sheetId}-${cs.label}-${i}`}
+                        item={cs}
+                        type="cheatsheet"
+                        isSelected={selectedIndex === (results.concepts.length + results.projects.length + i)}
+                        onSelect={() => { navigate(`/cheatsheets/${cs.sheetId}`); onClose(); }}
                       />
                     ))}
                   </div>
@@ -158,19 +174,25 @@ function ResultRow({ item, type, isSelected, onSelect }) {
         ${isSelected ? 'bg-surface-700 ring-1 ring-blue-500/50' : 'hover:bg-surface-800/50'}`}
     >
       <div className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs
-        ${type === 'concept' ? 'bg-blue-600/20 text-blue-400' : 'bg-purple-600/20 text-purple-400'}`}>
-        {type === 'concept' ? 'C' : 'P'}
+        ${type === 'concept' ? 'bg-blue-600/20 text-blue-400' : type === 'project' ? 'bg-purple-600/20 text-purple-400' : 'bg-emerald-600/20 text-emerald-400'}`}>
+        {type === 'concept' ? 'C' : type === 'project' ? 'P' : (item.sheetIcon || '📋')}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
-           <span className="font-bold text-sm text-gray-100 truncate">{item.title}</span>
-           <span className={`text-[9px] px-1.5 py-0.5 rounded font-black uppercase tracking-tighter
-             ${type === 'concept' ? (DOMAIN_COLORS[item.domain] || 'bg-gray-500/20 text-gray-400') : (CAT_COLORS[item.category] || 'bg-gray-500/20 text-gray-400')}`}>
-             {type === 'concept' ? (item.domain === 'Software Engineering' ? 'SE' : item.domain) : item.category}
-           </span>
+          <span className="font-bold text-sm text-gray-100 truncate">
+            {type === 'cheatsheet' ? item.label : item.title}
+          </span>
+          {type !== 'cheatsheet' && (
+            <span className={`text-[9px] px-1.5 py-0.5 rounded font-black uppercase tracking-tighter
+              ${type === 'concept' ? (DOMAIN_COLORS[item.domain] || 'bg-gray-500/20 text-gray-400') : (CAT_COLORS[item.category] || 'bg-gray-500/20 text-gray-400')}`}>
+              {type === 'concept' ? (item.domain === 'Software Engineering' ? 'SE' : item.domain) : item.category}
+            </span>
+          )}
         </div>
-        <div className="text-xs text-gray-500 mt-0.5 truncate flex gap-2 items-center">
-          {type === 'concept' ? item.category : item.stack.slice(0, 3).join(' · ')}
+        <div className="text-xs text-gray-500 mt-0.5 truncate">
+          {type === 'concept' && item.category}
+          {type === 'project' && item.stack.slice(0, 3).join(' · ')}
+          {type === 'cheatsheet' && `${item.sheetTitle} · ${item.sectionTitle}`}
         </div>
       </div>
       <span className={`text-[10px] font-bold transition-opacity ${isSelected ? 'opacity-100 text-blue-400' : 'opacity-0'}`}>

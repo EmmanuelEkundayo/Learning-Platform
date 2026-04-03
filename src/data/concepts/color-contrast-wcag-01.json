@@ -23,6 +23,7 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
+      "mode": "color-contrast-wcag",
       "steps": [
         {
           "label": "Foreground",

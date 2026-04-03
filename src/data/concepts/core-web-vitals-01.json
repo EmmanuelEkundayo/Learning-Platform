@@ -23,6 +23,7 @@
   "visualization": {
     "type": "heatmap-grid",
     "config": {
+      "mode": "core-web-vitals",
       "steps": [
         {
           "label": "Navigation",

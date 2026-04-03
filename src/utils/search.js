@@ -1,9 +1,26 @@
 import Fuse from 'fuse.js';
 import { useConceptStore } from '../store/conceptStore.js';
 import { useProjectStore } from '../store/projectStore.js';
+import cheatsheets from '../data/cheatsheets/index.js';
 
 let conceptFuseInstance = null;
 let projectFuseInstance = null;
+let cheatsheetFuseInstance = null;
+
+// Flatten cheatsheet items for search
+const cheatsheetItems = cheatsheets.flatMap(sheet =>
+  sheet.sections.flatMap(sec =>
+    sec.items.map(item => ({
+      sheetId: sheet.id,
+      sheetTitle: sheet.title,
+      sheetIcon: sheet.icon,
+      sectionTitle: sec.title,
+      label: item.label,
+      code: item.code,
+      note: item.note || '',
+    }))
+  )
+);
 
 /**
  * Searches concepts using Fuse.js fuzzy matching.
@@ -54,13 +71,36 @@ export function searchProjects(query) {
 }
 
 /**
- * Searches both concepts and projects.
+ * Searches cheatsheet items using Fuse.js fuzzy matching.
+ */
+export function searchCheatsheets(query) {
+  if (!cheatsheetFuseInstance) {
+    cheatsheetFuseInstance = new Fuse(cheatsheetItems, {
+      keys: [
+        { name: 'label', weight: 0.4 },
+        { name: 'sheetTitle', weight: 0.2 },
+        { name: 'sectionTitle', weight: 0.2 },
+        { name: 'code', weight: 0.15 },
+        { name: 'note', weight: 0.05 },
+      ],
+      threshold: 0.35,
+      ignoreLocation: true,
+    });
+  }
+
+  if (!query.trim()) return [];
+  return cheatsheetFuseInstance.search(query).map(r => r.item);
+}
+
+/**
+ * Searches concepts, projects, and cheatsheets.
  */
 export function searchAll(query) {
-  if (!query.trim()) return { concepts: [], projects: [] };
-  
+  if (!query.trim()) return { concepts: [], projects: [], cheatsheets: [] };
+
   return {
-    concepts: searchConcepts(query).slice(0, 10),
-    projects: searchProjects(query).slice(0, 5),
+    concepts: searchConcepts(query).slice(0, 8),
+    projects: searchProjects(query).slice(0, 4),
+    cheatsheets: searchCheatsheets(query).slice(0, 5),
   };
 }

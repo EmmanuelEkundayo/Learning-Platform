@@ -11,6 +11,7 @@ const NAV_LINKS = [
   { to: '/certificates', label: 'Certificates' },
   { to: '/notes',        label: 'Notes'        },
   { to: '/leaderboard',  label: 'Leaderboard'  },
+  { to: '/cheatsheets',  label: 'Cheat Sheets' },
 ]
 
 import SearchPalette from './SearchPalette.jsx'

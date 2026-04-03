@@ -156,6 +156,114 @@ function getModeMatrix(mode) {
       return { tokens: responses, colTokens: criteria, attn, title: 'RLHF reward model: response scores by criterion. Reward = weighted sum of criteria.', colorDomain: [0, 1], rowLabel: 'Response', colLabel: 'Criterion' }
     }
 
+    case 'color-contrast-wcag': {
+      const textColors = ['#fff','#eee','#aaa','#888','#555']
+      const bgColors   = ['#000','#111','#333','#555','#fff','#eee']
+      // Contrast ratio (approx): white-on-black=21, grey-on-dark varies
+      const attn = [
+        [1.00, 0.95, 0.90, 0.55, 0.30, 0.25],
+        [0.95, 0.90, 0.85, 0.50, 0.28, 0.22],
+        [0.55, 0.52, 0.45, 0.22, 0.08, 0.06],
+        [0.35, 0.32, 0.28, 0.12, 0.04, 0.03],
+        [0.10, 0.09, 0.08, 0.05, 0.02, 0.01],
+      ]
+      return { tokens: textColors, colTokens: bgColors, attn, title: 'WCAG contrast ratio matrix: text × background. ≥0.63 → AA pass (4.5:1), ≥0.86 → AAA (7:1).', colorDomain: [0, 1], rowLabel: 'Text', colLabel: 'Background' }
+    }
+
+    case 'core-web-vitals': {
+      const pages   = ['Home','Listing','Detail','Checkout','Blog']
+      const metrics = ['LCP','FID','CLS','TTFB','TBT']
+      const attn = [
+        [0.90, 0.85, 0.50, 0.80, 0.70],
+        [0.55, 0.75, 0.80, 0.50, 0.60],
+        [0.80, 0.90, 0.40, 0.75, 0.85],
+        [0.30, 0.45, 0.92, 0.20, 0.30],
+        [0.70, 0.65, 0.55, 0.60, 0.75],
+      ]
+      return { tokens: metrics, colTokens: pages, attn, title: 'Core Web Vitals: 5 metrics × 5 pages. Green (high) = good score, red (low) = needs improvement.', colorDomain: [0, 1], rowLabel: 'Metric', colLabel: 'Page' }
+    }
+
+    case 'keyboard-navigation': {
+      const elements = ['button','input','link','select','modal','tooltip']
+      const attrs    = ['tabIndex','focus-vis','aria-label','role']
+      const attn = [
+        [1.00, 0.95, 0.80, 0.90],
+        [1.00, 0.85, 0.90, 0.85],
+        [1.00, 0.90, 0.70, 0.95],
+        [1.00, 0.80, 0.85, 0.90],
+        [0.60, 0.50, 0.55, 0.70],
+        [0.30, 0.20, 0.40, 0.35],
+      ]
+      return { tokens: elements, colTokens: attrs, attn, title: 'Keyboard accessibility: 6 elements × 4 attributes. High value = attribute correctly implemented.', colorDomain: [0, 1], rowLabel: 'Element', colLabel: 'Attribute' }
+    }
+
+    case 'lighthouse-scoring': {
+      const pages      = ['Home','Blog','Shop','Login']
+      const categories = ['Perf','Access','Best-P','SEO','PWA']
+      const attn = [
+        [0.72, 0.55, 0.80, 0.65],
+        [0.88, 0.90, 0.85, 0.92],
+        [0.90, 0.85, 0.88, 0.87],
+        [0.95, 0.78, 0.90, 0.85],
+        [0.60, 0.30, 0.70, 0.40],
+      ]
+      return { tokens: categories, colTokens: pages, attn, title: 'Lighthouse scores (0–1): 5 categories × 4 pages. Performance often weakest — largest gains available.', colorDomain: [0, 1], rowLabel: 'Category', colLabel: 'Page' }
+    }
+
+    case 'owasp-top-10': {
+      const vulns  = ['Inj.','BrkAuth','XSS','XXE','MissCfg']
+      const types  = ['Web App','API','Mobile','IoT','Desktop']
+      const attn = [
+        [0.90, 0.85, 0.60, 0.45, 0.40],
+        [0.85, 0.90, 0.70, 0.50, 0.30],
+        [0.80, 0.50, 0.75, 0.40, 0.35],
+        [0.40, 0.35, 0.30, 0.55, 0.20],
+        [0.70, 0.75, 0.55, 0.50, 0.65],
+      ]
+      return { tokens: vulns, colTokens: types, attn, title: 'OWASP risk: 5 vulnerability classes × 5 app types. Darker = higher risk. Injection + auth flaws top every category.', colorDomain: [0, 1], rowLabel: 'Vuln', colLabel: 'App Type' }
+    }
+
+    case 'screen-reader-compatibility': {
+      const roles    = ['button','dialog','listbox','slider','alert','menu']
+      const browsers = ['Chrome','Firefox','Safari','Edge']
+      const attn = [
+        [0.95, 0.92, 0.88, 0.94],
+        [0.85, 0.80, 0.70, 0.82],
+        [0.90, 0.85, 0.78, 0.88],
+        [0.75, 0.72, 0.60, 0.74],
+        [0.92, 0.90, 0.85, 0.90],
+        [0.80, 0.75, 0.65, 0.78],
+      ]
+      return { tokens: roles, colTokens: browsers, attn, title: 'Screen reader support: 6 ARIA roles × 4 browsers. High = well-supported, low = inconsistent behaviour.', colorDomain: [0, 1], rowLabel: 'Role', colLabel: 'Browser' }
+    }
+
+    case 'static-analysis': {
+      const rules = ['unused-var','no-any','complexity','null-deref','sec-inject','style']
+      const files = ['auth.ts','api.ts','utils.ts','models.ts','routes.ts']
+      const attn = [
+        [0.10, 0.40, 0.20, 0.05, 0.60],
+        [0.80, 0.60, 0.30, 0.90, 0.50],
+        [0.20, 0.50, 0.70, 0.10, 0.40],
+        [0.00, 0.70, 0.10, 0.00, 0.30],
+        [0.90, 0.00, 0.10, 0.80, 0.00],
+        [0.50, 0.30, 0.60, 0.20, 0.70],
+      ]
+      return { tokens: rules, colTokens: files, attn, title: 'Static analysis: 6 rule categories × 5 files. Darker = more violations. Security rules (sec-inject) need urgent attention.', colorDomain: [0, 1], rowLabel: 'Rule', colLabel: 'File' }
+    }
+
+    case 'technical-debt': {
+      const categories = ['Tests','Docs','Arch','Perf','Deps']
+      const dimensions = ['Effort','Impact','Urgency','Visibility']
+      const attn = [
+        [0.60, 0.80, 0.70, 0.90],
+        [0.30, 0.50, 0.40, 0.30],
+        [0.90, 0.85, 0.75, 0.40],
+        [0.50, 0.70, 0.60, 0.55],
+        [0.20, 0.60, 0.85, 0.35],
+      ]
+      return { tokens: categories, colTokens: dimensions, attn, title: 'Technical debt: 5 categories × 4 dimensions. High urgency + low visibility (deps) = highest hidden risk.', colorDomain: [0, 1], rowLabel: 'Category', colLabel: 'Dimension' }
+    }
+
     // Default attention (attention-mechanism) and all generic modes
     default: {
       // Generic metric comparison for unknown modes
