@@ -49,20 +49,21 @@ export default function SearchPalette({ isOpen, onClose }) {
 
   return (
     <AnimatePresence>
-      <div 
-        className="fixed inset-0 z-[10000] flex items-start justify-center pt-[15vh] px-4 bg-black/60 backdrop-blur-sm"
+      <div
+        className="fixed inset-0 z-[10000] flex items-start justify-center sm:pt-[12vh] bg-black/60 backdrop-blur-sm"
         onClick={onClose}
       >
         <motion.div
-          initial={{ opacity: 0, scale: 0.95, y: -20 }}
+          initial={{ opacity: 0, scale: 0.97, y: -12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: -20 }}
-          className="bg-surface-900 w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden border border-surface-700"
+          exit={{ opacity: 0, scale: 0.97, y: -12 }}
+          transition={{ duration: 0.15 }}
+          className="bg-surface-900 w-full sm:max-w-2xl sm:rounded-2xl shadow-2xl overflow-hidden border-b sm:border border-surface-700 sm:mx-4 h-[100dvh] sm:h-auto flex flex-col"
           onClick={e => e.stopPropagation()}
         >
           {/* Input */}
-          <div className="relative border-b border-surface-700">
-            <SearchIcon className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500" />
+          <div className="relative border-b border-surface-700 flex items-center">
+            <SearchIcon className="absolute left-4 sm:left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-500 pointer-events-none" />
             <input
               ref={inputRef}
               type="text"
@@ -70,23 +71,30 @@ export default function SearchPalette({ isOpen, onClose }) {
               value={query}
               onChange={e => { setQuery(e.target.value); setSelectedIndex(0); }}
               onKeyDown={handleKeyDown}
-              className="w-full bg-transparent p-6 pl-14 text-lg text-white outline-none placeholder-gray-500"
+              className="w-full bg-transparent py-5 px-4 pl-12 sm:pl-14 text-base sm:text-lg text-white outline-none placeholder-gray-500"
             />
-            <div className="absolute right-6 top-1/2 -translate-y-1/2 flex gap-1">
-               <kbd className="px-1.5 py-0.5 rounded bg-surface-800 border border-surface-700 text-[10px] text-gray-500">ESC</kbd>
-            </div>
+            <button
+              onClick={onClose}
+              className="shrink-0 mr-4 sm:mr-6 text-gray-500 hover:text-gray-300 transition-colors"
+              aria-label="Close"
+            >
+              <span className="hidden sm:inline">
+                <kbd className="px-1.5 py-0.5 rounded bg-surface-800 border border-surface-700 text-[10px]">ESC</kbd>
+              </span>
+              <span className="sm:hidden text-xl leading-none">×</span>
+            </button>
           </div>
 
           {/* Results */}
-          <div className="max-h-[60vh] overflow-y-auto p-2">
+          <div className="flex-1 sm:flex-none sm:max-h-[60vh] overflow-y-auto p-2">
             {query.trim() === '' ? (
-              <div className="py-12 text-center space-y-2">
+              <div className="py-10 text-center space-y-2">
                 <p className="text-gray-400 font-medium">Type to search the platform</p>
-                <p className="text-xs text-gray-600">Fuzzy search concepts, tags, stacks, and more</p>
+                <p className="text-xs text-gray-600">Concepts · Projects · Cheat Sheets</p>
               </div>
             ) : flatResults.length === 0 ? (
-              <div className="py-12 text-center text-gray-500">
-                No results found for "{query}"
+              <div className="py-10 text-center text-gray-500">
+                No results for "{query}"
               </div>
             ) : (
               <div className="space-y-4 py-2">
@@ -138,7 +146,7 @@ export default function SearchPalette({ isOpen, onClose }) {
             )}
           </div>
 
-          <div className="bg-surface-800/50 px-6 py-3 border-t border-surface-700 flex justify-between items-center text-[10px] text-gray-500 font-medium">
+          <div className="hidden sm:flex bg-surface-800/50 px-6 py-3 border-t border-surface-700 justify-between items-center text-[10px] text-gray-500 font-medium">
             <div className="flex gap-4">
                <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 rounded bg-surface-700 border border-surface-600">↑↓</kbd> Navigate</span>
                <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 rounded bg-surface-700 border border-surface-600">↵</kbd> Select</span>

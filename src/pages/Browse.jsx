@@ -73,62 +73,62 @@ export default function Browse() {
       </div>
 
       {/* ── Filter bar ── */}
-      <div className="flex flex-wrap gap-3 items-center">
-        {/* Search */}
-        <div className="relative flex-1 min-w-[200px]">
-          <input
-            type="text"
-            value={query}
-            onChange={e => setQuery(e.target.value)}
-            placeholder="Search by title or tag…"
-            className="w-full bg-surface-800 border border-surface-600 rounded-lg px-3 py-2 pl-8 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-surface-400 transition-colors"
-          />
-          <SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 pointer-events-none" />
-          {query && (
-            <button
-              onClick={() => setQuery('')}
-              className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 text-xs leading-none"
-            >
-              ×
-            </button>
-          )}
+      <div className="space-y-3">
+        {/* Row 1: search + category */}
+        <div className="flex gap-3 items-center">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              value={query}
+              onChange={e => setQuery(e.target.value)}
+              placeholder="Search by title or tag…"
+              className="w-full bg-surface-800 border border-surface-600 rounded-lg px-3 py-2.5 pl-9 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-surface-400 transition-colors"
+            />
+            <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-gray-500 pointer-events-none" />
+            {query && (
+              <button
+                onClick={() => setQuery('')}
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 hover:text-gray-300 text-sm leading-none"
+              >
+                ×
+              </button>
+            )}
+          </div>
+          <select
+            value={category}
+            onChange={e => setCategory(e.target.value)}
+            className="bg-surface-800 border border-surface-600 rounded-lg px-3 py-2.5 text-sm text-gray-300 focus:outline-none focus:border-surface-400 transition-colors cursor-pointer shrink-0 max-w-[160px]"
+          >
+            {categories.map(c => (
+              <option key={c} value={c}>{c}</option>
+            ))}
+          </select>
         </div>
 
-        {/* Domain pills */}
-        <PillGroup
-          options={['All', 'DSA', 'ML', 'Frontend', 'Backend', 'Software Engineering']}
-          labels={{ 'Software Engineering': 'SE' }}
-          value={domain}
-          onChange={setDomain}
-          concepts={concepts}
-          colorFn={v =>
-            v === 'DSA'                  ? 'dsa'      :
-            v === 'ML'                   ? 'ml'       :
-            v === 'Frontend'             ? 'frontend' :
-            v === 'Backend'              ? 'backend'  :
-            v === 'Software Engineering' ? 'se'       : null
-          }
-        />
-
-        {/* Category dropdown */}
-        <select
-          value={category}
-          onChange={e => setCategory(e.target.value)}
-          className="bg-surface-800 border border-surface-600 rounded-lg px-3 py-2 text-sm text-gray-300 focus:outline-none focus:border-surface-400 transition-colors cursor-pointer"
-        >
-          {categories.map(c => (
-            <option key={c} value={c}>{c}</option>
-          ))}
-        </select>
-
-        {/* Difficulty pills */}
-        <PillGroup
-          options={['All', 'beginner', 'intermediate', 'advanced']}
-          labels={{ beginner: 'Beginner', intermediate: 'Intermediate', advanced: 'Advanced' }}
-          value={difficulty}
-          onChange={setDifficulty}
-          colorFn={v => v === 'beginner' ? 'green' : v === 'intermediate' ? 'yellow' : v === 'advanced' ? 'red' : null}
-        />
+        {/* Row 2: domain + difficulty pills (scrollable on mobile) */}
+        <div className="flex gap-3 overflow-x-auto pb-1 scrollbar-hide">
+          <PillGroup
+            options={['All', 'DSA', 'ML', 'Frontend', 'Backend', 'Software Engineering']}
+            labels={{ 'Software Engineering': 'SE' }}
+            value={domain}
+            onChange={setDomain}
+            concepts={concepts}
+            colorFn={v =>
+              v === 'DSA'                  ? 'dsa'      :
+              v === 'ML'                   ? 'ml'       :
+              v === 'Frontend'             ? 'frontend' :
+              v === 'Backend'              ? 'backend'  :
+              v === 'Software Engineering' ? 'se'       : null
+            }
+          />
+          <PillGroup
+            options={['All', 'beginner', 'intermediate', 'advanced']}
+            labels={{ beginner: 'Beginner', intermediate: 'Mid', advanced: 'Advanced' }}
+            value={difficulty}
+            onChange={setDifficulty}
+            colorFn={v => v === 'beginner' ? 'green' : v === 'intermediate' ? 'yellow' : v === 'advanced' ? 'red' : null}
+          />
+        </div>
       </div>
 
       {/* ── Grid ── */}
@@ -224,7 +224,7 @@ function PillGroup({ options, labels = {}, value, onChange, colorFn, concepts = 
   const completed = getCompletedDomains(concepts)
 
   return (
-    <div className="flex rounded-lg border border-surface-600 overflow-hidden">
+    <div className="flex rounded-lg border border-surface-600 overflow-hidden shrink-0">
       {options.map(opt => {
         const active = value === opt
         const color  = colorFn?.(opt)

@@ -141,20 +141,14 @@ export default function CheatSheet() {
   return (
     <div className="min-h-screen bg-gray-950">
       {/* ── Header ── */}
-      <div className={`border-b border-gray-800 bg-gray-900/60 backdrop-blur px-4 py-5`}>
-        <div className="max-w-6xl mx-auto flex flex-col sm:flex-row sm:items-center gap-3">
-          <Link to="/cheatsheets" className="text-gray-500 hover:text-gray-300 text-sm shrink-0">
-            ← Cheat Sheets
-          </Link>
-          <div className="flex-1 flex flex-col sm:flex-row sm:items-center gap-3">
-            <div className="flex items-center gap-3">
-              <span className="text-3xl">{sheet.icon}</span>
-              <div>
-                <h1 className={`text-2xl font-bold ${a.text}`}>{sheet.title}</h1>
-                <p className="text-gray-400 text-sm">{sheet.description}</p>
-              </div>
-            </div>
-            <div className="sm:ml-auto flex items-center gap-3 flex-wrap">
+      <div className="border-b border-gray-800 bg-gray-900/60 backdrop-blur px-4 py-4">
+        <div className="max-w-6xl mx-auto space-y-3">
+          {/* Row 1: back + actions */}
+          <div className="flex items-center gap-3">
+            <Link to="/cheatsheets" className="text-gray-500 hover:text-gray-300 text-sm shrink-0">
+              ← Back
+            </Link>
+            <div className="ml-auto flex items-center gap-2">
               {/* Search */}
               <div className="relative">
                 <input
@@ -162,36 +156,40 @@ export default function CheatSheet() {
                   placeholder="Search…"
                   value={query}
                   onChange={e => setQuery(e.target.value)}
-                  className="bg-gray-800 border border-gray-700 rounded-lg pl-8 pr-3 py-1.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 w-44"
+                  className="bg-gray-800 border border-gray-700 rounded-lg pl-8 pr-8 py-1.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-gray-500 w-36 sm:w-48"
                 />
-                <svg className="absolute left-2.5 top-2 w-3.5 h-3.5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <svg className="absolute left-2.5 top-2 w-3.5 h-3.5 text-gray-500 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-4.35-4.35M17 11A6 6 0 1 1 5 11a6 6 0 0 1 12 0z" />
                 </svg>
                 {query && (
-                  <button
-                    onClick={() => setQuery('')}
-                    className="absolute right-2 top-1.5 text-gray-500 hover:text-gray-300 text-xs"
-                  >✕</button>
+                  <button onClick={() => setQuery('')} className="absolute right-2 top-1.5 text-gray-500 hover:text-gray-300 text-xs">✕</button>
                 )}
               </div>
-              {/* Copy All */}
               <button
                 onClick={copyAll}
-                className={`text-sm font-medium px-3 py-1.5 rounded-lg text-white transition-colors ${a.btn}`}
+                className={`text-xs sm:text-sm font-medium px-3 py-1.5 rounded-lg text-white transition-colors shrink-0 ${a.btn}`}
               >
                 {copiedAll ? '✓ Copied!' : 'Copy All'}
               </button>
             </div>
           </div>
-        </div>
-        {/* Result count when searching */}
-        {query && (
-          <div className="max-w-6xl mx-auto mt-2">
+
+          {/* Row 2: icon + title + description */}
+          <div className="flex items-start gap-3">
+            <span className="text-2xl sm:text-3xl shrink-0">{sheet.icon}</span>
+            <div>
+              <h1 className={`text-xl sm:text-2xl font-bold ${a.text}`}>{sheet.title}</h1>
+              <p className="text-gray-400 text-xs sm:text-sm">{sheet.description}</p>
+            </div>
+          </div>
+
+          {/* Result count */}
+          {query && (
             <p className="text-xs text-gray-500">
               {totalResults} result{totalResults !== 1 ? 's' : ''} for "{query}"
             </p>
-          </div>
-        )}
+          )}
+        </div>
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-6 flex gap-6">

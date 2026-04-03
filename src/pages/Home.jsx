@@ -63,7 +63,7 @@ export default function Home() {
   }, [projects])
 
   return (
-    <div className="max-w-2xl mx-auto px-4 py-16 space-y-14">
+    <div className="max-w-2xl mx-auto px-4 py-10 sm:py-16 space-y-12 sm:space-y-14">
 
       {/* ── Logo + Search ── */}
       <div className="flex flex-col items-center gap-6">
@@ -203,7 +203,7 @@ function ConceptSearch() {
   }
 
   return (
-    <div ref={wrapRef} className="relative w-full max-w-lg">
+    <div ref={wrapRef} className="relative w-full max-w-lg px-0">
       {/* Input */}
       <div className="relative">
         <SearchIcon className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 pointer-events-none" />
@@ -323,24 +323,21 @@ function ProgressSection({ total, completed, viewed }) {
   const pct = total > 0 ? completed / total : 0
 
   return (
-    <div className="flex items-center gap-6 p-5 rounded-xl bg-surface-800 border border-surface-600">
+    <div className="flex items-center gap-4 sm:gap-6 p-4 sm:p-5 rounded-xl bg-surface-800 border border-surface-600">
       <ProgressRing completed={completed} total={total} pct={pct} />
 
-      <div className="space-y-2">
+      <div className="flex-1 space-y-2 min-w-0">
         <p className="text-sm font-semibold text-gray-200">
-          {completed} of {total} concepts completed
+          {completed} of {total} completed
         </p>
         <div className="space-y-1">
           <LegendRow color="bg-green-500" label={`${completed} passed`} />
           <LegendRow color="bg-blue-500"  label={`${viewed} in progress`} />
           <LegendRow color="bg-surface-500" label={`${total - completed - viewed} untouched`} />
         </div>
-      </div>
-
-      <div className="ml-auto hidden sm:block">
         <Link
           to="/browse"
-          className="text-xs text-gray-400 hover:text-gray-200 transition-colors flex items-center gap-1"
+          className="inline-block text-xs text-gray-500 hover:text-gray-300 transition-colors mt-1"
         >
           View all →
         </Link>
