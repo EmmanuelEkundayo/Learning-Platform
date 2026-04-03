@@ -7,6 +7,7 @@ import { useProgressStore } from '../store/progressStore.js'
 import { useConceptStore }  from '../store/conceptStore.js'
 import { useAuthStore }     from '../store/authStore.js'
 import { generateCertificate } from '../utils/generateCertificate.js'
+import { RoadmapIcon, ClockIcon, BookIcon, GraduationIcon } from '../components/ui/Icons.jsx'
 
 export default function Roadmap() {
   const { slug } = useParams()
@@ -51,7 +52,7 @@ export default function Roadmap() {
       {/* Header */}
       <header className="space-y-6">
         <div className="flex items-center gap-4">
-          <div className="text-6xl">{roadmap.icon}</div>
+          <div className="flex shrink-0"><RoadmapIcon id={roadmap.id} className="w-16 h-16 text-white" /></div>
           <div className="space-y-1">
              <div className="flex items-center gap-2">
                <span className="bg-surface-800 text-gray-500 text-[10px] font-black px-2 py-0.5 rounded uppercase tracking-widest">{roadmap.category}</span>
@@ -68,8 +69,8 @@ export default function Roadmap() {
         <p className="text-gray-400 text-lg leading-relaxed max-w-2xl">{roadmap.description}</p>
         
         <div className="flex items-center gap-6 text-sm font-bold text-gray-500 uppercase tracking-widest">
-           <div className="flex items-center gap-2">⏱️ {roadmap.estimated_weeks} Weeks</div>
-           <div className="flex items-center gap-2">📚 {roadmapProgress.total} Concepts</div>
+           <div className="flex items-center gap-1.5"><ClockIcon className="w-4 h-4" /> {roadmap.estimated_weeks} Weeks</div>
+           <div className="flex items-center gap-1.5"><BookIcon className="w-4 h-4" /> {roadmapProgress.total} Concepts</div>
         </div>
 
         {/* Big Progress Bar */}
@@ -85,7 +86,12 @@ export default function Roadmap() {
                className={`h-full bg-gradient-to-r ${
                  roadmap.color === 'blue' ? 'from-blue-600 to-blue-400' :
                  roadmap.color === 'violet' ? 'from-violet-600 to-violet-400' :
-                 roadmap.color === 'emerald' ? 'from-emerald-600 to-emerald-400' : 'from-indigo-600 to-indigo-400'
+                 roadmap.color === 'emerald' ? 'from-emerald-600 to-emerald-400' :
+                 roadmap.color === 'yellow' ? 'from-yellow-600 to-yellow-400' :
+                 roadmap.color === 'rose' ? 'from-rose-600 to-rose-400' :
+                 roadmap.color === 'cyan' ? 'from-cyan-600 to-cyan-400' :
+                 roadmap.color === 'orange' ? 'from-orange-600 to-orange-400' :
+                 'from-indigo-600 to-indigo-400'
                }`}
              />
            </div>
@@ -99,7 +105,7 @@ export default function Roadmap() {
           animate={{ scale: 1, opacity: 1 }}
           className="bg-green-500/10 border border-green-500/30 p-8 rounded-3xl text-center space-y-6"
         >
-          <div className="text-5xl">🎓</div>
+          <div className="flex justify-center"><GraduationIcon className="w-12 h-12 text-white" /></div>
           <div className="space-y-2">
             <h2 className="text-2xl font-bold text-white">Roadmap Completed!</h2>
             <p className="text-gray-400">You've mastered every concept in "{roadmap.title}".</p>
@@ -203,7 +209,12 @@ export default function Roadmap() {
               <div 
                 className={`absolute inset-0 opacity-10 ${
                   roadmap.color === 'blue' ? 'bg-blue-600' :
-                  roadmap.color === 'violet' ? 'bg-violet-600' : 'bg-emerald-600'
+                  roadmap.color === 'violet' ? 'bg-violet-600' :
+                  roadmap.color === 'emerald' ? 'bg-emerald-600' :
+                  roadmap.color === 'yellow' ? 'bg-yellow-600' :
+                  roadmap.color === 'rose' ? 'bg-rose-600' :
+                  roadmap.color === 'cyan' ? 'bg-cyan-600' :
+                  roadmap.color === 'orange' ? 'bg-orange-600' : 'bg-indigo-600'
                 }`}
                 style={{ width: `${roadmapProgress.percentage}%` }}
               />

@@ -8,7 +8,6 @@ const roadmaps = [
     difficulty: "advanced",
     category: "Career",
     color: "blue",
-    icon: "🎯",
     phases: [
       {
         id: "faang-p1",
@@ -49,7 +48,6 @@ const roadmaps = [
     difficulty: "intermediate",
     category: "Frontend",
     color: "violet",
-    icon: "🎨",
     phases: [
       {
         id: "fe-p1",
@@ -90,7 +88,6 @@ const roadmaps = [
     difficulty: "intermediate",
     category: "Backend",
     color: "emerald",
-    icon: "🗄️",
     phases: [
       {
         id: "be-p1",
@@ -130,8 +127,7 @@ const roadmaps = [
     estimated_weeks: 6,
     difficulty: "intermediate",
     category: "ML",
-    color: "amber",
-    icon: "🧠",
+    color: "yellow",
     phases: [
       {
         id: "ml-p1",
@@ -165,7 +161,6 @@ const roadmaps = [
     difficulty: "advanced",
     category: "System Design",
     color: "rose",
-    icon: "🏗️",
     phases: [
       {
         id: "sd-p1",
@@ -199,7 +194,6 @@ const roadmaps = [
     difficulty: "intermediate",
     category: "Career",
     color: "indigo",
-    icon: "⚡",
     phases: [
       {
         id: "fs-p1",
@@ -240,7 +234,6 @@ const roadmaps = [
     difficulty: "advanced",
     category: "Career",
     color: "cyan",
-    icon: "🪵",
     phases: [
       {
         id: "ds-p1",
@@ -280,8 +273,7 @@ const roadmaps = [
     estimated_weeks: 6,
     difficulty: "advanced",
     category: "ML",
-    color: "purple",
-    icon: "🤖",
+    color: "violet",
     phases: [
       {
         id: "ai-p1",

@@ -7,6 +7,7 @@ import {
   getPyodideStatus,
   subscribePyodideStatus,
 } from '../../utils/pyodide.js'
+import { LightbulbIcon, FrownIcon, MehIcon, SmileIcon } from '../ui/Icons.jsx'
 
 // ─── static term-matching fallback ────────────────────────────────────────────
 
@@ -348,7 +349,7 @@ export default function FillInBlank({ exercise, concept, domain = 'DSA', onPass,
                 key={`static-${i}`}
                 className={`flex gap-2 px-3 py-2.5 rounded bg-surface-700 border-l-2 ${hintAccent} text-sm text-gray-300 leading-snug`}
               >
-                <span className="shrink-0">💡</span>
+                <span className="shrink-0 pt-0.5"><LightbulbIcon className="w-4 h-4 text-yellow-400" /></span>
                 {hint}
               </div>
             ))}
@@ -409,9 +410,9 @@ export default function FillInBlank({ exercise, concept, domain = 'DSA', onPass,
           >
             <span className="text-xs text-gray-400">How solid does this feel?</span>
             {[
-              { level: 1, label: 'Shaky',        emoji: '😕' },
-              { level: 2, label: 'Getting there', emoji: '😐' },
-              { level: 3, label: 'Got it',        emoji: '💪' },
+              { level: 1, label: 'Shaky',        emoji: <FrownIcon className="w-3.5 h-3.5 text-red-400" /> },
+              { level: 2, label: 'Getting there', emoji: <MehIcon className="w-3.5 h-3.5 text-yellow-400" /> },
+              { level: 3, label: 'Got it',        emoji: <SmileIcon className="w-3.5 h-3.5 text-green-400" /> },
             ].map(({ level, label, emoji }) => (
               <button
                 key={level}

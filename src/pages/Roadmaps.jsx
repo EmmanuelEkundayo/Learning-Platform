@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import roadmaps from '../data/roadmaps/index.js'
 import { useProgressStore } from '../store/progressStore.js'
+import { RoadmapIcon, ClockIcon, BookIcon } from '../components/ui/Icons.jsx'
 
 export default function Roadmaps() {
   const [filter, setFilter] = useState('All')
@@ -59,22 +60,22 @@ function RoadmapCard({ roadmap, progress }) {
     blue:    'border-blue-500/30 hover:border-blue-500 bg-blue-500/5',
     violet:  'border-violet-500/30 hover:border-violet-500 bg-violet-500/5',
     emerald: 'border-emerald-500/30 hover:border-emerald-500 bg-emerald-500/5',
-    amber:   'border-amber-500/30 hover:border-amber-500 bg-amber-500/5',
+    yellow:  'border-yellow-500/30 hover:border-yellow-500 bg-yellow-500/5',
     rose:    'border-rose-500/30 hover:border-rose-500 bg-rose-500/5',
     indigo:  'border-indigo-500/30 hover:border-indigo-500 bg-indigo-500/5',
     cyan:    'border-cyan-500/30 hover:border-cyan-500 bg-cyan-500/5',
-    purple:  'border-purple-500/30 hover:border-purple-500 bg-purple-500/5',
+    orange:  'border-orange-500/30 hover:border-orange-500 bg-orange-500/5',
   }
 
   const ACCENTS = {
     blue:    'bg-blue-500',
     violet:  'bg-violet-500',
     emerald: 'bg-emerald-500',
-    amber:   'bg-amber-500',
+    yellow:  'bg-yellow-500',
     rose:    'bg-rose-500',
     indigo:  'bg-indigo-500',
     cyan:    'bg-cyan-500',
-    purple:  'bg-purple-500',
+    orange:  'bg-orange-500',
   }
 
   return (
@@ -90,7 +91,7 @@ function RoadmapCard({ roadmap, progress }) {
         className={`group block h-full p-6 rounded-2xl border transition-all duration-300 ${COLORS[roadmap.color] || 'border-surface-700 bg-surface-800'}`}
       >
         <div className="flex justify-between items-start mb-4">
-          <div className="text-4xl">{roadmap.icon}</div>
+          <RoadmapIcon id={roadmap.id} className="w-10 h-10 text-white" />
           <div className={`px-2 py-0.5 rounded text-[10px] font-black uppercase tracking-widest bg-black/40 text-gray-400 group-hover:text-white transition-colors`}>
             {roadmap.category}
           </div>
@@ -108,8 +109,8 @@ function RoadmapCard({ roadmap, progress }) {
 
         <div className="mt-auto space-y-4">
           <div className="flex items-center gap-4 text-[10px] font-bold text-gray-500 uppercase tracking-widest">
-            <span className="flex items-center gap-1">⏱️ {roadmap.estimated_weeks} weeks</span>
-            <span className="flex items-center gap-1">📚 {roadmap.phases.reduce((acc, p) => acc + p.concepts.length, 0)} concepts</span>
+            <span className="flex items-center gap-1.5"><ClockIcon className="w-3 h-3" /> {roadmap.estimated_weeks} weeks</span>
+            <span className="flex items-center gap-1.5"><BookIcon className="w-3 h-3" /> {roadmap.phases.reduce((acc, p) => acc + p.concepts.length, 0)} concepts</span>
           </div>
 
           {/* Progress Mini Bar */}

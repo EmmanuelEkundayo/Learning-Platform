@@ -2,6 +2,7 @@ import { useEffect, useState, useMemo } from 'react'
 import { useProgressStore } from '../store/progressStore.js'
 import { useAuthStore }     from '../store/authStore.js'
 import { motion, AnimatePresence } from 'framer-motion'
+import { FlameIcon, TrophyIcon } from '../components/ui/Icons.jsx'
 
 export default function Leaderboard() {
   const [entries, setEntries] = useState([])
@@ -130,7 +131,10 @@ export default function Leaderboard() {
                     } ${myRank === entry.rank ? 'bg-blue-600/10' : 'hover:bg-surface-700/30'}`}
                   >
                     <td className="px-6 py-4 font-black">
-                      {entry.rank === 1 ? '🥇' : entry.rank === 2 ? '🥈' : entry.rank === 3 ? '🥉' : `#${entry.rank}`}
+                      {entry.rank === 1 ? <TrophyIcon className="w-5 h-5 text-yellow-500 inline-block drop-shadow-md" /> : 
+                       entry.rank === 2 ? <TrophyIcon className="w-4 h-4 text-gray-300 inline-block drop-shadow-md" /> : 
+                       entry.rank === 3 ? <TrophyIcon className="w-4 h-4 text-orange-400 inline-block drop-shadow-md" /> : 
+                       `#${entry.rank}`}
                     </td>
                     <td className="px-6 py-4 font-bold text-gray-100">{entry.name}</td>
                     <td className="px-6 py-4 text-sm text-gray-400">{entry.occupation}</td>
@@ -138,7 +142,9 @@ export default function Leaderboard() {
                        <span className="bg-surface-700 text-white px-2 py-0.5 rounded text-xs font-mono">{entry.concepts_passed}</span>
                     </td>
                     <td className="px-6 py-4 text-center">
-                       <span className="text-orange-400 font-bold text-sm">🔥 {entry.streak}</span>
+                       <span className="text-orange-400 font-bold text-sm flex items-center justify-center gap-1.5 ">
+                           <FlameIcon className="w-4 h-4" /> {entry.streak}
+                       </span>
                     </td>
                   </tr>
                 ))

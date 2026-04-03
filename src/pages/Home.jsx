@@ -9,6 +9,7 @@ import { generateCertificate } from '../utils/generateCertificate.js'
 import { searchAll } from '../utils/search.js'
 import { getDailyConcept, isDailyHidden, hideDailyForToday } from '../utils/dailyConcept.js'
 import NameModal from '../components/ui/NameModal.jsx'
+import { FlameIcon } from '../components/ui/Icons.jsx'
 
 // ─── domain chip styles (shared across search dropdown + concept rows) ───────
 const DOMAIN_CHIP = {
@@ -772,7 +773,7 @@ function StreakBadge({ streak }) {
       animate={{ scale: 1, opacity: 1 }}
       className="flex items-center gap-2 bg-gradient-to-r from-orange-500/10 to-transparent border border-orange-500/20 px-3 py-1 rounded-full"
     >
-      <span className="text-sm">🔥</span>
+      <span className="flex items-center justify-center"><FlameIcon className="w-4 h-4 text-orange-400" /></span>
       <span className="text-[10px] font-black text-orange-400 uppercase tracking-widest">
         {streak.count} day streak
       </span>

@@ -22,6 +22,7 @@ import StateDiagram      from '../components/visualizations/StateDiagram.jsx'
 import FillInBlank       from '../components/exercises/FillInBlank.jsx'
 import { complexityColor } from '../utils/complexity.js'
 import { useNotesStore } from '../store/notesStore.js'
+import { ImageIcon, LinkIcon } from '../components/ui/Icons.jsx'
 
 
 // ─── viz registry ──────────────────────────────────────────────────────────────
@@ -409,13 +410,13 @@ function ShareMenu({ concept, accent }) {
               onClick={() => generateShareCard(cardRef.current, concept.slug)}
               className="w-full px-4 py-2.5 text-sm text-left text-gray-200 hover:bg-surface-700 transition-colors flex items-center gap-2"
             >
-              <span>🖼️</span> Download Card
+              <ImageIcon className="w-4 h-4" /> Download Card
             </button>
             <button 
               onClick={handleCopy}
               className="w-full px-4 py-2.5 text-sm text-left text-gray-200 hover:bg-surface-700 transition-colors flex items-center gap-2"
             >
-              <span>🔗</span> Copy Link
+              <LinkIcon className="w-4 h-4" /> Copy Link
             </button>
             <button 
               onClick={handleXShare}

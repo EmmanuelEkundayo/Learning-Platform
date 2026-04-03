@@ -8,7 +8,7 @@ import { useProgressStore } from '../../store/progressStore.js'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   GridIcon, CodeIcon, MapIcon, BookIcon, RefreshIcon,
-  ZapIcon, EditIcon, TrophyIcon, AwardIcon, MessageIcon,
+  ZapIcon, EditIcon, TrophyIcon, AwardIcon, MessageIcon, PartyIcon
 } from './Icons.jsx'
 
 // ─── Navigation structure ─────────────────────────────────────────────────────
@@ -87,7 +87,7 @@ export default function Layout() {
     toast((t) => (
       <div className="flex flex-col gap-3 p-1">
         <div className="space-y-1">
-          <p className="font-bold text-sm text-white">You've completed 10 concepts! 🎉</p>
+          <p className="flex items-center gap-1.5 font-bold text-sm text-white">You've completed 10 concepts! <PartyIcon className="w-4 h-4 text-yellow-400" /></p>
           <p className="text-xs text-gray-400">Join the public leaderboard to track your rank.</p>
         </div>
         <div className="flex gap-2">
