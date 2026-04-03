@@ -745,7 +745,7 @@ import clsx from 'clsx'
     <ul>
       {products.map(product => (
         <li key={product.id}>
-          <strong>{product.name}</strong> - ${product.price}
+          <strong>{product.name}</strong> - \${product.price}
         </li>
       ))}
     </ul>
