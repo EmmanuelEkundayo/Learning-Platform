@@ -1,8 +1,8 @@
-# AlgoLens — Full Build Prompt
+# Learn Blazingly Fast — Full Build Prompt
 
 ## Product Vision
 
-Build **AlgoLens**, a fast-acquisition learning platform for developers who can already read code but want to deeply understand CS and ML concepts through visual intuition and targeted micro-exercises. The target user is an intermediate-to-advanced developer who finds traditional learning platforms (LeetCode, Coursera, Khan Academy) too slow, too shallow, or too disconnected from actual implementation.
+Build **Learn Blazingly Fast**, a fast-acquisition learning platform for developers who can already read code but want to deeply understand CS and ML concepts through visual intuition and targeted micro-exercises.
 
 The platform must support **200+ concepts** across Data Structures & Algorithms (DSA) and Machine Learning (ML), structured for speed — each concept should be graspable in under 5 minutes.
 

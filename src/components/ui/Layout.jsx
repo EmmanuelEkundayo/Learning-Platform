@@ -6,6 +6,10 @@ import { toast } from 'react-hot-toast'
 import { useAuthStore } from '../../store/authStore.js'
 import { useProgressStore } from '../../store/progressStore.js'
 import { motion, AnimatePresence } from 'framer-motion'
+import {
+  GridIcon, CodeIcon, MapIcon, BookIcon, RefreshIcon,
+  ZapIcon, EditIcon, TrophyIcon, AwardIcon, MessageIcon,
+} from './Icons.jsx'
 
 // ─── Navigation structure ─────────────────────────────────────────────────────
 // Primary links shown in desktop nav bar (most used)
@@ -124,7 +128,7 @@ export default function Layout() {
             <span className="text-white hidden sm:inline"> Fast</span>
           </Link>
 
-          {/* Desktop nav — hidden on mobile */}
+          {/* Desktop nav - hidden on mobile */}
           <div className="hidden lg:flex items-center gap-0.5 flex-1">
             {PRIMARY_LINKS.map(({ to, label }) => (
               <NavLink
@@ -156,7 +160,7 @@ export default function Layout() {
               <span className="hidden sm:inline text-xs text-gray-600 font-mono">Ctrl+K</span>
             </button>
 
-            {/* Hamburger — mobile only */}
+            {/* Hamburger - mobile only */}
             <button
               onClick={() => setIsMobileOpen(v => !v)}
               className="lg:hidden p-2 rounded-lg text-gray-400 hover:text-gray-200 hover:bg-surface-800 transition-colors"
@@ -208,7 +212,7 @@ export default function Layout() {
                         }`
                       }
                     >
-                      <span className="text-base">{NAV_ICON[to] || '•'}</span>
+                      <span className="w-4 h-4 flex items-center justify-center shrink-0">{NAV_ICON_COMPONENT[to]}</span>
                       {label}
                     </NavLink>
                   ))}
@@ -243,17 +247,17 @@ export default function Layout() {
 }
 
 // ─── Nav icons for mobile drawer ─────────────────────────────────────────────
-const NAV_ICON = {
-  '/browse':       '🗂️',
-  '/projects':     '🔨',
-  '/roadmaps':     '🗺️',
-  '/cheatsheets':  '📋',
-  '/review':       '🔁',
-  '/playground':   '⚡',
-  '/notes':        '📝',
-  '/leaderboard':  '🏆',
-  '/certificates': '🎓',
-  '/testimonials': '💬',
+const NAV_ICON_COMPONENT = {
+  '/browse':       <GridIcon    className="w-4 h-4" />,
+  '/projects':     <CodeIcon    className="w-4 h-4" />,
+  '/roadmaps':     <MapIcon     className="w-4 h-4" />,
+  '/cheatsheets':  <BookIcon    className="w-4 h-4" />,
+  '/review':       <RefreshIcon className="w-4 h-4" />,
+  '/playground':   <ZapIcon     className="w-4 h-4" />,
+  '/notes':        <EditIcon    className="w-4 h-4" />,
+  '/leaderboard':  <TrophyIcon  className="w-4 h-4" />,
+  '/certificates': <AwardIcon   className="w-4 h-4" />,
+  '/testimonials': <MessageIcon className="w-4 h-4" />,
 }
 
 // ─── More dropdown (desktop) ─────────────────────────────────────────────────
@@ -309,7 +313,7 @@ function MoreDropdown({ links }) {
                   }`
                 }
               >
-                <span className="text-base w-5 text-center">{NAV_ICON[to]}</span>
+                <span className="w-4 h-4 flex items-center justify-center shrink-0">{NAV_ICON_COMPONENT[to]}</span>
                 {label}
               </NavLink>
             ))}

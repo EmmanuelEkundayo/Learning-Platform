@@ -151,7 +151,7 @@ export default function SearchPalette({ isOpen, onClose }) {
                <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 rounded bg-surface-700 border border-surface-600">↑↓</kbd> Navigate</span>
                <span className="flex items-center gap-1"><kbd className="px-1 py-0.5 rounded bg-surface-700 border border-surface-600">↵</kbd> Select</span>
             </div>
-            <span>Learn Blazingly Fast ✦</span>
+            <span>Learn Blazingly Fast</span>
           </div>
         </motion.div>
       </div>
@@ -183,7 +183,7 @@ function ResultRow({ item, type, isSelected, onSelect }) {
     >
       <div className={`shrink-0 w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs
         ${type === 'concept' ? 'bg-blue-600/20 text-blue-400' : type === 'project' ? 'bg-purple-600/20 text-purple-400' : 'bg-emerald-600/20 text-emerald-400'}`}>
-        {type === 'concept' ? 'C' : type === 'project' ? 'P' : (item.sheetIcon || '📋')}
+        {type === 'concept' ? 'C' : type === 'project' ? 'P' : 'CS'}
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">

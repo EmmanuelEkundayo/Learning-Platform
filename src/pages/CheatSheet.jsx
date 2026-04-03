@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import cheatsheets from '../data/cheatsheets/index.js'
 import { highlight } from '../utils/codeHighlight.js'
+import { SheetIcon, CheckIcon } from '../components/ui/Icons.jsx'
 
 // ─── accent map (same as browse page) ────────────────────────────────────────
 const accentMap = {
@@ -42,7 +43,7 @@ function CodeBlock({ item, badge }) {
             onClick={copy}
             className="text-xs text-gray-400 hover:text-white transition-colors px-2 py-0.5 rounded hover:bg-gray-700"
           >
-            {copied ? '✓ Copied' : 'Copy'}
+            {copied ? 'Copied' : 'Copy'}
           </button>
         </div>
       </div>
@@ -169,14 +170,14 @@ export default function CheatSheet() {
                 onClick={copyAll}
                 className={`text-xs sm:text-sm font-medium px-3 py-1.5 rounded-lg text-white transition-colors shrink-0 ${a.btn}`}
               >
-                {copiedAll ? '✓ Copied!' : 'Copy All'}
+                {copiedAll ? 'Copied!' : 'Copy All'}
               </button>
             </div>
           </div>
 
           {/* Row 2: icon + title + description */}
           <div className="flex items-start gap-3">
-            <span className="text-2xl sm:text-3xl shrink-0">{sheet.icon}</span>
+            <span className={`shrink-0 ${a.text}`}><SheetIcon id={sheet.id} className="w-7 h-7 sm:w-8 sm:h-8" /></span>
             <div>
               <h1 className={`text-xl sm:text-2xl font-bold ${a.text}`}>{sheet.title}</h1>
               <p className="text-gray-400 text-xs sm:text-sm">{sheet.description}</p>

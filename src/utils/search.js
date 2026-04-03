@@ -13,7 +13,6 @@ const cheatsheetItems = cheatsheets.flatMap(sheet =>
     sec.items.map(item => ({
       sheetId: sheet.id,
       sheetTitle: sheet.title,
-      sheetIcon: sheet.icon,
       sectionTitle: sec.title,
       label: item.label,
       code: item.code,
