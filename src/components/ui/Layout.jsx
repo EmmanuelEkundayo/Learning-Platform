@@ -6,6 +6,7 @@ import { toast } from 'react-hot-toast'
 import { useAuthStore } from '../../store/authStore.js'
 import { useProgressStore } from '../../store/progressStore.js'
 import { motion, AnimatePresence } from 'framer-motion'
+import { Mail } from 'lucide-react'
 import {
   GridIcon, CodeIcon, MapIcon, BookIcon, RefreshIcon,
   ZapIcon, EditIcon, TrophyIcon, AwardIcon, MessageIcon, PartyIcon
@@ -239,8 +240,84 @@ export default function Layout() {
         <Outlet />
       </main>
 
-      <footer className="border-t border-surface-700 py-5 text-center text-xs text-gray-600">
-        Built with ♥ by Emma, 2026
+      <footer className="bg-surface-900 border-t border-surface-700 py-10 px-6 text-sm text-gray-400">
+        <div className="max-w-7xl mx-auto">
+          <div className="flex flex-col md:flex-row gap-8 md:gap-0 md:justify-between">
+            {/* Left */}
+            <div>
+              <p className="font-bold text-white text-sm mb-1">Learn Blazingly Fast</p>
+              <p className="text-gray-500 text-sm mb-2">Built for developers who learn fast.</p>
+              <a
+                href="https://learnblazinglyfast.tech"
+                className="text-gray-500 hover:text-white transition-colors text-sm"
+              >
+                learnblazinglyfast.tech
+              </a>
+            </div>
+
+            {/* Center */}
+            <div>
+              <p className="text-xs uppercase tracking-wider text-gray-500 mb-3">Explore</p>
+              <div className="flex flex-col gap-1.5">
+                {[
+                  ['/browse',       'Concepts'],
+                  ['/projects',     'Projects'],
+                  ['/playground',   'Playground'],
+                  ['/cheatsheets',  'Cheat Sheets'],
+                  ['/roadmaps',     'Roadmaps'],
+                  ['/leaderboard',  'Leaderboard'],
+                  ['/certificates', 'Certificates'],
+                  ['/notes',        'Notes'],
+                ].map(([to, label]) => (
+                  <Link key={to} to={to} className="hover:text-white transition-colors">
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            {/* Right */}
+            <div>
+              <p className="text-xs uppercase tracking-wider text-gray-500 mb-3">Get in touch</p>
+              <p className="text-gray-400 mb-3">Found a bug or have feedback?</p>
+              <div className="flex flex-col gap-2">
+                <a
+                  href="mailto:emmanuelekundayo1234@gmail.com"
+                  className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  <Mail size={14} />
+                  emmanuelekundayo1234@gmail.com
+                </a>
+                <a
+                  href="https://x.com/ekunday00"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="flex items-center gap-2 text-blue-400 hover:text-blue-300 transition-colors"
+                >
+                  <XSocialIcon />
+                  @ekunday00
+                </a>
+              </div>
+            </div>
+          </div>
+
+          {/* Bottom bar */}
+          <div className="border-t border-surface-700 mt-6 pt-4 flex flex-col md:flex-row items-center justify-between gap-2 text-xs text-gray-500">
+            <span>© 2026 Learn Blazingly Fast. All rights reserved.</span>
+            <span>
+              Built with love by{' '}
+              <a
+                href="https://x.com/ekunday00"
+                target="_blank"
+                rel="noreferrer"
+                className="text-blue-400 hover:text-blue-300 transition-colors"
+              >
+                Emma
+              </a>{' '}
+              ♥
+            </span>
+          </div>
+        </div>
       </footer>
     </div>
   )
@@ -346,6 +423,14 @@ function XIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  )
+}
+
+function XSocialIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L1.254 2.25H8.08l4.259 5.626L18.244 2.25zm-1.161 17.52h1.833L7.084 4.126H5.117L17.083 19.77z"/>
     </svg>
   )
 }

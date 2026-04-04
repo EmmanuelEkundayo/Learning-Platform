@@ -17,10 +17,13 @@ export default function Roadmap() {
   const progress = useProgressStore(s => s.progress)
   const getRoadmapProgress = useProgressStore(s => s.getRoadmapProgress)
   const setActiveRoadmap = useProgressStore(s => s.setActiveRoadmap)
+  const incrementInteractions = useProgressStore(s => s.incrementInteractions)
   const userName = useAuthStore(s => s.userName)
 
   const roadmap = useMemo(() => roadmaps.find(r => r.slug === slug), [slug])
   const roadmapProgress = useMemo(() => getRoadmapProgress(roadmap), [roadmap, progress])
+
+  useEffect(() => { incrementInteractions() }, [incrementInteractions])
 
   useEffect(() => {
     if (roadmapProgress?.percentage === 100) {

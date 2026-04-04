@@ -1,9 +1,10 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Editor } from '@monaco-editor/react'
 import { motion } from 'framer-motion'
 import { useProjectStore } from '../store/projectStore.js'
 import { useConceptStore } from '../store/conceptStore.js'
+import { useProgressStore } from '../store/progressStore.js'
 
 const CAT_COLORS = {
   'Frontend':           'bg-frontend-500/20 text-frontend-400 border-frontend-500/50',
@@ -27,7 +28,10 @@ export default function Project() {
   const navigate = useNavigate()
   const project = useProjectStore(s => s.getProjectBySlug(slug))
   const conceptStore = useConceptStore()
-  
+  const incrementInteractions = useProgressStore(s => s.incrementInteractions)
+
+  useEffect(() => { incrementInteractions() }, [incrementInteractions])
+
   const [activeFileIdx, setActiveFileIdx] = useState(0)
 
   if (!project) {

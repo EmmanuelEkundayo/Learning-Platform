@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useProgressStore } from '../store/progressStore.js';
 import Editor from '@monaco-editor/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
@@ -162,6 +163,8 @@ export default function Playground() {
 
   const editorRef = useRef(null);
   const editorRefB = useRef(null);
+  const hasTrackedRunRef = useRef(false);
+  const incrementInteractions = useProgressStore(s => s.incrementInteractions);
 
   // --- Effects ---
   useEffect(() => {
@@ -247,6 +250,10 @@ export default function Playground() {
       const endTime = performance.now();
       setExecTime(Math.round(endTime - startTime));
       setIsExecuting(false);
+      if (!hasTrackedRunRef.current) {
+        hasTrackedRunRef.current = true;
+        incrementInteractions();
+      }
     }
   };
 

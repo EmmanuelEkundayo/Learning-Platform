@@ -110,7 +110,7 @@ export async function generateCertificate(domain, userName, conceptCount, timest
 
   // Bottom Branding
   doc.setFontSize(10);
-  doc.text('Learn Blazingly Fast — learnblazinglyfast.com', 20, height - 15);
+  doc.text('Learn Blazingly Fast — learnblazinglyfast.tech', 20, height - 15);
   doc.text(certId, width - 20, height - 15, { align: 'right' });
 
   // Save the PDF

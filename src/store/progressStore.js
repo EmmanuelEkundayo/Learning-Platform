@@ -49,17 +49,27 @@ export const useProgressStore = create(
         })
       },
 
+      incrementInteractions() {
+        const hasCompletedSupport = localStorage.getItem('completed_support') === 'true'
+        if (hasCompletedSupport) return
+        const current = parseInt(localStorage.getItem('lbf_interactions') || '0', 10)
+        const next = current + 1
+        localStorage.setItem('lbf_interactions', String(next))
+        if (next >= 5) {
+          set({ show_support_modal: true })
+        }
+      },
+
       recordAttempt(slug, passed) {
+        // Count exercise run as an interaction
+        get().incrementInteractions()
+
         set((state) => {
           const prev = state.progress[slug] ?? {}
           const newInteracted = [...state.interacted_concepts]
           if (!newInteracted.includes(slug)) {
             newInteracted.push(slug)
           }
-
-          // Trigger support modal logic
-          const hasCompletedSupport = localStorage.getItem('completed_support') === 'true'
-          const shouldShowModal = !hasCompletedSupport && newInteracted.length >= 3
 
           // Leaderboard logic
           const passedCount = Object.values(state.progress).filter(p => p.exercise_passed).length + (passed ? 1 : 0)
@@ -82,7 +92,6 @@ export const useProgressStore = create(
 
           return {
             interacted_concepts: newInteracted,
-            show_support_modal: shouldShowModal,
             leaderboard_prompt_pending: shouldPromptLeaderboard,
             progress: nextProgress
           }

@@ -80,11 +80,12 @@ export default function Concept() {
   const navigate        = useNavigate()
   const concept         = useConceptStore(s => s.concepts.find(c => c.slug === slug) ?? null)
   const loaded          = useConceptStore(s => s.loaded)
-  const markViewed      = useProgressStore(s => s.markViewed)
-  const recordAttempt   = useProgressStore(s => s.recordAttempt)
-  const setConfidence   = useProgressStore(s => s.setConfidence)
-  const activeRoadmapSlug = useProgressStore(s => s.active_roadmap_slug)
-  const getRoadmapProgress = useProgressStore(s => s.getRoadmapProgress)
+  const markViewed          = useProgressStore(s => s.markViewed)
+  const recordAttempt       = useProgressStore(s => s.recordAttempt)
+  const setConfidence       = useProgressStore(s => s.setConfidence)
+  const activeRoadmapSlug   = useProgressStore(s => s.active_roadmap_slug)
+  const getRoadmapProgress  = useProgressStore(s => s.getRoadmapProgress)
+  const incrementInteractions = useProgressStore(s => s.incrementInteractions)
 
   const activeRoadmap = useMemo(() => roadmaps.find(r => r.slug === activeRoadmapSlug), [activeRoadmapSlug])
   // Only show if THIS concept is part of the roadmap
@@ -92,12 +93,15 @@ export default function Concept() {
     if (!activeRoadmap) return null
     return activeRoadmap.phases.find(p => p.concepts.includes(slug))
   }, [activeRoadmap, slug])
-  
+
   const roadmapProgress = useMemo(() => getRoadmapProgress(activeRoadmap), [activeRoadmap, slug])
 
   useEffect(() => {
-    if (slug) markViewed(slug)
-  }, [slug, markViewed])
+    if (slug) {
+      markViewed(slug)
+      incrementInteractions()
+    }
+  }, [slug, markViewed, incrementInteractions])
 
   // ── loading / not found ──
   if (!concept) {

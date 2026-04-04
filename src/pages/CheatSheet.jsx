@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import cheatsheets from '../data/cheatsheets/index.js'
 import { highlight } from '../utils/codeHighlight.js'
 import { SheetIcon, CheckIcon } from '../components/ui/Icons.jsx'
+import { useProgressStore } from '../store/progressStore.js'
 
 // ─── accent map (same as browse page) ────────────────────────────────────────
 const accentMap = {
@@ -69,6 +70,9 @@ export default function CheatSheet() {
   const [activeSection, setActiveSection] = useState(0)
   const [copiedAll, setCopiedAll] = useState(false)
   const sectionRefs = useRef([])
+  const incrementInteractions = useProgressStore(s => s.incrementInteractions)
+
+  useEffect(() => { incrementInteractions() }, [incrementInteractions])
 
   const a = accentMap[sheet?.color] ?? accentMap.blue
 
