@@ -1,0 +1,41 @@
+{
+  "id": "developing-an-ai-agent",
+  "slug": "developing-an-ai-agent",
+  "title": "Developing an AI Agent from Scratch",
+  "category": "AI-ML",
+  "difficulty": "intermediate",
+  "stack": [
+    "Python",
+    "OpenAI API"
+  ],
+  "estimated_time": "120 mins",
+  "overview": {
+    "what": "Learn how to build an AI agent from the ground up without using heavy frameworks like LangChain. We will implement the core Sense-Think-Act loop that defines agentic behavior.",
+    "how_it_works": "The application runs a continuous loop. In every iteration, the AI 'thinks' (generates a thought based on the user prompt and previous history), 'acts' (calls a specific Python function or tool), and 'senses' (observes the result of the tool to inform its next step).",
+    "what_you_learn": [
+      "The fundamental architecture of AI agents",
+      "Implementing the ReAct (Reason + Act) prompting technique",
+      "Parsing LLM outputs to extract commands",
+      "Running external tools dynamically from Python"
+    ]
+  },
+  "files": [
+    {
+      "filename": "main.py",
+      "language": "python",
+      "description": "The core Sense-Think-Act loop of our minimal AI agent.",
+      "code": "import openai\nimport json\nimport re\n\n# NOTE: Set your openai.api_key first\n\nprompt_template = \"\"\"\nYou are an AI agent that can use tools to answer questions.\nYou run in a loop of Thought, Action, PAUSE, Observation.\nAt the end of the loop you output an Answer.\n\nTools available:\n- calculate: Evaluate a math expression.\n- get_weather: Get weather for a location.\n\nUse the following exact format:\nThought: [Describe what you need to do]\nAction: [ToolName]: [Input]\nPAUSE\n\nYou will be called again with:\nObservation: [Result]\n\nIf you have the answer, output:\nAnswer: [Final answer to the user]\n\nExample Session:\nQuestion: What is 5 * 7?\nThought: I should use the calculate tool.\nAction: calculate: 5 * 7\nPAUSE\n\nObservation: 35\n\nThought: I have the result.\nAnswer: The result is 35.\n\"\"\"\n\n# Dummy tools\ndef calculate(expression):\n    try:\n        return str(eval(expression))\n    except Exception as e:\n        return str(e)\n\ndef get_weather(location):\n    return \"Sunny and 75F\" if \"Miami\" in location else \"Cloudy and 60F\"\n\nknown_actions = {\n    \"calculate\": calculate,\n    \"get_weather\": get_weather\n}\n\nclass Agent:\n    def __init__(self):\n        self.messages = [{\"role\": \"system\", \"content\": prompt_template}]\n\n    def __call__(self, user_input):\n        self.messages.append({\"role\": \"user\", \"content\": f\"Question: {user_input}\"})\n        result = self.execute_loop()\n        return result\n\n    def execute_loop(self, max_iterations=5):\n        # Regex to parse 'Action: tool: input'\n        action_re = re.compile('^Action: (\\w+): (.*)$', re.MULTILINE)\n        \n        for _ in range(max_iterations):\n            response = openai.ChatCompletion.create(\n                model=\"gpt-3.5-turbo\",\n                messages=self.messages,\n                temperature=0\n            )\n            content = response.choices[0].message.content\n            self.messages.append({\"role\": \"assistant\", \"content\": content})\n            print(content)\n            \n            if \"Answer:\" in content:\n                return content.split(\"Answer:\")[-1].strip()\n                \n            actions = action_re.findall(content)\n            if actions:\n                action_name, action_input = actions[0]\n                if action_name not in known_actions:\n                    raise Exception(f\"Unknown tool: {action_name}\")\n                \n                print(f\"-- Running {action_name}({action_input}) --\")\n                observation = known_actions[action_name](action_input)\n                \n                self.messages.append({\"role\": \"user\", \"content\": f\"Observation: {observation}\"})\n            else:\n                return \"Agent stopped without final answer.\"\n        return \"Max iterations reached.\"\n\nif __name__ == \"__main__\":\n    agent = Agent()\n    print(\"\\nFinal Answer:\", agent(\"What is 250 * 4 and what is the weather in Miami?\"))\n"
+    }
+  ],
+  "concepts_used": [
+    "agents",
+    "prompt-engineering",
+    "few-shot-vs-zero-shot"
+  ],
+  "tags": [
+    "agents",
+    "python",
+    "react-loop",
+    "from-scratch"
+  ]
+}

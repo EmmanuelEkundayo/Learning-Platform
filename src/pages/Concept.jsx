@@ -1,4 +1,5 @@
 import { useEffect, useState, useMemo, useCallback, useRef } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
 import { generateShareCard } from '../utils/shareCard.js'
@@ -149,7 +150,20 @@ export default function Concept() {
     setConfidence(slug, level)
   }
 
+  const metaDescription = card?.intuition
+    ? card.intuition.slice(0, 155)
+    : `Learn ${title} — an interactive ${domain} concept with visualizations and exercises on Learn Blazingly Fast.`
+
   return (
+    <>
+    <Helmet>
+      <title>{title} — Learn Blazingly Fast</title>
+      <meta name="description" content={metaDescription} />
+      <meta property="og:title" content={`${title} — Learn Blazingly Fast`} />
+      <meta property="og:description" content={metaDescription} />
+      <meta property="og:url" content={`https://learnblazinglyfast.tech/concept/${slug}`} />
+      <link rel="canonical" href={`https://learnblazinglyfast.tech/concept/${slug}`} />
+    </Helmet>
     <motion.div
       key={slug}
       initial={{ opacity: 0, y: 8 }}
@@ -352,6 +366,7 @@ export default function Concept() {
       )}
 
     </motion.div>
+    </>
   )
 }
 

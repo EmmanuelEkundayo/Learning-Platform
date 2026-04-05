@@ -19,6 +19,7 @@ const PRIMARY_LINKS = [
   { to: '/projects',    label: 'Projects'    },
   { to: '/roadmaps',    label: 'Roadmaps'    },
   { to: '/cheatsheets', label: 'Cheat Sheets'},
+  { to: '/math',        label: 'Math'        },
   { to: '/review',      label: 'Review'      },
   { to: '/playground',  label: 'Playground'  },
 ]
@@ -264,6 +265,7 @@ export default function Layout() {
                   ['/projects',     'Projects'],
                   ['/playground',   'Playground'],
                   ['/cheatsheets',  'Cheat Sheets'],
+                  ['/math',         'Math Tricks'],
                   ['/roadmaps',     'Roadmaps'],
                   ['/leaderboard',  'Leaderboard'],
                   ['/certificates', 'Certificates'],
@@ -329,6 +331,7 @@ const NAV_ICON_COMPONENT = {
   '/projects':     <CodeIcon    className="w-4 h-4" />,
   '/roadmaps':     <MapIcon     className="w-4 h-4" />,
   '/cheatsheets':  <BookIcon    className="w-4 h-4" />,
+  '/math':         <MathNavIcon className="w-4 h-4" />,
   '/review':       <RefreshIcon className="w-4 h-4" />,
   '/playground':   <ZapIcon     className="w-4 h-4" />,
   '/notes':        <EditIcon    className="w-4 h-4" />,
@@ -423,6 +426,15 @@ function XIcon({ className }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
       <path d="M18 6L6 18M6 6l12 12" />
+    </svg>
+  )
+}
+
+function MathNavIcon({ className }) {
+  return (
+    <svg className={className} viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M2 4h3l2 8 2-5 1.5 3H14" />
+      <path d="M11 4l-2 2 2 2" />
     </svg>
   )
 }

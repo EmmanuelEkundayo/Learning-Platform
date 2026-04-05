@@ -16,10 +16,14 @@ async function initPyodide() {
   pyodide = await loadPyodide({
     indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.26.4/full/',
   })
-  // Pre-warm: set up stdout/stderr redirect helpers in the Python namespace
+  // Pre-load packages needed for math visualizations
+  await pyodide.loadPackage(['numpy', 'matplotlib'])
+  // Pre-warm: set up stdout/stderr redirect helpers + matplotlib Agg backend
   pyodide.runPython(`
 import sys
 from io import StringIO as _StringIO
+import matplotlib
+matplotlib.use('Agg')
 `)
   self.postMessage({ type: 'ready' })
 }

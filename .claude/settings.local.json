@@ -38,7 +38,13 @@
       "Bash(powershell.exe -Command \"cd 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform'; npm run build 2>&1\")",
       "Bash(powershell.exe -Command \"cd 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform'; npm run build 2>&1 | Select-String -Pattern 'error|warning|built in' -CaseSensitive:$false | Select-Object -Last 20\")",
       "Bash(powershell.exe -Command \"cd 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform'; npm run build 2>&1 | Select-Object -Last 10\")",
-      "Bash(xargs grep:*)"
+      "Bash(xargs grep:*)",
+      "Bash(powershell.exe -Command \"cd 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform'; npm run build\" 2>&1)",
+      "Bash(powershell.exe -Command \"& ''''C:\\\\Program Files\\\\nodejs\\\\npm.cmd'''' run build\" --prefix \"C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform\")",
+      "Bash(powershell.exe -Command \"[System.Environment]::GetEnvironmentVariable\\(''''PATH'''', ''''Machine''''\\) + '''';'''' + [System.Environment]::GetEnvironmentVariable\\(''''PATH'''', ''''User''''\\)\")",
+      "Bash(powershell.exe -Command \"Set-Location 'C:\\\\Users\\\\Emmanuel\\\\Desktop\\\\Learning Platform'; & 'C:\\\\Program Files\\\\nodejs\\\\npm.cmd' run build\" 2>&1)",
+      "Bash(ls:*)",
+      "Bash(powershell.exe -ExecutionPolicy Bypass -Command \"$env:PATH = ''''C:\\\\Program Files\\\\nodejs;'''' + $env:PATH; npm run build\")"
     ]
   }
 }

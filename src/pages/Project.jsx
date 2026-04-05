@@ -1,4 +1,5 @@
 import { useState, useMemo, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { Editor } from '@monaco-editor/react'
 import { motion } from 'framer-motion'
@@ -45,8 +46,20 @@ export default function Project() {
 
   const activeFile = project.files[activeFileIdx]
   const colorClass = CAT_COLORS[project.category] || 'bg-gray-500/20 text-gray-400'
+  const projectDesc = project.description
+    ? project.description.slice(0, 155)
+    : `Build ${project.title} — a hands-on ${project.category} project on Learn Blazingly Fast.`
 
   return (
+    <>
+    <Helmet>
+      <title>{project.title} — Learn Blazingly Fast</title>
+      <meta name="description" content={projectDesc} />
+      <meta property="og:title" content={`${project.title} — Learn Blazingly Fast`} />
+      <meta property="og:description" content={projectDesc} />
+      <meta property="og:url" content={`https://learnblazinglyfast.tech/project/${slug}`} />
+      <link rel="canonical" href={`https://learnblazinglyfast.tech/project/${slug}`} />
+    </Helmet>
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-10">
       {/* Header */}
       <div className="space-y-4">
@@ -180,6 +193,7 @@ export default function Project() {
         </div>
       </div>
     </div>
+    </>
   )
 }
 

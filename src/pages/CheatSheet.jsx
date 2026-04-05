@@ -1,4 +1,5 @@
 import { useState, useMemo, useRef, useEffect } from 'react'
+import { Helmet } from 'react-helmet-async'
 import { useParams, Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import cheatsheets from '../data/cheatsheets/index.js'
@@ -143,7 +144,21 @@ export default function CheatSheet() {
     )
   }
 
+  const sheetTitle = sheet?.title ?? id
+  const sheetDesc = sheet
+    ? `Quick-reference cheat sheet for ${sheet.title} — ${sheet.sections?.length ?? 0} sections of essential snippets and examples.`
+    : `${id} cheat sheet on Learn Blazingly Fast.`
+
   return (
+    <>
+    <Helmet>
+      <title>{sheetTitle} Cheat Sheet — Learn Blazingly Fast</title>
+      <meta name="description" content={sheetDesc} />
+      <meta property="og:title" content={`${sheetTitle} Cheat Sheet — Learn Blazingly Fast`} />
+      <meta property="og:description" content={sheetDesc} />
+      <meta property="og:url" content={`https://learnblazinglyfast.tech/cheatsheets/${id}`} />
+      <link rel="canonical" href={`https://learnblazinglyfast.tech/cheatsheets/${id}`} />
+    </Helmet>
     <div className="min-h-screen bg-gray-950">
       {/* ── Header ── */}
       <div className="border-b border-gray-800 bg-gray-900/60 backdrop-blur px-4 py-4">
@@ -266,5 +281,6 @@ export default function CheatSheet() {
         </main>
       </div>
     </div>
+    </>
   )
 }

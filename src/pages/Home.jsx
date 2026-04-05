@@ -10,6 +10,7 @@ import { searchAll } from '../utils/search.js'
 import { getDailyConcept, isDailyHidden, hideDailyForToday } from '../utils/dailyConcept.js'
 import NameModal from '../components/ui/NameModal.jsx'
 import { FlameIcon } from '../components/ui/Icons.jsx'
+import mathTricks from '../data/mathTricks/index.js'
 
 // ─── domain chip styles (shared across search dropdown + concept rows) ───────
 const DOMAIN_CHIP = {
@@ -111,6 +112,9 @@ export default function Home() {
           progress={progress}
         />
       )}
+
+      {/* ── Math Tricks feature ── */}
+      <MathTricksSection />
 
       {/* ── Testimonials Strip ── */}
       <TestimonialsStrip />
@@ -761,6 +765,59 @@ const DIFF_STYLE_INNER = {
   beginner: 'bg-green-900/10 text-green-400 border-green-800/30',
   intermediate: 'bg-yellow-900/10 text-yellow-400 border-yellow-800/30',
   advanced: 'bg-red-900/10 text-red-400 border-red-800/30',
+}
+
+// ─── Math Tricks section ─────────────────────────────────────────────────────
+
+const MATH_CAT_BADGE = {
+  'Number Theory':           'bg-amber-500/15 text-amber-400',
+  'Geometry & Fractals':     'bg-violet-500/15 text-violet-400',
+  'Probability & Statistics':'bg-blue-500/15 text-blue-400',
+  'Linear Algebra':          'bg-emerald-500/15 text-emerald-400',
+  'Calculus':                'bg-rose-500/15 text-rose-400',
+}
+
+function MathTricksSection() {
+  const featured = [
+    mathTricks.find(t => t.id === 'mandelbrot-set'),
+    mathTricks.find(t => t.id === 'fourier-series'),
+    mathTricks.find(t => t.id === 'birthday-paradox'),
+  ].filter(Boolean)
+
+  if (featured.length === 0) return null
+
+  return (
+    <section className="space-y-4">
+      <div>
+        <h2 className="text-sm font-semibold text-gray-200">Explore Mathematics</h2>
+        <p className="text-xs text-gray-500">Beautiful math, brought to life with Python</p>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+        {featured.map(trick => (
+          <Link
+            key={trick.id}
+            to={`/math/${trick.slug}`}
+            className="flex flex-col gap-2 px-4 py-3 rounded-xl border border-surface-600 bg-surface-800
+                       hover:border-surface-400 hover:bg-surface-700 transition-all duration-100 group"
+          >
+            <div className="flex items-center gap-2">
+              <span className={`text-[9px] font-bold uppercase tracking-tight px-1.5 py-0.5 rounded ${MATH_CAT_BADGE[trick.category] ?? 'bg-gray-500/10 text-gray-400'}`}>
+                {trick.category.split(' ')[0]}
+              </span>
+              <span className="text-[9px] text-gray-500">{trick.visualization_type}</span>
+            </div>
+            <span className="text-sm font-semibold text-gray-200 group-hover:text-white transition-colors">
+              {trick.title}
+            </span>
+            <p className="text-xs text-gray-500 line-clamp-2 leading-relaxed">{trick.tagline}</p>
+          </Link>
+        ))}
+      </div>
+      <Link to="/math" className="inline-block text-xs text-gray-500 hover:text-gray-300 transition-colors">
+        Explore all {mathTricks.length} math tricks →
+      </Link>
+    </section>
+  )
 }
 
 // ─── Streak Badge ────────────────────────────────────────────────────────────
