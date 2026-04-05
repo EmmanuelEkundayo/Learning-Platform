@@ -1,0 +1,59 @@
+{
+  "id": "neat-01",
+  "slug": "neat",
+  "title": "NEAT (NeuroEvolution of Augmenting Topologies)",
+  "domain": "AI/ML",
+  "category": "Evolutionary Strategies",
+  "difficulty": "advanced",
+  "card": {
+    "intuition": "A specialized genetic algorithm that evolves both the weights AND the structure (topology) of artificial neural networks simultaneously.",
+    "analogy": "Starting with a tiny brain with very few connections and slowly adding new neurons and new synapses over generations as the organism needs to solve harder tasks.",
+    "time_complexity": "Highly variable based on simulation, depends on Population (P) and Generations (G)",
+    "space_complexity": "O(P * N) where P is population size and N is size of largest network topology",
+    "when_to_use": [
+      "When the optimal topology of a neural network for a task is unknown beforehand",
+      "In control tasks or dynamic game-playing where direct backpropagation isn't straightforward",
+      "Robotics and dynamic environments that require incrementally growing complex behavior"
+    ],
+    "gotchas": [
+      "Computational cost can scale severely as the network topologies grow larger over time",
+      "Requires carefully tracking historical markings (innovation numbers) to align crossover properly"
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "steps": [
+        {"label": "Minimal Start", "sub": "Few connections", "annotation": "Start by connecting inputs directly to outputs with no hidden layers."},
+        {"label": "Weight Mutation", "sub": "Adjust strength", "annotation": "Slightly change the weight of an existing connection."},
+        {"label": "Add Node", "sub": "Split connection", "annotation": "Insert a new hidden node along an existing connection path."},
+        {"label": "Add Link", "sub": "New path", "annotation": "Connect two previously unconnected nodes to allow complex interactions."},
+        {"label": "Speciation", "sub": "Protect innovation", "annotation": "Group similar networks to let new structures optimize before competing globally."}
+      ]
+    }
+  },
+  "exercise": {
+    "type": "multiple-choice",
+    "prompt": "What is the key problem that historical markings (innovation numbers) solve in NEAT?",
+    "options": [
+      "They artificially determine the fitness score of an individual based on age.",
+      "They allow aligning structural genes during crossover to prevent corrupted offspring networks.",
+      "They make the neural network train faster using gradient descent algorithms.",
+      "They decide which species goes extinct due to stagnation."
+    ],
+    "correct_index": 1,
+    "explanation": "Historical markings tell NEAT exactly which genes represent the same structural innovation across different topologies. This solves the 'competing conventions' problem during crossover, allowing us to merge two differently structured networks safely."
+  },
+  "related": [
+    "genetic-algorithms-01",
+    "q-learning-01",
+    "deep-q-network-01"
+  ],
+  "tags": [
+    "ai",
+    "neural-networks",
+    "evolutionary",
+    "neat",
+    "topology"
+  ]
+}

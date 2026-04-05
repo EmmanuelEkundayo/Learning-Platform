@@ -1,0 +1,58 @@
+{
+  "id": "genetic-algorithms-01",
+  "slug": "genetic-algorithms",
+  "title": "Genetic Algorithms",
+  "domain": "AI/ML",
+  "category": "Optimization",
+  "difficulty": "intermediate",
+  "card": {
+    "intuition": "An optimization technique inspired by natural selection to find approximate solutions to complex search problems.",
+    "analogy": "Breeding animals for a combination of traits. You start with a random population, select the best performers, breed them (crossover), and introduce slight random variations (mutation). Over generations, the breeds get better and better at the desired task.",
+    "time_complexity": "O(G * P * F) where G is generations, P is population size, F is fitness function cost",
+    "space_complexity": "O(P * C) where P is population size and C is chromosome size",
+    "when_to_use": [
+      "Problems where the search space is too vast for brute force but calculus-based continuous optimization fails",
+      "Combinatorial routing problems (e.g., Traveling Salesperson Problem)",
+      "When an approximate 'good enough' optimal solution is acceptable"
+    ],
+    "gotchas": [
+      "They can easily get stuck in local optima if there's insufficient diversity (premature convergence).",
+      "Designing a robust fitness function is notoriously difficult and heavily influences convergence."
+    ]
+  },
+  "visualization": {
+    "type": "timeline-step",
+    "config": {
+      "steps": [
+        {"label": "Initialize", "sub": "Random states", "annotation": "A population of potential random solutions is generated."},
+        {"label": "Evaluate", "sub": "Fitness score", "annotation": "A fitness function scores each individual on how well it solves the problem."},
+        {"label": "Selection", "sub": "Choose best", "annotation": "High-performing individuals are chosen to be parents for the next generation."},
+        {"label": "Crossover", "sub": "Combine", "annotation": "Genes from two parents are mixed to create new offspring."},
+        {"label": "Mutation", "sub": "Random change", "annotation": "Random tweaks occur in offspring's genes to maintain genetic diversity."}
+      ]
+    }
+  },
+  "exercise": {
+    "type": "fill-in-the-blank",
+    "prompt": "Identify the basic steps of a Genetic Algorithm cycle in order.",
+    "starter_code": "def run_ga():\n    population = __________()\n    while not converged:\n         fitness_scores = __________()\n         parents = undergo_selection(population, fitness_scores)\n         children = undergo_crossover(parents)\n         __________ = undergo_mutation(children)\n         population = next_gen(parents, mutants)",
+    "solution": "initialize\nevaluate\nmutants",
+    "hints": [
+      "You have to 'initialize' the population first.",
+      "Then you 'evaluate' fitness scores.",
+      "Finally, children become 'mutants' over mutation."
+    ],
+    "test_code": "print('PASS')"
+  },
+  "related": [
+    "neat-01",
+    "q-learning-01",
+    "markov-decision-process-01"
+  ],
+  "tags": [
+    "ai",
+    "machine-learning",
+    "evolutionary",
+    "optimization"
+  ]
+}
